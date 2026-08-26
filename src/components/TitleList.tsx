@@ -35,7 +35,7 @@ interface TitleListProps {
   generationSource?: "algorithm" | "gemini_ai";
 }
 
-export const TitleList: React.FC<TitleListProps> = ({
+const TitleListComponent: React.FC<TitleListProps> = ({
   titles,
   onCopySingle,
   onCopyMultiple,
@@ -55,6 +55,8 @@ export const TitleList: React.FC<TitleListProps> = ({
   const [copiedAll, setCopiedAll] = useState(false);
   const [copiedSelected, setCopiedSelected] = useState(false);
   const [exportMenuOpen, setExportMenuOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(20); // 20 per page by default for optimal performance
 
   // Extract unique angles for filter
   const uniqueAngles = useMemo(() => {
@@ -88,6 +90,20 @@ export const TitleList: React.FC<TitleListProps> = ({
     }
     return list;
   }, [titles, searchQuery, selectedAngleFilter, sortBy]);
+
+  // Reset page to 1 when filters or titles change
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, selectedAngleFilter, titles]);
+
+  const totalPages = pageSize === 0 ? 1 : Math.max(1, Math.ceil(filteredTitles.length / pageSize));
+  const safePage = Math.min(currentPage, totalPages);
+
+  const paginatedTitles = useMemo(() => {
+    if (pageSize === 0) return filteredTitles;
+    const startIndex = (safePage - 1) * pageSize;
+    return filteredTitles.slice(startIndex, startIndex + pageSize);
+  }, [filteredTitles, safePage, pageSize]);
 
   // Selection handlers
   const handleToggleSelect = (id: string) => {
@@ -376,29 +392,110 @@ export const TitleList: React.FC<TitleListProps> = ({
         }
       >
         <AnimatePresence mode="popLayout">
-          {filteredTitles.map((item, idx) => (
-            <motion.div
-              key={item.id}
-              layout
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.96 }}
-              transition={{ duration: 0.25, delay: Math.min(idx * 0.015, 0.3) }}
-            >
-              <TitleCard
-                item={item}
-                index={idx}
-                isSelected={selectedIds.has(item.id)}
-                onToggleSelect={handleToggleSelect}
-                onCopy={onCopySingle}
-                onToggleFavorite={onToggleFavorite}
-                onOpenPreview={onOpenPreview}
-                isFavorite={favoritesSet.has(item.title)}
-              />
-            </motion.div>
-          ))}
+          {paginatedTitles.map((item, idx) => {
+            const globalIndex = (safePage - 1) * (pageSize || 0) + idx;
+            return (
+              <motion.div
+                key={item.id}
+                layout={false}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.96 }}
+                transition={{ duration: 0.2 }}
+              >
+                <TitleCard
+                  item={item}
+                  index={globalIndex}
+                  isSelected={selectedIds.has(item.id)}
+                  onToggleSelect={handleToggleSelect}
+                  onCopy={onCopySingle}
+                  onToggleFavorite={onToggleFavorite}
+                  onOpenPreview={onOpenPreview}
+                  isFavorite={favoritesSet.has(item.title)}
+                />
+              </motion.div>
+            );
+          })}
         </AnimatePresence>
       </div>
+
+      {/* Pagination and View Mode Bar */}
+      {filteredTitles.length > 0 && (
+        <div className="thick-glass glass-bevel-edge rounded-xl p-3 border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs shadow-lg">
+          <div className="flex items-center gap-2 text-white/70">
+            <span>
+              显示第 <strong className="text-white">{(safePage - 1) * (pageSize || 1) + 1}</strong> - <strong className="text-white">{Math.min(safePage * (pageSize || filteredTitles.length), filteredTitles.length)}</strong> 条
+              （共 <strong className="text-white">{filteredTitles.length}</strong> 条）
+            </span>
+          </div>
+
+          {/* Page Buttons */}
+          <div className="flex items-center gap-1.5 flex-wrap">
+            {totalPages > 1 && (
+              <>
+                <button
+                  type="button"
+                  disabled={safePage <= 1}
+                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                  className="px-2.5 py-1 rounded-lg border border-white/15 bg-white/[0.05] hover:bg-white/15 text-white/80 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                >
+                  上一页
+                </button>
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                  <button
+                    key={pageNum}
+                    type="button"
+                    onClick={() => setCurrentPage(pageNum)}
+                    className={`w-7 h-7 rounded-lg text-xs font-mono font-bold flex items-center justify-center transition-all cursor-pointer ${
+                      safePage === pageNum
+                        ? "bg-blue-600 text-white shadow-md shadow-blue-900/50 border border-blue-400/50"
+                        : "bg-white/[0.05] hover:bg-white/15 text-white/70 hover:text-white border border-white/10"
+                    }`}
+                  >
+                    {pageNum}
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  disabled={safePage >= totalPages}
+                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                  className="px-2.5 py-1 rounded-lg border border-white/15 bg-white/[0.05] hover:bg-white/15 text-white/80 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                >
+                  下一页
+                </button>
+              </>
+            )}
+
+            {/* Page Size Switcher */}
+            <div className="flex items-center gap-1 ml-2 pl-2 border-l border-white/15">
+              <button
+                type="button"
+                onClick={() => setPageSize(20)}
+                className={`px-2 py-1 rounded-md text-[11px] font-medium transition-all cursor-pointer ${
+                  pageSize === 20
+                    ? "bg-white/20 text-white border border-white/30"
+                    : "text-white/50 hover:text-white hover:bg-white/[0.05]"
+                }`}
+              >
+                每页 20 条
+              </button>
+              <button
+                type="button"
+                onClick={() => setPageSize(0)}
+                className={`px-2 py-1 rounded-md text-[11px] font-medium transition-all cursor-pointer ${
+                  pageSize === 0
+                    ? "bg-white/20 text-white border border-white/30"
+                    : "text-white/50 hover:text-white hover:bg-white/[0.05]"
+                }`}
+              >
+                全部展开
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
+
+export const TitleList = React.memo(TitleListComponent);

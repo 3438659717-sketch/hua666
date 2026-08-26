@@ -78,7 +78,7 @@ interface InteractiveAtmosphereProps {
   theme?: string; // "cyan" | "amber" | "emerald" | "purple" | "blue" | "rose" | "sky" | "pink" | "teal"
 }
 
-export const InteractiveAtmosphere: React.FC<InteractiveAtmosphereProps> = ({
+const InteractiveAtmosphereComponent: React.FC<InteractiveAtmosphereProps> = ({
   theme = "blue",
 }) => {
   const bgCanvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -853,3 +853,6 @@ export const InteractiveAtmosphere: React.FC<InteractiveAtmosphereProps> = ({
     </>
   );
 };
+
+export const InteractiveAtmosphere = React.memo(InteractiveAtmosphereComponent);
+

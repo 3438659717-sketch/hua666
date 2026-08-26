@@ -15,7 +15,9 @@ interface TitleCardProps {
   isFavorite: boolean;
 }
 
-export const TitleCard: React.FC<TitleCardProps> = ({
+const HIGHLIGHT_REGEX = /(FOSMET|REC10|QS40|T20|KT80|E12|E05|E09|G58|G2|FOS10|神コスパ|ヤバい|神機能|AI搭載|16mm|SONY|4K|14\.9g|800mAh|5ATM|FitCloudPro|爆売れ|限定|話題|圧倒的|衝撃|必須|プロ級|禁断|驚愕|linterna LED|supervivencia)/g;
+
+const TitleCardComponent: React.FC<TitleCardProps> = ({
   item,
   index,
   isSelected,
@@ -120,8 +122,7 @@ export const TitleCard: React.FC<TitleCardProps> = ({
 
   // Rich multi-color keyword and model renderer in hook text
   const renderHookText = (hook: string) => {
-    const regex = /(FOSMET|REC10|QS40|T20|KT80|E12|E05|E09|G58|G2|FOS10|神コスパ|ヤバい|神機能|AI搭載|16mm|SONY|4K|14\.9g|800mAh|5ATM|FitCloudPro|爆売れ|限定|話題|圧倒的|衝撃|必須|プロ級|禁断|驚愕|linterna LED|supervivencia)/g;
-    const parts = hook.split(regex);
+    const parts = hook.split(HIGHLIGHT_REGEX);
 
     return parts.map((part, i) => {
       if (part === "FOSMET") {
@@ -386,3 +387,5 @@ export const TitleCard: React.FC<TitleCardProps> = ({
     </TiltGlassCard>
   );
 };
+
+export const TitleCard = React.memo(TitleCardComponent);

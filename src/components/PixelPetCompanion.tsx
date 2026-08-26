@@ -978,7 +978,7 @@ const PIXEL_SPRITES: Record<PixelPetType, {
   },
 };
 
-export const PixelPetCompanion: React.FC<PixelPetCompanionProps> = ({
+const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
   currentProductId,
   onCheer,
   lastAction,
@@ -2271,3 +2271,6 @@ export const PixelPetCompanion: React.FC<PixelPetCompanionProps> = ({
     </>
   );
 };
+
+export const PixelPetCompanion = React.memo(PixelPetCompanionComponent);
+

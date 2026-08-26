@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { AngleCategory, GeneratedTitle, GenerationParams, ProductId } from "./types";
 import {
   generateTitles,
@@ -168,7 +168,7 @@ export default function App() {
   }, []);
 
   // Update params and auto-refresh when product, category or language changes
-  const handleChangeParams = (newParams: Partial<GenerationParams>) => {
+  const handleChangeParams = useCallback((newParams: Partial<GenerationParams>) => {
     setParams((prev) => {
       const next = { ...prev, ...newParams };
       // If product changed and customTags wasn't explicitly passed, reset customTags
@@ -189,21 +189,26 @@ export default function App() {
       }
       return next;
     });
-  };
+  }, [handleGenerate]);
 
-  const handleSelectProduct = (productId: ProductId) => {
-    if (productId !== params.productId) {
+  const handleSelectProduct = useCallback((productId: ProductId) => {
+    setParams((prev) => {
+      if (productId === prev.productId) return prev;
       setLastAction({ type: "change_product", timestamp: Date.now(), data: { productId } });
-      handleChangeParams({
+      const next: GenerationParams = {
+        ...prev,
         productId,
         category: "all_mixed",
         language: productId === "kt80" || productId === "g58" ? "es" : "ja",
-      });
-    }
-  };
+        customTags: undefined,
+      };
+      handleGenerate(next);
+      return next;
+    });
+  }, [handleGenerate]);
 
   // Single title copy
-  const handleCopySingle = async (text: string) => {
+  const handleCopySingle = useCallback(async (text: string) => {
     const success = await copyToClipboard(text);
     if (success) {
       setLastAction({ type: "copy", timestamp: Date.now(), data: { length: text.length } });
@@ -211,10 +216,10 @@ export default function App() {
     } else {
       addToast("复制失败，请重试", "error");
     }
-  };
+  }, [addToast]);
 
   // Multiple titles copy
-  const handleCopyMultiple = async (selectedList: GeneratedTitle[]) => {
+  const handleCopyMultiple = useCallback(async (selectedList: GeneratedTitle[]) => {
     if (selectedList.length === 0) return;
     const combinedText = selectedList
       .map((t, idx) => `${idx + 1}. ${t.title}`)
@@ -227,10 +232,10 @@ export default function App() {
     } else {
       addToast("复制失败，请重试", "error");
     }
-  };
+  }, [addToast]);
 
   // Toggle favorite
-  const handleToggleFavorite = (item: GeneratedTitle) => {
+  const handleToggleFavorite = useCallback((item: GeneratedTitle) => {
     const { isFav, allFavs } = toggleFavoriteInStorage(item);
     setFavorites(allFavs);
     if (isFav) {
@@ -239,15 +244,15 @@ export default function App() {
     } else {
       addToast("已从收藏夹中移出", "info");
     }
-  };
+  }, [addToast]);
 
   // Open TikTok preview modal
-  const handleOpenPreview = (item: GeneratedTitle) => {
+  const handleOpenPreview = useCallback((item: GeneratedTitle) => {
     setPreviewItem(item);
     setIsPreviewOpen(true);
-  };
+  }, []);
 
-  const handleOpenPreviewDemo = () => {
+  const handleOpenPreviewDemo = useCallback(() => {
     if (titles.length > 0) {
       setPreviewItem(titles[0]);
     } else {
@@ -291,9 +296,9 @@ export default function App() {
       });
     }
     setIsPreviewOpen(true);
-  };
+  }, [titles, params.customTags, params.language, currentProduct.fixedTags, currentProductId]);
 
-  const favoritesSet = new Set(favorites.map((f) => f.title));
+  const favoritesSet = useMemo(() => new Set(favorites.map((f) => f.title)), [favorites]);
   const activeTags =
     (params.customTags && params.customTags.trim()) || currentProduct.fixedTags;
 
