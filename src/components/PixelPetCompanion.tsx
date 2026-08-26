@@ -1139,6 +1139,10 @@ export const PixelPetCompanion: React.FC<PixelPetCompanionProps> = ({
     let floatTime = 0;
 
     const loop = (currentTime: number) => {
+      if (document.hidden) {
+        animFrameId = requestAnimationFrame(loop);
+        return;
+      }
       const dt = Math.min((currentTime - lastTime) / 1000, 0.08);
       lastTime = currentTime;
       floatTime += dt;

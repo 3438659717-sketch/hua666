@@ -330,30 +330,30 @@
 
 @keyframes interstellarStreamDrift {
   0% {
-    transform: translate3d(-3%, -2%, 0) rotate(0deg) scale(1);
+    transform: translate3d(-2%, -1.5%, 0);
     opacity: 0.25;
   }
   50% {
-    transform: translate3d(3%, 2%, 0) rotate(1.5deg) scale(1.04);
-    opacity: 0.42;
+    transform: translate3d(2%, 1.5%, 0);
+    opacity: 0.40;
   }
   100% {
-    transform: translate3d(-3%, -2%, 0) rotate(0deg) scale(1);
+    transform: translate3d(-2%, -1.5%, 0);
     opacity: 0.25;
   }
 }
 
 @keyframes interstellarStreamDriftReverse {
   0% {
-    transform: translate3d(4%, 3%, 0) rotate(0deg) scale(1.02);
+    transform: translate3d(2%, 2%, 0);
     opacity: 0.20;
   }
   50% {
-    transform: translate3d(-3%, -2%, 0) rotate(-2deg) scale(0.98);
-    opacity: 0.38;
+    transform: translate3d(-2%, -1.5%, 0);
+    opacity: 0.35;
   }
   100% {
-    transform: translate3d(4%, 3%, 0) rotate(0deg) scale(1.02);
+    transform: translate3d(2%, 2%, 0);
     opacity: 0.20;
   }
 }
@@ -361,38 +361,32 @@
 @keyframes cosmicDustGlitter {
   0%, 100% {
     opacity: 0.25;
-    transform: scale(0.85) translate3d(0, 0, 0);
+    transform: scale(0.85);
   }
   50% {
     opacity: 0.95;
-    transform: scale(1.2) translate3d(0, -4px, 0);
-    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.8));
+    transform: scale(1.15);
   }
 }
 
 @keyframes deepSpaceVoidBreath {
   0%, 100% {
-    opacity: 0.70;
-    transform: scale(1);
+    opacity: 0.75;
   }
   50% {
     opacity: 0.95;
-    transform: scale(1.03);
   }
 }
 
 @keyframes celestialCurtainWave {
   0% {
-    transform: translate3d(0, 0, 0) skewX(-2deg);
-    filter: blur(40px) brightness(0.9);
+    transform: translate3d(0, 0, 0);
   }
   50% {
-    transform: translate3d(25px, -15px, 0) skewX(2deg);
-    filter: blur(50px) brightness(1.15);
+    transform: translate3d(20px, -10px, 0);
   }
   100% {
-    transform: translate3d(0, 0, 0) skewX(-2deg);
-    filter: blur(40px) brightness(0.9);
+    transform: translate3d(0, 0, 0);
   }
 }
 
@@ -534,31 +528,19 @@
     135deg,
     rgba(255, 255, 255, 0.06) 0%,
     rgba(255, 255, 255, 0.015) 40%,
-    rgba(8, 10, 16, 0.45) 100%
-  ), rgba(4, 5, 8, 0.42);
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
+    rgba(8, 10, 16, 0.55) 100%
+  ), rgba(6, 8, 14, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 
-    inset 1px 1.5px 2px 0px rgba(255, 255, 255, 0.20),
+    inset 1px 1.5px 2px 0px rgba(255, 255, 255, 0.18),
     inset -1px -1.5px 2px 0px rgba(0, 0, 0, 0.65),
-    0 16px 40px -8px rgba(0, 0, 0, 0.75),
-    0 0 20px rgba(255, 255, 255, 0.02);
+    0 16px 36px -8px rgba(0, 0, 0, 0.75);
   position: relative;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
   transform: translateZ(0);
-}
-
-.acrylic-glass::before,
-.thick-glass::before,
-.ultra-acrylic-glass::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 1;
+  will-change: auto;
 }
 
 /* Luxury Laser Gleam Border */
@@ -933,6 +915,45 @@
   mask-composite: exclude;
   pointer-events: none;
 }
+
+/* ==========================================================================
+   Mobile & Low-End Device High-Performance Overrides (Smooth 60FPS)
+   ========================================================================== */
+@media (max-width: 768px), (pointer: coarse) {
+  .acrylic-glass,
+  .thick-glass,
+  .ultra-acrylic-glass,
+  .bento-glass-tile {
+    backdrop-filter: blur(6px) !important;
+    -webkit-backdrop-filter: blur(6px) !important;
+    background: rgba(8, 11, 20, 0.88) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .border-crystal-glow::before,
+  .laser-gleam-border::after,
+  .border-iridescent::after {
+    animation-duration: 8s !important;
+  }
+
+  .animate-mesh-1,
+  .animate-mesh-2,
+  .animate-glass-orb {
+    animation: none !important;
+    opacity: 0.12 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 
 
 
