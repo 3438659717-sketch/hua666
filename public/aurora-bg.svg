@@ -1,0 +1,73 @@
+<svg width="1440" height="2560" viewBox="0 0 1440 2560" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Deep Obsidian Pitch-Black Cosmic Base -->
+    <radialGradient id="bgGlow" cx="50%" cy="35%" r="85%" fx="45%" fy="25%">
+      <stop offset="0%" stop-color="#070913" />
+      <stop offset="35%" stop-color="#04050a" />
+      <stop offset="70%" stop-color="#020205" />
+      <stop offset="100%" stop-color="#000000" />
+    </radialGradient>
+
+    <!-- Deep Space Velvet Violet/Indanthrone Flow -->
+    <linearGradient id="auroraViolet" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b1d60" stop-opacity="0.35" />
+      <stop offset="40%" stop-color="#241442" stop-opacity="0.25" />
+      <stop offset="75%" stop-color="#120c24" stop-opacity="0.10" />
+      <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Deep Space Twilight Midnight Blue Ribbon -->
+    <linearGradient id="cobaltRibbon" x1="0%" y1="10%" x2="90%" y2="90%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.4" />
+      <stop offset="30%" stop-color="#0f172a" stop-opacity="0.3" />
+      <stop offset="70%" stop-color="#090d16" stop-opacity="0.15" />
+      <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Subtle Ethereal Starlight Nebula Whisper -->
+    <linearGradient id="magentaWhisper" x1="10%" y1="100%" x2="90%" y2="20%">
+      <stop offset="0%" stop-color="#2e1065" stop-opacity="0.25" />
+      <stop offset="45%" stop-color="#1e1b4b" stop-opacity="0.15" />
+      <stop offset="85%" stop-color="#090a0f" stop-opacity="0.05" />
+      <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- High Pass Blur for Cinematic Raytracing Sheen -->
+    <filter id="ultraGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="110" result="blur1" />
+    </filter>
+
+    <filter id="softRibbonBlur" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="60" />
+    </filter>
+  </defs>
+
+  <!-- Absolute Pitch-Black & Deep Space Cosmos Background -->
+  <rect width="1440" height="2560" fill="url(#bgGlow)" />
+
+  <!-- Layer 1: Ambient Deep Space Nebula Whisper Pools -->
+  <g filter="url(#ultraGlow)" opacity="0.35">
+    <ellipse cx="600" cy="700" rx="500" ry="350" fill="#0f172a" />
+    <ellipse cx="880" cy="1200" rx="550" ry="400" fill="#1e1b4b" />
+    <ellipse cx="350" cy="1800" rx="400" ry="350" fill="#17102e" />
+  </g>
+
+  <!-- Layer 2: Main Deep Space Cosmic Curves (Soft, non-saturated, dark luxury flow) -->
+  <g filter="url(#softRibbonBlur)" opacity="0.45">
+    <!-- Top Arc Deep Flow -->
+    <path d="M-200 400 C 300 250, 700 480, 1100 200 C 1300 60, 1500 120, 1700 250 L 1700 650 C 1350 780, 950 620, 600 800 C 250 980, 50 1100, -200 1200 Z" fill="url(#auroraViolet)" />
+
+    <!-- Center Deep Crest -->
+    <path d="M-100 850 C 250 900, 320 1250, 600 1350 C 950 1480, 1300 1200, 1600 1450 L 1600 1850 C 1200 1700, 850 1900, 500 1800 C 150 1700, 50 1450, -100 1400 Z" fill="url(#cobaltRibbon)" />
+
+    <!-- Bottom Swirling Crest -->
+    <path d="M100 1600 C 500 1750, 900 1650, 1300 1950 C 1500 2100, 1550 2300, 1650 2500 L 900 2600 C 600 2400, 400 2200, 50 2250 Z" fill="url(#magentaWhisper)" />
+  </g>
+
+  <!-- Layer 3: Ultra Fine Starlight Filaments -->
+  <g opacity="0.22" style="mix-blend-mode: screen;">
+    <path d="M -50 480 C 400 320, 850 620, 1300 320 C 1450 220, 1550 250, 1650 300" stroke="#818cf8" stroke-width="2" stroke-linecap="round" filter="url(#softRibbonBlur)" />
+    <path d="M 0 950 C 280 1020, 420 1320, 750 1420 C 1100 1520, 1380 1320, 1600 1500" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" filter="url(#softRibbonBlur)" />
+    <path d="M 120 1750 C 480 1880, 820 1820, 1200 2080" stroke="#c084fc" stroke-width="1.8" stroke-linecap="round" filter="url(#softRibbonBlur)" />
+  </g>
+</svg>

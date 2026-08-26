@@ -1,0 +1,6 @@
+{
+  "name": "FOSMET TikTok 文案引擎",
+  "description": "FOSMET REC10、QS40、T20、KT80 (西语/德语)、G58 (西语/德语)、E12 (AI相机耳机)、E05 (4档调光智能眼镜)、E09 (SONY POV眼镜)、G2 (女性健康智能手表) 与 FOS10 (便携式轻薄智能手表) TikTok 跨境多语言高转化短视频文案工坊",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
