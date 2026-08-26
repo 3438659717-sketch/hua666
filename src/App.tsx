@@ -321,7 +321,7 @@ export default function App() {
       </div>
 
       {/* Main Content Area */}
-      <main className="relative z-10 flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6">
+      <main className="relative z-10 flex-1 max-w-[1720px] 2xl:max-w-[1840px] w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-4 sm:py-6">
         {/* Control & Engine Configuration Panel */}
         <ControlPanel
           params={params}
@@ -352,32 +352,32 @@ export default function App() {
         />
 
         {/* Refined Metadata Overview Cards */}
-        <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-          <TiltGlassCard themeColor={getThemeColorName()} className="p-4">
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <TiltGlassCard themeColor={getThemeColorName()} className="p-4 sm:p-5">
             <span className="text-[10px] text-white/40 uppercase tracking-wider block mb-1 font-semibold">
               当前推广产品
             </span>
-            <div className="text-xs font-mono text-white/90 flex items-center gap-1.5">
+            <div className="text-xs sm:text-sm font-mono text-white/90 flex items-center gap-1.5">
               <strong className={getProductColor()}>{currentProduct.name}</strong>
               <span className="text-white/40">• {currentProduct.japaneseType}</span>
             </div>
           </TiltGlassCard>
 
-          <TiltGlassCard themeColor={getThemeColorName()} className="p-4">
+          <TiltGlassCard themeColor={getThemeColorName()} className="p-4 sm:p-5">
             <span className="text-[10px] text-white/40 uppercase tracking-wider block mb-1 font-semibold">
               单次输出规格
             </span>
-            <div className={`text-xs font-mono ${getProductColor()} flex items-center gap-1.5`}>
-              <Sparkles className="w-3.5 h-3.5" />
+            <div className={`text-xs sm:text-sm font-mono ${getProductColor()} flex items-center gap-1.5`}>
+              <Sparkles className="w-4 h-4" />
               <span>50 组独一无二高转化文案 (含前置钩子+标签)</span>
             </div>
           </TiltGlassCard>
 
-          <TiltGlassCard themeColor={getThemeColorName()} className="p-4">
+          <TiltGlassCard themeColor={getThemeColorName()} className="p-4 sm:p-5">
             <span className="text-[10px] text-white/40 uppercase tracking-wider block mb-1 font-semibold">
               挂载营销标签
             </span>
-            <div className={`text-[11px] font-mono ${getProductColor()} truncate block`}>
+            <div className={`text-xs sm:text-sm font-mono ${getProductColor()} truncate block`}>
               {activeTags}
             </div>
           </TiltGlassCard>
@@ -386,13 +386,13 @@ export default function App() {
 
       {/* Refined Luxury Footer */}
       <footer className="relative z-10 border-t border-white/[0.08] acrylic-glass py-6 mt-10 text-xs text-white/40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="max-w-[1720px] 2xl:max-w-[1840px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <span className="font-bold text-white/90 font-mono">FOSMET Matrix</span>
             <span className="text-white/20">/</span>
             <span>TikTok 跨境短视频高转化内容工坊 (10 大核心爆款矩阵全覆盖)</span>
           </div>
-          <div className={`font-mono text-[11px] ${getProductColor()} select-all`}>
+          <div className={`font-mono text-xs ${getProductColor()} select-all`}>
             {activeTags}
           </div>
         </div>

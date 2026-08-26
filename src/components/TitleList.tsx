@@ -287,7 +287,7 @@ const TitleListComponent: React.FC<TitleListProps> = ({
         <div className="mt-3 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2 w-full sm:w-auto flex-1">
             {/* Search Input */}
-            <div className="relative flex-1 max-w-md">
+            <div className="relative flex-1 max-w-md lg:max-w-xl">
               <Search className="w-3.5 h-3.5 text-white/40 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
@@ -387,7 +387,7 @@ const TitleListComponent: React.FC<TitleListProps> = ({
       <div
         className={
           viewMode === "grid"
-            ? "grid grid-cols-1 md:grid-cols-2 gap-4"
+            ? "grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4 xl:gap-5"
             : "flex flex-col space-y-3"
         }
       >

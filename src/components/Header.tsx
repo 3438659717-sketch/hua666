@@ -186,7 +186,7 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Top subtle iridescent celestial aurora glow line */}
       <div className="h-[2px] w-full cosmic-aurora-band shadow-[0_0_12px_rgba(56,189,248,0.5)]" />
 
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3 flex flex-col md:flex-row items-center justify-between gap-3">
+      <div className="max-w-[1720px] 2xl:max-w-[1840px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-2.5 sm:py-3 flex flex-col md:flex-row items-center justify-between gap-3">
         {/* Brand & Product Overview */}
         <div className="flex items-center justify-between w-full md:w-auto space-x-3 min-w-0">
           <div className="flex items-center space-x-3 min-w-0">

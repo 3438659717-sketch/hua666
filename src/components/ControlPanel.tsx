@@ -1092,7 +1092,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           </span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-8 gap-2.5">
           {categories.map((cat) => {
             const isSelected = params.category === cat.id;
             return (
