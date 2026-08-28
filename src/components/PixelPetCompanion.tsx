@@ -110,6 +110,13 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
   // Natural Cursor Proximity Awareness
   const [isNearCursor, setIsNearCursor] = useState<boolean>(false);
 
+  // Temporary Reaction Ref (for user petting/copy reward animations without locking frame loop)
+  const isReactingRef = useRef<boolean>(false);
+  const reactionTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // History tracking to prevent repetitive autonomous actions
+  const recentActivitiesRef = useRef<string[]>([]);
+
   // Destination Target for Natural Smooth Navigation
   const targetWaypointRef = useRef<{ x: number; y: number } | null>(null);
 
@@ -686,9 +693,11 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
             const dist = Math.hypot(dx, dy);
 
             if (dist < 18) {
-              // Arrived at destination waypoint! Switch to resting/living activity
+              // Arrived at destination waypoint! Switch cleanly to resting/living wander
               targetWaypointRef.current = null;
               velRef.current = { vx: 0, vy: 0 };
+              currentActivityRef.current = "none";
+              setCurrentActivity("none");
             } else {
               const speed = 90;
               const step = Math.min(dist, speed * dt);
@@ -789,7 +798,7 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
         return;
       }
 
-      if (currentFrame === "jump" || currentFrame === "happy") {
+      if (isReactingRef.current) {
         return;
       }
 
@@ -839,6 +848,11 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
         return;
       }
 
+      if (activity === "walk_to_target" || activity === "hunt_lucky_star") {
+        setCurrentFrame(tick % 2 === 0 ? "walk1" : "walk2");
+        return;
+      }
+
       if (mode === "stay" || isQuickMenuOpenRef.current || isWanderPausedRef.current) {
         if (tick % 8 === 0) {
           setCurrentFrame("idle2");
@@ -852,19 +866,29 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
 
       if (mode === "wander") {
         const vel = velRef.current;
-        const targetWaypoint = targetWaypointRef.current;
-        if (targetWaypoint || Math.abs(vel.vx) > 0.2 || Math.abs(vel.vy) > 0.2) {
+        if (Math.abs(vel.vx) > 0.15 || Math.abs(vel.vy) > 0.15) {
           setCurrentFrame(tick % 2 === 0 ? "walk1" : "walk2");
         } else {
           setCurrentFrame(tick % 4 === 0 ? "idle2" : "idle1");
+        }
+        return;
+      }
+
+      if (mode === "follow") {
+        const dx = mouseCoordRef.current.x + 52 - posRef.current.x;
+        const dy = mouseCoordRef.current.y + 44 - posRef.current.y;
+        if (Math.hypot(dx, dy) > 20) {
+          setCurrentFrame(tick % 2 === 0 ? "walk1" : "walk2");
+        } else {
+          setCurrentFrame(tick % 6 === 0 ? "sit" : "idle1");
         }
       }
     }, 240);
 
     return () => clearInterval(animInterval);
-  }, [currentFrame]);
+  }, []);
 
-  // Autonomous Living Companion AI Decision Routine (SILENT & RANDOM LOW-FREQUENCY)
+  // Autonomous Living Companion AI Decision Routine (SILENT & DIVERSE RANDOM SCHEDULING)
   useEffect(() => {
     if (behaviorMode !== "wander") return;
     let decisionTimer: NodeJS.Timeout;
@@ -879,16 +903,35 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
         return;
       }
 
-      const roll = Math.random();
+      const allActionPool: AutonomousActivity[] = [
+        "type_keyboard",
+        "coffee_time",
+        "inspect_copy",
+        "daydream_spark",
+        "stretch_workout",
+        "catnap",
+        "walk_to_target",
+        "cheer_fan",
+      ];
+
+      // Filter out recent 3 activities to guarantee complete variety without repetition
+      const recent = recentActivitiesRef.current.slice(-3);
+      const filteredPool = allActionPool.filter((act) => !recent.includes(act));
+      const poolToUse = filteredPool.length > 0 ? filteredPool : allActionPool;
+      const chosenActivity = poolToUse[Math.floor(Math.random() * poolToUse.length)];
+
+      recentActivitiesRef.current = [...recentActivitiesRef.current.slice(-6), chosenActivity];
+
       const minX = 40;
       const maxX = typeof window !== "undefined" ? Math.max(minX, window.innerWidth - 160) : 700;
       const minY = 80;
       const maxY = typeof window !== "undefined" ? Math.max(minY, window.innerHeight - 180) : 500;
 
       // 1. Pick an autonomous action (SILENT - ZERO AUDIO DISTURBANCE)
-      if (roll < 0.18) {
+      if (chosenActivity === "type_keyboard") {
         // [Action: Deep Work & Typing]
         setCurrentActivity("type_keyboard");
+        currentActivityRef.current = "type_keyboard";
         velRef.current = { vx: 0, vy: 0 };
         if (Math.random() < 0.25) {
           const workQuotes = [
@@ -898,95 +941,101 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
           showBubble(workQuotes[Math.floor(Math.random() * workQuotes.length)], 3500);
         }
         setTimeout(() => {
+          currentActivityRef.current = "none";
           setCurrentActivity("none");
         }, 5000);
-      } else if (roll < 0.32) {
+      } else if (chosenActivity === "coffee_time") {
         // [Action: Coffee / Bubble Tea Break]
         setCurrentActivity("coffee_time");
+        currentActivityRef.current = "coffee_time";
         velRef.current = { vx: 0, vy: 0 };
         if (Math.random() < 0.25) {
           showBubble("☕ 喝口生椰冷萃~ 主人也记得多喝水哦", 3200);
         }
         setTimeout(() => {
+          currentActivityRef.current = "none";
           setCurrentActivity("none");
         }, 4500);
-      } else if (roll < 0.44) {
+      } else if (chosenActivity === "inspect_copy") {
         // [Action: Curious Inspection of Screen / Copywriting]
         setCurrentActivity("inspect_copy");
+        currentActivityRef.current = "inspect_copy";
         velRef.current = { vx: 0, vy: 0 };
         if (Math.random() < 0.25) {
           showBubble("🧐 正在巡检本页面的高转化钩子~", 3500);
         }
         setTimeout(() => {
+          currentActivityRef.current = "none";
           setCurrentActivity("none");
         }, 4500);
-      } else if (roll < 0.56) {
+      } else if (chosenActivity === "daydream_spark") {
         // [Action: Daydreaming & Spark of Inspiration]
         setCurrentActivity("daydream_spark");
+        currentActivityRef.current = "daydream_spark";
         velRef.current = { vx: 0, vy: 0 };
         if (Math.random() < 0.25) {
           showBubble("💡 灵光一闪！捕捉到一个出海创意分镜~", 3500);
         }
         setTimeout(() => {
+          currentActivityRef.current = "none";
           setCurrentActivity("none");
         }, 4200);
-      } else if (roll < 0.68) {
+      } else if (chosenActivity === "stretch_workout") {
         // [Action: Stretch & Exercise]
         setCurrentActivity("stretch_workout");
+        currentActivityRef.current = "stretch_workout";
         velRef.current = { vx: 0, vy: 0 };
         if (Math.random() < 0.25) {
           showBubble("🧘 伸个懒腰活动筋骨~ 保持专注力满格！", 3200);
         }
         setTimeout(() => {
+          currentActivityRef.current = "none";
           setCurrentActivity("none");
         }, 4000);
-      } else if (roll < 0.78) {
+      } else if (chosenActivity === "catnap") {
         // [Action: Cozy Quick Catnap]
         setCurrentActivity("catnap");
+        currentActivityRef.current = "catnap";
         velRef.current = { vx: 0, vy: 0 };
         setTimeout(() => {
+          currentActivityRef.current = "none";
           setCurrentActivity("none");
         }, 6000);
-      } else if (roll < 0.86) {
+      } else if (chosenActivity === "walk_to_target") {
         // [Action: Purposeful Navigation to Target Waypoint]
         const randomX = Math.floor(Math.random() * (maxX - minX)) + minX;
         const randomY = Math.floor(Math.random() * (maxY - minY)) + minY;
         targetWaypointRef.current = { x: randomX, y: randomY };
         setCurrentActivity("walk_to_target");
+        currentActivityRef.current = "walk_to_target";
         setIsFacingLeft(randomX < posRef.current.x);
-      } else if (roll < 0.93) {
-        // [Action: Rare Lucky Star Easter Egg - SILENT]
-        const starX = Math.floor(Math.random() * (maxX - minX)) + minX;
-        const starY = Math.floor(Math.random() * (maxY - minY)) + minY;
-        const starId = getUniquePetId("star");
-        setLuckyStar({ id: starId, x: starX, y: starY });
-        luckyStarRef.current = { id: starId, x: starX, y: starY };
-        setCurrentActivity("hunt_lucky_star");
 
-        // Auto dismiss if not caught after 8.5 seconds
+        // Safety fallback timer to prevent getting stuck if path blocked
         setTimeout(() => {
-          if (luckyStarRef.current?.id === starId) {
-            setLuckyStar(null);
-            luckyStarRef.current = null;
+          if (currentActivityRef.current === "walk_to_target") {
+            targetWaypointRef.current = null;
+            currentActivityRef.current = "none";
             setCurrentActivity("none");
           }
-        }, 8500);
+        }, 6500);
       } else {
         // [Action: Cheer for Creator]
         setCurrentActivity("cheer_fan");
+        currentActivityRef.current = "cheer_fan";
         velRef.current = { vx: 0, vy: 0 };
         if (Math.random() < 0.25) {
           showBubble("🎉 主人加油！海外播放量势不可挡~", 3200);
         }
         setTimeout(() => {
+          currentActivityRef.current = "none";
           setCurrentActivity("none");
         }, 3600);
       }
     };
 
     const scheduleNext = () => {
-      // Randomized gentle interval between 24s and 54s
-      const delay = 24000 + Math.random() * 30000;
+      // Randomized gentle interval between 24s and 50s
+      const delay = 24000 + Math.random() * 26000;
       decisionTimer = setTimeout(() => {
         runAutonomousDecision();
         scheduleNext();
@@ -1022,35 +1071,23 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
   }, [lastAction, currentProd, showBubble, updateGrowthState]);
 
   const triggerJump = () => {
+    if (reactionTimerRef.current) clearTimeout(reactionTimerRef.current);
+    isReactingRef.current = true;
     setCurrentFrame("jump");
-    setTimeout(() => {
-      if (!isDraggingRef.current) {
-        const mode = behaviorModeRef.current;
-        setCurrentFrame(
-          mode === "wander" && !isQuickMenuOpenRef.current
-            ? "walk1"
-            : mode === "sleep"
-            ? "sleep"
-            : "idle1"
-        );
-      }
+    reactionTimerRef.current = setTimeout(() => {
+      isReactingRef.current = false;
+      reactionTimerRef.current = null;
     }, 700);
   };
 
   const triggerHappy = () => {
+    if (reactionTimerRef.current) clearTimeout(reactionTimerRef.current);
+    isReactingRef.current = true;
     setCurrentFrame("happy");
-    setTimeout(() => {
-      if (!isDraggingRef.current) {
-        const mode = behaviorModeRef.current;
-        setCurrentFrame(
-          mode === "wander" && !isQuickMenuOpenRef.current
-            ? "walk1"
-            : mode === "sleep"
-            ? "sleep"
-            : "idle1"
-        );
-      }
-    }, 1200);
+    reactionTimerRef.current = setTimeout(() => {
+      isReactingRef.current = false;
+      reactionTimerRef.current = null;
+    }, 1100);
   };
 
   const dragInfoRef = useRef<{
