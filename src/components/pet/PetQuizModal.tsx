@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
   X,
@@ -13,6 +13,7 @@ import {
   RotateCcw,
   Lightbulb,
   TrendingUp,
+  Shuffle,
 } from "lucide-react";
 import {
   PetGrowthState,
@@ -32,6 +33,12 @@ interface PetQuizModalProps {
   onShowToast: (msg: string, type?: "success" | "info" | "error") => void;
 }
 
+interface ShuffledOption {
+  text: string;
+  isCorrect: boolean;
+  originalIndex: number;
+}
+
 export const PetQuizModal: React.FC<PetQuizModalProps> = ({
   isOpen,
   onClose,
@@ -45,8 +52,7 @@ export const PetQuizModal: React.FC<PetQuizModalProps> = ({
   const [isAnswered, setIsAnswered] = useState<boolean>(false);
   const [streak, setStreak] = useState<number>(0);
   const [sessionScore, setSessionScore] = useState<number>(0);
-
-  if (!isOpen) return null;
+  const [shuffledOptions, setShuffledOptions] = useState<ShuffledOption[]>([]);
 
   const filteredQuestions =
     selectedCategory === "all"
@@ -59,12 +65,34 @@ export const PetQuizModal: React.FC<PetQuizModalProps> = ({
 
   const careerRank = getCreatorCareerRank(state.affinity);
 
+  // Dynamic Fisher-Yates shuffle for options whenever current question changes
+  useEffect(() => {
+    if (!currentQ) return;
+    const opts: ShuffledOption[] = currentQ.options.map((text, idx) => ({
+      text,
+      isCorrect: idx === currentQ.correctIndex,
+      originalIndex: idx,
+    }));
+
+    // Randomize option positions (A, B, C, D)
+    for (let i = opts.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [opts[i], opts[j]] = [opts[j], opts[i]];
+    }
+
+    setShuffledOptions(opts);
+    setSelectedOption(null);
+    setIsAnswered(false);
+  }, [currentIndex, selectedCategory, currentQ?.id]);
+
+  if (!isOpen) return null;
+
   const handleSelectOption = (idx: number) => {
-    if (isAnswered) return;
+    if (isAnswered || !shuffledOptions[idx]) return;
     setSelectedOption(idx);
     setIsAnswered(true);
 
-    const isCorrect = idx === currentQ.correctIndex;
+    const isCorrect = shuffledOptions[idx].isCorrect;
     if (isCorrect) {
       playPetSound("levelUp");
       const nextStreak = streak + 1;
@@ -119,6 +147,18 @@ export const PetQuizModal: React.FC<PetQuizModalProps> = ({
     setSelectedOption(null);
     setIsAnswered(false);
     setCurrentIndex((prev) => (prev + 1) % filteredQuestions.length);
+  };
+
+  const handleRandomQuestion = () => {
+    playPetSound("click");
+    setSelectedOption(null);
+    setIsAnswered(false);
+    if (filteredQuestions.length <= 1) return;
+    let nextIdx = Math.floor(Math.random() * filteredQuestions.length);
+    if (nextIdx === currentIndex) {
+      nextIdx = (currentIndex + 1) % filteredQuestions.length;
+    }
+    setCurrentIndex(nextIdx);
   };
 
   const categories = [
@@ -228,9 +268,19 @@ export const PetQuizModal: React.FC<PetQuizModalProps> = ({
                 <span>{currentQ.categoryEmoji}</span>
                 <span>{currentQ.categoryLabel}</span>
               </span>
-              <span className="text-white/40 font-mono text-[11px]">
-                第 {(currentIndex % filteredQuestions.length) + 1} / {filteredQuestions.length} 题
-              </span>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handleRandomQuestion}
+                  title="随机抽取一题"
+                  className="px-2 py-0.5 rounded bg-white/5 hover:bg-white/10 text-cyan-300 hover:text-cyan-200 border border-white/10 flex items-center gap-1 text-[11px] transition-colors"
+                >
+                  <Shuffle className="w-3 h-3" />
+                  <span>随机抽题</span>
+                </button>
+                <span className="text-white/40 font-mono text-[11px]">
+                  第 {(currentIndex % filteredQuestions.length) + 1} / {filteredQuestions.length} 题
+                </span>
+              </div>
             </div>
 
             <h3 className="text-sm sm:text-base font-bold text-white leading-relaxed">
@@ -244,11 +294,18 @@ export const PetQuizModal: React.FC<PetQuizModalProps> = ({
             </div>
           </div>
 
-          {/* Options List */}
+          {/* Options List with Dynamic Shuffling */}
           <div className="space-y-2.5">
-            {currentQ.options.map((opt, idx) => {
+            {(shuffledOptions.length > 0
+              ? shuffledOptions
+              : currentQ.options.map((text, idx) => ({
+                  text,
+                  isCorrect: idx === currentQ.correctIndex,
+                  originalIndex: idx,
+                }))
+            ).map((opt, idx) => {
               const isPicked = selectedOption === idx;
-              const isTargetCorrect = idx === currentQ.correctIndex;
+              const isTargetCorrect = opt.isCorrect;
 
               let btnStyle = "bg-slate-800/60 hover:bg-slate-700/80 border-white/10 text-white/90";
               if (isAnswered) {
@@ -263,7 +320,7 @@ export const PetQuizModal: React.FC<PetQuizModalProps> = ({
 
               return (
                 <button
-                  key={idx}
+                  key={`${currentIndex}-${idx}-${opt.text}`}
                   onClick={() => handleSelectOption(idx)}
                   disabled={isAnswered}
                   className={`w-full p-3.5 rounded-xl border text-left text-xs sm:text-sm font-medium transition-all flex items-start gap-3 active:scale-[0.99] ${btnStyle}`}
@@ -271,7 +328,7 @@ export const PetQuizModal: React.FC<PetQuizModalProps> = ({
                   <span className="w-6 h-6 rounded-lg bg-white/10 flex items-center justify-center font-mono font-bold text-xs shrink-0 mt-0.5">
                     {String.fromCharCode(65 + idx)}
                   </span>
-                  <span className="flex-1 leading-snug">{opt}</span>
+                  <span className="flex-1 leading-snug">{opt.text}</span>
                   {isAnswered && isTargetCorrect && (
                     <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
                   )}
@@ -302,7 +359,14 @@ export const PetQuizModal: React.FC<PetQuizModalProps> = ({
                   <span className="leading-snug">{currentQ.workImpact}</span>
                 </div>
 
-                <div className="pt-2 flex justify-end">
+                <div className="pt-2 flex items-center justify-between">
+                  <button
+                    onClick={handleRandomQuestion}
+                    className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white/80 hover:text-white text-xs flex items-center gap-1.5 transition-colors border border-white/10"
+                  >
+                    <Shuffle className="w-3.5 h-3.5 text-cyan-400" />
+                    <span>随机抽一题</span>
+                  </button>
                   <button
                     onClick={handleNextQuestion}
                     className="px-5 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-500 hover:from-cyan-400 hover:to-indigo-400 text-black font-bold text-xs shadow-lg shadow-cyan-500/20 flex items-center gap-1.5 active:scale-95 transition-all"
