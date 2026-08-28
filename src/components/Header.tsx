@@ -58,7 +58,7 @@ export const Header: React.FC<HeaderProps> = ({
       label: "REC10",
       subLabel: "AI录音卡",
       icon: <Mic className="w-3.5 h-3.5" />,
-      activeClass: "bg-blue-500 text-white shadow-[0_4px_16px_rgba(0,119,250,0.45)] border-blue-400/50",
+      activeClass: "bg-blue-500 text-white shadow-[0_4px_20px_rgba(0,119,250,0.5)] border-blue-300/50",
       themeColor: "text-blue-400",
     },
     {
@@ -66,7 +66,7 @@ export const Header: React.FC<HeaderProps> = ({
       label: "QS40",
       subLabel: "AI智能表",
       icon: <Watch className="w-3.5 h-3.5" />,
-      activeClass: "bg-purple-600 text-white shadow-[0_4px_16px_rgba(120,72,255,0.45)] border-purple-400/50",
+      activeClass: "bg-purple-600 text-white shadow-[0_4px_20px_rgba(120,72,255,0.5)] border-purple-300/50",
       themeColor: "text-purple-400",
     },
     {
@@ -74,7 +74,7 @@ export const Header: React.FC<HeaderProps> = ({
       label: "T20",
       subLabel: "GPS探险",
       icon: <Compass className="w-3.5 h-3.5" />,
-      activeClass: "bg-emerald-500 text-white shadow-[0_4px_16px_rgba(0,210,135,0.45)] border-emerald-400/50",
+      activeClass: "bg-emerald-500 text-white shadow-[0_4px_20px_rgba(0,210,135,0.5)] border-emerald-300/50",
       themeColor: "text-emerald-400",
     },
     {
@@ -82,7 +82,7 @@ export const Header: React.FC<HeaderProps> = ({
       label: "KT80",
       subLabel: "800mAh潜水",
       icon: <Flashlight className="w-3.5 h-3.5" />,
-      activeClass: "bg-amber-500 text-black font-bold shadow-[0_4px_16px_rgba(245,158,11,0.45)] border-amber-300/50",
+      activeClass: "bg-amber-500 text-black font-extrabold shadow-[0_4px_20px_rgba(245,158,11,0.5)] border-amber-300/60",
       themeColor: "text-amber-400",
     },
     {
@@ -90,7 +90,7 @@ export const Header: React.FC<HeaderProps> = ({
       label: "G58",
       subLabel: "时尚腕表",
       icon: <Sparkles className="w-3.5 h-3.5" />,
-      activeClass: "bg-pink-500 text-white shadow-[0_4px_16px_rgba(244,114,182,0.45)] border-pink-300/50",
+      activeClass: "bg-pink-500 text-white shadow-[0_4px_20px_rgba(244,114,182,0.5)] border-pink-300/50",
       themeColor: "text-pink-400",
     },
     {
@@ -98,7 +98,7 @@ export const Header: React.FC<HeaderProps> = ({
       label: "E12",
       subLabel: "摄像耳机",
       icon: <Headphones className="w-3.5 h-3.5" />,
-      activeClass: "bg-cyan-500 text-black font-bold shadow-[0_4px_16px_rgba(6,182,212,0.45)] border-cyan-300/50",
+      activeClass: "bg-cyan-500 text-black font-extrabold shadow-[0_4px_20px_rgba(6,182,212,0.5)] border-cyan-300/60",
       themeColor: "text-cyan-400",
     },
     {
@@ -106,7 +106,7 @@ export const Header: React.FC<HeaderProps> = ({
       label: "E05",
       subLabel: "调光眼镜",
       icon: <Glasses className="w-3.5 h-3.5" />,
-      activeClass: "bg-rose-500 text-white shadow-[0_4px_16px_rgba(244,63,94,0.45)] border-rose-400/50",
+      activeClass: "bg-rose-500 text-white shadow-[0_4px_20px_rgba(244,63,94,0.5)] border-rose-300/50",
       themeColor: "text-rose-400",
     },
     {
@@ -114,7 +114,7 @@ export const Header: React.FC<HeaderProps> = ({
       label: "E09",
       subLabel: "POV摄像",
       icon: <Camera className="w-3.5 h-3.5" />,
-      activeClass: "bg-sky-500 text-white shadow-[0_4px_16px_rgba(14,165,233,0.45)] border-sky-400/50",
+      activeClass: "bg-sky-500 text-white shadow-[0_4px_20px_rgba(14,165,233,0.5)] border-sky-300/50",
       themeColor: "text-sky-400",
     },
     {
@@ -122,7 +122,7 @@ export const Header: React.FC<HeaderProps> = ({
       label: "G2",
       subLabel: "生理健康",
       icon: <Heart className="w-3.5 h-3.5" />,
-      activeClass: "bg-purple-500 text-white shadow-[0_4px_16px_rgba(168,85,247,0.45)] border-purple-400/50",
+      activeClass: "bg-purple-500 text-white shadow-[0_4px_20px_rgba(168,85,247,0.5)] border-purple-300/50",
       themeColor: "text-purple-400",
     },
     {
@@ -130,7 +130,7 @@ export const Header: React.FC<HeaderProps> = ({
       label: "FOS10",
       subLabel: "14.9g轻薄",
       icon: <Feather className="w-3.5 h-3.5" />,
-      activeClass: "bg-teal-500 text-white shadow-[0_4px_16px_rgba(20,184,166,0.45)] border-teal-400/50",
+      activeClass: "bg-teal-500 text-white shadow-[0_4px_20px_rgba(20,184,166,0.5)] border-teal-300/50",
       themeColor: "text-teal-400",
     },
   ];
@@ -154,17 +154,17 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header id="app-header" className="hyper-glass sticky top-0 z-30 transition-all duration-300">
+    <header id="app-header" className="sapphire-glass chromatic-dispersion-edge sticky top-0 z-30 transition-all duration-300">
       {/* Specular Micro-Chamfer Glare on Top Rim */}
-      <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/25 to-transparent pointer-events-none z-10" />
+      <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-300/30 via-white/80 via-rose-300/30 to-transparent pointer-events-none z-10" />
 
       <div className="max-w-[1720px] 2xl:max-w-[1840px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-2.5 sm:py-3 flex flex-col md:flex-row items-center justify-between gap-3">
         {/* Brand & Model Showcase */}
         <div className="flex items-center justify-between w-full md:w-auto space-x-3 min-w-0">
           <div className="flex items-center space-x-3 min-w-0">
-            {/* Xiaomi Squircle Model Icon Indicator */}
-            <div className="relative flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-[16px] bg-white/[0.06] border border-white/[0.12] text-white shadow-lg overflow-hidden flex-shrink-0">
-              <div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] to-transparent pointer-events-none" />
+            {/* Xiaomi Squircle Model Icon Indicator with Sapphire Edge */}
+            <div className="relative flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-[18px] bg-white/[0.08] border border-white/[0.18] text-white shadow-xl overflow-hidden flex-shrink-0 chromatic-dispersion-edge">
+              <div className="absolute inset-0 bg-gradient-to-br from-white/[0.12] to-transparent pointer-events-none" />
               <div className="relative z-10 text-white">
                 {currentNav.icon}
               </div>
@@ -172,12 +172,12 @@ export const Header: React.FC<HeaderProps> = ({
 
             <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-[0.2em] text-white/40 uppercase">
+                <span className="text-[10px] sm:text-[11px] font-mono font-black tracking-[0.25em] text-white/50 uppercase">
                   FOSMET
                 </span>
-                <span className="text-white/20">/</span>
+                <span className="text-white/25">/</span>
                 <h1 className="text-sm sm:text-base font-bold tracking-tight flex items-center gap-2 truncate">
-                  <span className={`${currentNav.themeColor} font-mono font-extrabold text-base sm:text-lg`}>
+                  <span className={`${currentNav.themeColor} font-mono font-black text-base sm:text-lg tracking-tight`}>
                     {currentProduct.model}
                   </span>
                   <span className="text-white/80 font-normal text-xs hidden lg:inline truncate">
@@ -186,13 +186,13 @@ export const Header: React.FC<HeaderProps> = ({
                 </h1>
 
                 {/* HyperOS Alive Status Pill */}
-                <span className="inline-flex items-center gap-1.5 text-[10px] font-medium px-2.5 py-0.5 rounded-full bg-white/[0.06] text-white/90 border border-white/[0.08] shadow-sm flex-shrink-0">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#00d287] shadow-[0_0_8px_#00d287] animate-pulse" />
+                <span className="inline-flex items-center gap-1.5 text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-white/[0.08] text-white border border-white/[0.12] shadow-xs flex-shrink-0">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#00d287] shadow-[0_0_10px_#00d287] animate-pulse" />
                   <span>{getMarketLabel()}</span>
                 </span>
               </div>
 
-              <p className="text-[11px] text-white/50 hidden sm:block truncate max-w-sm lg:max-w-md mt-0.5">
+              <p className="text-[11px] text-white/50 hidden sm:block truncate max-w-sm lg:max-w-md mt-0.5 font-medium">
                 {currentProduct.shortDesc}
               </p>
             </div>
@@ -202,11 +202,11 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex md:hidden items-center gap-1.5">
             <button
               onClick={onOpenFavorites}
-              className="relative p-2 rounded-[14px] bg-white/[0.08] border border-white/[0.12] text-white"
+              className="relative p-2 rounded-[16px] bg-white/[0.08] border border-white/[0.15] text-white physic-spring-tap"
             >
               <Bookmark className="w-4 h-4" />
               {favoritesCount > 0 && (
-                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#ff6900] text-[9px] font-bold flex items-center justify-center text-white">
+                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#ff6900] text-[9px] font-black flex items-center justify-center text-white shadow-sm">
                   {favoritesCount}
                 </span>
               )}
@@ -219,7 +219,7 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             type="button"
             onClick={() => scrollNav("left")}
-            className="hidden sm:flex items-center justify-center p-1.5 rounded-[12px] hover:bg-white/[0.08] text-white/40 hover:text-white transition-colors cursor-pointer flex-shrink-0"
+            className="hidden sm:flex items-center justify-center p-1.5 rounded-[14px] hover:bg-white/[0.1] text-white/40 hover:text-white transition-colors cursor-pointer flex-shrink-0 physic-spring-tap"
             title="向左滚动"
           >
             <ChevronLeft className="w-4 h-4" />
@@ -227,7 +227,7 @@ export const Header: React.FC<HeaderProps> = ({
 
           <div
             ref={navScrollRef}
-            className="p-1 rounded-[20px] bg-white/[0.035] border border-white/[0.08] flex items-center shadow-inner overflow-x-auto max-w-full no-scrollbar gap-1 scroll-smooth"
+            className="p-1 rounded-[22px] bg-black/40 border border-white/[0.1] flex items-center shadow-inner overflow-x-auto max-w-full no-scrollbar gap-1 scroll-smooth"
           >
             {productNavList.map((p) => {
               const isSelected = currentProductId === p.id;
@@ -237,15 +237,15 @@ export const Header: React.FC<HeaderProps> = ({
                   type="button"
                   id={`header-switch-${p.id}`}
                   onClick={() => onSelectProduct(p.id)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-[14px] text-xs font-medium transition-all duration-200 cursor-pointer flex-shrink-0 ${
+                  className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-[16px] text-xs font-semibold transition-all duration-200 cursor-pointer flex-shrink-0 physic-spring-tap ${
                     isSelected
-                      ? `${p.activeClass} border`
-                      : "text-white/60 hover:text-white hover:bg-white/[0.06] border border-transparent"
+                      ? `${p.activeClass} border ring-1 ring-white/30`
+                      : "text-white/60 hover:text-white hover:bg-white/[0.08] border border-transparent"
                   }`}
                 >
                   <span>{p.icon}</span>
                   <span className="font-mono font-bold">{p.label}</span>
-                  <span className="text-[10px] opacity-70 hidden xl:inline font-normal">
+                  <span className="text-[10px] opacity-75 hidden xl:inline font-normal">
                     {p.subLabel}
                   </span>
                 </button>
@@ -256,7 +256,7 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             type="button"
             onClick={() => scrollNav("right")}
-            className="hidden sm:flex items-center justify-center p-1.5 rounded-[12px] hover:bg-white/[0.08] text-white/40 hover:text-white transition-colors cursor-pointer flex-shrink-0"
+            className="hidden sm:flex items-center justify-center p-1.5 rounded-[14px] hover:bg-white/[0.1] text-white/40 hover:text-white transition-colors cursor-pointer flex-shrink-0 physic-spring-tap"
             title="向右滚动"
           >
             <ChevronRight className="w-4 h-4" />
@@ -267,17 +267,17 @@ export const Header: React.FC<HeaderProps> = ({
             <MagneticButton
               id="btn-open-cheatsheet"
               onClick={onOpenCheatsheet}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium text-white/80 hover:text-white bg-white/[0.05] hover:bg-white/[0.09] rounded-[14px] border border-white/[0.08] shadow-sm transition-colors"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-white/80 hover:text-white bg-white/[0.06] hover:bg-white/[0.12] rounded-[16px] border border-white/[0.1] shadow-sm transition-colors physic-spring-tap"
               title="查看产品卖点及爆款钩子蓝图"
             >
-              <FileText className="w-3.5 h-3.5 text-white/60" />
+              <FileText className="w-3.5 h-3.5 text-white/70" />
               <span className="hidden lg:inline">卖点蓝图</span>
             </MagneticButton>
 
             <MagneticButton
               id="btn-preview-demo"
               onClick={onOpenPreviewDemo}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium text-white bg-white/[0.05] hover:bg-white/[0.09] rounded-[14px] border border-white/[0.08] shadow-sm transition-colors"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-white bg-white/[0.06] hover:bg-white/[0.12] rounded-[16px] border border-white/[0.1] shadow-sm transition-colors physic-spring-tap"
               title="模拟在手机TikTok中的发布效果"
             >
               <Smartphone className="w-3.5 h-3.5 text-rose-400" />
@@ -287,12 +287,12 @@ export const Header: React.FC<HeaderProps> = ({
             <MagneticButton
               id="btn-open-favorites"
               onClick={onOpenFavorites}
-              className="relative inline-flex items-center gap-1.5 px-4 py-1.5 text-xs font-bold bg-white text-black hover:bg-zinc-100 rounded-[14px] shadow-md shadow-white/10 transition-all"
+              className="relative inline-flex items-center gap-1.5 px-4 py-1.5 text-xs font-black bg-white text-black hover:bg-zinc-100 rounded-[16px] shadow-lg shadow-white/10 transition-all physic-spring-tap"
             >
               <Bookmark className="w-3.5 h-3.5 fill-black" />
               <span>收藏夹</span>
               {favoritesCount > 0 && (
-                <span className="ml-0.5 px-1.5 py-0.2 text-[10px] font-bold bg-[#ff6900] text-white rounded-full">
+                <span className="ml-0.5 px-1.5 py-0.2 text-[10px] font-extrabold bg-[#ff6900] text-white rounded-full shadow-xs">
                   {favoritesCount}
                 </span>
               )}

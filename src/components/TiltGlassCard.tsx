@@ -16,7 +16,7 @@ export type CardThemeColor =
 interface TiltGlassCardProps {
   children: React.ReactNode;
   className?: string;
-  maxTilt?: number; // max tilt degrees (default 4.5 for refined physical feel)
+  maxTilt?: number; // max tilt degrees (default 5.5 for rich 3D perspective)
   iridescentBorder?: boolean;
   spotlightRefraction?: boolean;
   themeColor?: CardThemeColor;
@@ -27,7 +27,7 @@ interface TiltGlassCardProps {
 export const TiltGlassCard: React.FC<TiltGlassCardProps> = ({
   children,
   className = "",
-  maxTilt = 4.5,
+  maxTilt = 5.5,
   iridescentBorder = false,
   spotlightRefraction = true,
   themeColor = "blue",
@@ -48,9 +48,9 @@ export const TiltGlassCard: React.FC<TiltGlassCardProps> = ({
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  // HyperOS Alive Spring Damping
-  const springX = useSpring(mouseX, { stiffness: 260, damping: 28 });
-  const springY = useSpring(mouseY, { stiffness: 260, damping: 28 });
+  // HyperOS Alive Spring Damping - Q-弹阻尼回弹
+  const springX = useSpring(mouseX, { stiffness: 320, damping: 24, mass: 0.8 });
+  const springY = useSpring(mouseY, { stiffness: 320, damping: 24, mass: 0.8 });
 
   const rotateX = useTransform(springY, [-0.5, 0.5], [maxTilt, -maxTilt]);
   const rotateY = useTransform(springX, [-0.5, 0.5], [-maxTilt, maxTilt]);
@@ -81,33 +81,30 @@ export const TiltGlassCard: React.FC<TiltGlassCardProps> = ({
     }
   };
 
-  // Pure optical light reflection without aggressive neon tint
+  // Sapphire Crystal dynamic multi-layer optical refraction shader simulation
   const getThemeHighlight = () => {
     switch (themeColor) {
       case "cyan":
-        return "radial-gradient(400px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(56, 189, 248, 0.08), transparent 70%)";
+        return "radial-gradient(460px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(56, 189, 248, 0.16), rgba(6, 182, 212, 0.05) 50%, transparent 80%)";
       case "amber":
       case "orange":
-        return "radial-gradient(400px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(255, 105, 0, 0.08), transparent 70%)";
+        return "radial-gradient(460px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(255, 105, 0, 0.16), rgba(245, 158, 11, 0.05) 50%, transparent 80%)";
       case "emerald":
-        return "radial-gradient(400px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(0, 210, 135, 0.08), transparent 70%)";
+        return "radial-gradient(460px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(0, 210, 135, 0.16), rgba(16, 185, 129, 0.05) 50%, transparent 80%)";
       case "purple":
-        return "radial-gradient(400px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(120, 72, 255, 0.08), transparent 70%)";
+        return "radial-gradient(460px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(120, 72, 255, 0.16), rgba(168, 85, 247, 0.05) 50%, transparent 80%)";
       case "rose":
       case "pink":
-        return "radial-gradient(400px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(251, 113, 133, 0.08), transparent 70%)";
+        return "radial-gradient(460px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(251, 113, 133, 0.16), rgba(244, 63, 94, 0.05) 50%, transparent 80%)";
       case "teal":
-        return "radial-gradient(400px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(45, 212, 191, 0.08), transparent 70%)";
+        return "radial-gradient(460px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(45, 212, 191, 0.16), rgba(20, 184, 166, 0.05) 50%, transparent 80%)";
       default:
-        return "radial-gradient(400px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(0, 119, 250, 0.08), transparent 70%)";
+        return "radial-gradient(460px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(0, 119, 250, 0.16), rgba(56, 189, 248, 0.05) 50%, transparent 80%)";
     }
   };
 
   return (
-    <div
-      style={{ perspective: isTouchDevice ? "none" : 1400 }}
-      className="relative"
-    >
+    <div className="relative">
       <motion.div
         ref={cardRef}
         id={id}
@@ -115,48 +112,30 @@ export const TiltGlassCard: React.FC<TiltGlassCardProps> = ({
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onClick={onClick}
-        style={
-          isTouchDevice
-            ? { willChange: "auto" }
-            : {
-                rotateX,
-                rotateY,
-                transformStyle: "preserve-3d",
-                willChange: "transform",
-              }
-        }
-        className={`relative rounded-[26px] hyper-glass hyper-rim-glare transition-[box-shadow,border-color,background-color] duration-300 ${
-          iridescentBorder ? "border-white/[0.14]" : "border-white/[0.08]"
+        whileHover={{ y: -3, transition: { duration: 0.2, ease: "easeOut" } }}
+        whileTap={{ scale: 0.985 }}
+        className={`relative rounded-[24px] hyper-glass chromatic-dispersion-edge hyper-rim-glare transition-[box-shadow,border-color,background-color] duration-200 ${
+          iridescentBorder ? "border-white/40 shadow-[0_0_24px_rgba(255,255,255,0.18)]" : "border-white/[0.14]"
         } ${className}`}
       >
-        {/* Optical Frosted Light Refraction Inside Glass */}
+        {/* Dynamic Ambient Refraction Accent on Hover */}
         {spotlightRefraction && !isTouchDevice && (
           <div
-            className="absolute inset-0 rounded-[26px] pointer-events-none transition-opacity duration-300 z-10"
+            className="absolute inset-0 rounded-[24px] pointer-events-none transition-opacity duration-200 z-0"
             style={
               {
                 background: getThemeHighlight(),
-                opacity: isHovered ? 1 : 0,
+                opacity: isHovered ? 0.9 : 0,
               } as React.CSSProperties
             }
           />
         )}
 
         {/* Specular Micro-Chamfer Glare on Top Rim */}
-        <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none rounded-t-[26px] z-10" />
+        <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-300/40 via-white/90 via-rose-300/40 to-transparent pointer-events-none rounded-t-[24px] z-10" />
 
-        {/* Content Container */}
-        <div
-          style={
-            isTouchDevice
-              ? undefined
-              : {
-                  transform: "translateZ(8px)",
-                  transformStyle: "preserve-3d",
-                }
-          }
-          className="relative z-10 w-full h-full"
-        >
+        {/* Content Container - 100% Pixel Aligned for Crystal Clear Text */}
+        <div className="relative z-10 w-full h-full">
           {children}
         </div>
       </motion.div>

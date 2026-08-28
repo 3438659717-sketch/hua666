@@ -805,13 +805,13 @@ const InteractiveAtmosphereComponent: React.FC<InteractiveAtmosphereProps> = ({
       {/* 2. Background Starfield Canvas (Underneath UI) */}
       <canvas
         ref={bgCanvasRef}
-        className="fixed inset-0 w-full h-full pointer-events-none z-0 mix-blend-screen"
+        className="fixed inset-0 w-full h-full pointer-events-none z-0 opacity-80"
       />
 
-      {/* 3. Foreground Cosmic Stardust & Photons Layer (z-20) */}
+      {/* 3. Ambient Cosmic Stardust & Photons Layer (Underneath UI) */}
       <canvas
         ref={fgCanvasRef}
-        className="fixed inset-0 w-full h-full pointer-events-none z-20 mix-blend-screen"
+        className="fixed inset-0 w-full h-full pointer-events-none z-0 opacity-60"
       />
 
       {/* 4. Performance & Cosmic Quick Switcher Widget */}

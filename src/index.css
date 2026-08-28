@@ -2,8 +2,8 @@
 
 @layer base {
   :root {
-    --font-sans: 'MiSans', -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
-    --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, Monaco, Consolas, monospace;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Helvetica Neue", Arial, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
     --hyper-orange: #ff6900;
     --hyper-blue: #0077fa;
     --hyper-emerald: #00d287;
@@ -13,33 +13,34 @@
 
   body {
     font-family: var(--font-sans);
-    background-color: #030407;
-    color: rgba(255, 255, 255, 0.92);
+    background-color: #05070d;
+    color: #ffffff;
     overflow-x: hidden;
     letter-spacing: -0.01em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
-  /* Refined HyperOS Continuous Scrollbar */
+  /* Refined High-Contrast Continuous Scrollbar */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #030407;
+    background: #05070d;
   }
   ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.22);
     border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.4);
   }
 }
 
 /* ==========================================================================
-   HyperOS Pure Squircle Glassmorphism (澎湃OS 生机纯净毛玻璃 & 超椭圆)
+   Crystal-Clear Glassmorphism & High-Contrast Optics (超清透高对比度光学体系)
    ========================================================================== */
 
 /* Super Ellipse / Squircle continuous curvature container */
@@ -59,67 +60,157 @@
   border-radius: 9999px;
 }
 
-/* HyperOS Pure Frosted Glass: High blur (>32px), subtle 3-5% fill, soft optical lighting */
+/* Crystal-Clear High-Legibility Glass */
 .hyper-glass,
 .acrylic-glass,
 .thick-glass,
-.ultra-acrylic-glass {
-  background: rgba(14, 17, 26, 0.62);
-  backdrop-filter: blur(36px) saturate(190%);
-  -webkit-backdrop-filter: blur(36px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+.ultra-acrylic-glass,
+.sapphire-glass {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(14, 18, 30, 0.88) 45%,
+    rgba(8, 11, 20, 0.94) 100%
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow: 
-    0 14px 40px -10px rgba(0, 0, 0, 0.65),
-    0 2px 10px rgba(0, 0, 0, 0.35),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.12),
-    inset 0 -1px 0 0 rgba(0, 0, 0, 0.4);
+    0 16px 40px -10px rgba(0, 0, 0, 0.8),
+    0 4px 12px rgba(0, 0, 0, 0.4),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.6);
 }
 
-.hyper-glass-subtle {
-  background: rgba(255, 255, 255, 0.035);
-  backdrop-filter: blur(28px) saturate(180%);
-  -webkit-backdrop-filter: blur(28px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 
-    0 8px 24px -4px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
-}
-
-.hyper-glass-elevated {
-  background: rgba(18, 22, 34, 0.76);
-  backdrop-filter: blur(40px) saturate(200%);
-  -webkit-backdrop-filter: blur(40px) saturate(200%);
+.hyper-glass-subtle,
+.sapphire-subtle {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(15, 20, 32, 0.75) 100%
+  );
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 
-    0 24px 52px -12px rgba(0, 0, 0, 0.75),
-    0 4px 16px rgba(0, 0, 0, 0.45),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.16),
-    inset 0 -1px 0 0 rgba(0, 0, 0, 0.5);
+    0 8px 24px -4px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.16);
 }
 
-/* HyperOS Bento Glass Tile */
-.bento-glass-tile {
-  background: rgba(16, 20, 30, 0.58);
-  backdrop-filter: blur(32px) saturate(180%);
-  -webkit-backdrop-filter: blur(32px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+.hyper-glass-elevated,
+.sapphire-elevated {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(18, 24, 40, 0.92) 40%,
+    rgba(10, 13, 24, 0.98) 100%
+  );
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 
-    0 10px 28px -6px rgba(0, 0, 0, 0.55),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.10);
+    0 24px 50px -10px rgba(0, 0, 0, 0.9),
+    0 6px 18px rgba(0, 0, 0, 0.6),
+    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 -1.5px 1px 0 rgba(0, 0, 0, 0.7);
+}
+
+/* Crisp Iridescent / Chromatic Dispersion Rim */
+.chromatic-dispersion-edge {
+  position: relative;
+}
+.chromatic-dispersion-edge::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    125deg,
+    rgba(255, 80, 120, 0.25) 0%,
+    transparent 35%,
+    rgba(0, 220, 255, 0.25) 70%,
+    rgba(255, 210, 80, 0.2) 100%
+  );
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 1px;
+  opacity: 0.8;
+  transition: opacity 0.25s ease;
+}
+.chromatic-dispersion-edge:hover::after {
+  opacity: 1;
+}
+
+/* Crisp & Clear High-Contrast Metric Numbers (No Blurry Transparent Text Fills) */
+.liquid-metal-gold {
+  color: #fde047;
+  font-weight: 800;
+}
+
+.liquid-metal-cyan {
+  color: #38bdf8;
+  font-weight: 800;
+}
+
+.liquid-metal-emerald {
+  color: #34d399;
+  font-weight: 800;
+}
+
+.liquid-metal-rose {
+  color: #fb7185;
+  font-weight: 800;
+}
+
+.liquid-metal-silver {
+  color: #f8fafc;
+  font-weight: 800;
+}
+
+.liquid-metal-orange {
+  color: #fb923c;
+  font-weight: 800;
+}
+
+.liquid-metal-purple {
+  color: #c084fc;
+  font-weight: 800;
+}
+
+/* High-Definition Bento Glass Tile */
+.bento-glass-tile {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.07) 0%,
+    rgba(14, 18, 30, 0.88) 100%
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 
+    0 10px 28px -6px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.18);
   border-radius: 24px;
-  transition: all 0.28s cubic-bezier(0.2, 0.9, 0.3, 1);
+  transition: all 0.25s cubic-bezier(0.2, 0.9, 0.3, 1);
 }
 
 .bento-glass-tile:hover {
-  background: rgba(22, 27, 42, 0.72);
-  border-color: rgba(255, 255, 255, 0.15);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(20, 26, 44, 0.94) 100%
+  );
+  border-color: rgba(255, 255, 255, 0.26);
   box-shadow: 
-    0 18px 42px -8px rgba(0, 0, 0, 0.72),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.20);
+    0 16px 36px -6px rgba(0, 0, 0, 0.85),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
 }
 
-/* Specular Micro-Chamfer Glare (Top rim optical light refraction) */
+/* Specular Micro-Chamfer Glare */
 .hyper-rim-glare,
 .glass-bevel-edge {
   position: relative;
@@ -130,12 +221,19 @@
   content: "";
   position: absolute;
   top: 0;
-  left: 10%;
-  right: 10%;
+  left: 8%;
+  right: 8%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45) 50%, transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 220, 255, 0.4) 25%,
+    rgba(255, 255, 255, 0.95) 50%,
+    rgba(255, 80, 120, 0.4) 75%,
+    transparent
+  );
   pointer-events: none;
-  z-index: 5;
+  z-index: 15;
 }
 
 .glass-reflection {
@@ -143,30 +241,52 @@
 }
 
 .border-iridescent {
-  border-color: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.18);
 }
 
 /* ==========================================================================
-   Alive Design Spring Transitions & Physical Interactions
+   Alive Design Spring Transitions & Physical Interactions (物理生机与弹性回弹)
    ========================================================================== */
 .hyper-spring {
-  transition: all 0.32s cubic-bezier(0.2, 0.9, 0.3, 1);
+  transition: all 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
 
 .hyper-spring-quick {
-  transition: all 0.2s cubic-bezier(0.2, 0.9, 0.3, 1);
+  transition: all 0.22s cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
 
 .hyper-interactive {
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s cubic-bezier(0.2, 0.9, 0.3, 1), background-color 0.2s ease;
+  transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.28s cubic-bezier(0.2, 0.9, 0.3, 1), background-color 0.2s ease;
 }
 
 .hyper-interactive:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px) scale(1.01);
 }
 
 .hyper-interactive:active {
-  transform: translateY(1px) scale(0.985);
+  transform: translateY(1px) scale(0.975);
+}
+
+/* Fluid Physics Tactile Damping (Q-弹物理阻尼回弹) */
+.physic-spring-tap {
+  transition: transform 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.25s ease, filter 0.25s ease;
+  will-change: transform;
+}
+.physic-spring-tap:hover {
+  transform: translateY(-2.5px) scale(1.015);
+}
+.physic-spring-tap:active {
+  transform: translateY(1.5px) scale(0.96);
+  filter: brightness(1.15);
+}
+
+/* Fluid Soft Defocusing (极度沉浸虚化次要文本，凸显核心硬核参数) */
+.subtle-defocus-text {
+  color: rgba(255, 255, 255, 0.48);
+  transition: color 0.25s ease;
+}
+.subtle-defocus-text:hover {
+  color: rgba(255, 255, 255, 0.85);
 }
 
 /* Dashboard Metric Number Style (Xiaomi HyperOS Dashboard) */
@@ -175,6 +295,33 @@
   font-feature-settings: "tnum" 1, "cv01" 1, "ss01" 1;
   letter-spacing: -0.04em;
   line-height: 1;
+}
+
+/* Volumetric Liquid Light Volume Glow */
+.liquid-light-volume {
+  position: relative;
+}
+.liquid-light-volume::before {
+  content: "";
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(circle at 50% 50%, rgba(0, 210, 255, 0.12), rgba(255, 80, 120, 0.08), transparent 70%);
+  filter: blur(28px);
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.75;
+  animation: liquidLightPulse 6s ease-in-out infinite;
+}
+
+@keyframes liquidLightPulse {
+  0%, 100% {
+    transform: scale(0.95);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.9;
+  }
 }
 
 /* Alive Design Vitality Glow */

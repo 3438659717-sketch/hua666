@@ -47,7 +47,7 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
     name: "FOSMET QS40 (Series III)",
     japaneseType: "次世代AIスマートウォッチ",
     shortDesc: "极具高级感洗练银色金属腕表・ChatGPT对腕语音交互・不到1万日元破天荒性价比",
-    fixedTags: "#FOSEMT#QS40#スマートウォッチ#健康管理者#ai",
+    fixedTags: "#FOSMET#QS40#スマートウォッチ#健康管理者#ai",
     badge: "次世代AI智能手表",
     accentColor: "#8B5CF6",
     tiktokFormula: "价格/打字痛点反转 + 9.8mm洗练银色硬核实机 + ChatGPT秒级解答/健康管理前置",
