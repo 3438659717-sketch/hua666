@@ -17,6 +17,7 @@ import { FavoritesDrawer } from "./components/FavoritesDrawer";
 import { ProductCheatsheetModal } from "./components/ProductCheatsheetModal";
 import { ToastContainer, ToastMessage } from "./components/Toast";
 import { PRODUCTS_CONFIG } from "./data/templates";
+import { getDefaultTagsForProduct } from "./utils/tagUtils";
 import { Sparkles, Layers, ShieldCheck, Zap } from "lucide-react";
 import { InteractiveAtmosphere } from "./components/InteractiveAtmosphere";
 import { TiltGlassCard, CardThemeColor } from "./components/TiltGlassCard";
@@ -189,6 +190,23 @@ export default function App() {
       }
       return next;
     });
+
+    // Real-time update of existing generated titles when tags change
+    if (newParams.customTags !== undefined) {
+      const newActiveTags = (newParams.customTags || "").trim();
+      setTitles((prevTitles) =>
+        prevTitles.map((t) => {
+          const hook = t.hook || t.title.replace(/#.*$/, "").trim();
+          const updatedFullTitle = newActiveTags ? `${hook} ${newActiveTags}` : hook;
+          return {
+            ...t,
+            tags: newActiveTags,
+            title: updatedFullTitle,
+            charCount: updatedFullTitle.length,
+          };
+        })
+      );
+    }
   }, [handleGenerate]);
 
   const handleSelectProduct = useCallback((productId: ProductId) => {
@@ -256,8 +274,9 @@ export default function App() {
     if (titles.length > 0) {
       setPreviewItem(titles[0]);
     } else {
-      const activeTags =
-        (params.customTags && params.customTags.trim()) || currentProduct.fixedTags;
+      const defaultProductTags = getDefaultTagsForProduct(currentProductId, params.language);
+      const currentActiveTags =
+        params.customTags !== undefined ? params.customTags : defaultProductTags;
       let hookText = "1時間の会議終了と同時に議事録完成！FOSMET REC10が神すぎる";
       if (currentProductId === "fos10") {
         hookText = "【14.9g極軽】薄さ10.66mmで手首が喜ぶ！FOSMET FOS10の100+文字盤DIYと女性健康管理が神すぎる";
@@ -268,7 +287,7 @@ export default function App() {
       } else if (currentProductId === "e09") {
         hookText = "【SONY 800万画素】目線そのままPOV動画撮影！FOSMET E09の40g極軽量ブルーライトカットメガネが神";
       } else if (currentProductId === "e05") {
-        hookText = "【4段階調光】タップで濃度が瞬時変化！FOSMET E05のAIリアルタイム同時通訳スマートメガネが神すぎる";
+        hookText = "【4段階調光】タップで濃度が瞬时変化！FOSMET E05のAIリアルタイム同時通訳スマートメガネが神すぎる";
       } else if (currentProductId === "e12") {
         hookText = "【未来体験】カメラ内蔵で日常をハンズフリー撮影！FOSMET E12の音声AIと16mm高音質スピーカーが神すぎる";
       } else if (currentProductId === "kt80") {
@@ -279,13 +298,13 @@ export default function App() {
         hookText = "【質問】手首にChatGPTついてたら何聞く？FOSMET QS40の音声AIが秒速回答で超便利";
       }
 
-      const fullTitle = `${hookText} ${activeTags}`;
+      const fullTitle = currentActiveTags ? `${hookText} ${currentActiveTags}` : hookText;
       setPreviewItem({
         id: "demo",
         productId: currentProductId,
         title: fullTitle,
         hook: hookText,
-        tags: activeTags,
+        tags: currentActiveTags,
         angle: "全维黄金配比",
         angleCategory: "efficiency",
         targetAudience: "全年龄受众",
@@ -296,11 +315,13 @@ export default function App() {
       });
     }
     setIsPreviewOpen(true);
-  }, [titles, params.customTags, params.language, currentProduct.fixedTags, currentProductId]);
+  }, [titles, params.customTags, params.language, currentProduct, currentProductId]);
 
   const favoritesSet = useMemo(() => new Set(favorites.map((f) => f.title)), [favorites]);
   const activeTags =
-    (params.customTags && params.customTags.trim()) || currentProduct.fixedTags;
+    params.customTags !== undefined
+      ? params.customTags
+      : getDefaultTagsForProduct(currentProductId, params.language);
 
   return (
     <div className="min-h-screen bg-transparent text-white/90 flex flex-col font-sans selection:bg-cyan-500/30 selection:text-white antialiased relative overflow-x-hidden">
@@ -378,7 +399,7 @@ export default function App() {
               挂载营销标签
             </span>
             <div className={`text-xs sm:text-sm font-mono ${getProductColor()} truncate block`}>
-              {activeTags}
+              {activeTags || "(未挂载标签)"}
             </div>
           </TiltGlassCard>
         </div>
