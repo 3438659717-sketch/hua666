@@ -101,8 +101,21 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
   const currentActivityRef = useRef<AutonomousActivity>("none");
   currentActivityRef.current = currentActivity;
 
+  // Frame tick index for sub-frame activity animations (0, 1, 2, 3)
+  const [activityStep, setActivityStep] = useState<number>(0);
+
+  // Natural Blinking Cycle for organic lifelike feel
+  const [isBlinking, setIsBlinking] = useState<boolean>(false);
+
+  // Natural Cursor Proximity Awareness
+  const [isNearCursor, setIsNearCursor] = useState<boolean>(false);
+
   // Destination Target for Natural Smooth Navigation
   const targetWaypointRef = useRef<{ x: number; y: number } | null>(null);
+
+  // Wander State: Moving vs Pausing to look around naturally
+  const wanderPauseTimerRef = useRef<number>(0);
+  const isWanderPausedRef = useRef<boolean>(false);
 
   // Interactive Autonomous Star Catching Easter Egg
   const [luckyStar, setLuckyStar] = useState<{ id: string; x: number; y: number } | null>(null);
@@ -216,13 +229,40 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
     }
   }, []);
 
-  // Track global mouse position for follow mode and petting
+  // Track global mouse position for follow mode, petting, and living proximity awareness
   useEffect(() => {
     const handleGlobalMouseMove = (e: MouseEvent) => {
       mouseCoordRef.current = { x: e.clientX, y: e.clientY };
+      const curX = posRef.current.x + 40;
+      const curY = posRef.current.y + 40;
+      const dist = Math.hypot(e.clientX - curX, e.clientY - curY);
+      setIsNearCursor(dist < 115);
     };
     window.addEventListener("mousemove", handleGlobalMouseMove, { passive: true });
     return () => window.removeEventListener("mousemove", handleGlobalMouseMove);
+  }, []);
+
+  // Natural spontaneous blinking cycle (every 3.2 ~ 6.5 seconds for 140ms)
+  useEffect(() => {
+    let blinkTimer: NodeJS.Timeout;
+    let blinkEndTimer: NodeJS.Timeout;
+
+    const scheduleNextBlink = () => {
+      const delay = 3000 + Math.random() * 3800;
+      blinkTimer = setTimeout(() => {
+        setIsBlinking(true);
+        blinkEndTimer = setTimeout(() => {
+          setIsBlinking(false);
+          scheduleNextBlink();
+        }, 140);
+      }, delay);
+    };
+
+    scheduleNextBlink();
+    return () => {
+      clearTimeout(blinkTimer);
+      clearTimeout(blinkEndTimer);
+    };
   }, []);
 
   // Window bounds check and initial setup
@@ -242,7 +282,7 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
     return () => window.removeEventListener("resize", handleResize);
   }, [updateDomPosition]);
 
-  // Render current frame to 16x16 canvas scaled up crisp (80x80) with pixel accessories
+  // Render current frame to 16x16 canvas scaled up crisp (80x80) with pixel accessories & behavioral action props
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -255,7 +295,14 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
     const frameMatrix = petConfig.frames[currentFrame] || petConfig.frames.idle1;
     const scale = 5; // 16x16 -> 80x80 crisp integer scaling
 
-    // 1. Draw Pet Sprite
+    const drawPixel = (c: number, r: number, color: string) => {
+      if (r >= 0 && r < 16 && c >= 0 && c < 16 && color && color !== "transparent") {
+        ctx.fillStyle = color;
+        ctx.fillRect(c * scale, r * scale, scale, scale);
+      }
+    };
+
+    // 1. Draw Pet Base Sprite
     for (let r = 0; r < 16; r++) {
       const row = frameMatrix[r] || "";
       for (let c = 0; c < 16; c++) {
@@ -268,17 +315,196 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
       }
     }
 
+    // 1.5 Natural Spontaneous Blink Eyelid Overlay
+    if (isBlinking && currentFrame !== "sleep" && currentFrame !== "jump" && currentActivity === "none") {
+      const darkColor = petConfig.palette["K"] || "#0f172a";
+      const bodyTone = petConfig.palette["W"] || petConfig.palette["S"] || petConfig.palette["C"] || petConfig.color;
+      // Close left eye
+      drawPixel(4, 6, bodyTone);
+      drawPixel(5, 6, bodyTone);
+      drawPixel(6, 6, bodyTone);
+      drawPixel(4, 7, darkColor);
+      drawPixel(5, 7, darkColor);
+      drawPixel(6, 7, darkColor);
+
+      // Close right eye
+      drawPixel(9, 6, bodyTone);
+      drawPixel(10, 6, bodyTone);
+      drawPixel(11, 6, bodyTone);
+      drawPixel(9, 7, darkColor);
+      drawPixel(10, 7, darkColor);
+      drawPixel(11, 7, darkColor);
+    }
+
     // 2. Draw Accessory Overlay (if applicable and not sleeping)
     if (currentAccessory !== "none" && currentFrame !== "sleep") {
       const accData = ACCESSORY_SPRITES[currentAccessory];
       if (accData && accData.rows) {
         accData.rows.forEach(({ r, c, color }) => {
-          ctx.fillStyle = color;
-          ctx.fillRect(c * scale, r * scale, scale, scale);
+          drawPixel(c, r, color);
         });
       }
     }
-  }, [selectedPet, currentFrame, petConfig, currentAccessory]);
+
+    // 3. Draw Dynamic Behavior Action Pixel Props & Animations
+    if (currentActivity === "type_keyboard") {
+      // Laptop Screen: Rows 8 to 11, Cols 0 to 5
+      // Bezel
+      drawPixel(0, 8, "#334155"); drawPixel(1, 8, "#334155"); drawPixel(2, 8, "#334155"); drawPixel(3, 8, "#334155"); drawPixel(4, 8, "#334155"); drawPixel(5, 8, "#334155");
+      // Screen glass with glowing code & flickering cursor
+      drawPixel(0, 9, "#334155"); drawPixel(1, 9, "#0f172a"); drawPixel(2, 9, "#38bdf8"); drawPixel(3, 9, "#0f172a"); drawPixel(4, 9, "#22d3ee"); drawPixel(5, 9, "#334155");
+      drawPixel(0, 10, "#334155"); drawPixel(1, 10, "#0f172a"); drawPixel(2, 10, "#0f172a");
+      drawPixel(3, 10, activityStep % 2 === 0 ? "#facc15" : "#0f172a");
+      drawPixel(4, 10, "#38bdf8"); drawPixel(5, 10, "#334155");
+      // Keyboard base & hinge
+      drawPixel(0, 11, "#64748b"); drawPixel(1, 11, "#94a3b8"); drawPixel(2, 11, "#94a3b8"); drawPixel(3, 11, "#94a3b8"); drawPixel(4, 11, "#94a3b8"); drawPixel(5, 11, "#64748b");
+      drawPixel(0, 12, "#1e293b"); drawPixel(1, 12, "#475569"); drawPixel(2, 12, "#475569"); drawPixel(3, 12, "#475569"); drawPixel(4, 12, "#475569"); drawPixel(5, 12, "#475569"); drawPixel(6, 12, "#1e293b");
+      drawPixel(0, 13, "#0f172a"); drawPixel(1, 13, "#334155"); drawPixel(2, 13, "#334155"); drawPixel(3, 13, "#0284c7"); drawPixel(4, 13, "#334155"); drawPixel(5, 13, "#334155"); drawPixel(6, 13, "#0f172a");
+
+      // Animated Paws Alternate Typing
+      if (activityStep % 2 === 0) {
+        drawPixel(2, 12, "#ffffff"); drawPixel(3, 12, "#ffffff");
+        drawPixel(5, 10, "#ffffff"); drawPixel(6, 10, "#ffffff");
+        drawPixel(2, 11, "#38bdf8");
+      } else {
+        drawPixel(2, 10, "#ffffff"); drawPixel(3, 10, "#ffffff");
+        drawPixel(5, 12, "#ffffff"); drawPixel(6, 12, "#ffffff");
+        drawPixel(5, 11, "#38bdf8");
+      }
+
+      // Flying code sparks from screen
+      if (activityStep === 0 || activityStep === 2) {
+        drawPixel(1, 6, "#38bdf8"); drawPixel(2, 5, "#22d3ee");
+      } else {
+        drawPixel(4, 6, "#facc15"); drawPixel(5, 5, "#38bdf8");
+      }
+    } else if (currentActivity === "coffee_time") {
+      const isSipping = activityStep % 2 === 1;
+      if (!isSipping) {
+        // Holding Coffee Mug below mouth
+        drawPixel(2, 10, "#0284c7"); drawPixel(3, 10, "#fde047"); drawPixel(4, 10, "#78350f"); drawPixel(5, 10, "#0284c7");
+        drawPixel(2, 11, "#0284c7"); drawPixel(3, 11, "#0ea5e9"); drawPixel(4, 11, "#0ea5e9"); drawPixel(5, 11, "#0284c7");
+        drawPixel(2, 12, "#0284c7"); drawPixel(3, 12, "#0ea5e9"); drawPixel(4, 12, "#0ea5e9"); drawPixel(5, 12, "#0284c7");
+        drawPixel(3, 13, "#0284c7"); drawPixel(4, 13, "#0284c7");
+        drawPixel(1, 11, "#0284c7"); drawPixel(1, 12, "#0284c7");
+        // Paws
+        drawPixel(2, 11, "#ffffff"); drawPixel(5, 11, "#ffffff");
+        // Steam rising
+        if (activityStep === 0) {
+          drawPixel(3, 8, "#e2e8f0"); drawPixel(4, 7, "#f8fafc"); drawPixel(3, 6, "#cbd5e1");
+        } else {
+          drawPixel(4, 8, "#e2e8f0"); drawPixel(3, 7, "#f8fafc"); drawPixel(4, 6, "#cbd5e1");
+        }
+      } else {
+        // Sipping: Mug tilted to mouth
+        drawPixel(3, 8, "#0284c7"); drawPixel(4, 8, "#78350f"); drawPixel(5, 8, "#fde047"); drawPixel(6, 8, "#0284c7");
+        drawPixel(3, 9, "#0284c7"); drawPixel(4, 9, "#0ea5e9"); drawPixel(5, 9, "#0ea5e9"); drawPixel(6, 9, "#0284c7");
+        drawPixel(4, 10, "#0284c7"); drawPixel(5, 10, "#0ea5e9"); drawPixel(6, 10, "#0284c7");
+        drawPixel(4, 11, "#0284c7"); drawPixel(5, 11, "#0284c7");
+        drawPixel(7, 9, "#0284c7"); drawPixel(7, 10, "#0284c7");
+        // Paws holding cup
+        drawPixel(3, 9, "#ffffff"); drawPixel(6, 9, "#ffffff");
+        // Delicious drop
+        drawPixel(2, 8, "#facc15");
+      }
+    } else if (currentActivity === "inspect_copy") {
+      // Magnifying Lens sweeps across cols 4 -> 6 -> 8 -> 6
+      const colCenters = [4, 6, 8, 6];
+      const cCenter = colCenters[activityStep];
+      const rCenter = 9;
+
+      // 3x3 Lens
+      drawPixel(cCenter - 1, rCenter - 1, "#64748b"); drawPixel(cCenter, rCenter - 1, "#94a3b8"); drawPixel(cCenter + 1, rCenter - 1, "#64748b");
+      drawPixel(cCenter - 1, rCenter, "#94a3b8"); drawPixel(cCenter, rCenter, "#e0f2fe"); drawPixel(cCenter + 1, rCenter, "#38bdf8");
+      drawPixel(cCenter - 1, rCenter + 1, "#64748b"); drawPixel(cCenter, rCenter + 1, "#94a3b8"); drawPixel(cCenter + 1, rCenter + 1, "#64748b");
+      // Handle
+      drawPixel(cCenter - 2, rCenter + 2, "#b45309"); drawPixel(cCenter - 3, rCenter + 3, "#78350f");
+      drawPixel(cCenter - 2, rCenter + 1, "#ffffff");
+
+      // Holographic Scanner Beam
+      if (activityStep === 1 || activityStep === 2) {
+        drawPixel(cCenter - 1, rCenter + 2, "#06b6d4"); drawPixel(cCenter, rCenter + 2, "#22d3ee"); drawPixel(cCenter + 1, rCenter + 2, "#06b6d4");
+        drawPixel(cCenter - 1, rCenter + 3, "#38bdf8"); drawPixel(cCenter, rCenter + 3, "#38bdf8"); drawPixel(cCenter + 1, rCenter + 3, "#38bdf8");
+      }
+      if (activityStep === 3) {
+        drawPixel(cCenter + 2, rCenter - 2, "#facc15"); drawPixel(cCenter + 3, rCenter - 3, "#fde047");
+      }
+    } else if (currentActivity === "daydream_spark") {
+      // Golden Lightbulb Inspiration directly above head
+      if (activityStep === 0) {
+        drawPixel(7, 1, "#64748b"); drawPixel(8, 1, "#64748b");
+        drawPixel(6, 2, "#64748b"); drawPixel(7, 2, "#fde047"); drawPixel(8, 2, "#64748b");
+        drawPixel(7, 3, "#64748b"); drawPixel(8, 3, "#64748b");
+        drawPixel(7, 4, "#475569"); drawPixel(8, 4, "#475569");
+      } else if (activityStep === 1 || activityStep === 2) {
+        drawPixel(7, 1, "#facc15"); drawPixel(8, 1, "#facc15");
+        drawPixel(6, 2, "#facc15"); drawPixel(7, 2, "#ffffff"); drawPixel(8, 2, "#fef08a"); drawPixel(9, 2, "#facc15");
+        drawPixel(6, 3, "#facc15"); drawPixel(7, 3, "#fef08a"); drawPixel(8, 3, "#fef08a"); drawPixel(9, 3, "#facc15");
+        drawPixel(7, 4, "#ca8a04"); drawPixel(8, 4, "#ca8a04");
+        drawPixel(7, 5, "#94a3b8"); drawPixel(8, 5, "#94a3b8");
+
+        if (activityStep === 2) {
+          // Radiant Energy Rays Burst
+          drawPixel(7, 0, "#fde047"); drawPixel(8, 0, "#fde047");
+          drawPixel(4, 1, "#facc15"); drawPixel(11, 1, "#facc15");
+          drawPixel(4, 3, "#facc15"); drawPixel(11, 3, "#facc15");
+          drawPixel(5, 5, "#fde047"); drawPixel(10, 5, "#fde047");
+        }
+      } else {
+        // Sparkles raining down
+        drawPixel(6, 2, "#fef08a"); drawPixel(9, 3, "#facc15");
+        drawPixel(4, 5, "#fde047"); drawPixel(11, 5, "#fde047");
+        drawPixel(5, 7, "#facc15"); drawPixel(10, 7, "#facc15");
+      }
+    } else if (currentActivity === "stretch_workout") {
+      if (activityStep === 0) {
+        drawPixel(2, 2, "#ffffff"); drawPixel(3, 2, "#ffffff"); drawPixel(2, 3, "#ffffff"); drawPixel(3, 3, "#ffffff");
+        drawPixel(12, 2, "#ffffff"); drawPixel(13, 2, "#ffffff"); drawPixel(12, 3, "#ffffff"); drawPixel(13, 3, "#ffffff");
+      } else if (activityStep === 1) {
+        drawPixel(0, 4, "#ffffff"); drawPixel(1, 4, "#ffffff"); drawPixel(1, 5, "#ffffff"); drawPixel(2, 5, "#ffffff");
+        drawPixel(9, 3, "#ffffff"); drawPixel(10, 3, "#ffffff");
+      } else if (activityStep === 2) {
+        drawPixel(5, 3, "#ffffff"); drawPixel(6, 3, "#ffffff");
+        drawPixel(14, 4, "#ffffff"); drawPixel(15, 4, "#ffffff"); drawPixel(13, 5, "#ffffff"); drawPixel(14, 5, "#ffffff");
+      } else {
+        drawPixel(1, 3, "#38bdf8"); drawPixel(0, 4, "#0284c7");
+        drawPixel(14, 3, "#38bdf8"); drawPixel(15, 4, "#0284c7");
+        drawPixel(7, 14, "#38bdf8"); drawPixel(8, 14, "#38bdf8");
+      }
+    } else if (currentActivity === "cheer_fan") {
+      if (activityStep === 0 || activityStep === 2) {
+        // High 'V' Glowsticks
+        drawPixel(1, 3, "#ec4899"); drawPixel(2, 4, "#ec4899"); drawPixel(3, 5, "#f472b6"); drawPixel(4, 6, "#ffffff");
+        drawPixel(14, 3, "#06b6d4"); drawPixel(13, 4, "#06b6d4"); drawPixel(12, 5, "#38bdf8"); drawPixel(11, 6, "#ffffff");
+        drawPixel(3, 1, "#facc15"); drawPixel(12, 1, "#a855f7"); drawPixel(0, 6, "#22c55e"); drawPixel(15, 6, "#f43f5e");
+      } else {
+        // Wave Downward Glowsticks
+        drawPixel(2, 8, "#ec4899"); drawPixel(3, 9, "#f472b6"); drawPixel(4, 10, "#ffffff");
+        drawPixel(13, 8, "#06b6d4"); drawPixel(12, 9, "#38bdf8"); drawPixel(11, 10, "#ffffff");
+        drawPixel(1, 2, "#f43f5e"); drawPixel(14, 2, "#facc15"); drawPixel(7, 0, "#06b6d4");
+      }
+    } else if (currentActivity === "groom_polish") {
+      if (activityStep === 0) {
+        drawPixel(3, 5, "#ffffff"); drawPixel(4, 5, "#ffffff"); drawPixel(4, 6, "#ffffff");
+      } else if (activityStep === 1) {
+        drawPixel(5, 6, "#ffffff"); drawPixel(6, 6, "#ffffff"); drawPixel(5, 7, "#ffffff");
+      } else if (activityStep === 2) {
+        drawPixel(11, 5, "#ffffff"); drawPixel(12, 5, "#ffffff"); drawPixel(11, 6, "#ffffff");
+      } else {
+        drawPixel(12, 3, "#38bdf8");
+        drawPixel(11, 4, "#38bdf8"); drawPixel(12, 4, "#ffffff"); drawPixel(13, 4, "#38bdf8");
+        drawPixel(12, 5, "#38bdf8");
+      }
+    } else if (currentActivity === "hunt_lucky_star") {
+      if (activityStep % 2 === 0) {
+        drawPixel(0, 11, "#94a3b8"); drawPixel(1, 11, "#cbd5e1");
+        drawPixel(0, 13, "#cbd5e1"); drawPixel(1, 13, "#f1f5f9");
+      } else {
+        drawPixel(0, 10, "#94a3b8"); drawPixel(1, 10, "#cbd5e1");
+        drawPixel(0, 12, "#cbd5e1"); drawPixel(1, 12, "#f1f5f9");
+      }
+    }
+  }, [selectedPet, currentFrame, petConfig, currentAccessory, currentActivity, activityStep, isBlinking]);
 
   // Catching Lucky Star function
   const handleCollectLuckyStar = useCallback(() => {
@@ -464,53 +690,78 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
               targetWaypointRef.current = null;
               velRef.current = { vx: 0, vy: 0 };
             } else {
-              const speed = 100;
+              const speed = 90;
               const step = Math.min(dist, speed * dt);
               pos.x += (dx / dist) * step;
               pos.y += (dy / dist) * step + Math.sin(floatTime * 2.5) * 0.25;
               if (dx < -4) setIsFacingLeft(true);
               else if (dx > 4) setIsFacingLeft(false);
             }
-          } else if (activity === "none" || activity === "walk_to_target") {
-            // Gentle organic roaming
-            pos.x += vel.vx * dt * 50;
-            pos.y += vel.vy * dt * 50 + Math.sin(floatTime * 2.8) * 0.35;
+          } else if (activity === "none") {
+            // Natural Living Wander Cycle: Wander a bit -> Pause to look around / breathe -> Wander again
+            wanderPauseTimerRef.current += dt;
+            if (isWanderPausedRef.current) {
+              // In natural calm pause (3.5 ~ 6 seconds)
+              if (wanderPauseTimerRef.current > 4.5) {
+                isWanderPausedRef.current = false;
+                wanderPauseTimerRef.current = 0;
+                // Resume gentle wander with slight new angle
+                const angle = Math.random() * Math.PI * 2;
+                velRef.current = {
+                  vx: Math.cos(angle) * (0.4 + Math.random() * 0.4),
+                  vy: Math.sin(angle) * (0.2 + Math.random() * 0.2),
+                };
+                setIsFacingLeft(velRef.current.vx < 0);
+              }
+            } else {
+              // Walking naturally
+              pos.x += vel.vx * dt * 45;
+              pos.y += vel.vy * dt * 45 + Math.sin(floatTime * 2.4) * 0.25;
 
-            // Boundary bounce
-            if (pos.x >= maxX) {
-              pos.x = maxX;
-              vel.vx = -Math.abs(vel.vx || 0.8);
-              setIsFacingLeft(true);
-            } else if (pos.x <= minX) {
-              pos.x = minX;
-              vel.vx = Math.abs(vel.vx || 0.8);
-              setIsFacingLeft(false);
-            }
+              // Periodic spontaneous pause
+              if (wanderPauseTimerRef.current > 5.0 && Math.random() < 0.3) {
+                isWanderPausedRef.current = true;
+                wanderPauseTimerRef.current = 0;
+              }
 
-            if (pos.y >= maxY) {
-              pos.y = maxY;
-              vel.vy = -Math.abs(vel.vy || 0.35);
-            } else if (pos.y <= minY) {
-              pos.y = minY;
-              vel.vy = Math.abs(vel.vy || 0.35);
+              // Boundary bounce
+              if (pos.x >= maxX) {
+                pos.x = maxX;
+                vel.vx = -Math.abs(vel.vx || 0.6);
+                setIsFacingLeft(true);
+              } else if (pos.x <= minX) {
+                pos.x = minX;
+                vel.vx = Math.abs(vel.vx || 0.6);
+                setIsFacingLeft(false);
+              }
+
+              if (pos.y >= maxY) {
+                pos.y = maxY;
+                vel.vy = -Math.abs(vel.vy || 0.3);
+              } else if (pos.y <= minY) {
+                pos.y = minY;
+                vel.vy = Math.abs(vel.vy || 0.3);
+              }
             }
           }
 
-          // Subtle footprint trail
-          footprintTimer += dt;
-          if (footprintTimer > 0.8 && (Math.abs(vel.vx) > 0.3 || Math.abs(vel.vy) > 0.3)) {
-            footprintTimer = 0;
-            if (Math.random() < 0.25) {
-              const footprintId = getUniquePetId("fp");
-              const spawnX = pos.x + 30;
-              const spawnY = pos.y + 68;
-              setFootprints((fp) => [
-                ...fp.slice(-5),
-                { id: footprintId, x: spawnX, y: spawnY, color: petConfig.color },
-              ]);
-              setTimeout(() => {
-                setFootprints((fp) => fp.filter((f) => f.id !== footprintId));
-              }, 1200);
+          // Subtle footprint trail when actively walking
+          if (!isWanderPausedRef.current) {
+            footprintTimer += dt;
+            if (footprintTimer > 1.2 && (Math.abs(vel.vx) > 0.25 || Math.abs(vel.vy) > 0.25)) {
+              footprintTimer = 0;
+              if (Math.random() < 0.2) {
+                const footprintId = getUniquePetId("fp");
+                const spawnX = pos.x + 30;
+                const spawnY = pos.y + 68;
+                setFootprints((fp) => [
+                  ...fp.slice(-4),
+                  { id: footprintId, x: spawnX, y: spawnY, color: petConfig.color },
+                ]);
+                setTimeout(() => {
+                  setFootprints((fp) => fp.filter((f) => f.id !== footprintId));
+                }, 1200);
+              }
             }
           }
         }
@@ -544,6 +795,10 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
 
       const mode = behaviorModeRef.current;
       const activity = currentActivityRef.current;
+
+      if (activity !== "none") {
+        setActivityStep((prev) => (prev + 1) % 4);
+      }
 
       if (mode === "sleep" || activity === "catnap") {
         setCurrentFrame("sleep");
@@ -584,7 +839,7 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
         return;
       }
 
-      if (mode === "stay" || isQuickMenuOpenRef.current) {
+      if (mode === "stay" || isQuickMenuOpenRef.current || isWanderPausedRef.current) {
         if (tick % 8 === 0) {
           setCurrentFrame("idle2");
         } else if (tick % 15 === 0) {
@@ -609,11 +864,12 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
     return () => clearInterval(animInterval);
   }, [currentFrame]);
 
-  // Autonomous Living Companion AI Decision Routine (Human-like Routine)
+  // Autonomous Living Companion AI Decision Routine (SILENT & RANDOM LOW-FREQUENCY)
   useEffect(() => {
     if (behaviorMode !== "wander") return;
+    let decisionTimer: NodeJS.Timeout;
 
-    const autonomousDecision = () => {
+    const runAutonomousDecision = () => {
       if (
         isDraggingRef.current ||
         activeToyRef.current ||
@@ -629,90 +885,85 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
       const minY = 80;
       const maxY = typeof window !== "undefined" ? Math.max(minY, window.innerHeight - 180) : 500;
 
-      // 1. Pick an autonomous action
-      if (roll < 0.2) {
+      // 1. Pick an autonomous action (SILENT - ZERO AUDIO DISTURBANCE)
+      if (roll < 0.18) {
         // [Action: Deep Work & Typing]
         setCurrentActivity("type_keyboard");
         velRef.current = { vx: 0, vy: 0 };
-        playPetSound("click");
-        const workQuotes = [
-          `⌨️ 哒哒哒~ 正在帮主人拆解【${currentProd.name}】的爆款前3秒完播率！`,
-          "💻 陪主人一起奋斗！今天我们的目标是冲上海外热门！",
-          "📊 正在计算带货转化率模型，灵感源源不断~",
-          "⌨️ 疯狂敲键盘中... 本搭档随时为主人输出爆款构思！",
-        ];
-        showBubble(workQuotes[Math.floor(Math.random() * workQuotes.length)], 4000);
-        setTimeout(() => {
-          setCurrentActivity("none");
-        }, 5500);
-      } else if (roll < 0.35) {
-        // [Action: Coffee / Bubble Tea Break]
-        setCurrentActivity("coffee_time");
-        velRef.current = { vx: 0, vy: 0 };
-        playPetSound("bubble");
-        const coffeeQuotes = [
-          "☕ 喝口生椰冷萃补满元气！主人也别忘了多喝水哦~",
-          "🧋 吨吨吨~ 补充卡路里与灵感糖分！",
-          "☕ 创作累了吗？喝杯咖啡，灵感爆棚！",
-        ];
-        showBubble(coffeeQuotes[Math.floor(Math.random() * coffeeQuotes.length)], 3800);
+        if (Math.random() < 0.25) {
+          const workQuotes = [
+            `⌨️ 正在拆解【${currentProd.name}】爆款前3秒完播率~`,
+            "💻 陪主人一起工作，灵感源源不断~",
+          ];
+          showBubble(workQuotes[Math.floor(Math.random() * workQuotes.length)], 3500);
+        }
         setTimeout(() => {
           setCurrentActivity("none");
         }, 5000);
-      } else if (roll < 0.48) {
-        // [Action: Curious Inspection of Screen / Copywriting]
-        setCurrentActivity("inspect_copy");
+      } else if (roll < 0.32) {
+        // [Action: Coffee / Bubble Tea Break]
+        setCurrentActivity("coffee_time");
         velRef.current = { vx: 0, vy: 0 };
-        playPetSound("quest");
-        const inspectQuotes = [
-          "🧐 正在深度扫描本页面的爆款钩子，痛点反转指数极高！",
-          `👀 正在研究【${currentProd.model}】的卖点矩阵，这个角度很抓人！`,
-          "🔍 发现高转化潜力标题！推荐一键复制到剪贴板体验~",
-        ];
-        showBubble(inspectQuotes[Math.floor(Math.random() * inspectQuotes.length)], 4000);
-        setTimeout(() => {
-          setCurrentActivity("none");
-        }, 4800);
-      } else if (roll < 0.6) {
-        // [Action: Daydreaming & Spark of Inspiration]
-        setCurrentActivity("daydream_spark");
-        velRef.current = { vx: 0, vy: 0 };
-        playPetSound("gacha");
-        const ideaQuotes = [
-          "💡 灵光一闪！如果视频开头用『千万别买，除非你...』悬念呢？",
-          "💭 漫步在灵感银河中... 捕捉到了 3 个超级金句！",
-          "💡 突然想到一个绝妙的海外带货分镜脚本！",
-        ];
-        showBubble(ideaQuotes[Math.floor(Math.random() * ideaQuotes.length)], 4000);
+        if (Math.random() < 0.25) {
+          showBubble("☕ 喝口生椰冷萃~ 主人也记得多喝水哦", 3200);
+        }
         setTimeout(() => {
           setCurrentActivity("none");
         }, 4500);
-      } else if (roll < 0.72) {
-        // [Action: Stretch & Exercise]
-        setCurrentActivity("stretch_workout");
+      } else if (roll < 0.44) {
+        // [Action: Curious Inspection of Screen / Copywriting]
+        setCurrentActivity("inspect_copy");
         velRef.current = { vx: 0, vy: 0 };
-        playPetSound("trick");
-        const stretchQuotes = [
-          "🧘 伸个懒腰~ 颈椎舒服多了！坐久了要站起来走走哦~",
-          "🤸‍♂️ 蹦跶两下活动筋骨！元气满满继续开工！",
-          "🧘‍♀️ 吸气~ 呼气~ 保持专注力满格！",
-        ];
-        showBubble(stretchQuotes[Math.floor(Math.random() * stretchQuotes.length)], 3800);
+        if (Math.random() < 0.25) {
+          showBubble("🧐 正在巡检本页面的高转化钩子~", 3500);
+        }
+        setTimeout(() => {
+          setCurrentActivity("none");
+        }, 4500);
+      } else if (roll < 0.56) {
+        // [Action: Daydreaming & Spark of Inspiration]
+        setCurrentActivity("daydream_spark");
+        velRef.current = { vx: 0, vy: 0 };
+        if (Math.random() < 0.25) {
+          showBubble("💡 灵光一闪！捕捉到一个出海创意分镜~", 3500);
+        }
         setTimeout(() => {
           setCurrentActivity("none");
         }, 4200);
-      } else if (roll < 0.82) {
-        // [Action: Spawn Lucky Star Catching Easter Egg]
+      } else if (roll < 0.68) {
+        // [Action: Stretch & Exercise]
+        setCurrentActivity("stretch_workout");
+        velRef.current = { vx: 0, vy: 0 };
+        if (Math.random() < 0.25) {
+          showBubble("🧘 伸个懒腰活动筋骨~ 保持专注力满格！", 3200);
+        }
+        setTimeout(() => {
+          setCurrentActivity("none");
+        }, 4000);
+      } else if (roll < 0.78) {
+        // [Action: Cozy Quick Catnap]
+        setCurrentActivity("catnap");
+        velRef.current = { vx: 0, vy: 0 };
+        setTimeout(() => {
+          setCurrentActivity("none");
+        }, 6000);
+      } else if (roll < 0.86) {
+        // [Action: Purposeful Navigation to Target Waypoint]
+        const randomX = Math.floor(Math.random() * (maxX - minX)) + minX;
+        const randomY = Math.floor(Math.random() * (maxY - minY)) + minY;
+        targetWaypointRef.current = { x: randomX, y: randomY };
+        setCurrentActivity("walk_to_target");
+        setIsFacingLeft(randomX < posRef.current.x);
+      } else if (roll < 0.93) {
+        // [Action: Rare Lucky Star Easter Egg - SILENT]
         const starX = Math.floor(Math.random() * (maxX - minX)) + minX;
         const starY = Math.floor(Math.random() * (maxY - minY)) + minY;
         const starId = getUniquePetId("star");
         setLuckyStar({ id: starId, x: starX, y: starY });
         luckyStarRef.current = { id: starId, x: starX, y: starY };
         setCurrentActivity("hunt_lucky_star");
-        playPetSound("quest");
-        showBubble("⭐ 哇！屏幕上出现了一颗出海幸运星！快抓住它！", 3500);
 
-        // Auto dismiss if not caught after 8 seconds
+        // Auto dismiss if not caught after 8.5 seconds
         setTimeout(() => {
           if (luckyStarRef.current?.id === starId) {
             setLuckyStar(null);
@@ -720,27 +971,30 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
             setCurrentActivity("none");
           }
         }, 8500);
-      } else if (roll < 0.92) {
-        // [Action: Purposeful Navigation to Target Waypoint]
-        const randomX = Math.floor(Math.random() * (maxX - minX)) + minX;
-        const randomY = Math.floor(Math.random() * (maxY - minY)) + minY;
-        targetWaypointRef.current = { x: randomX, y: randomY };
-        setCurrentActivity("walk_to_target");
-        setIsFacingLeft(randomX < posRef.current.x);
       } else {
         // [Action: Cheer for Creator]
         setCurrentActivity("cheer_fan");
         velRef.current = { vx: 0, vy: 0 };
-        playPetSound("levelUp");
-        showBubble("🎉 主人太强了！海外 TikTok 播放量势不可挡！", 3500);
+        if (Math.random() < 0.25) {
+          showBubble("🎉 主人加油！海外播放量势不可挡~", 3200);
+        }
         setTimeout(() => {
           setCurrentActivity("none");
         }, 3600);
       }
     };
 
-    const interval = setInterval(autonomousDecision, 7500);
-    return () => clearInterval(interval);
+    const scheduleNext = () => {
+      // Randomized gentle interval between 24s and 54s
+      const delay = 24000 + Math.random() * 30000;
+      decisionTimer = setTimeout(() => {
+        runAutonomousDecision();
+        scheduleNext();
+      }, delay);
+    };
+
+    scheduleNext();
+    return () => clearTimeout(decisionTimer);
   }, [behaviorMode, currentProd, showBubble]);
 
   // Handle external app actions (generating, copying, favoriting)
@@ -1148,30 +1402,126 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
             </motion.div>
           ))}
 
-          {/* B.5 Autonomous Living Activity Prop Indicator */}
-          {currentActivity !== "none" && currentActivity !== "walk_to_target" && (
-            <div className="absolute -top-3 -right-2 z-50 pointer-events-none animate-bounce">
-              <span className="p-1 px-1.5 rounded-full bg-slate-950/90 border border-white/30 text-xs shadow-lg backdrop-blur-sm">
-                {currentActivity === "type_keyboard"
-                  ? "💻"
-                  : currentActivity === "coffee_time"
-                  ? "☕"
-                  : currentActivity === "inspect_copy"
-                  ? "🔍"
-                  : currentActivity === "daydream_spark"
-                  ? "💡"
-                  : currentActivity === "stretch_workout"
-                  ? "🤸"
-                  : currentActivity === "hunt_lucky_star"
-                  ? "⭐"
-                  : currentActivity === "cheer_fan"
-                  ? "🎉"
-                  : "✨"}
-              </span>
+          {/* B.5 Synchronized Dynamic Pixel Activity FX (Full Live Scene FX instead of static stickers) */}
+          {currentActivity === "type_keyboard" && (
+            <div className="absolute inset-0 pointer-events-none overflow-visible z-30">
+              <motion.div
+                initial={{ opacity: 0.8, y: 0, scale: 0.8 }}
+                animate={{ opacity: 0, y: -24, scale: 1.1 }}
+                transition={{ duration: 0.9, repeat: Infinity, ease: "easeOut" }}
+                className="absolute -top-3 left-1 text-[10px] font-mono text-cyan-300 drop-shadow-[0_0_6px_rgba(56,189,248,0.8)]"
+              >
+                {activityStep % 2 === 0 ? "</>" : "{ }"}
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0.9, y: 0 }}
+                animate={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.75, delay: 0.2, repeat: Infinity, ease: "easeOut" }}
+                className="absolute -top-1 right-2 text-[9px] font-mono text-amber-300 drop-shadow-[0_0_5px_rgba(251,191,36,0.8)]"
+              >
+                01
+              </motion.div>
             </div>
           )}
 
-          {/* C. The 80x80 Crisp Pixel Pet Canvas */}
+          {currentActivity === "coffee_time" && (
+            <div className="absolute -top-4 left-3 pointer-events-none z-30">
+              <motion.div
+                initial={{ opacity: 0.7, y: 0, scale: 0.8 }}
+                animate={{ opacity: 0, y: -16, scale: 1.3 }}
+                transition={{ duration: 1.2, repeat: Infinity, ease: "easeOut" }}
+                className="text-[11px] font-mono text-slate-300/80 drop-shadow select-none"
+              >
+                ~ ~
+              </motion.div>
+            </div>
+          )}
+
+          {currentActivity === "inspect_copy" && (
+            <div className="absolute inset-0 pointer-events-none z-30 overflow-hidden rounded-2xl">
+              <motion.div
+                initial={{ y: 15, opacity: 0.7 }}
+                animate={{ y: 65, opacity: [0.3, 0.9, 0.3] }}
+                transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+                className="w-full h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_10px_rgba(6,182,212,0.9)]"
+              />
+            </div>
+          )}
+
+          {currentActivity === "daydream_spark" && (
+            <div className="absolute -top-6 left-1/2 -translate-x-1/2 pointer-events-none z-30">
+              <motion.div
+                initial={{ scale: 0.6, opacity: 0.4 }}
+                animate={{ scale: [0.8, 1.4, 0.9], opacity: [0.3, 0.9, 0.2] }}
+                transition={{ duration: 1.2, repeat: Infinity, ease: "easeOut" }}
+                className="w-10 h-10 rounded-full border border-amber-400/60 bg-amber-400/10 shadow-[0_0_20px_rgba(251,191,36,0.5)]"
+              />
+            </div>
+          )}
+
+          {currentActivity === "stretch_workout" && (
+            <div className="absolute inset-0 pointer-events-none z-30">
+              <motion.div
+                initial={{ opacity: 0.9, y: 0, x: 0 }}
+                animate={{ opacity: 0, y: -18, x: -10 }}
+                transition={{ duration: 0.6, repeat: Infinity, ease: "easeOut" }}
+                className="absolute top-2 left-0 w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(34,211,238,0.8)]"
+              />
+              <motion.div
+                initial={{ opacity: 0.9, y: 0, x: 0 }}
+                animate={{ opacity: 0, y: -18, x: 10 }}
+                transition={{ duration: 0.6, delay: 0.3, repeat: Infinity, ease: "easeOut" }}
+                className="absolute top-2 right-0 w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(34,211,238,0.8)]"
+              />
+            </div>
+          )}
+
+          {currentActivity === "cheer_fan" && (
+            <div className="absolute -inset-2 pointer-events-none z-30">
+              <motion.div
+                initial={{ opacity: 1, y: -4, x: -6, scale: 0.7 }}
+                animate={{ opacity: 0, y: 30, x: -14, scale: 1 }}
+                transition={{ duration: 1.1, repeat: Infinity, ease: "easeOut" }}
+                className="absolute top-0 left-2 w-1.5 h-1.5 rounded-sm bg-pink-400 shadow-sm"
+              />
+              <motion.div
+                initial={{ opacity: 1, y: -4, x: 6, scale: 0.7 }}
+                animate={{ opacity: 0, y: 30, x: 14, scale: 1 }}
+                transition={{ duration: 0.9, delay: 0.25, repeat: Infinity, ease: "easeOut" }}
+                className="absolute top-0 right-2 w-1.5 h-1.5 rounded-sm bg-cyan-400 shadow-sm"
+              />
+              <motion.div
+                initial={{ opacity: 1, y: -8, scale: 0.8 }}
+                animate={{ opacity: 0, y: 25, scale: 1.1 }}
+                transition={{ duration: 1.0, delay: 0.4, repeat: Infinity, ease: "easeOut" }}
+                className="absolute top-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-sm bg-amber-400 shadow-sm"
+              />
+            </div>
+          )}
+
+          {currentActivity === "hunt_lucky_star" && (
+            <div className="absolute -inset-1 pointer-events-none z-20">
+              <motion.div
+                initial={{ opacity: 0.8, x: isFacingLeft ? 15 : -15 }}
+                animate={{ opacity: 0, x: isFacingLeft ? 35 : -35 }}
+                transition={{ duration: 0.4, repeat: Infinity, ease: "easeOut" }}
+                className="absolute bottom-3 left-1/2 -translate-x-1/2 w-8 h-[2px] bg-cyan-400/80 rounded-full shadow-[0_0_8px_rgba(56,189,248,0.8)]"
+              />
+            </div>
+          )}
+
+          {/* C. Dynamic Realistic Ground Shadow (Grounded 3D presence) */}
+          <div
+            className={`absolute -bottom-1 left-1/2 -translate-x-1/2 bg-black/45 rounded-full blur-[2.5px] pointer-events-none transition-all duration-300 ${
+              currentFrame === "jump"
+                ? "w-8 h-1.5 opacity-20"
+                : currentFrame === "walk1" || currentFrame === "walk2"
+                ? "w-12 h-2.5 opacity-40"
+                : "w-14 h-3.5 opacity-55"
+            }`}
+          />
+
+          {/* C.1 The 80x80 Crisp Pixel Pet Canvas & Organic Living Transform */}
           <div
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
@@ -1185,9 +1535,23 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
               setIsHovered(false);
               isHoveredRef.current = false;
             }}
-            className={`relative w-20 h-20 cursor-grab active:cursor-grabbing transition-transform ${
+            className={`relative w-20 h-20 cursor-grab active:cursor-grabbing transition-transform duration-200 ${
               isFacingLeft ? "scale-x-[-1]" : "scale-x-100"
-            } ${isDragging ? "scale-110" : "hover:scale-105"}`}
+            } ${
+              isDragging
+                ? "scale-110"
+                : currentFrame === "jump"
+                ? "-translate-y-3 scale-105"
+                : currentFrame === "walk1"
+                ? "-translate-y-1 rotate-1"
+                : currentFrame === "walk2"
+                ? "-translate-y-0.5 -rotate-1"
+                : currentFrame === "sleep"
+                ? "scale-y-[0.96] scale-x-[1.02]"
+                : isNearCursor
+                ? "scale-105"
+                : "hover:scale-105"
+            }`}
             title="拖拽可移动桌宠，单击可抚摸互动"
           >
             <canvas
