@@ -45,7 +45,7 @@ export const FavoritesDrawer: React.FC<FavoritesDrawerProps> = ({
     <div className="fixed inset-0 z-50 overflow-hidden">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/80 backdrop-blur-xl transition-opacity"
+        className="fixed inset-0 bg-black/50 backdrop-blur-md transition-opacity"
         onClick={onClose}
       />
 

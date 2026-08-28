@@ -85,21 +85,21 @@ export const TiltGlassCard: React.FC<TiltGlassCardProps> = ({
   const getThemeHighlight = () => {
     switch (themeColor) {
       case "cyan":
-        return "radial-gradient(460px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(56, 189, 248, 0.16), rgba(6, 182, 212, 0.05) 50%, transparent 80%)";
+        return "radial-gradient(480px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(56, 189, 248, 0.22), rgba(6, 182, 212, 0.08) 45%, transparent 75%)";
       case "amber":
       case "orange":
-        return "radial-gradient(460px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(255, 105, 0, 0.16), rgba(245, 158, 11, 0.05) 50%, transparent 80%)";
+        return "radial-gradient(480px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(255, 105, 0, 0.22), rgba(245, 158, 11, 0.08) 45%, transparent 75%)";
       case "emerald":
-        return "radial-gradient(460px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(0, 210, 135, 0.16), rgba(16, 185, 129, 0.05) 50%, transparent 80%)";
+        return "radial-gradient(480px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(0, 210, 135, 0.22), rgba(16, 185, 129, 0.08) 45%, transparent 75%)";
       case "purple":
-        return "radial-gradient(460px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(120, 72, 255, 0.16), rgba(168, 85, 247, 0.05) 50%, transparent 80%)";
+        return "radial-gradient(480px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(120, 72, 255, 0.22), rgba(168, 85, 247, 0.08) 45%, transparent 75%)";
       case "rose":
       case "pink":
-        return "radial-gradient(460px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(251, 113, 133, 0.16), rgba(244, 63, 94, 0.05) 50%, transparent 80%)";
+        return "radial-gradient(480px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(251, 113, 133, 0.22), rgba(244, 63, 94, 0.08) 45%, transparent 75%)";
       case "teal":
-        return "radial-gradient(460px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(45, 212, 191, 0.16), rgba(20, 184, 166, 0.05) 50%, transparent 80%)";
+        return "radial-gradient(480px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(45, 212, 191, 0.22), rgba(20, 184, 166, 0.08) 45%, transparent 75%)";
       default:
-        return "radial-gradient(460px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(0, 119, 250, 0.16), rgba(56, 189, 248, 0.05) 50%, transparent 80%)";
+        return "radial-gradient(480px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(0, 119, 250, 0.22), rgba(56, 189, 248, 0.08) 45%, transparent 75%)";
     }
   };
 
@@ -112,27 +112,29 @@ export const TiltGlassCard: React.FC<TiltGlassCardProps> = ({
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onClick={onClick}
-        whileHover={{ y: -3, transition: { duration: 0.2, ease: "easeOut" } }}
-        whileTap={{ scale: 0.985 }}
-        className={`relative rounded-[24px] hyper-glass chromatic-dispersion-edge hyper-rim-glare transition-[box-shadow,border-color,background-color] duration-200 ${
-          iridescentBorder ? "border-white/40 shadow-[0_0_24px_rgba(255,255,255,0.18)]" : "border-white/[0.14]"
+        whileHover={{ y: -4, transition: { duration: 0.24, ease: [0.2, 0.9, 0.3, 1] } }}
+        whileTap={{ scale: 0.98, transition: { duration: 0.12 } }}
+        className={`relative rounded-[24px] hyper-glass chromatic-dispersion-edge hyper-rim-glare transition-[box-shadow,border-color,background-color,transform] duration-250 ${
+          iridescentBorder
+            ? "border-white/40 shadow-[0_12px_32px_rgba(0,0,0,0.8),0_0_24px_rgba(255,255,255,0.18)]"
+            : "border-white/[0.14] hover:shadow-[0_16px_36px_rgba(0,0,0,0.7)]"
         } ${className}`}
       >
-        {/* Dynamic Ambient Refraction Accent on Hover */}
+        {/* Dynamic Ambient Refraction Spotlight Accent on Hover */}
         {spotlightRefraction && !isTouchDevice && (
           <div
-            className="absolute inset-0 rounded-[24px] pointer-events-none transition-opacity duration-200 z-0"
+            className="absolute inset-0 rounded-[24px] pointer-events-none transition-opacity duration-300 z-0"
             style={
               {
                 background: getThemeHighlight(),
-                opacity: isHovered ? 0.9 : 0,
+                opacity: isHovered ? 1 : 0,
               } as React.CSSProperties
             }
           />
         )}
 
         {/* Specular Micro-Chamfer Glare on Top Rim */}
-        <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-300/40 via-white/90 via-rose-300/40 to-transparent pointer-events-none rounded-t-[24px] z-10" />
+        <div className="absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-300/50 via-white/95 via-rose-300/50 to-transparent pointer-events-none rounded-t-[24px] z-10 opacity-90" />
 
         {/* Content Container - 100% Pixel Aligned for Crystal Clear Text */}
         <div className="relative z-10 w-full h-full">

@@ -199,10 +199,10 @@ const TitleCardComponent: React.FC<TitleCardProps> = ({
       themeColor={getCardTheme()}
       maxTilt={0}
       iridescentBorder={isSelected}
-      className={`group p-4 sm:p-5 flex flex-col justify-between transition-all duration-200 ${
+      className={`group p-4 sm:p-5 flex flex-col justify-between transition-all duration-250 ${
         isSelected
-          ? "ring-2 ring-white/80 bg-[#161c2e] shadow-2xl"
-          : "hover:bg-[#121727]"
+          ? "ring-2 ring-white/70 bg-white/[0.14] shadow-[0_16px_40px_rgba(0,0,0,0.6)] backdrop-blur-lg"
+          : "hover:bg-white/[0.08]"
       }`}
     >
       {/* Top Row: Index, Category, Target Audience */}

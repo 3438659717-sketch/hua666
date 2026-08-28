@@ -85,7 +85,7 @@ export const TikTokPreviewModal: React.FC<TikTokPreviewModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-2xl animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-md animate-in fade-in duration-200">
       <div className="fixed inset-0" onClick={onClose} />
 
       <div className="relative z-10 w-full max-w-sm sm:max-w-[400px] hyper-glass rounded-[32px] shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">

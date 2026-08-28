@@ -756,22 +756,22 @@ const InteractiveAtmosphereComponent: React.FC<InteractiveAtmosphereProps> = ({
           className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-fixed transition-all duration-700"
           style={{
             backgroundImage: `url('/aurora-bg.svg')`,
-            filter: "contrast(110%) brightness(85%)",
+            filter: "contrast(115%) brightness(96%)",
           }}
         />
 
-        {/* Deep Space Obsidian Vignette */}
+        {/* Deep Space Obsidian Vignette with Subtle Center Illumination */}
         <div
           className="absolute inset-0 animate-deep-space-void"
           style={{
             background:
-              "radial-gradient(ellipse at 50% 30%, rgba(6, 8, 14, 0.45) 0%, rgba(3, 4, 8, 0.85) 65%, rgba(0, 1, 3, 0.98) 100%)",
+              "radial-gradient(ellipse at 50% 32%, rgba(10, 16, 32, 0.22) 0%, rgba(5, 8, 18, 0.58) 60%, rgba(2, 3, 10, 0.88) 100%)",
           }}
         />
 
         {/* Cosmic Interstellar Flow Ribbon 1 (GPU translation) */}
         <div
-          className="absolute -top-32 -left-32 w-[120vw] h-[70vh] opacity-30 animate-interstellar-stream-1 pointer-events-none"
+          className="absolute -top-32 -left-32 w-[120vw] h-[70vh] opacity-45 animate-interstellar-stream-1 pointer-events-none"
           style={{
             background: palette.stream1,
             borderRadius: "40% 60% 70% 30% / 40% 50% 60% 50%",
@@ -780,7 +780,7 @@ const InteractiveAtmosphereComponent: React.FC<InteractiveAtmosphereProps> = ({
 
         {/* Cosmic Interstellar Flow Ribbon 2 */}
         <div
-          className="absolute top-1/3 -right-28 w-[110vw] h-[75vh] opacity-20 animate-interstellar-stream-2 pointer-events-none"
+          className="absolute top-1/3 -right-28 w-[110vw] h-[75vh] opacity-35 animate-interstellar-stream-2 pointer-events-none"
           style={{
             background: palette.stream2,
             borderRadius: "60% 40% 30% 70% / 50% 60% 40% 60%",
@@ -789,29 +789,29 @@ const InteractiveAtmosphereComponent: React.FC<InteractiveAtmosphereProps> = ({
 
         {/* Top Aurora Celestial Curtain */}
         <div
-          className="absolute top-0 left-0 right-0 h-40 opacity-24 pointer-events-none animate-celestial-curtain"
+          className="absolute top-0 left-0 right-0 h-48 opacity-38 pointer-events-none animate-celestial-curtain"
           style={{
             background: `radial-gradient(ellipse 80% 50% at 50% 0%, ${palette.primarySpot}, transparent 70%)`,
           }}
         />
 
         {/* CSS Shimmering Starlight Nodes */}
-        <div className="absolute top-[18%] left-[22%] w-1 h-1 bg-white rounded-full animate-cosmic-dust-glitter opacity-60" />
-        <div className="absolute top-[28%] right-[18%] w-1.5 h-1.5 bg-sky-300 rounded-full animate-cosmic-dust-glitter opacity-70 [animation-delay:1.2s]" />
-        <div className="absolute top-[62%] left-[14%] w-1 h-1 bg-purple-300 rounded-full animate-cosmic-dust-glitter opacity-50 [animation-delay:2.4s]" />
-        <div className="absolute top-[75%] right-[28%] w-1.5 h-1.5 bg-amber-200 rounded-full animate-cosmic-dust-glitter opacity-60 [animation-delay:0.8s]" />
+        <div className="absolute top-[18%] left-[22%] w-1.5 h-1.5 bg-white rounded-full animate-cosmic-dust-glitter opacity-80 shadow-[0_0_8px_white]" />
+        <div className="absolute top-[28%] right-[18%] w-2 h-2 bg-sky-300 rounded-full animate-cosmic-dust-glitter opacity-85 [animation-delay:1.2s] shadow-[0_0_10px_#7dd3fc]" />
+        <div className="absolute top-[62%] left-[14%] w-1.5 h-1.5 bg-purple-300 rounded-full animate-cosmic-dust-glitter opacity-70 [animation-delay:2.4s] shadow-[0_0_8px_#c4b5fd]" />
+        <div className="absolute top-[75%] right-[28%] w-2 h-2 bg-amber-200 rounded-full animate-cosmic-dust-glitter opacity-80 [animation-delay:0.8s] shadow-[0_0_10px_#fde68a]" />
       </div>
 
-      {/* 2. Background Starfield Canvas (Underneath UI) */}
+      {/* 2. Background Starfield Canvas (Underneath UI - Clearly Visible Through Glass) */}
       <canvas
         ref={bgCanvasRef}
-        className="fixed inset-0 w-full h-full pointer-events-none z-0 opacity-80"
+        className="fixed inset-0 w-full h-full pointer-events-none z-0 opacity-95"
       />
 
-      {/* 3. Ambient Cosmic Stardust & Photons Layer (Underneath UI) */}
+      {/* 3. Ambient Cosmic Stardust & Photons Layer (Underneath UI - Clearly Visible Through Glass) */}
       <canvas
         ref={fgCanvasRef}
-        className="fixed inset-0 w-full h-full pointer-events-none z-0 opacity-60"
+        className="fixed inset-0 w-full h-full pointer-events-none z-0 opacity-85"
       />
 
       {/* 4. Performance & Cosmic Quick Switcher Widget */}

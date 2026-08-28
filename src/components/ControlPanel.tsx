@@ -574,21 +574,26 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           {telemetrySpecs.map((spec, sIdx) => (
             <div
               key={sIdx}
-              className="bento-glass-tile chromatic-dispersion-edge p-4 sm:p-5 flex flex-col justify-between relative group"
+              className="bento-glass-tile chromatic-dispersion-edge p-4 sm:p-5 flex flex-col justify-between relative group hover:border-white/30 transition-all duration-300"
             >
-              <div className="flex items-center justify-between mb-2">
+              {/* Subtle dynamic corner glow on hover */}
+              <div className="absolute top-0 right-0 w-24 h-24 bg-white/[0.03] group-hover:bg-white/[0.08] rounded-full blur-xl pointer-events-none transition-colors duration-300" />
+
+              <div className="flex items-center justify-between mb-2 relative z-10">
                 <span className="text-[11px] font-mono uppercase tracking-wider text-zinc-300 font-bold flex items-center gap-1.5">
-                  {spec.icon}
+                  <span className="p-1 rounded-[8px] bg-white/[0.08] text-white">
+                    {spec.icon}
+                  </span>
                   <span>{spec.label}</span>
                 </span>
-                <span className="text-[11px] font-mono font-bold text-zinc-400 group-hover:text-white transition-colors">
+                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/[0.06] border border-white/[0.1] text-zinc-300 group-hover:text-white group-hover:border-white/30 transition-all">
                   0{sIdx + 1}
                 </span>
               </div>
 
-              {/* Crisp High-Contrast Number */}
-              <div className="my-2 flex items-baseline gap-1.5">
-                <span className={`text-3xl sm:text-4xl font-black font-mono tracking-tight leading-none ${spec.color}`}>
+              {/* Crisp High-Contrast Number with Optical Precision */}
+              <div className="my-2.5 flex items-baseline gap-1.5 relative z-10">
+                <span className={`text-3xl sm:text-4xl font-black font-mono tracking-tight leading-none group-hover:scale-105 transition-transform duration-200 ${spec.color}`}>
                   {spec.val}
                 </span>
                 <span className="text-sm sm:text-base font-bold text-zinc-200 font-mono">
@@ -596,7 +601,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                 </span>
               </div>
 
-              <p className="text-xs text-zinc-300 font-normal leading-relaxed mt-1">
+              <p className="text-xs text-zinc-300 font-normal leading-relaxed mt-1 relative z-10">
                 {spec.desc}
               </p>
             </div>
@@ -815,7 +820,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           id="btn-generate-50"
           onClick={onGenerate}
           disabled={isLoading}
-          className="flex-shrink-0 inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-[20px] font-black text-sm text-white bg-gradient-to-r from-[#ff6900] via-[#ff7a1a] to-[#ff5500] hover:from-[#ff7a1a] hover:to-[#ff6900] shadow-[0_10px_30px_rgba(255,105,0,0.45)] hover:shadow-[0_14px_40px_rgba(255,105,0,0.65)] transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed border border-white/25 physic-spring-tap"
+          className="flex-shrink-0 inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-[22px] font-black text-sm text-white hyper-button-vitality shadow-[0_12px_36px_rgba(255,105,0,0.55)] hover:shadow-[0_16px_48px_rgba(255,105,0,0.75)] transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed border border-white/30 physic-spring-tap"
         >
           {isLoading ? (
             <>
@@ -824,8 +829,8 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             </>
           ) : (
             <>
-              <Sparkles className="w-4 h-4 text-white" />
-              <span>一键输出 50 组 {currentProduct.model} 爆款文案</span>
+              <Sparkles className="w-4 h-4 text-white animate-pulse" />
+              <span className="tracking-wide">一键输出 50 组 {currentProduct.model} 爆款文案</span>
             </>
           )}
         </MagneticButton>

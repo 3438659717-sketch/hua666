@@ -435,6 +435,14 @@ export default function App() {
         onCheer={() => {
           addToast("🐾 赛博萌宠向你传达了爆款好运能量！", "info");
         }}
+        onApplyInspiration={(category, keyword) => {
+          setParams((prev) => {
+            const next = { ...prev, category, customKeyword: keyword };
+            handleGenerate(next);
+            return next;
+          });
+          addToast(`✨ 已应用桌宠灵感「${keyword}」，正在生成全新爆款矩阵！`, "success");
+        }}
       />
 
       {/* Floating Toasts */}
