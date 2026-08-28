@@ -9,14 +9,6 @@ import {
   Music,
   Check,
   Copy,
-  Watch,
-  Mic,
-  Compass,
-  Flashlight,
-  Sparkles,
-  Headphones,
-  Glasses,
-  Camera,
   Feather,
 } from "lucide-react";
 import { MagneticButton } from "./MagneticButton";
@@ -92,28 +84,15 @@ export const TikTokPreviewModal: React.FC<TikTokPreviewModalProps> = ({
     return "FOSMET REC10 AI名片录音卡";
   };
 
-  const getThemeTextClass = () => {
-    if (isFos10) return "text-teal-300";
-    if (isG2) return "text-purple-300";
-    if (isG58) return "text-pink-300";
-    if (isE09) return "text-sky-300";
-    if (isE05) return "text-rose-300";
-    if (isE12) return "text-cyan-300";
-    if (isKt80) return "text-amber-300";
-    if (isT20) return "text-emerald-300";
-    if (isQs40) return "text-purple-300";
-    return "text-blue-300";
-  };
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-xl animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-2xl animate-in fade-in duration-200">
       <div className="fixed inset-0" onClick={onClose} />
 
-      <div className="relative z-10 w-full max-w-sm sm:max-w-[420px] acrylic-glass border-iridescent rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
+      <div className="relative z-10 w-full max-w-sm sm:max-w-[400px] hyper-glass rounded-[32px] shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
         {/* Top Control Bar */}
-        <div className="px-5 py-3.5 bg-[#090a10]/80 border-b border-white/[0.08] flex items-center justify-between">
+        <div className="px-5 py-3.5 bg-white/[0.02] border-b border-white/[0.06] flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse shadow-[0_0_8px_rgba(244,63,94,0.8)]" />
+            <span className="w-2 h-2 rounded-full bg-[#00d287] shadow-[0_0_8px_#00d287]" />
             <span className="text-xs font-bold text-white tracking-tight">
               TikTok 实机发布动态模拟器
             </span>
@@ -127,206 +106,94 @@ export const TikTokPreviewModal: React.FC<TikTokPreviewModalProps> = ({
         </div>
 
         {/* Smartphone Screen Simulator */}
-        <div className="relative flex-1 bg-gradient-to-b from-[#090a0e] via-[#101117] to-[#090a0e] flex flex-col justify-between p-4 min-h-[500px] select-none overflow-hidden">
+        <div className="relative flex-1 bg-black flex flex-col justify-between p-4 min-h-[480px] select-none overflow-hidden rounded-[24px] m-2">
           {/* Top Dynamic Island Notch Simulation */}
-          <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-28 h-5 rounded-full bg-black/90 border border-white/15 flex items-center justify-between px-3 z-30 shadow-md">
-            <span className="w-2 h-2 rounded-full bg-zinc-800" />
-            <span className="text-[9px] font-mono text-white/50">9:41</span>
-            <div className="w-2 h-2 rounded-full bg-blue-500/80 animate-pulse" />
+          <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-24 h-4 rounded-full bg-black border border-white/10 flex items-center justify-between px-3 z-30">
+            <span className="w-1.5 h-1.5 rounded-full bg-zinc-800" />
+            <span className="text-[8px] font-mono text-white/50">9:41</span>
+            <div className="w-1.5 h-1.5 rounded-full bg-[#00d287]" />
           </div>
 
           {/* Simulated Device Center Presentation Hardware Frame */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none opacity-45">
-            {isFos10 ? (
-              <div className="w-52 h-52 rounded-full bg-gradient-to-br from-[#0e1f1c] via-[#122824] to-[#081412] border border-teal-500/30 shadow-2xl p-4 flex flex-col justify-between items-center text-center">
-                <div className="text-[10px] font-mono flex items-center gap-1">
-                  <span className="font-bold text-white tracking-wider">FOSMET</span>
-                  <span className="text-teal-400 bg-teal-950/60 px-1.5 py-0.5 rounded border border-teal-500/30 font-bold">FOS10</span>
-                </div>
-                <div className="flex flex-col items-center justify-center">
-                  <div className="w-12 h-12 rounded-full bg-teal-500/10 border border-teal-400/30 flex items-center justify-center text-teal-300 mb-1">
-                    <Feather className="w-6 h-6" />
-                  </div>
-                  <span className="text-[11px] text-teal-300 font-mono font-bold">14.9g 極軽量 ✕ 10.66mm 極薄</span>
-                  <span className="text-[9px] text-white/50">100+文字盤DIY・女性の健康・睡眠＆呼吸</span>
-                </div>
-                <div className="text-[9px] text-white/40 font-mono flex items-center gap-1">
-                  <span>ポータブル</span>
-                  <span>•</span>
-                  <span>推し活写真DIY</span>
-                </div>
+          <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none opacity-30">
+            <div className="w-48 h-48 rounded-[36px] bg-white/[0.04] border border-white/[0.08] p-4 flex flex-col justify-between items-center text-center">
+              <span className="font-bold text-xs text-white tracking-widest font-mono">FOSMET HYPEROS</span>
+              <div className="w-12 h-12 rounded-[16px] bg-white/[0.08] flex items-center justify-center text-white">
+                <Feather className="w-6 h-6" />
               </div>
-            ) : isG2 ? (
-              <div className="w-52 h-52 rounded-full bg-gradient-to-br from-[#1e1428] via-[#241732] to-[#110a18] border border-purple-500/30 shadow-2xl p-4 flex flex-col justify-between items-center text-center">
-                <div className="text-[10px] font-mono flex items-center gap-1">
-                  <span className="font-bold text-white tracking-wider">FOSMET</span>
-                  <span className="text-purple-400 bg-purple-950/60 px-1.5 py-0.5 rounded border border-purple-500/30 font-bold">G2</span>
-                </div>
-                <div className="flex flex-col items-center justify-center">
-                  <div className="w-12 h-12 rounded-full bg-purple-500/10 border border-purple-400/30 flex items-center justify-center text-purple-300 mb-1">
-                    <Sparkles className="w-6 h-6" />
-                  </div>
-                  <span className="text-[11px] text-purple-300 font-mono font-bold">女性健康 ✕ 生理周期 ✕ FitCloudPro</span>
-                  <span className="text-[9px] text-white/50">120+運動・BT5.3通話・LINE通知・IP68</span>
-                </div>
-                <div className="text-[9px] text-white/40 font-mono flex items-center gap-1">
-                  <span>文字盤着せ替え</span>
-                  <span>•</span>
-                  <span>高見えコーデ</span>
-                </div>
-              </div>
-            ) : isE12 ? (
-              <div className="w-52 h-44 rounded-2xl bg-gradient-to-br from-[#101920] via-[#132028] to-[#0a1217] border border-cyan-500/30 shadow-2xl p-3.5 flex flex-col justify-between items-center text-center">
-                <div className="text-[10px] font-mono flex items-center gap-1">
-                  <span className="font-bold text-white tracking-wider">FOSMET</span>
-                  <span className="text-cyan-400 bg-cyan-950/60 px-1.5 py-0.5 rounded border border-cyan-500/30 font-bold">E12</span>
-                </div>
-                <div className="flex flex-col items-center justify-center">
-                  <div className="w-12 h-12 rounded-full bg-cyan-500/10 border border-cyan-400/30 flex items-center justify-center text-cyan-300 mb-1">
-                    <Headphones className="w-6 h-6" />
-                  </div>
-                  <span className="text-[11px] text-cyan-300 font-mono font-bold">カメラ搭載 ✕ 音声AIスマート機能</span>
-                  <span className="text-[9px] text-white/50">16mm大口径スピーカー・POV動画撮影・多言語翻訳</span>
-                </div>
-                <div className="text-[9px] text-white/40 font-mono flex items-center gap-1">
-                  <span>オープンイヤー</span>
-                  <span>•</span>
-                  <span>日常Vlog</span>
-                </div>
-              </div>
-            ) : isKt80 ? (
-              <div className="w-52 h-52 rounded-full bg-gradient-to-br from-[#201810] via-[#241c14] to-[#120e0a] border border-amber-500/30 shadow-2xl p-4 flex flex-col justify-between items-center text-center">
-                <div className="text-[10px] font-mono flex items-center gap-1">
-                  <span className="font-bold text-white tracking-wider">FOSMET</span>
-                  <span className="text-amber-400 bg-amber-950/60 px-1.5 py-0.5 rounded border border-amber-500/30 font-bold">KT80</span>
-                </div>
-                <div className="flex flex-col items-center justify-center">
-                  <div className="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-400/30 flex items-center justify-center text-amber-300 mb-1">
-                    <Flashlight className="w-6 h-6" />
-                  </div>
-                  <span className="text-[11px] text-amber-300 font-mono font-bold">800mAh 超長航続 ✕ LED側辺強光</span>
-                  <span className="text-[9px] text-white/50">5ATM 潜水級防水・1.46" 金属銀機身・SOS</span>
-                </div>
-                <div className="text-[9px] text-white/40 font-mono flex items-center gap-1">
-                  <span>Bluetooth通話</span>
-                  <span>•</span>
-                  <span>100+運動モード</span>
-                </div>
-              </div>
-            ) : (
-              <div className="w-52 h-36 rounded-2xl bg-gradient-to-br from-[#161724] via-[#12131c] to-[#0d0e14] border border-blue-500/30 shadow-2xl p-3.5 flex flex-col justify-between text-white/60">
-                <div className="flex justify-between items-center text-[10px] font-mono">
-                  <span className="font-bold text-white tracking-wider">FOSMET</span>
-                  <span className="text-blue-400 bg-blue-950/60 px-1.5 py-0.5 rounded border border-blue-500/30 font-bold">REC10</span>
-                </div>
-                <div className="flex items-center justify-center">
-                  <div className="px-3 py-1 bg-black/60 rounded-full border border-emerald-500/40 text-emerald-400 text-[10px] font-mono flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                    AI REC • ChatGPT×Gemini
-                  </div>
-                </div>
-                <div className="flex justify-between items-center text-[9px] text-white/40 font-mono">
-                  <span>MagSafe 磁吸 35h</span>
-                  <span>31 行业模板</span>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Top TikTok Tabs: 关注 / 推荐 */}
-          <div className="relative z-10 flex items-center justify-center gap-5 text-xs font-bold pt-1">
-            <span className="text-white/40 cursor-pointer">关注</span>
-            <span className="text-white border-b-2 border-white pb-0.5 cursor-pointer">推荐</span>
-          </div>
-
-          {/* Right Floating Engagement Buttons */}
-          <div className="relative z-10 self-end flex flex-col items-center gap-4 text-white pb-2 mr-1">
-            {/* Avatar */}
-            <div className="relative group cursor-pointer">
-              <div className={`w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-600 via-blue-600 to-indigo-500 flex items-center justify-center font-bold text-xs ring-2 ring-white shadow-lg`}>
-                FOS
-              </div>
-              <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-rose-500 text-white text-[10px] flex items-center justify-center font-bold shadow-sm">
-                +
-              </div>
+              <span className="text-[10px] text-white/60 font-mono">ALIVE HARDWARE MATRIX</span>
             </div>
+          </div>
 
-            {/* Like Button with Bursting Animation */}
+          {/* Right Action Icons (TikTok UI) */}
+          <div className="absolute right-3.5 bottom-20 flex flex-col items-center gap-4 z-20">
+            {/* Like */}
             <button
               type="button"
               onClick={handleLikeToggle}
-              className="flex flex-col items-center gap-0.5 cursor-pointer active:scale-125 transition-transform"
+              className="flex flex-col items-center gap-0.5 text-white/90 hover:scale-110 transition-transform cursor-pointer"
             >
-              <div className={`p-2 rounded-full ${liked ? "text-rose-500" : "text-white"}`}>
-                <Heart className={`w-7 h-7 ${liked ? "fill-rose-500 animate-bounce" : ""}`} />
+              <div className={`p-2.5 rounded-full bg-black/40 backdrop-blur-md border border-white/10 ${liked ? "text-rose-500 bg-rose-500/20" : ""}`}>
+                <Heart className={`w-5 h-5 ${liked ? "fill-rose-500" : ""}`} />
               </div>
-              <span className="text-[10px] font-semibold text-white/90 font-mono">
-                {(likeCount / 1000).toFixed(1)}K
-              </span>
+              <span className="text-[10px] font-mono font-bold">{likeCount.toLocaleString()}</span>
             </button>
 
             {/* Comment */}
-            <div className="flex flex-col items-center gap-0.5 cursor-pointer">
-              <div className="p-2 rounded-full text-white">
-                <MessageCircle className="w-7 h-7" />
+            <div className="flex flex-col items-center gap-0.5 text-white/90">
+              <div className="p-2.5 rounded-full bg-black/40 backdrop-blur-md border border-white/10">
+                <MessageCircle className="w-5 h-5" />
               </div>
-              <span className="text-[10px] font-semibold text-white/90 font-mono">618</span>
+              <span className="text-[10px] font-mono font-bold">1,824</span>
             </div>
 
-            {/* Bookmark */}
+            {/* Save */}
             <button
               type="button"
               onClick={handleSaveToggle}
-              className="flex flex-col items-center gap-0.5 cursor-pointer active:scale-125 transition-transform"
+              className="flex flex-col items-center gap-0.5 text-white/90 hover:scale-110 transition-transform cursor-pointer"
             >
-              <div className={`p-2 rounded-full ${saved ? "text-amber-400" : "text-white"}`}>
-                <Bookmark className={`w-7 h-7 ${saved ? "fill-amber-400" : ""}`} />
+              <div className={`p-2.5 rounded-full bg-black/40 backdrop-blur-md border border-white/10 ${saved ? "text-amber-400 bg-amber-500/20" : ""}`}>
+                <Bookmark className={`w-5 h-5 ${saved ? "fill-amber-400" : ""}`} />
               </div>
-              <span className="text-[10px] font-semibold text-white/90 font-mono">
-                {(saveCount / 1000).toFixed(1)}K
-              </span>
+              <span className="text-[10px] font-mono font-bold">{saveCount.toLocaleString()}</span>
             </button>
 
             {/* Share */}
-            <div className="flex flex-col items-center gap-0.5 cursor-pointer">
-              <div className="p-2 rounded-full text-white">
-                <Share2 className="w-7 h-7" />
+            <div className="flex flex-col items-center gap-0.5 text-white/90">
+              <div className="p-2.5 rounded-full bg-black/40 backdrop-blur-md border border-white/10">
+                <Share2 className="w-5 h-5" />
               </div>
-              <span className="text-[10px] font-semibold text-white/90">分享</span>
-            </div>
-
-            {/* Spinning Vinyl Music Disc */}
-            <div className="relative w-8 h-8 rounded-full bg-zinc-900 border-2 border-zinc-700 flex items-center justify-center animate-spin mt-1 shadow-lg shadow-black">
-              <div className="w-3 h-3 rounded-full bg-rose-500 ring-1 ring-white/50" />
+              <span className="text-[10px] font-mono font-bold">892</span>
             </div>
           </div>
 
           {/* Bottom Title, Creator info, Tags & Audio */}
-          <div className="relative z-10 text-white space-y-2 max-w-[85%] pb-2">
+          <div className="relative z-10 text-white space-y-2 max-w-[82%] pb-2 mt-auto">
             <div className="flex items-center gap-2">
               <span className="text-xs font-bold text-white">
                 {isKt80
-                  ? (item.language === "de" ? "@fosmet.germany.official" : "@fosmet.spain.official")
-                  : "@fosmet.japan.official"}
+                  ? (item.language === "de" ? "@fosmet.germany" : "@fosmet.spain")
+                  : "@fosmet.official"}
               </span>
-              <span className="text-[10px] bg-white/[0.1] px-1.5 py-0.5 rounded text-white/80 border border-white/[0.15]">
-                官方认证
+              <span className="text-[10px] bg-white/[0.1] px-1.5 py-0.5 rounded-[6px] text-white/80 border border-white/[0.15]">
+                认证
               </span>
             </div>
 
             {/* Title Hook & Tags */}
             <div className="space-y-1">
-              <p className="text-[13.5px] sm:text-[14.5px] font-medium leading-relaxed drop-shadow-md text-white">
+              <p className="text-[13px] sm:text-[14px] font-normal leading-relaxed text-white">
                 {item.hook}
               </p>
-              <p className={`text-[11px] font-bold ${getThemeTextClass()} leading-snug drop-shadow-md break-all font-mono`}>
+              <p className="text-[11px] font-medium text-white/70 leading-snug break-all font-mono">
                 {item.tags}
               </p>
             </div>
 
             {/* Music track */}
-            <div className="flex items-center gap-1.5 text-[10px] text-white/70 pt-1">
-              <Music className={`w-3 h-3 animate-spin ${getThemeTextClass()}`} />
+            <div className="flex items-center gap-1.5 text-[10px] text-white/60 pt-1">
+              <Music className="w-3 h-3 animate-spin text-white/60" />
               <span className="truncate">
                 原声音频 - {getProductModelTitle()}
               </span>
@@ -335,28 +202,28 @@ export const TikTokPreviewModal: React.FC<TikTokPreviewModalProps> = ({
         </div>
 
         {/* Modal Bottom Action Bar */}
-        <div className="p-4 bg-[#090a10]/80 border-t border-white/[0.08] flex items-center justify-between gap-3">
+        <div className="p-4 bg-white/[0.02] border-t border-white/[0.06] flex items-center justify-between gap-3">
           <div className="text-xs text-white/50">
-            总长度: <strong className="text-white">{item.charCount}</strong> 字符
+            总字数: <strong className="text-white font-mono">{item.charCount}</strong>
           </div>
 
           <MagneticButton
             id="btn-copy-preview-modal"
             onClick={handleCopy}
-            className={`inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl font-bold text-xs transition-all shadow-lg cursor-pointer ${
+            className={`inline-flex items-center gap-1.5 px-5 py-2 rounded-[14px] font-semibold text-xs transition-all cursor-pointer ${
               copied
-                ? "bg-emerald-600 text-white"
-                : "bg-white hover:bg-zinc-100 text-black shadow-white/10"
+                ? "bg-white text-black font-bold shadow-md"
+                : "bg-white/[0.1] hover:bg-white/[0.16] text-white border border-white/[0.12]"
             }`}
           >
             {copied ? (
               <>
-                <Check className="w-4 h-4 text-white" />
+                <Check className="w-4 h-4 text-black" />
                 <span>已复制全文</span>
               </>
             ) : (
               <>
-                <Copy className="w-4 h-4 text-black" />
+                <Copy className="w-4 h-4 text-white" />
                 <span>复制完整文案</span>
               </>
             )}

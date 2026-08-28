@@ -10,18 +10,18 @@ interface RippleEffect {
 
 interface MagneticButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  magneticStrength?: number; // 0.1 to 0.5
+  magneticStrength?: number; // 0.1 to 0.4
   className?: string;
-  variant?: "primary" | "secondary" | "glass" | "laser";
-  colorAccent?: "cyan" | "amber" | "emerald" | "purple" | "blue" | "rose";
+  variant?: "primary" | "secondary" | "glass" | "vitality" | "subtle";
+  colorAccent?: "orange" | "cyan" | "amber" | "emerald" | "purple" | "blue" | "rose";
 }
 
 export const MagneticButton: React.FC<MagneticButtonProps> = ({
   children,
-  magneticStrength = 0.28,
+  magneticStrength = 0.22,
   className = "",
   variant = "glass",
-  colorAccent = "blue",
+  colorAccent = "orange",
   onClick,
   disabled,
   ...props
@@ -41,9 +41,9 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  // Smooth physical spring damping
-  const springX = useSpring(mouseX, { stiffness: 300, damping: 20, mass: 0.08 });
-  const springY = useSpring(mouseY, { stiffness: 300, damping: 20, mass: 0.08 });
+  // HyperOS Spring Damping (natural physical inertia)
+  const springX = useSpring(mouseX, { stiffness: 320, damping: 22, mass: 0.08 });
+  const springY = useSpring(mouseY, { stiffness: 320, damping: 22, mass: 0.08 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (disabled || isTouchDevice || !buttonRef.current) return;
@@ -73,7 +73,6 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
     if (disabled || !buttonRef.current) return;
     setIsPressed(true);
 
-    // Create localized laser water ripple on click
     const rect = buttonRef.current.getBoundingClientRect();
     const rippleX = e.clientX - rect.left;
     const rippleY = e.clientY - rect.top;
@@ -89,7 +88,7 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
     setRipples((prev) => [...prev.slice(-2), newRipple]);
     setTimeout(() => {
       setRipples((prev) => prev.filter((r) => r.id !== newRipple.id));
-    }, 500);
+    }, 450);
   };
 
   const handleMouseUp = () => {
@@ -108,7 +107,7 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
             }
       }
       whileTap={{ scale: 0.96 }}
-      transition={{ type: "spring", stiffness: 450, damping: 15 }}
+      transition={{ type: "spring", stiffness: 450, damping: 20 }}
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -116,34 +115,33 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
       onMouseUp={handleMouseUp}
       onClick={onClick}
       disabled={disabled}
-      className={`relative inline-flex items-center justify-center transition-all duration-200 cursor-pointer select-none overflow-hidden active:scale-95 touch-manipulation ${className}`}
+      className={`relative inline-flex items-center justify-center transition-all duration-200 cursor-pointer select-none overflow-hidden touch-manipulation font-medium ${className}`}
       {...(props as any)}
     >
-      {/* Specular Light Refraction Sheen on Hover */}
+      {/* Subtle Optical Micro-Sheen on Hover */}
       {isHovered && !disabled && !isTouchDevice && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="absolute inset-0 rounded-inherit pointer-events-none overflow-hidden"
-          style={{ borderRadius: "inherit" }}
+          className="absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit]"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.18] to-transparent -translate-x-full animate-[textShimmerSweep_1.8s_infinite]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.12] to-transparent -translate-x-full animate-[textShimmerSweep_1.6s_infinite]" />
         </motion.div>
       )}
 
-      {/* Dynamic Laser Wave Ripple Feedback */}
+      {/* Ripple Feedback */}
       {ripples.map((ripple) => (
         <span
           key={ripple.id}
-          className="absolute pointer-events-none rounded-full bg-radial from-white/35 via-white/10 to-transparent animate-ping"
+          className="absolute pointer-events-none rounded-full bg-white/20 animate-ping"
           style={{
             left: ripple.x - ripple.size / 2,
             top: ripple.y - ripple.size / 2,
             width: ripple.size,
             height: ripple.size,
-            animationDuration: "500ms",
-            animationTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+            animationDuration: "450ms",
+            animationTimingFunction: "cubic-bezier(0.2, 0.9, 0.3, 1)",
           }}
         />
       ))}

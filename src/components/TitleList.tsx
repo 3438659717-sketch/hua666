@@ -11,7 +11,6 @@ import {
   FileText,
   FileCode,
   Check,
-  Filter,
   Sparkles,
   ChevronDown,
   LayoutGrid,
@@ -56,7 +55,7 @@ const TitleListComponent: React.FC<TitleListProps> = ({
   const [copiedSelected, setCopiedSelected] = useState(false);
   const [exportMenuOpen, setExportMenuOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(20); // 20 per page by default for optimal performance
+  const [pageSize, setPageSize] = useState<number>(20);
 
   // Extract unique angles for filter
   const uniqueAngles = useMemo(() => {
@@ -139,23 +138,23 @@ const TitleListComponent: React.FC<TitleListProps> = ({
 
   return (
     <div id="title-list-container" className="space-y-4">
-      {/* Refined Header Toolbar with Thick Glass & Specular Bevels */}
-      <div className="thick-glass glass-bevel-edge border-iridescent rounded-2xl shadow-2xl p-4 transition-all">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-3.5 border-b border-white/[0.06]">
+      {/* HyperOS Toolbar with Squircle & Pure Glass */}
+      <div className="hyper-glass rounded-[24px] p-4 sm:p-5 relative overflow-hidden">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-white/[0.06]">
           {/* Status & Generation Metas */}
           <div className="flex items-center gap-2.5 flex-wrap">
-            <span className="inline-flex items-center justify-center px-3 py-1 rounded-xl bento-glass-tile border border-white/20 text-white font-mono font-black text-xs shadow-inner">
+            <span className="inline-flex items-center justify-center px-3 py-1 rounded-[14px] bg-white/[0.08] border border-white/[0.12] text-white font-mono font-bold text-xs">
               {titles.length} 组文案已就绪
             </span>
             <span className="text-xs font-medium text-white/60">
               {generationSource === "gemini_ai" ? (
-                <span className="inline-flex items-center gap-1.5 text-blue-300 font-semibold bg-blue-500/15 px-2.5 py-1 rounded-xl border border-blue-500/30 shadow-[0_0_12px_rgba(59,130,246,0.25)]">
+                <span className="inline-flex items-center gap-1.5 text-blue-300 font-semibold bg-blue-500/10 px-3 py-1 rounded-[12px] border border-blue-500/20">
                   <Sparkles className="w-3.5 h-3.5 fill-blue-300" />
                   Gemini 3.7 AI 深度创意
                 </span>
               ) : (
-                <span className="inline-flex items-center gap-1 text-white/90 bento-glass-tile px-2.5 py-1 rounded-xl border border-white/20">
-                  ⚡ 智能矩阵算法生成
+                <span className="inline-flex items-center gap-1 text-white/80 bg-white/[0.04] px-3 py-1 rounded-[12px] border border-white/[0.08]">
+                  ⚡ 毫秒矩阵算法
                 </span>
               )}
             </span>
@@ -167,15 +166,15 @@ const TitleListComponent: React.FC<TitleListProps> = ({
             <MagneticButton
               id="btn-copy-all-50"
               onClick={handleCopyAll}
-              className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-lg cursor-pointer ${
+              className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-[14px] text-xs font-semibold transition-all cursor-pointer ${
                 copiedAll
-                  ? "bg-emerald-600 text-white shadow-emerald-600/30"
-                  : "bento-glass-tile text-white border border-white/20 hover:border-white/40"
+                  ? "bg-white text-black font-bold shadow-md"
+                  : "bg-white/[0.08] hover:bg-white/[0.14] text-white border border-white/[0.12]"
               }`}
             >
               {copiedAll ? (
                 <>
-                  <Check className="w-3.5 h-3.5 text-white" />
+                  <Check className="w-3.5 h-3.5 text-black" />
                   <span>已成功复制全部 50 条</span>
                 </>
               ) : (
@@ -191,10 +190,10 @@ const TitleListComponent: React.FC<TitleListProps> = ({
               <MagneticButton
                 id="btn-copy-selected"
                 onClick={handleCopySelected}
-                className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-[14px] text-xs font-semibold transition-all cursor-pointer ${
                   copiedSelected
-                    ? "bg-emerald-600 text-white"
-                    : "bg-blue-500/20 text-blue-300 hover:bg-blue-500/30 border border-blue-500/40"
+                    ? "bg-white text-black font-bold"
+                    : "bg-blue-500/20 text-blue-200 hover:bg-blue-500/30 border border-blue-500/30"
                 }`}
               >
                 {copiedSelected ? (
@@ -217,7 +216,7 @@ const TitleListComponent: React.FC<TitleListProps> = ({
                 type="button"
                 id="btn-export-dropdown"
                 onClick={() => setExportMenuOpen(!exportMenuOpen)}
-                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bento-glass-tile text-white/90 hover:text-white border border-white/20 shadow-md cursor-pointer transition-all"
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-[14px] text-xs font-medium bg-white/[0.06] text-white/80 hover:text-white border border-white/[0.08] cursor-pointer transition-all"
               >
                 <Download className="w-3.5 h-3.5" />
                 <span>导出</span>
@@ -226,13 +225,13 @@ const TitleListComponent: React.FC<TitleListProps> = ({
 
               {exportMenuOpen && (
                 <div
-                  className="absolute right-0 mt-2 w-48 rounded-2xl thick-glass border border-white/20 shadow-2xl p-1.5 z-40 space-y-1"
+                  className="absolute right-0 mt-2 w-48 rounded-[18px] hyper-glass border border-white/20 shadow-2xl p-1.5 z-40 space-y-1"
                   onClick={() => setExportMenuOpen(false)}
                 >
                   <button
                     type="button"
                     onClick={() => onExportTxt(titles)}
-                    className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+                    className="w-full flex items-center gap-2 px-3 py-2 rounded-[12px] text-xs font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors"
                   >
                     <FileText className="w-4 h-4 text-blue-400" />
                     <span>导出为 TXT 纯文本</span>
@@ -240,7 +239,7 @@ const TitleListComponent: React.FC<TitleListProps> = ({
                   <button
                     type="button"
                     onClick={() => onExportCsv(titles)}
-                    className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+                    className="w-full flex items-center gap-2 px-3 py-2 rounded-[12px] text-xs font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors"
                   >
                     <FileSpreadsheet className="w-4 h-4 text-emerald-400" />
                     <span>导出为 CSV 表格</span>
@@ -248,7 +247,7 @@ const TitleListComponent: React.FC<TitleListProps> = ({
                   <button
                     type="button"
                     onClick={() => onExportJson(titles)}
-                    className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+                    className="w-full flex items-center gap-2 px-3 py-2 rounded-[12px] text-xs font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors"
                   >
                     <FileCode className="w-4 h-4 text-amber-400" />
                     <span>导出为 JSON 结构</span>
@@ -258,12 +257,12 @@ const TitleListComponent: React.FC<TitleListProps> = ({
             </div>
 
             {/* View Mode Toggle */}
-            <div className="flex items-center bento-glass-tile rounded-xl p-0.5 border border-white/20">
+            <div className="flex items-center bg-white/[0.04] rounded-[14px] p-0.5 border border-white/[0.08]">
               <button
                 type="button"
                 onClick={() => setViewMode("grid")}
-                className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
-                  viewMode === "grid" ? "bg-white/20 text-white" : "text-white/40 hover:text-white"
+                className={`p-1.5 rounded-[10px] transition-colors cursor-pointer ${
+                  viewMode === "grid" ? "bg-white text-black font-bold" : "text-white/40 hover:text-white"
                 }`}
                 title="网格视图"
               >
@@ -272,8 +271,8 @@ const TitleListComponent: React.FC<TitleListProps> = ({
               <button
                 type="button"
                 onClick={() => setViewMode("compact")}
-                className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
-                  viewMode === "compact" ? "bg-white/20 text-white" : "text-white/40 hover:text-white"
+                className={`p-1.5 rounded-[10px] transition-colors cursor-pointer ${
+                  viewMode === "compact" ? "bg-white text-black font-bold" : "text-white/40 hover:text-white"
                 }`}
                 title="精简列表视图"
               >
@@ -284,7 +283,7 @@ const TitleListComponent: React.FC<TitleListProps> = ({
         </div>
 
         {/* Filter and Search Bar */}
-        <div className="mt-3 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="mt-3.5 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2 w-full sm:w-auto flex-1">
             {/* Search Input */}
             <div className="relative flex-1 max-w-md lg:max-w-xl">
@@ -294,7 +293,7 @@ const TitleListComponent: React.FC<TitleListProps> = ({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="在 50 条结果中秒级搜索关键词 / 卖点..."
-                className="w-full pl-8 pr-8 py-1.5 bg-[#090b12] border border-white/15 rounded-xl text-xs text-white placeholder:text-white/35 focus:outline-none focus:border-white/40 focus:ring-1 focus:ring-white/20 transition-all"
+                className="w-full pl-8 pr-8 py-2 bg-black/40 border border-white/[0.08] rounded-[14px] text-xs text-white placeholder:text-white/35 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-all font-sans"
               />
               {searchQuery && (
                 <button
@@ -315,7 +314,7 @@ const TitleListComponent: React.FC<TitleListProps> = ({
                 else if (sortBy === "length_asc") setSortBy("length_desc");
                 else setSortBy("default");
               }}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs bento-glass-tile border border-white/15 text-white/70 hover:text-white cursor-pointer transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-[14px] text-xs bg-white/[0.04] border border-white/[0.08] text-white/70 hover:text-white cursor-pointer transition-colors"
               title="按文案字符长度排序"
             >
               <ArrowDownUp className="w-3 h-3 text-white/50" />
@@ -330,10 +329,10 @@ const TitleListComponent: React.FC<TitleListProps> = ({
             <button
               type="button"
               onClick={() => setSelectedAngleFilter("all")}
-              className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all cursor-pointer flex-shrink-0 ${
+              className={`px-3 py-1.5 rounded-[12px] text-[11px] font-medium transition-all cursor-pointer flex-shrink-0 ${
                 selectedAngleFilter === "all"
-                  ? "bg-white/20 text-white border border-white/30"
-                  : "text-white/50 hover:text-white hover:bg-white/[0.05]"
+                  ? "bg-white text-black font-bold shadow-xs"
+                  : "text-white/50 hover:text-white hover:bg-white/[0.04]"
               }`}
             >
               全部 ({titles.length})
@@ -345,10 +344,10 @@ const TitleListComponent: React.FC<TitleListProps> = ({
                   key={angle}
                   type="button"
                   onClick={() => setSelectedAngleFilter(angle)}
-                  className={`px-2 py-1 rounded-lg text-[11px] font-medium transition-all cursor-pointer flex-shrink-0 ${
+                  className={`px-2.5 py-1.5 rounded-[12px] text-[11px] font-medium transition-all cursor-pointer flex-shrink-0 ${
                     selectedAngleFilter === angle
-                      ? "bg-blue-500/25 text-blue-200 border border-blue-400/50 shadow-xs"
-                      : "text-white/50 hover:text-white hover:bg-white/[0.05]"
+                      ? "bg-white text-black font-bold shadow-xs"
+                      : "text-white/50 hover:text-white hover:bg-white/[0.04]"
                   }`}
                 >
                   {angle} ({count})
@@ -359,14 +358,14 @@ const TitleListComponent: React.FC<TitleListProps> = ({
         </div>
 
         {/* Select All Checkbox row */}
-        <div className="mt-2.5 pt-2 border-t border-white/[0.04] flex items-center justify-between text-[11px] text-white/60">
+        <div className="mt-3 pt-2.5 border-t border-white/[0.04] flex items-center justify-between text-[11px] text-white/50">
           <button
             type="button"
             onClick={handleSelectAll}
             className="inline-flex items-center gap-1.5 hover:text-white cursor-pointer transition-colors"
           >
             {selectedIds.size > 0 && selectedIds.size === filteredTitles.length ? (
-              <CheckSquare className="w-3.5 h-3.5 text-blue-400" />
+              <CheckSquare className="w-3.5 h-3.5 text-white" />
             ) : (
               <Square className="w-3.5 h-3.5" />
             )}
@@ -378,7 +377,7 @@ const TitleListComponent: React.FC<TitleListProps> = ({
           </button>
 
           <span>
-            已匹配 <strong className="text-white">{filteredTitles.length}</strong> / 50 组文案
+            已匹配 <strong className="text-white font-mono">{filteredTitles.length}</strong> / 50 组文案
           </span>
         </div>
       </div>
@@ -387,7 +386,7 @@ const TitleListComponent: React.FC<TitleListProps> = ({
       <div
         className={
           viewMode === "grid"
-            ? "grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4 xl:gap-5"
+            ? "grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4"
             : "flex flex-col space-y-3"
         }
       >
@@ -421,11 +420,11 @@ const TitleListComponent: React.FC<TitleListProps> = ({
 
       {/* Pagination and View Mode Bar */}
       {filteredTitles.length > 0 && (
-        <div className="thick-glass glass-bevel-edge rounded-xl p-3 border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs shadow-lg">
-          <div className="flex items-center gap-2 text-white/70">
+        <div className="hyper-glass rounded-[20px] p-3.5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+          <div className="flex items-center gap-2 text-white/60">
             <span>
-              显示第 <strong className="text-white">{(safePage - 1) * (pageSize || 1) + 1}</strong> - <strong className="text-white">{Math.min(safePage * (pageSize || filteredTitles.length), filteredTitles.length)}</strong> 条
-              （共 <strong className="text-white">{filteredTitles.length}</strong> 条）
+              显示第 <strong className="text-white font-mono">{(safePage - 1) * (pageSize || 1) + 1}</strong> - <strong className="text-white font-mono">{Math.min(safePage * (pageSize || filteredTitles.length), filteredTitles.length)}</strong> 条
+              （共 <strong className="text-white font-mono">{filteredTitles.length}</strong> 条）
             </span>
           </div>
 
@@ -437,7 +436,7 @@ const TitleListComponent: React.FC<TitleListProps> = ({
                   type="button"
                   disabled={safePage <= 1}
                   onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                  className="px-2.5 py-1 rounded-lg border border-white/15 bg-white/[0.05] hover:bg-white/15 text-white/80 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                  className="px-3 py-1.5 rounded-[10px] border border-white/[0.08] bg-white/[0.04] hover:bg-white/[0.1] text-white/70 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors text-xs"
                 >
                   上一页
                 </button>
@@ -446,10 +445,10 @@ const TitleListComponent: React.FC<TitleListProps> = ({
                     key={pageNum}
                     type="button"
                     onClick={() => setCurrentPage(pageNum)}
-                    className={`w-7 h-7 rounded-lg text-xs font-mono font-bold flex items-center justify-center transition-all cursor-pointer ${
+                    className={`w-7 h-7 rounded-[10px] text-xs font-mono font-bold flex items-center justify-center transition-all cursor-pointer ${
                       safePage === pageNum
-                        ? "bg-blue-600 text-white shadow-md shadow-blue-900/50 border border-blue-400/50"
-                        : "bg-white/[0.05] hover:bg-white/15 text-white/70 hover:text-white border border-white/10"
+                        ? "bg-white text-black shadow-md"
+                        : "bg-white/[0.04] hover:bg-white/[0.1] text-white/70 hover:text-white border border-white/[0.06]"
                     }`}
                   >
                     {pageNum}
@@ -459,7 +458,7 @@ const TitleListComponent: React.FC<TitleListProps> = ({
                   type="button"
                   disabled={safePage >= totalPages}
                   onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                  className="px-2.5 py-1 rounded-lg border border-white/15 bg-white/[0.05] hover:bg-white/15 text-white/80 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                  className="px-3 py-1.5 rounded-[10px] border border-white/[0.08] bg-white/[0.04] hover:bg-white/[0.1] text-white/70 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors text-xs"
                 >
                   下一页
                 </button>
@@ -467,14 +466,14 @@ const TitleListComponent: React.FC<TitleListProps> = ({
             )}
 
             {/* Page Size Switcher */}
-            <div className="flex items-center gap-1 ml-2 pl-2 border-l border-white/15">
+            <div className="flex items-center gap-1 ml-2 pl-2 border-l border-white/[0.08]">
               <button
                 type="button"
                 onClick={() => setPageSize(20)}
-                className={`px-2 py-1 rounded-md text-[11px] font-medium transition-all cursor-pointer ${
+                className={`px-2.5 py-1 rounded-[8px] text-[11px] font-medium transition-all cursor-pointer ${
                   pageSize === 20
-                    ? "bg-white/20 text-white border border-white/30"
-                    : "text-white/50 hover:text-white hover:bg-white/[0.05]"
+                    ? "bg-white text-black font-bold"
+                    : "text-white/50 hover:text-white hover:bg-white/[0.04]"
                 }`}
               >
                 每页 20 条
@@ -482,10 +481,10 @@ const TitleListComponent: React.FC<TitleListProps> = ({
               <button
                 type="button"
                 onClick={() => setPageSize(0)}
-                className={`px-2 py-1 rounded-md text-[11px] font-medium transition-all cursor-pointer ${
+                className={`px-2.5 py-1 rounded-[8px] text-[11px] font-medium transition-all cursor-pointer ${
                   pageSize === 0
-                    ? "bg-white/20 text-white border border-white/30"
-                    : "text-white/50 hover:text-white hover:bg-white/[0.05]"
+                    ? "bg-white text-black font-bold"
+                    : "text-white/50 hover:text-white hover:bg-white/[0.04]"
                 }`}
               >
                 全部展开

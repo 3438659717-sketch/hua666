@@ -133,7 +133,7 @@ const E05_CATEGORIES: { id: AngleCategory; label: string; desc: string; icon: st
   { id: "gadget", label: "4段階調光 ✕ TR90超軽量フレーム", desc: "指先で触れるだけでレンズ濃度が4段階に瞬時変化。羽のように軽いTR90素材で極上のフィット感", icon: "🕶️" },
   { id: "ai_power", label: "AI知能問答 ＆ リアルタイム同時通訳", desc: "耳元のAIアシスタントが質問に即答。多言語リアルタイム通訳で海外旅行やビジネスの言葉の壁を打破", icon: "🤖" },
   { id: "efficiency", label: "テンプル触控スワイプ ✕ 開放音響", desc: "テンプルを前後になぞるだけで音量調整。耳を塞がない開放型で周囲の安全と高音質を両立", icon: "⚡" },
-  { id: "secret_hack", label: "極簡コーデ・高颜值モテ神ギア", desc: "「それどこのメガネ？」と聞かれる洗練デザイン。ファッションと最先端テクノロジーの完璧な融合", icon: "🤫" },
+  { id: "secret_hack", label: "極簡コーデ・高颜值モテ神ギア", desc: "「それどこのメガネ？」と聞かれる洗练デザイン。ファッションと最先端テクノロジーの完璧な融合", icon: "🤫" },
   { id: "spec_power", label: "8h音楽連続再生 ✕ ENC双マイク降噪", desc: "音楽8時間・待機7日以上のロングバッテリー。ENCデュアルマイクで街中でも騒音を遮断しクリア通話", icon: "🔋" },
   { id: "question", label: "インタラクティブ・共感喚起", desc: "「タップで色が変わるスマートメガネ、正直欲しい？」TikTok視聴者のコメント欄を熱狂させるフック", icon: "💬" },
 ];
@@ -318,30 +318,17 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
     });
   };
 
-  const getProductBadgeColor = () => {
-    if (isFos10) return "text-rose-300 bg-rose-500/15 border-rose-400/40 shadow-[0_0_10px_rgba(244,63,94,0.25)]";
-    if (isG2) return "text-purple-300 bg-purple-500/15 border-purple-400/40 shadow-[0_0_10px_rgba(168,85,247,0.25)]";
-    if (isG58) return "text-pink-300 bg-pink-500/15 border-pink-400/40 shadow-[0_0_10px_rgba(244,114,182,0.25)]";
-    if (isE09) return "text-sky-300 bg-sky-500/15 border-sky-400/40 shadow-[0_0_10px_rgba(56,189,248,0.25)]";
-    if (isE05) return "text-rose-300 bg-rose-500/15 border-rose-400/40 shadow-[0_0_10px_rgba(244,63,94,0.25)]";
-    if (isE12) return "text-cyan-300 bg-cyan-500/15 border-cyan-400/40 shadow-[0_0_10px_rgba(6,182,212,0.25)]";
-    if (isKt80) return "text-amber-300 bg-amber-500/15 border-amber-400/40 shadow-[0_0_10px_rgba(245,158,11,0.25)]";
-    if (isT20) return "text-emerald-300 bg-emerald-500/15 border-emerald-400/40 shadow-[0_0_10px_rgba(16,185,129,0.25)]";
-    if (isQs40) return "text-purple-300 bg-purple-500/15 border-purple-400/40 shadow-[0_0_10px_rgba(168,85,247,0.25)]";
-    return "text-blue-300 bg-blue-500/15 border-blue-400/40 shadow-[0_0_10px_rgba(59,130,246,0.25)]";
-  };
-
-  const getActiveTabGlow = (prod: ProductId) => {
-    if (prod === "fos10") return "border-rose-400/70 bg-rose-950/40 ring-1 ring-rose-400/40 shadow-lg shadow-black/80 border-crystal-glow scale-[1.02]";
-    if (prod === "g2") return "border-purple-400/70 bg-purple-950/40 ring-1 ring-purple-400/40 shadow-lg shadow-black/80 border-crystal-glow scale-[1.02]";
-    if (prod === "g58") return "border-pink-400/70 bg-pink-950/40 ring-1 ring-pink-400/40 shadow-lg shadow-black/80 border-crystal-glow scale-[1.02]";
-    if (prod === "e09") return "border-sky-400/70 bg-sky-950/40 ring-1 ring-sky-400/40 shadow-lg shadow-black/80 border-crystal-glow scale-[1.02]";
-    if (prod === "e05") return "border-rose-400/70 bg-rose-950/40 ring-1 ring-rose-400/40 shadow-lg shadow-black/80 border-crystal-glow scale-[1.02]";
-    if (prod === "e12") return "border-cyan-400/70 bg-cyan-950/40 ring-1 ring-cyan-400/40 shadow-lg shadow-black/80 border-crystal-glow scale-[1.02]";
-    if (prod === "kt80") return "border-amber-400/70 bg-amber-950/40 ring-1 ring-amber-400/40 shadow-lg shadow-black/80 border-crystal-glow scale-[1.02]";
-    if (prod === "t20") return "border-emerald-400/70 bg-emerald-950/40 ring-1 ring-emerald-400/40 shadow-lg shadow-black/80 border-crystal-glow scale-[1.02]";
-    if (prod === "qs40") return "border-purple-400/70 bg-purple-950/40 ring-1 ring-purple-400/40 shadow-lg shadow-black/80 border-crystal-glow scale-[1.02]";
-    return "border-blue-400/70 bg-blue-950/40 ring-1 ring-blue-400/40 shadow-lg shadow-black/80 border-crystal-glow scale-[1.02]";
+  const getProductColor = () => {
+    if (isFos10) return "text-teal-400";
+    if (isG2) return "text-purple-400";
+    if (isG58) return "text-pink-400";
+    if (isE09) return "text-sky-400";
+    if (isE05) return "text-rose-400";
+    if (isE12) return "text-cyan-400";
+    if (isKt80) return "text-amber-400";
+    if (isT20) return "text-emerald-400";
+    if (isQs40) return "text-purple-400";
+    return "text-blue-400";
   };
 
   const currentSuggestions = isG58
@@ -351,551 +338,153 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
     : TAG_SUGGESTIONS[currentProductId] || [];
 
   return (
-    <div id="control-panel" className="thick-glass glass-bevel-edge border-iridescent rounded-2xl shadow-2xl p-4 sm:p-6 mb-6 transition-all">
-      {/* 8-Product Lineup Navigator */}
-      <div className="mb-5 pb-5 border-b border-white/[0.06]">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3.5">
+    <div id="control-panel" className="hyper-glass rounded-[28px] p-5 sm:p-7 mb-6 relative overflow-hidden">
+      {/* Specular Micro-Chamfer Glare on Top Rim */}
+      <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none z-10" />
+
+      {/* Product Lineup Matrix */}
+      <div className="mb-6 pb-6 border-b border-white/[0.06]">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
           <div className="flex items-center gap-2">
-            <label className="text-xs font-semibold text-white/70 tracking-wider uppercase flex items-center gap-1.5">
+            <span className="text-xs font-bold text-white/80 tracking-wider uppercase flex items-center gap-1.5 font-mono">
               <Target className="w-3.5 h-3.5 text-white/50" />
-              <span>推广产品矩阵</span>
-            </label>
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/[0.08] text-white/80 border border-white/10">
-              10款旗舰硬件
+              <span>硬件矩阵 (Product Matrix)</span>
+            </span>
+            <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-white/[0.06] text-white/70 border border-white/[0.08]">
+              10款旗舰设备
             </span>
           </div>
-          <span className="text-[11px] text-white/50">
-            点击切换产品，系统自动同步专属核心参数、受众画像与 5 大营销标签
+          <span className="text-[11px] text-white/40">
+            切换产品自动同步核心参数、目标受众画像与 5 大营销标签
           </span>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 xl:grid-cols-10 gap-2">
-          {/* REC10 Tab */}
-          <button
-            type="button"
-            id="tab-product-rec10"
-            onClick={() => onChangeParams({ productId: "rec10", language: "ja" })}
-            className={`group relative flex flex-col justify-between p-2.5 rounded-xl border text-left transition-all duration-300 cursor-pointer overflow-hidden min-h-[104px] ${
-              currentProductId === "rec10"
-                ? getActiveTabGlow("rec10")
-                : "bg-[#13141f]/70 border-white/[0.08] hover:border-blue-500/30 hover:bg-[#181a28]/80 hover:shadow-md"
-            }`}
-          >
-            <div className="flex items-center justify-between gap-1.5 w-full">
-              <div className={`p-1.5 rounded-lg border transition-all ${
-                currentProductId === "rec10"
-                  ? "bg-blue-500/25 text-blue-300 border-blue-500/50 shadow-md shadow-blue-500/20"
-                  : "bg-white/[0.04] text-white/50 border-white/[0.08] group-hover:text-blue-300 group-hover:border-blue-500/30"
-              } flex-shrink-0`}>
-                <Mic className="w-3.5 h-3.5" />
-              </div>
-              <span className="text-[9.5px] font-semibold px-1.5 py-0.5 rounded-md bg-blue-500/20 text-blue-300 border border-blue-500/30 flex-shrink-0 whitespace-nowrap">
-                AI录音卡
-              </span>
-            </div>
-            <div className="mt-2 w-full">
-              <div className="flex items-center gap-1.5">
-                <span className="font-bold text-xs text-white/95 group-hover:text-white truncate font-mono">
-                  REC10
-                </span>
-                {currentProductId === "rec10" && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-                )}
-              </div>
-              <p className="text-[11px] text-white/60 mt-0.5 line-clamp-1">
-                名片形态·35h·双AI
-              </p>
-              <div className="mt-0.5 font-mono text-[9px] text-blue-400/90 truncate">
-                #AIレコーダー
-              </div>
-            </div>
-          </button>
-
-          {/* QS40 Tab */}
-          <button
-            type="button"
-            id="tab-product-qs40"
-            onClick={() => onChangeParams({ productId: "qs40", language: "ja" })}
-            className={`group relative flex flex-col justify-between p-2.5 rounded-xl border text-left transition-all duration-300 cursor-pointer overflow-hidden min-h-[104px] ${
-              currentProductId === "qs40"
-                ? getActiveTabGlow("qs40")
-                : "bg-[#13141f]/70 border-white/[0.08] hover:border-purple-500/30 hover:bg-[#181a28]/80 hover:shadow-md"
-            }`}
-          >
-            <div className="flex items-center justify-between gap-1.5 w-full">
-              <div className={`p-1.5 rounded-lg border transition-all ${
-                currentProductId === "qs40"
-                  ? "bg-purple-500/25 text-purple-300 border-purple-500/50 shadow-md shadow-purple-500/20"
-                  : "bg-white/[0.04] text-white/50 border-white/[0.08] group-hover:text-purple-300 group-hover:border-purple-500/30"
-              } flex-shrink-0`}>
-                <Watch className="w-3.5 h-3.5" />
-              </div>
-              <span className="text-[9.5px] font-semibold px-1.5 py-0.5 rounded-md bg-purple-500/20 text-purple-300 border border-purple-500/30 flex-shrink-0 whitespace-nowrap">
-                AI智能表
-              </span>
-            </div>
-            <div className="mt-2 w-full">
-              <div className="flex items-center gap-1.5">
-                <span className="font-bold text-xs text-white/95 group-hover:text-white truncate font-mono">
-                  QS40
-                </span>
-                {currentProductId === "qs40" && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
-                )}
-              </div>
-              <p className="text-[11px] text-white/60 mt-0.5 line-clamp-1">
-                对腕ChatGPT·9.8mm
-              </p>
-              <div className="mt-0.5 font-mono text-[9px] text-purple-400/90 truncate">
-                #スマートウォッチ
-              </div>
-            </div>
-          </button>
-
-          {/* T20 Tab */}
-          <button
-            type="button"
-            id="tab-product-t20"
-            onClick={() => onChangeParams({ productId: "t20", language: "ja" })}
-            className={`group relative flex flex-col justify-between p-2.5 rounded-xl border text-left transition-all duration-300 cursor-pointer overflow-hidden min-h-[104px] ${
-              currentProductId === "t20"
-                ? getActiveTabGlow("t20")
-                : "bg-[#13141f]/70 border-white/[0.08] hover:border-emerald-500/30 hover:bg-[#181a28]/80 hover:shadow-md"
-            }`}
-          >
-            <div className="flex items-center justify-between gap-1.5 w-full">
-              <div className={`p-1.5 rounded-lg border transition-all ${
-                currentProductId === "t20"
-                  ? "bg-emerald-500/25 text-emerald-300 border-emerald-500/50 shadow-md shadow-emerald-500/20"
-                  : "bg-white/[0.04] text-white/50 border-white/[0.08] group-hover:text-emerald-300 group-hover:border-emerald-500/30"
-              } flex-shrink-0`}>
-                <Compass className="w-3.5 h-3.5" />
-              </div>
-              <span className="text-[9.5px] font-semibold px-1.5 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex-shrink-0 whitespace-nowrap">
-                专业户外表
-              </span>
-            </div>
-            <div className="mt-2 w-full">
-              <div className="flex items-center gap-1.5">
-                <span className="font-bold text-xs text-white/95 group-hover:text-white truncate font-mono">
-                  T20
-                </span>
-                {currentProductId === "t20" && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                )}
-              </div>
-              <p className="text-[11px] text-white/60 mt-0.5 line-clamp-1">
-                多星GNSS·罗盘排水
-              </p>
-              <div className="mt-0.5 font-mono text-[9px] text-emerald-400/90 truncate">
-                #アウトドア
-              </div>
-            </div>
-          </button>
-
-          {/* KT80 Tab */}
-          <button
-            type="button"
-            id="tab-product-kt80"
-            onClick={() => onChangeParams({ productId: "kt80", language: "es" })}
-            className={`group relative flex flex-col justify-between p-2.5 rounded-xl border text-left transition-all duration-300 cursor-pointer overflow-hidden min-h-[104px] ${
-              currentProductId === "kt80"
-                ? getActiveTabGlow("kt80")
-                : "bg-[#13141f]/70 border-white/[0.08] hover:border-amber-500/30 hover:bg-[#181a28]/80 hover:shadow-md"
-            }`}
-          >
-            <div className="flex items-center justify-between gap-1.5 w-full">
-              <div className={`p-1.5 rounded-lg border transition-all ${
-                currentProductId === "kt80"
-                  ? "bg-amber-500/25 text-amber-300 border-amber-500/50 shadow-md shadow-amber-500/20"
-                  : "bg-white/[0.04] text-white/50 border-white/[0.08] group-hover:text-amber-300 group-hover:border-amber-500/30"
-              } flex-shrink-0`}>
-                <Flashlight className="w-3.5 h-3.5" />
-              </div>
-              <span className="text-[9.5px] font-semibold px-1.5 py-0.5 rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/30 flex-shrink-0 whitespace-nowrap">
-                西/德双语
-              </span>
-            </div>
-            <div className="mt-2 w-full">
-              <div className="flex items-center gap-1.5">
-                <span className="font-bold text-xs text-white/95 group-hover:text-white truncate font-mono">
-                  KT80
-                </span>
-                {currentProductId === "kt80" && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-                )}
-              </div>
-              <p className="text-[11px] text-white/60 mt-0.5 line-clamp-1">
-                800mAh·5ATM·LED
-              </p>
-              <div className="mt-0.5 font-mono text-[9px] text-amber-400/90 truncate">
-                #smartwatch
-              </div>
-            </div>
-          </button>
-
-          {/* G58 Tab */}
-          <button
-            type="button"
-            id="tab-product-g58"
-            onClick={() => onChangeParams({ productId: "g58", language: "es" })}
-            className={`group relative flex flex-col justify-between p-2.5 rounded-xl border text-left transition-all duration-300 cursor-pointer overflow-hidden min-h-[104px] ${
-              currentProductId === "g58"
-                ? getActiveTabGlow("g58")
-                : "bg-[#13141f]/70 border-white/[0.08] hover:border-pink-500/30 hover:bg-[#181a28]/80 hover:shadow-md"
-            }`}
-          >
-            <div className="flex items-center justify-between gap-1.5 w-full">
-              <div className={`p-1.5 rounded-lg border transition-all ${
-                currentProductId === "g58"
-                  ? "bg-pink-500/25 text-pink-300 border-pink-500/50 shadow-md shadow-pink-500/20"
-                  : "bg-white/[0.04] text-white/50 border-white/[0.08] group-hover:text-pink-300 group-hover:border-pink-500/30"
-              } flex-shrink-0`}>
-                <Sparkles className="w-3.5 h-3.5 text-pink-300" />
-              </div>
-              <span className="text-[9.5px] font-semibold px-1.5 py-0.5 rounded-md bg-pink-500/20 text-pink-300 border border-pink-500/30 flex-shrink-0 whitespace-nowrap">
-                西/德女性表
-              </span>
-            </div>
-            <div className="mt-2 w-full">
-              <div className="flex items-center gap-1.5">
-                <span className="font-bold text-xs text-white/95 group-hover:text-white truncate font-mono">
-                  G58
-                </span>
-                {currentProductId === "g58" && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-pink-400 animate-pulse" />
-                )}
-              </div>
-              <p className="text-[11px] text-white/60 mt-0.5 line-clamp-1">
-                1.27\"HD·经期管理·双带
-              </p>
-              <div className="mt-0.5 font-mono text-[9px] text-pink-400/90 truncate">
-                #Atuendo #Salud
-              </div>
-            </div>
-          </button>
-
-          {/* E12 Tab */}
-          <button
-            type="button"
-            id="tab-product-e12"
-            onClick={() => onChangeParams({ productId: "e12", language: "ja" })}
-            className={`group relative flex flex-col justify-between p-2.5 rounded-xl border text-left transition-all duration-300 cursor-pointer overflow-hidden min-h-[104px] ${
-              currentProductId === "e12"
-                ? getActiveTabGlow("e12")
-                : "bg-[#13141f]/70 border-white/[0.08] hover:border-cyan-500/30 hover:bg-[#181a28]/80 hover:shadow-md"
-            }`}
-          >
-            <div className="flex items-center justify-between gap-1.5 w-full">
-              <div className={`p-1.5 rounded-lg border transition-all ${
-                currentProductId === "e12"
-                  ? "bg-cyan-500/25 text-cyan-300 border-cyan-500/50 shadow-md shadow-cyan-500/20"
-                  : "bg-white/[0.04] text-white/50 border-white/[0.08] group-hover:text-cyan-300 group-hover:border-cyan-500/30"
-              } flex-shrink-0`}>
-                <Headphones className="w-3.5 h-3.5" />
-              </div>
-              <span className="text-[9.5px] font-semibold px-1.5 py-0.5 rounded-md bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 flex-shrink-0 whitespace-nowrap">
-                AI相机耳机
-              </span>
-            </div>
-            <div className="mt-2 w-full">
-              <div className="flex items-center gap-1.5">
-                <span className="font-bold text-xs text-white/95 group-hover:text-white truncate font-mono">
-                  E12
-                </span>
-                {currentProductId === "e12" && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-                )}
-              </div>
-              <p className="text-[11px] text-white/60 mt-0.5 line-clamp-1">
-                开放式·16mm·POV
-              </p>
-              <div className="mt-0.5 font-mono text-[9px] text-cyan-400/90 truncate">
-                #POV動画 #AIイヤホン
-              </div>
-            </div>
-          </button>
-
-          {/* E05 Tab */}
-          <button
-            type="button"
-            id="tab-product-e05"
-            onClick={() => onChangeParams({ productId: "e05", language: "ja" })}
-            className={`group relative flex flex-col justify-between p-2.5 rounded-xl border text-left transition-all duration-300 cursor-pointer overflow-hidden min-h-[104px] ${
-              currentProductId === "e05"
-                ? getActiveTabGlow("e05")
-                : "bg-[#13141f]/70 border-white/[0.08] hover:border-rose-500/30 hover:bg-[#181a28]/80 hover:shadow-md"
-            }`}
-          >
-            <div className="flex items-center justify-between gap-1.5 w-full">
-              <div className={`p-1.5 rounded-lg border transition-all ${
-                currentProductId === "e05"
-                  ? "bg-rose-500/25 text-rose-300 border-rose-500/50 shadow-md shadow-rose-500/20"
-                  : "bg-white/[0.04] text-white/50 border-white/[0.08] group-hover:text-rose-300 group-hover:border-rose-500/30"
-              } flex-shrink-0`}>
-                <Glasses className="w-3.5 h-3.5" />
-              </div>
-              <span className="text-[9.5px] font-semibold px-1.5 py-0.5 rounded-md bg-rose-500/20 text-rose-300 border border-rose-500/30 flex-shrink-0 whitespace-nowrap">
-                4档调光镜
-              </span>
-            </div>
-            <div className="mt-2 w-full">
-              <div className="flex items-center gap-1.5">
-                <span className="font-bold text-xs text-white/95 group-hover:text-white truncate font-mono">
-                  E05
-                </span>
-                {currentProductId === "e05" && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-pulse" />
-                )}
-              </div>
-              <p className="text-[11px] text-white/60 mt-0.5 line-clamp-1">
-                4档调光·TR90·同传
-              </p>
-              <div className="mt-0.5 font-mono text-[9px] text-rose-400/90 truncate">
-                #スマートグラス
-              </div>
-            </div>
-          </button>
-
-          {/* E09 Tab */}
-          <button
-            type="button"
-            id="tab-product-e09"
-            onClick={() => onChangeParams({ productId: "e09", language: "ja" })}
-            className={`group relative flex flex-col justify-between p-2.5 rounded-xl border text-left transition-all duration-300 cursor-pointer overflow-hidden min-h-[104px] ${
-              currentProductId === "e09"
-                ? getActiveTabGlow("e09")
-                : "bg-[#13141f]/70 border-white/[0.08] hover:border-sky-500/30 hover:bg-[#181a28]/80 hover:shadow-md"
-            }`}
-          >
-            <div className="flex items-center justify-between gap-1.5 w-full">
-              <div className={`p-1.5 rounded-lg border transition-all ${
-                currentProductId === "e09"
-                  ? "bg-sky-500/25 text-sky-300 border-sky-500/50 shadow-md shadow-sky-500/20"
-                  : "bg-white/[0.04] text-white/50 border-white/[0.08] group-hover:text-sky-300 group-hover:border-sky-500/30"
-              } flex-shrink-0`}>
-                <Camera className="w-3.5 h-3.5" />
-              </div>
-              <span className="text-[9.5px] font-semibold px-1.5 py-0.5 rounded-md bg-sky-500/20 text-sky-300 border border-sky-500/30 flex-shrink-0 whitespace-nowrap">
-                SONY录像镜
-              </span>
-            </div>
-            <div className="mt-2 w-full">
-              <div className="flex items-center gap-1.5">
-                <span className="font-bold text-xs text-white/95 group-hover:text-white truncate font-mono">
-                  E09
-                </span>
-                {currentProductId === "e09" && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
-                )}
-              </div>
-              <p className="text-[11px] text-white/60 mt-0.5 line-clamp-1">
-                800万POV·40g·防蓝光
-              </p>
-              <div className="mt-0.5 font-mono text-[9px] text-sky-400/90 truncate">
-                #POV動画 #Vlog
-              </div>
-            </div>
-          </button>
-
-          {/* G2 Tab */}
-          <button
-            type="button"
-            id="tab-product-g2"
-            onClick={() => onChangeParams({ productId: "g2", language: "ja" })}
-            className={`group relative flex flex-col justify-between p-2.5 rounded-xl border text-left transition-all duration-300 cursor-pointer overflow-hidden min-h-[104px] ${
-              currentProductId === "g2"
-                ? getActiveTabGlow("g2")
-                : "bg-[#13141f]/70 border-white/[0.08] hover:border-purple-500/30 hover:bg-[#181a28]/80 hover:shadow-md"
-            }`}
-          >
-            <div className="flex items-center justify-between gap-1.5 w-full">
-              <div className={`p-1.5 rounded-lg border transition-all ${
-                currentProductId === "g2"
-                  ? "bg-purple-500/25 text-purple-300 border-purple-500/50 shadow-md shadow-purple-500/20"
-                  : "bg-white/[0.04] text-white/50 border-white/[0.08] group-hover:text-purple-300 group-hover:border-purple-500/30"
-              } flex-shrink-0`}>
-                <Heart className="w-3.5 h-3.5 text-purple-300" />
-              </div>
-              <span className="text-[9.5px] font-semibold px-1.5 py-0.5 rounded-md bg-purple-500/20 text-purple-300 border border-purple-500/30 flex-shrink-0 whitespace-nowrap">
-                女性健康表
-              </span>
-            </div>
-            <div className="mt-2 w-full">
-              <div className="flex items-center gap-1.5">
-                <span className="font-bold text-xs text-white/95 group-hover:text-white truncate font-mono">
-                  G2
-                </span>
-                {currentProductId === "g2" && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
-                )}
-              </div>
-              <p className="text-[11px] text-white/60 mt-0.5 line-clamp-1">
-                女性健康·120+运动·通话
-              </p>
-              <div className="mt-0.5 font-mono text-[9px] text-purple-400/90 truncate">
-                #女性の健康 #服装
-              </div>
-            </div>
-          </button>
-
-          {/* FOS10 Tab */}
-          <button
-            type="button"
-            id="tab-product-fos10"
-            onClick={() => onChangeParams({ productId: "fos10", language: "ja" })}
-            className={`group relative flex flex-col justify-between p-2.5 rounded-xl border text-left transition-all duration-300 cursor-pointer overflow-hidden min-h-[104px] ${
-              currentProductId === "fos10"
-                ? getActiveTabGlow("fos10")
-                : "bg-[#13141f]/70 border-white/[0.08] hover:border-rose-500/30 hover:bg-[#181a28]/80 hover:shadow-md"
-            }`}
-          >
-            <div className="flex items-center justify-between gap-1.5 w-full">
-              <div className={`p-1.5 rounded-lg border transition-all ${
-                currentProductId === "fos10"
-                  ? "bg-rose-500/25 text-rose-300 border-rose-500/50 shadow-md shadow-rose-500/20"
-                  : "bg-white/[0.04] text-white/50 border-white/[0.08] group-hover:text-rose-300 group-hover:border-rose-500/30"
-              } flex-shrink-0`}>
-                <Sparkles className="w-3.5 h-3.5 text-rose-300" />
-              </div>
-              <span className="text-[9.5px] font-semibold px-1.5 py-0.5 rounded-md bg-rose-500/20 text-rose-300 border border-rose-500/30 flex-shrink-0 whitespace-nowrap">
-                便携轻薄表
-              </span>
-            </div>
-            <div className="mt-2 w-full">
-              <div className="flex items-center gap-1.5">
-                <span className="font-bold text-xs text-white/95 group-hover:text-white truncate font-mono">
-                  FOS10
-                </span>
-                {currentProductId === "fos10" && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-pulse" />
-                )}
-              </div>
-              <p className="text-[11px] text-white/60 mt-0.5 line-clamp-1">
-                10.66mm·14.9g·100+DIY
-              </p>
-              <div className="mt-0.5 font-mono text-[9px] text-rose-400/90 truncate">
-                #ポータブル #女性健康
-              </div>
-            </div>
-          </button>
+          {[
+            { id: "rec10" as ProductId, label: "REC10", desc: "名片AI录音", icon: <Mic className="w-3.5 h-3.5" />, tag: "#AIレコーダー" },
+            { id: "qs40" as ProductId, label: "QS40", desc: "对腕ChatGPT", icon: <Watch className="w-3.5 h-3.5" />, tag: "#スマートウォッチ" },
+            { id: "t20" as ProductId, label: "T20", desc: "多星GNSS", icon: <Compass className="w-3.5 h-3.5" />, tag: "#アウトドア" },
+            { id: "kt80" as ProductId, label: "KT80", desc: "800mAh战术", icon: <Flashlight className="w-3.5 h-3.5" />, tag: "#smartwatch" },
+            { id: "g58" as ProductId, label: "G58", desc: "女性时尚表", icon: <Sparkles className="w-3.5 h-3.5" />, tag: "#SaludMujer" },
+            { id: "e12" as ProductId, label: "E12", desc: "POV相机耳机", icon: <Headphones className="w-3.5 h-3.5" />, tag: "#POV動画" },
+            { id: "e05" as ProductId, label: "E05", desc: "4档调光镜", icon: <Glasses className="w-3.5 h-3.5" />, tag: "#スマートグラス" },
+            { id: "e09" as ProductId, label: "E09", desc: "SONY高清镜", icon: <Camera className="w-3.5 h-3.5" />, tag: "#Vlog撮影" },
+            { id: "g2" as ProductId, label: "G2", desc: "女性健康表", icon: <Heart className="w-3.5 h-3.5" />, tag: "#女性健康" },
+            { id: "fos10" as ProductId, label: "FOS10", desc: "14.9g极轻", icon: <Sparkles className="w-3.5 h-3.5" />, tag: "#ポータブル" },
+          ].map((prod) => {
+            const isSelected = currentProductId === prod.id;
+            return (
+              <button
+                key={prod.id}
+                type="button"
+                id={`tab-product-${prod.id}`}
+                onClick={() => onChangeParams({ productId: prod.id, language: prod.id === "kt80" || prod.id === "g58" ? "es" : "ja" })}
+                className={`group relative flex flex-col justify-between p-3 rounded-[20px] text-left transition-all duration-200 cursor-pointer overflow-hidden min-h-[96px] ${
+                  isSelected
+                    ? "bg-white/[0.12] border border-white/[0.22] shadow-lg text-white"
+                    : "bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.07] hover:border-white/[0.12] text-white/70"
+                }`}
+              >
+                <div className="flex items-center justify-between gap-1.5 w-full">
+                  <div className={`p-1.5 rounded-[12px] ${
+                    isSelected ? "bg-white text-black" : "bg-white/[0.06] text-white/60 group-hover:text-white"
+                  }`}>
+                    {prod.icon}
+                  </div>
+                  {isSelected && (
+                    <span className="w-2 h-2 rounded-full bg-[#00d287] shadow-[0_0_8px_#00d287]" />
+                  )}
+                </div>
+                <div className="mt-2 w-full">
+                  <span className="font-mono font-bold text-xs block text-white">
+                    {prod.label}
+                  </span>
+                  <p className="text-[10px] text-white/50 truncate mt-0.5">
+                    {prod.desc}
+                  </p>
+                </div>
+              </button>
+            );
+          })}
         </div>
       </div>
 
-      {/* Engine & Language Context Bar */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-5 border-b border-white/[0.06]">
+      {/* Engine & Configuration Context Bar */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-white/[0.06]">
         <div>
           <div className="flex items-center gap-2 flex-wrap">
-            <span className={`text-[11px] font-bold px-2 py-0.5 rounded-md border ${getProductBadgeColor()}`}>
-              当前推广 · {currentProduct.name}
+            <span className="text-xs font-bold px-3 py-1 rounded-full bg-white/[0.08] text-white border border-white/[0.12] flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00d287]" />
+              当前硬件：<strong className={getProductColor()}>{currentProduct.name}</strong>
             </span>
             <span className="text-white/20">|</span>
-            <span className="text-xs text-white/70">
-              标准输出：<strong>50 组高转化 {isMultilingual ? (isGerman ? "德语" : "西班牙语") : "日文"} 爆款短视频标题</strong>
+            <span className="text-xs text-white/60">
+              单次标准规格：<strong className="text-white font-mono">50 组</strong> 高转化短视频标题
             </span>
           </div>
-          <p className="text-xs text-white/60 mt-1">
-            {isG2 ? (
-              "FOSMET G2 日本区女性健康智能手表营销文案引擎 (全天健康监测 / 月経周期トラッキング / 120+運動モード / Bluetooth 5.3クリア通話 / FitCloudPro App / IP68防水)"
-            ) : isG58 ? (
-              isGerman
-                ? "FOSMET G58 德语区女性时尚智能手表营销文案引擎 (1,27\" HD 390x390 / Milanese & Silikon / Zyklustracker & Schwangerschaft / BT 5.3 Calls / 120+ Sport)"
-                : "FOSMET G58 西班牙语女性时尚智能手表营销文案引擎 (1.27\" HD 390x390 / Milanés y Silicona / Salud de la mujer y ciclo / Llamadas BT 5.3 / 120+ Deportes)"
-            ) : isE09 ? (
-              "FOSMET E09 日本区高转化短视频营销文案引擎 (SONY 800万画素カメラ搭載POVスマートグラス / 40g極軽量TR90 / ブルーライト＆紫外線カット / 最大10分動画＆4K静止画撮影 / 8h音楽通話)"
-            ) : isE05 ? (
-              "FOSMET E05 日本区高转化短视频营销文案引擎 (4段階調光エレクトロクロミックレンズ / TR90超軽量フレーム＆極簡コーデ美学 / AI知能音声＆多言語リアルタイム同時通訳 / ENC双マイク通話降噪 / 8h音楽再生)"
-            ) : isE12 ? (
-              "FOSMET E12 日本区高转化短视频营销文案引擎 (開放式AIカメラ搭載Bluetoothイヤホン / 16mm大口径HiFi / SONY 800万画素POV動画 / OpenAI音声AI)"
-            ) : isKt80 ? (
-              isGerman
-                ? "FOSMET KT80 德语区高转化短视频营销文案引擎 (800 mAh / 5ATM / LED-Taschenlampe / 1,46\" HD / Silbermetall)"
-                : "FOSMET KT80 西班牙语高转化短视频营销文案引擎 (800 mAh / 5ATM sumergible / Linterna LED lateral / 1.46\" HD / Metal plateado)"
-            ) : isT20 ? (
-              "FOSMET T20 日本区高转化短视频营销文案引擎 (多星GNSS測位 / 60日超長航続 / 気圧高度計＆電子コンパス / ワンタッチスマート排水 / 100+運動モード)"
-            ) : isQs40 ? (
-              "FOSMET QS40 日本区高转化短视频营销文案引擎 (ChatGPT対腕対話 / 9.8mm超薄型 / 1.43\" AMOLED 466*466 / 1万円アンダー最強コスパ)"
-            ) : (
-              "FOSMET REC10 日本区高转化短视频营销文案引擎 (名刺サイズ超薄型AIボイスレコーダー / 35h連続録音 / ChatGPT＆Gemini二重AI要約 / 高精度文字起こし)"
-            )}
+          <p className="text-xs text-white/50 mt-1.5">
+            {currentProduct.shortDesc}
           </p>
         </div>
 
-        {/* Action Controls: Language Switcher (for KT80 & G58) & Engine Toggle */}
+        {/* Engine Switcher & Language selector */}
         <div className="flex items-center gap-2.5 flex-wrap self-start lg:self-center">
-          {/* Multilingual Selector (KT80 & G58) */}
           {isMultilingual && (
-            <div className="flex items-center gap-1 bg-[#14151e] p-1 rounded-xl border border-pink-500/30 shadow-inner">
-              <div className="px-2 py-1 text-[11px] font-bold text-pink-300 flex items-center gap-1">
+            <div className="flex items-center gap-1 bg-white/[0.04] p-1 rounded-[16px] border border-white/[0.08]">
+              <div className="px-2 py-1 text-[11px] font-medium text-white/60 flex items-center gap-1">
                 <Globe className="w-3 h-3" />
-                <span>生成语言:</span>
+                <span>语言:</span>
               </div>
               <button
                 type="button"
                 id="btn-lang-es"
                 onClick={() => handleLanguageChange("es")}
-                className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                className={`px-3 py-1.5 rounded-[12px] text-xs font-semibold transition-all cursor-pointer ${
                   currentLang === "es"
-                    ? "bg-pink-500/25 text-pink-200 border border-pink-500/50 shadow-xs"
-                    : "text-white/50 hover:text-white hover:bg-white/[0.04]"
+                    ? "bg-white text-black shadow-sm font-bold"
+                    : "text-white/60 hover:text-white"
                 }`}
-                title="切换为西班牙语 (Español) 50 组文案与对应西语标签"
               >
-                <span>🇪🇸 西班牙语 (ES)</span>
+                🇪🇸 西班牙语 (ES)
               </button>
               <button
                 type="button"
                 id="btn-lang-de"
                 onClick={() => handleLanguageChange("de")}
-                className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                className={`px-3 py-1.5 rounded-[12px] text-xs font-semibold transition-all cursor-pointer ${
                   currentLang === "de"
-                    ? "bg-pink-500/25 text-pink-200 border border-pink-500/50 shadow-xs"
-                    : "text-white/50 hover:text-white hover:bg-white/[0.04]"
+                    ? "bg-white text-black shadow-sm font-bold"
+                    : "text-white/60 hover:text-white"
                 }`}
-                title="切换为德语 (Deutsch) 50 组文案与对应德语标签"
               >
-                <span>🇩🇪 德语 (DE)</span>
+                🇩🇪 德语 (DE)
               </button>
             </div>
           )}
 
           {/* Engine Toggle */}
-          <div className="flex items-center gap-1.5 bg-[#14151e] p-1 rounded-xl border border-white/[0.08] shadow-inner">
+          <div className="flex items-center gap-1 bg-white/[0.04] p-1 rounded-[16px] border border-white/[0.08]">
             <button
               type="button"
               id="btn-mode-algo"
               onClick={() => onChangeParams({ useAiApi: false })}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-[12px] text-xs font-semibold transition-all cursor-pointer ${
                 !params.useAiApi
-                  ? "bg-[#222433] text-white border border-white/[0.12] shadow-xs"
+                  ? "bg-white text-black shadow-sm"
                   : "text-white/50 hover:text-white"
               }`}
             >
-              <Zap className="w-3.5 h-3.5 text-amber-300 fill-amber-300" />
-              <span>智能矩阵算法 (毫秒即出)</span>
+              <Zap className="w-3.5 h-3.5 fill-current" />
+              <span>毫秒矩阵算法</span>
             </button>
 
             <button
               type="button"
               id="btn-mode-gemini"
               onClick={() => onChangeParams({ useAiApi: true })}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-[12px] text-xs font-semibold transition-all cursor-pointer ${
                 params.useAiApi
-                  ? isG58
-                    ? "bg-pink-500/20 text-pink-300 border border-pink-500/40 shadow-xs"
-                    : isE09
-                    ? "bg-sky-500/20 text-sky-300 border border-sky-500/40 shadow-xs"
-                    : isE05
-                    ? "bg-rose-500/20 text-rose-300 border border-rose-500/40 shadow-xs"
-                    : isE12
-                    ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-xs"
-                    : isKt80
-                    ? "bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-xs"
-                    : isT20
-                    ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-xs"
-                    : isQs40
-                    ? "bg-purple-500/20 text-purple-300 border border-purple-500/40 shadow-xs"
-                    : "bg-blue-500/20 text-blue-300 border border-blue-500/40 shadow-xs"
+                  ? "bg-white text-black shadow-sm"
                   : "text-white/50 hover:text-white"
               }`}
             >
@@ -906,189 +495,66 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
         </div>
       </div>
 
-      {/* Bento Box Asymmetric Hardware & Data Specs */}
-      <div className="mt-5 pb-5 border-b border-white/[0.06]">
+      {/* HyperOS Bento Dashboard Specs */}
+      <div className="mt-6 pb-6 border-b border-white/[0.06]">
         <div className="flex items-center justify-between mb-3">
-          <label className="text-xs font-semibold text-white/70 uppercase tracking-wider flex items-center gap-1.5">
+          <label className="text-xs font-bold text-white/70 uppercase tracking-wider flex items-center gap-1.5 font-mono">
             <Sparkles className="w-3.5 h-3.5 text-white/40" />
-            <span>核心卖点便当盒 (Bento Box Specs)</span>
+            <span>核心硬件仪表盘 (Hardware Highlights)</span>
           </label>
-          <span className="text-[11px] text-white/40">
-            高光倒角物理玻璃面板 · 穿透性金属光泽
-          </span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-          {/* Bento Tile 1 (Hero Feature) */}
-          <div className="bento-glass-tile rounded-xl p-3.5 sm:col-span-2 relative overflow-hidden group">
-            <div className="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-white/[0.03] group-hover:scale-125 transition-transform" />
-            <div className="flex items-center justify-between gap-2 mb-1.5">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-white/50 font-bold">
-                CORE MATRIX 01 · 核心引擎
-              </span>
-              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${getProductBadgeColor()}`}>
-                旗舰主推
-              </span>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+          {/* Bento Widget 1 */}
+          <div className="p-4 rounded-[22px] bg-white/[0.035] border border-white/[0.07] hover:border-white/[0.14] transition-all">
+            <span className="text-[10px] font-mono uppercase tracking-widest text-white/40 font-bold block mb-1">
+              SPEC 01 · 核心引擎
+            </span>
+            <div className="text-sm font-bold text-white mb-1">
+              {currentProduct.model} 旗舰主推功能
             </div>
-            <div className="text-base font-black text-white flex items-center gap-2">
-              <span className={isG2 ? "text-gradient-purple" : isG58 ? "text-gradient-rose" : isE09 ? "text-gradient-sky" : isE05 ? "text-gradient-rose" : isE12 ? "text-gradient-cyber" : isKt80 ? "text-gradient-gold" : isT20 ? "text-gradient-emerald" : isQs40 ? "text-gradient-purple" : "text-titanium"}>
-                {isG2
-                  ? "女性健康管理 ✕ 120+ 运动模式"
-                  : isG58
-                  ? (isGerman ? "1,27\" HD & Exklusives Zyklus-Tracking" : "1.27\" HD y Control de Ciclo Femenino")
-                  : isE09
-                  ? "SONY 800万画素 POV 免手持录像"
-                  : isE05
-                  ? "4档电致变色 ✕ TR90超轻机身"
-                  : isE12
-                  ? "SONY 800万画素 POV 免手持录像"
-                  : isKt80
-                  ? "800 mAh 极限野外续航怪兽"
-                  : isT20
-                  ? "多星独立脱机 GNSS 轨迹记录"
-                  : isQs40
-                  ? "ChatGPT 对腕语音极速问答"
-                  : "ChatGPT × Gemini 双AI录音要约"}
-              </span>
-            </div>
-            <p className="text-xs text-white/60 mt-1 leading-relaxed">
-              {isG2
-                ? "月经周期与排卵期智能预测追踪，深浅睡眠深度分析，心率血氧24h全天候监测，Bluetooth 5.3高清通话与LINE/SNS通知，IP68级防水防尘。"
-                : isG58
-                ? (isGerman
-                    ? "1,27\" HD-Touchscreen (390×390, ~98% Screen-to-Body), Milanese- & Silikon-Doppelarmband, intelligentes Zyklus- & Schwangerschaftsmanagement, BT 5.3 Anrufe, 120+ Sportmodi."
-                    : "Pantalla táctil HD de 1.27\" (390×390, ~98% ratio pantalla), doble correa Milanés + Silicona, gestión inteligente de ciclo menstrual y embarazo, llamadas BT 5.3, 120+ deportes.")
-                : isE09
-                ? "第一人称视角 1080P 高清录像/4K静止画，透明防蓝光护眼，专属物理按键一键最长10分钟视频拍摄，彻底解放双手。"
-                : isE05
-                ? "指尖轻触感应区瞬时4档调光，室内清晰/户外遮阳一秒切换，极简穿搭美学与硬核科技完美融合。"
-                : isE12
-                ? "第一人称视角 1080P/4K 录像，骑行、Vlog、烹饪完全解放双手，搭配 OpenAI 智能语音交互。"
-                : isKt80
-                ? (isGerman
-                    ? "Bis zu 60 Tage Standby, 800 mAh Riesenakku & 5ATM Tauchschutz für kompromisslose Outdoor-Einsätze."
-                    : "Hasta 60 días de espera, batería gigante de 800 mAh y protección 5ATM para aventuras extremas.")
-                : isT20
-                ? "不带手机也能精准绘制越野等高线与轨迹路线，支持电子罗盘与智能声波气压排水。"
-                : isQs40
-                ? "抬腕秒唤醒 ChatGPT 语音助理，解答邮件、日程与即时外语翻译，9.8mm 极致超薄机身。"
-                : "1小时会议一键总结，支持高精转文字与即时思维导图生成，35小时连续录音。"}
+            <p className="text-xs text-white/60 leading-relaxed">
+              {currentProduct.japaneseType} 独家硬件配置与深度算法优化
             </p>
           </div>
 
-          {/* Bento Tile 2 */}
-          <div className="bento-glass-tile rounded-xl p-3.5 relative overflow-hidden group">
-            <div className="flex items-center justify-between gap-2 mb-1.5">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-white/50 font-bold">
-                SPEC 02 · 材质与形态
-              </span>
+          {/* Bento Widget 2 */}
+          <div className="p-4 rounded-[22px] bg-white/[0.035] border border-white/[0.07] hover:border-white/[0.14] transition-all">
+            <span className="text-[10px] font-mono uppercase tracking-widest text-white/40 font-bold block mb-1">
+              SPEC 02 · 形态与材质
+            </span>
+            <div className="text-sm font-bold text-white mb-1">
+              极简工学设计
             </div>
-            <div className={`text-sm font-black ${
-              isG2 ? "glow-spec-purple" : isG58 ? "glow-spec-rose" : isE09 ? "glow-spec-sky" : isE05 ? "glow-spec-rose" : isE12 ? "glow-spec-cyan" : isKt80 ? "glow-spec-amber" : isT20 ? "glow-spec-emerald" : isQs40 ? "glow-spec-purple" : "glow-spec-blue"
-            }`}>
-              {isG2
-                ? "百搭轻奢美学 ✕ 自由换盘"
-                : isG58
-                ? (isGerman ? "Milanese + Silikon Doppel-Look" : "Milanés + Silicona Doble Correa")
-                : isE09
-                ? "40g 极致轻盈 ✕ 透明防蓝光"
-                : isE05
-                ? "TR90 超轻韧性镜架"
-                : isE12
-                ? "16mm 大口径 HiFi"
-                : isKt80
-                ? "5ATM 专业深潜防水"
-                : isT20
-                ? "智能声波气压排水"
-                : isQs40
-                ? "9.8mm 极致纤薄"
-                : "0.28cm 纤薄名片卡"}
-            </div>
-            <p className="text-[11px] text-white/55 mt-1 leading-normal">
-              {isG2
-                ? "百搭日常与职场通勤穿搭（OOTD），多款自定义高颜值表盘随心切换，抬腕即亮屏，轻巧无感贴合手腕。"
-                : isG58
-                ? (isGerman
-                    ? "Feminines Leichtbau-Design mit zwei wechselbaren Armbändern (edles Milanese fürs Business & hautfreundliches Silikon für Sport)."
-                    : "Diseño ultraligero y elegante con 2 correas intercambiables (milanés para oficina y silicona para deporte).")
-                : isE09
-                ? "PC+ABS 高耐久超轻镜架，羽量级无感佩戴，防紫外线防蓝光，日常出街与办公百搭。"
-                : isE05
-                ? "IP65级防尘防水防汗，羽量级无感佩戴，告别沉重压鼻梁与墨镜替换。"
-                : isE12
-                ? "开放式定向音波传导，澎湃重低音且不伤耳膜，狂甩不掉。"
-                : isKt80
-                ? "50米水下级防水，真正全地形硬核潜水运动手表。"
-                : isT20
-                ? "游泳潜水出水后一键高频振动震出声腔水汽。"
-                : isQs40
-                ? "锌合金阳极氧化表壳，万元级奢华佩戴质感。"
-                : "42g 超轻机身，磁吸即贴即录，轻如信用卡。"}
+            <p className="text-xs text-white/60 leading-relaxed">
+              无感轻盈佩戴与高耐用性防尘防水机身
             </p>
           </div>
 
-          {/* Bento Tile 3 */}
-          <div className="bento-glass-tile rounded-xl p-3.5 relative overflow-hidden group">
-            <div className="flex items-center justify-between gap-2 mb-1.5">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-white/50 font-bold">
-                SPEC 03 · 独家黑科技
-              </span>
+          {/* Bento Widget 3 */}
+          <div className="p-4 rounded-[22px] bg-white/[0.035] border border-white/[0.07] hover:border-white/[0.14] transition-all">
+            <span className="text-[10px] font-mono uppercase tracking-widest text-white/40 font-bold block mb-1">
+              SPEC 03 · 转化挂载
+            </span>
+            <div className="text-sm font-bold text-white mb-1">
+              5 大高权重标签
             </div>
-            <div className={`text-sm font-black ${
-              isG2 ? "glow-spec-purple" : isG58 ? "glow-spec-rose" : isE09 ? "glow-spec-sky" : isE05 ? "glow-spec-rose" : isE12 ? "glow-spec-cyan" : isKt80 ? "glow-spec-amber" : isT20 ? "glow-spec-emerald" : isQs40 ? "glow-spec-purple" : "glow-spec-blue"
-            }`}>
-              {isG2
-                ? "FitCloudPro 120+ 运动库 ✕ 通话"
-                : isG58
-                ? (isGerman ? "Zyklus-Tracker & BT 5.3 Anrufe" : "Salud Femenina 24/7 y Llamadas BT")
-                : isE09
-                ? "物理按键拍摄 ✕ 开放双喇叭 ✕ AI"
-                : isE05
-                ? "AI实时同传 ✕ ENC双麦降噪"
-                : isE12
-                ? "OpenAI 视觉问答助理"
-                : isKt80
-                ? "侧置高亮 LED 战术手电"
-                : isT20
-                ? "电子罗盘 + 气压高度计"
-                : isQs40
-                ? "全天候心率假眠监测"
-                : "双降噪麦克风 10m 拾音"}
-            </div>
-            <p className="text-[11px] text-white/55 mt-1 leading-normal">
-              {isG2
-                ? "8+1内置模式+FitCloudPro App 112+种运动云端推送，步数卡路里实时记录，蓝牙5.3低功耗通话与手机寻找/计算器/天气。"
-                : isG58
-                ? (isGerman
-                    ? "Menstruations-, Eisprung- & Schwangerschaftstracking mit sanften Benachrichtigungen, 24/7 Vitaldaten & 120+ Sportmodi."
-                    : "Seguimiento de periodo, ovulación y embarazo con recordatorios, monitoreo 24/7 de ritmo cardíaco/SpO2/sueño y 120+ deportes.")
-                : isE09
-                ? "单击拍照/双击10分录像/4击唤醒AI助手，开放式双喇叭与阵列降噪麦克风，边走边录。"
-                : isE05
-                ? "8h连续听歌/7天待机，滑动镜腿调音，多语言实时跨国翻译交流。"
-                : isE12
-                ? "轻触即问，AI识别眼前的物体与文字并实时语音讲解。"
-                : isKt80
-                ? "独立侧键一键点亮，强光照明与SOS求救频闪。"
-                : isT20
-                ? "精准感知海拔变化与方向，100+ 专业极限运动模式。"
-                : isQs40
-                ? "高精传感器追踪睡眠深浅度与短时假眠，精准计步。"
-                : "360° 全向声源捕获，AI 算法精准过滤环境嘈杂噪音。"}
+            <p className="text-xs text-white/60 leading-relaxed truncate font-mono">
+              {activeTagsString}
             </p>
           </div>
         </div>
       </div>
 
-      {/* Hook Categories */}
-      <div className="mt-5">
-        <div className="flex items-center justify-between mb-2.5">
-          <label className="text-xs font-semibold text-white/70 uppercase tracking-wider flex items-center gap-1.5">
+      {/* Content Angles / Perspectives */}
+      <div className="mt-6">
+        <div className="flex items-center justify-between mb-3">
+          <label className="text-xs font-bold text-white/70 uppercase tracking-wider flex items-center gap-1.5 font-mono">
             <Layers className="w-3.5 h-3.5 text-white/40" />
             <span>内容切入视角 / 营销诉求维度</span>
           </label>
           <span className="text-[11px] text-white/40">
-            精细化客群与心理触发器定位
+            精准客群心理触发器
           </span>
         </div>
 
@@ -1101,109 +567,68 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                 id={`cat-btn-${cat.id}`}
                 type="button"
                 onClick={() => onChangeParams({ category: cat.id })}
-                className={`group relative flex flex-col text-left p-3 rounded-xl border transition-all text-xs cursor-pointer ${
+                className={`group relative flex flex-col text-left p-3.5 rounded-[18px] transition-all text-xs cursor-pointer ${
                   isSelected
-                    ? isFos10
-                      ? "border-rose-500/50 bg-rose-500/[0.08] ring-1 ring-rose-500/30 text-white shadow-xs"
-                      : isG2
-                      ? "border-purple-500/50 bg-purple-500/[0.08] ring-1 ring-purple-500/30 text-white shadow-xs"
-                      : isG58
-                      ? "border-pink-500/50 bg-pink-500/[0.08] ring-1 ring-pink-500/30 text-white shadow-xs"
-                      : isE09
-                      ? "border-sky-500/50 bg-sky-500/[0.08] ring-1 ring-sky-500/30 text-white shadow-xs"
-                      : isE05
-                      ? "border-rose-500/50 bg-rose-500/[0.08] ring-1 ring-rose-500/30 text-white shadow-xs"
-                      : isE12
-                      ? "border-cyan-500/50 bg-cyan-500/[0.08] ring-1 ring-cyan-500/30 text-white shadow-xs"
-                      : isKt80
-                      ? "border-amber-500/50 bg-amber-500/[0.08] ring-1 ring-amber-500/30 text-white shadow-xs"
-                      : isT20
-                      ? "border-emerald-500/50 bg-emerald-500/[0.08] ring-1 ring-emerald-500/30 text-white shadow-xs"
-                      : isQs40
-                      ? "border-purple-500/50 bg-purple-500/[0.08] ring-1 ring-purple-500/30 text-white shadow-xs"
-                      : "border-blue-500/50 bg-blue-500/[0.08] ring-1 ring-blue-500/30 text-white shadow-xs"
-                    : "border-white/[0.06] bg-[#14151f]/50 hover:border-white/[0.12] hover:bg-[#181926]/70 text-white/70"
+                    ? "bg-white text-black font-semibold shadow-md"
+                    : "bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.07] hover:border-white/[0.12] text-white/70"
                 }`}
               >
                 <div className="flex items-center gap-1.5 font-bold mb-1 truncate">
                   <span className="text-sm">{cat.icon}</span>
-                  <span className="truncate text-white/95 group-hover:text-white">{cat.label}</span>
+                  <span className={`truncate ${isSelected ? "text-black" : "text-white"}`}>
+                    {cat.label}
+                  </span>
                 </div>
-                <span className="text-[11px] text-white/45 line-clamp-2 leading-relaxed">
+                <span className={`text-[11px] line-clamp-2 leading-relaxed ${
+                  isSelected ? "text-black/70" : "text-white/40"
+                }`}>
                   {cat.desc}
                 </span>
-                {isSelected && (
-                  <div className={`absolute top-2.5 right-2.5 w-1.5 h-1.5 rounded-full ${
-                    isFos10 ? "bg-rose-400 shadow-rose-400" : isG2 ? "bg-purple-400 shadow-purple-400" : isG58 ? "bg-pink-400 shadow-pink-400" : isE09 ? "bg-sky-400 shadow-sky-400" : isE05 ? "bg-rose-400 shadow-rose-400" : isE12 ? "bg-cyan-400 shadow-cyan-400" : isKt80 ? "bg-amber-400 shadow-amber-400" : isT20 ? "bg-emerald-400 shadow-emerald-400" : isQs40 ? "bg-purple-400 shadow-purple-400" : "bg-blue-400 shadow-blue-400"
-                  } shadow-xs`} />
-                )}
               </button>
             );
           })}
         </div>
       </div>
 
-      {/* 5-Tag Customization Suite */}
-      <div className="mt-5 p-4 rounded-xl bg-[#14151e]/80 border border-white/[0.08] shadow-inner transition-all">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-white/[0.06]">
+      {/* 5-Tag Management Suite */}
+      <div className="mt-6 p-4 sm:p-5 rounded-[22px] bg-white/[0.03] border border-white/[0.07]">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3.5 border-b border-white/[0.06]">
           <div className="flex items-center gap-2.5">
-            <div className={`p-2 rounded-lg border ${
-              isFos10
-                ? "bg-rose-500/10 text-rose-400 border-rose-500/20"
-                : isG2
-                ? "bg-purple-500/10 text-purple-400 border-purple-500/20"
-                : isG58
-                ? "bg-pink-500/10 text-pink-400 border-pink-500/20"
-                : isE09
-                ? "bg-sky-500/10 text-sky-400 border-sky-500/20"
-                : isE05
-                ? "bg-rose-500/10 text-rose-400 border-rose-500/20"
-                : isE12
-                ? "bg-cyan-500/10 text-cyan-400 border-cyan-500/20"
-                : isKt80
-                ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
-                : isT20
-                ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
-                : isQs40
-                ? "bg-purple-500/10 text-purple-400 border-purple-500/20"
-                : "bg-blue-500/10 text-blue-400 border-blue-500/20"
-            }`}>
+            <div className="p-2 rounded-[12px] bg-white/[0.06] text-white">
               <Tag className="w-3.5 h-3.5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-white/90 tracking-tight">
+                <span className="text-xs font-bold text-white tracking-tight">
                   5 大固定营销标签管理
                 </span>
                 {isCustomized ? (
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30 flex items-center gap-1">
+                  <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1">
                     <Edit3 className="w-2.5 h-2.5" /> 已自定义
                   </span>
                 ) : (
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 flex items-center gap-1">
+                  <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1">
                     <CheckCircle2 className="w-2.5 h-2.5" /> 原厂标准标签
                   </span>
                 )}
               </div>
               <p className="text-[11px] text-white/40 mt-0.5">
-                支持随时修改 5 个标签。未修改前默认保留原标签，修改后生成的所有标题均自动带上新标签。
+                支持随时修改 5 个标签，生成的所有标题均自动带上新标签。
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-2 self-end sm:self-center">
-            {/* View Mode Toggle */}
-            <div className="flex items-center bg-[#0e0f15] p-0.5 rounded-lg border border-white/[0.08] text-[11px]">
+            <div className="flex items-center bg-white/[0.04] p-0.5 rounded-[12px] border border-white/[0.08] text-[11px]">
               <button
                 type="button"
                 id="btn-tag-mode-slots"
                 onClick={() => setTagEditMode("slots")}
-                className={`px-2.5 py-1 rounded-md transition-all cursor-pointer flex items-center gap-1 ${
+                className={`px-3 py-1 rounded-[10px] transition-all cursor-pointer flex items-center gap-1 ${
                   tagEditMode === "slots"
-                    ? "bg-white/[0.1] text-white font-bold shadow-xs"
-                    : "text-white/40 hover:text-white/80"
+                    ? "bg-white text-black font-bold shadow-xs"
+                    : "text-white/40 hover:text-white"
                 }`}
-                title="5 槽位独立输入"
               >
                 <ListOrdered className="w-3 h-3" />
                 <span>5槽位</span>
@@ -1212,26 +637,23 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                 type="button"
                 id="btn-tag-mode-line"
                 onClick={() => setTagEditMode("line")}
-                className={`px-2.5 py-1 rounded-md transition-all cursor-pointer flex items-center gap-1 ${
+                className={`px-3 py-1 rounded-[10px] transition-all cursor-pointer flex items-center gap-1 ${
                   tagEditMode === "line"
-                    ? "bg-white/[0.1] text-white font-bold shadow-xs"
-                    : "text-white/40 hover:text-white/80"
+                    ? "bg-white text-black font-bold shadow-xs"
+                    : "text-white/40 hover:text-white"
                 }`}
-                title="单行快速输入/粘贴"
               >
                 <Edit3 className="w-3 h-3" />
-                <span>单行编辑</span>
+                <span>单行</span>
               </button>
             </div>
 
-            {/* Reset Button */}
             {isCustomized && (
               <button
                 type="button"
                 id="btn-reset-tags"
                 onClick={handleResetToDefaultTags}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 transition-all cursor-pointer"
-                title="恢复当前产品的原厂默认标签"
+                className="inline-flex items-center gap-1 px-3 py-1 rounded-[12px] text-xs font-semibold text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 transition-all cursor-pointer"
               >
                 <RotateCcw className="w-3 h-3" />
                 <span>恢复默认</span>
@@ -1242,116 +664,32 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
 
         {/* Inputs */}
         {tagEditMode === "slots" ? (
-          <div className="mt-3 grid grid-cols-1 sm:grid-cols-5 gap-2">
-            {[0, 1, 2, 3, 4].map((slotIdx) => {
-              const labels = isG58
-                ? (isGerman
-                  ? [
-                      "Tag 1 · Marke",
-                      "Tag 2 · Modell",
-                      "Tag 3 · Kategorie",
-                      "Tag 4 · Outfit",
-                      "Tag 5 · Frauengesundheit",
-                    ]
-                  : [
-                      "Etiqueta 1 · Marca",
-                      "Etiqueta 2 · Modelo",
-                      "Etiqueta 3 · Categoría",
-                      "Etiqueta 4 · Atuendo",
-                      "Etiqueta 5 · Salud de la mujer",
-                    ])
-                : isE09
-                ? [
-                    "标签 1 · 品牌词",
-                    "标签 2 · 型号词",
-                    "标签 3 · 品类词",
-                    "标签 4 · 核心穿搭",
-                    "标签 5 · 核心场景",
-                  ]
-                : isE05
-                ? [
-                    "标签 1 · 品牌词",
-                    "标签 2 · 型号词",
-                    "标签 3 · 品类词",
-                    "标签 4 · 核心穿搭",
-                    "标签 5 · 核心功能",
-                  ]
-                : isE12
-                ? [
-                    "标签 1 · 品牌词",
-                    "标签 2 · 型号词",
-                    "标签 3 · 品类词",
-                    "标签 4 · 核心场景",
-                    "标签 5 · 核心功能",
-                  ]
-                : isKt80
-                ? (isGerman
-                  ? [
-                      "Tag 1 · Marke",
-                      "Tag 2 · Modell",
-                      "Tag 3 · Kategorie",
-                      "Tag 4 · Outdoor/Sport",
-                      "Tag 5 · Funktion",
-                    ]
-                  : [
-                      "Etiqueta 1 · Marca",
-                      "Etiqueta 2 · Modelo",
-                      "Etiqueta 3 · Categoría",
-                      "Etiqueta 4 · Outdoor",
-                      "Etiqueta 5 · Función",
-                    ])
-                : isT20
-                ? [
-                    "标签 1 · 品牌词",
-                    "标签 2 · 型号词",
-                    "标签 3 · 品类词",
-                    "标签 4 · 核心场景",
-                    "标签 5 · 核心功能",
-                  ]
-                : isQs40
-                ? [
-                    "标签 1 · 品牌词",
-                    "标签 2 · 错别字引流词",
-                    "标签 3 · 型号词",
-                    "标签 4 · 品类词",
-                    "标签 5 · 核心技术",
-                  ]
-                : [
-                    "标签 1 · 品牌词",
-                    "标签 2 · 型号词",
-                    "标签 3 · 品类词",
-                    "标签 4 · 核心AI技术",
-                    "标签 5 · 核心应用场景",
-                  ];
-
-              return (
-                <div key={slotIdx} className="flex flex-col gap-1">
-                  <span className="text-[10px] text-white/50 font-medium truncate">
-                    {labels[slotIdx]}
-                  </span>
-                  <div className="relative flex items-center">
-                    <div className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-white/30">
-                      <Hash className={`w-3 h-3 ${
-                        isFos10 ? "text-rose-400" : isG2 ? "text-purple-400" : isG58 ? "text-pink-400" : isE09 ? "text-sky-400" : isE05 ? "text-rose-400" : isE12 ? "text-cyan-400" : isKt80 ? "text-amber-400" : isT20 ? "text-emerald-400" : isQs40 ? "text-purple-400" : "text-blue-400"
-                      }`} />
-                    </div>
-                    <input
-                      type="text"
-                      id={`input-tag-slot-${slotIdx + 1}`}
-                      placeholder={`标签 ${slotIdx + 1}`}
-                      value={tagSlots[slotIdx] || ""}
-                      onChange={(e) => handleSlotChange(slotIdx, e.target.value)}
-                      className="w-full pl-7 pr-2.5 py-1.5 text-xs bg-[#0c0d13] border border-white/[0.08] rounded-lg focus:border-white/30 focus:ring-2 focus:ring-white/10 text-white font-mono outline-hidden transition-all placeholder:text-white/20"
-                    />
+          <div className="mt-3.5 grid grid-cols-1 sm:grid-cols-5 gap-2.5">
+            {[0, 1, 2, 3, 4].map((slotIdx) => (
+              <div key={slotIdx} className="flex flex-col gap-1">
+                <span className="text-[10px] text-white/40 font-medium">
+                  槽位 {slotIdx + 1}
+                </span>
+                <div className="relative flex items-center">
+                  <div className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-white/30">
+                    <Hash className="w-3 h-3 text-white/40" />
                   </div>
+                  <input
+                    type="text"
+                    id={`input-tag-slot-${slotIdx + 1}`}
+                    placeholder={`标签 ${slotIdx + 1}`}
+                    value={tagSlots[slotIdx] || ""}
+                    onChange={(e) => handleSlotChange(slotIdx, e.target.value)}
+                    className="w-full pl-7 pr-2.5 py-1.5 text-xs bg-black/40 border border-white/[0.08] rounded-[12px] focus:border-white/30 focus:ring-2 focus:ring-white/10 text-white font-mono outline-hidden transition-all placeholder:text-white/20"
+                  />
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
         ) : (
-          <div className="mt-3">
-            <span className="text-[10px] text-white/50 font-medium block mb-1">
-              单行输入或直接粘贴（多个标签用 # 或 空格 分隔）：
+          <div className="mt-3.5">
+            <span className="text-[10px] text-white/40 font-medium block mb-1">
+              单行输入或直接粘贴：
             </span>
             <div className="relative flex items-center">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white/30">
@@ -1360,38 +698,19 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
               <input
                 type="text"
                 id="input-tag-line"
-                placeholder={
-                  isFos10
-                    ? "例如: #FOSMET#FOS10#女性の健康#スマートウォッチ#ポータブル"
-                    : isG2
-                    ? "例如: #FOSMET#G2#女性の健康#スマートウォッチ#服装"
-                    : isG58
-                    ? isGerman
-                      ? "例如: #FOSMET#G58#Smartwatch#Outfit#Frauengesundheit"
-                      : "例如: #FOSMET#G58#reloj inteligente#Atuendo#Salud de la mujer"
-                    : isE09
-                    ? "例如: #FOSMET#E09#スマートグラス#服装#デイリーレコード"
-                    : isE05
-                    ? "例如: #FOSMET#E05#スマートグラス#服装#イヤホン"
-                    : isE12
-                    ? "例如: #FOSMET#E12#Bluetoothヘッドホン#デイリーレコード#AIイヤホン"
-                    : isKt80
-                    ? "例如: #FOSMET#KT80#reloj inteligente#Relojes para exteriores#herramienta"
-                    : "例如: #FOSMET#REC10#AIレコーダー#ChatGPT#プロモーションの仕事"
-                }
                 value={lineInputValue}
                 onChange={(e) => handleLineInputChange(e.target.value)}
-                className="w-full pl-8 pr-3 py-2 text-xs bg-[#0c0d13] border border-white/[0.08] rounded-lg focus:border-white/30 focus:ring-2 focus:ring-white/10 text-white font-mono outline-hidden transition-all placeholder:text-white/20"
+                className="w-full pl-8 pr-3 py-2 text-xs bg-black/40 border border-white/[0.08] rounded-[12px] focus:border-white/30 focus:ring-2 focus:ring-white/10 text-white font-mono outline-hidden transition-all placeholder:text-white/20"
               />
             </div>
           </div>
         )}
 
-        {/* Suggestions and active banner */}
+        {/* Suggestions */}
         <div className="mt-3 pt-2.5 border-t border-white/[0.05] flex flex-col md:flex-row md:items-center justify-between gap-2">
           <div className="flex items-center gap-1.5 flex-wrap">
-            <span className="text-[10px] text-white/40 font-medium flex-shrink-0">
-              💡 快捷词库推荐:
+            <span className="text-[10px] text-white/40 font-medium">
+              💡 快捷推荐:
             </span>
             {currentSuggestions.map((sug, i) => (
               <button
@@ -1399,8 +718,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                 type="button"
                 id={`btn-tag-sug-${i}`}
                 onClick={() => handleApplySuggestion(sug)}
-                className="px-2 py-0.5 text-[10px] rounded-md bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.06] text-white/60 hover:text-white font-mono transition-all cursor-pointer"
-                title={`点击将 #${sug} 填入标签`}
+                className="px-2 py-0.5 text-[10px] rounded-[8px] bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.06] text-white/60 hover:text-white font-mono transition-all cursor-pointer"
               >
                 +#{sug}
               </button>
@@ -1408,94 +726,48 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           </div>
 
           <div className="flex items-center gap-1.5 text-[11px] truncate">
-            <span className="text-white/40 text-[10px] flex-shrink-0">最终生效:</span>
-            <code className={`font-mono text-[11px] px-2 py-0.5 rounded-md bg-[#0b0c11] border border-white/[0.08] ${
-              isFos10 ? "text-rose-300" : isG2 ? "text-purple-300" : isG58 ? "text-pink-300" : isE09 ? "text-sky-300" : isE05 ? "text-rose-300" : isE12 ? "text-cyan-300" : isKt80 ? "text-amber-300" : isT20 ? "text-emerald-300" : isQs40 ? "text-purple-300" : "text-blue-300"
-            } font-semibold truncate select-all`}>
+            <span className="text-white/40 text-[10px]">生效标签:</span>
+            <code className="font-mono text-[11px] px-2.5 py-0.5 rounded-[8px] bg-black/50 border border-white/[0.08] text-white font-medium truncate select-all">
               {activeTagsString}
             </code>
           </div>
         </div>
       </div>
 
-      {/* Keyword Modifier & Primary Generate Action */}
-      <div className="mt-5 pt-4 border-t border-white/[0.06] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+      {/* Keyword Modifier & Xiaomi Vitality Generate Action */}
+      <div className="mt-6 pt-5 border-t border-white/[0.06] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
         <div className="flex-1">
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white/30">
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-white/30">
               <Sliders className="w-3.5 h-3.5" />
             </div>
             <input
               type="text"
               id="input-custom-keyword"
-              placeholder={
-                isFos10
-                  ? "特别强调词（选填：10.66mm極薄、14.9g超軽量、100+文字盤DIY、女性の健康、睡眠サイクル、100+運動モード、IP68防水等）"
-                  : isG2
-                  ? "特别强调词（选填：女性の健康、月経周期、睡眠モニタリング、Bluetooth 5.3通話、120+運動、服装コーデ、IP68防水等）"
-                  : isG58
-                  ? isGerman
-                    ? "Besonderes Keyword (z.B.: Zyklustracker, Milanese-Armband, 1,27 HD, Bluetooth 5.3 Anruf, OOTD, IP68)"
-                    : "特别强调词（选填：Salud de la mujer, Correa milanesa, 1.27 HD, Llamadas Bluetooth, OOTD, 120+ deportes, GloryFit）"
-                  : isE09
-                  ? "特别强调词（选填：SONY 800万画素、40g極軽量、POV動画、透明防藍光、10分録画、物理ボタン等）"
-                  : isE05
-                  ? "特别强调词（选填：4段階調光、TR90極軽量、AI同時通訳、ENCノイキャン、8h連続再生等）"
-                  : isE12
-                  ? "特别强调词（选填：SONY 800万画素、16mmスピーカー、Hi Luma、POV動画、ハンズフリー撮影等）"
-                  : isKt80
-                  ? isGerman
-                    ? "Besonderes Keyword (z.B.: LED-Taschenlampe, 800mAh, 5ATM Tauchen, Silbermetall, Bluetooth-Anruf)"
-                    : "特别强调词（选填：linterna LED, 800mAh, 5ATM buceo, metal plateado, llamadas Bluetooth, supervivencia）"
-                  : isT20
-                  ? "特别强调词（选填：スマート排水、多星GNSS、電子コンパス、気圧高度計、100种スポーツ等）"
-                  : isQs40
-                  ? "特别强调词（选填：洗练银、对腕语音、假眠睡眠、1万円以下、急速充電等）"
-                  : "特别强调词（选填：新入职、商务谈判、求职面试、思维导图、零加班等）"
-              }
+              placeholder="特别强调词（选填，如：新入职、零加班、POV第一人称、10.66mm极薄、女性健康等）"
               value={params.customKeyword || ""}
               onChange={(e) => onChangeParams({ customKeyword: e.target.value })}
-              className="w-full pl-9 pr-3 py-2.5 text-xs bg-[#14151e]/80 border border-white/[0.08] rounded-xl focus:border-white/30 focus:ring-2 focus:ring-white/10 text-white placeholder:text-white/30 transition-all outline-hidden"
+              className="w-full pl-9 pr-3.5 py-3 text-xs bg-white/[0.035] border border-white/[0.08] rounded-[16px] focus:border-white/30 focus:ring-2 focus:ring-white/10 text-white placeholder:text-white/30 transition-all outline-hidden font-sans"
             />
           </div>
         </div>
 
-        {/* Generate Button with Magnetic physics */}
+        {/* Xiaomi Vitality Orange / High-Power Generate Button */}
         <MagneticButton
           id="btn-generate-50"
           onClick={onGenerate}
           disabled={isLoading}
-          className={`flex-shrink-0 inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl font-black text-sm text-white shadow-2xl transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed border-crystal-glow ${
-            isFos10
-              ? "bg-gradient-to-r from-rose-500 via-pink-500 to-rose-400 shadow-[0_0_30px_rgba(244,63,94,0.55)] hover:shadow-[0_0_45px_rgba(244,63,94,0.8)] hover:scale-[1.03]"
-              : isG2
-              ? "bg-gradient-to-r from-purple-500 via-fuchsia-500 to-pink-400 shadow-[0_0_30px_rgba(168,85,247,0.55)] hover:shadow-[0_0_45px_rgba(168,85,247,0.8)] hover:scale-[1.03]"
-              : isG58
-              ? "bg-gradient-to-r from-pink-500 via-rose-500 to-pink-400 shadow-[0_0_30px_rgba(236,72,153,0.55)] hover:shadow-[0_0_45px_rgba(236,72,153,0.8)] hover:scale-[1.03]"
-              : isE09
-              ? "bg-gradient-to-r from-sky-500 via-blue-500 to-cyan-400 shadow-[0_0_30px_rgba(56,189,248,0.55)] hover:shadow-[0_0_45px_rgba(56,189,248,0.8)] hover:scale-[1.03]"
-              : isE05
-              ? "bg-gradient-to-r from-rose-500 via-pink-500 to-rose-400 shadow-[0_0_30px_rgba(244,63,94,0.55)] hover:shadow-[0_0_45px_rgba(244,63,94,0.8)] hover:scale-[1.03]"
-              : isE12
-              ? "bg-gradient-to-r from-cyan-500 via-teal-500 to-sky-400 shadow-[0_0_30px_rgba(6,182,212,0.55)] hover:shadow-[0_0_45px_rgba(6,182,212,0.8)] hover:scale-[1.03]"
-              : isKt80
-              ? "bg-gradient-to-r from-amber-500 via-orange-500 to-yellow-400 shadow-[0_0_30px_rgba(245,158,11,0.55)] hover:shadow-[0_0_45px_rgba(245,158,11,0.8)] hover:scale-[1.03]"
-              : isT20
-              ? "bg-gradient-to-r from-emerald-500 via-teal-500 to-green-400 shadow-[0_0_30px_rgba(160,185,129,0.55)] hover:shadow-[0_0_45px_rgba(16,185,129,0.8)] hover:scale-[1.03]"
-              : isQs40
-              ? "bg-gradient-to-r from-purple-500 via-violet-500 to-fuchsia-400 shadow-[0_0_30px_rgba(168,85,247,0.55)] hover:shadow-[0_0_45px_rgba(168,85,247,0.8)] hover:scale-[1.03]"
-              : "bg-gradient-to-r from-blue-500 via-indigo-500 to-sky-400 shadow-[0_0_30px_rgba(59,130,246,0.55)] hover:shadow-[0_0_45px_rgba(59,130,246,0.8)] hover:scale-[1.03]"
-          } border border-white/40 active:scale-95`}
+          className="flex-shrink-0 inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-[18px] font-bold text-sm text-white bg-[#ff6900] hover:bg-[#ff7a1a] active:bg-[#e05d00] shadow-[0_8px_24px_rgba(255,105,0,0.4)] hover:shadow-[0_12px_32px_rgba(255,105,0,0.55)] transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed border border-white/20"
         >
           {isLoading ? (
             <>
               <RefreshCw className="w-4 h-4 animate-spin text-white" />
-              <span className="tracking-wide">{currentProduct.model} 50 组文案生成中...</span>
+              <span>{currentProduct.model} 50 组文案生成中...</span>
             </>
           ) : (
             <>
-              <Sparkles className="w-4 h-4 text-amber-200 fill-amber-300 drop-shadow-[0_0_8px_rgba(252,211,77,0.9)] animate-pulse" />
-              <span className="tracking-wide">一键输出 50 组 {currentProduct.model} 爆款文案</span>
+              <Sparkles className="w-4 h-4 text-white" />
+              <span>一键输出 50 组 {currentProduct.model} 爆款文案</span>
             </>
           )}
         </MagneticButton>
