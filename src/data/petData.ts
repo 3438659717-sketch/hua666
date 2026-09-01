@@ -15,8 +15,46 @@ export type PixelPetType =
 
 export type PetBehaviorMode = "wander" | "stay" | "sleep" | "follow";
 
+export type PetAccessoryCategory =
+  | "suit"
+  | "top"
+  | "bottom"
+  | "hat"
+  | "glasses"
+  | "special";
+
 export type PetAccessory =
   | "none"
+  // 1. Full Outfits (整套)
+  | "suit_astronaut"
+  | "suit_wizard"
+  | "suit_ninja"
+  | "suit_kimono"
+  | "suit_tuxedo"
+  | "suit_santa"
+  | "suit_emperor"
+  | "suit_dev"
+  | "suit_rockstar"
+  | "suit_cyber_mecha"
+  | "suit_scientist"
+  // 2. Tops & Outerwear (衣服 / 上衣)
+  | "top_hoodie"
+  | "top_suit_shirt"
+  | "top_hawaiian"
+  | "top_cyber_jacket"
+  | "top_sweater"
+  | "top_leather_jacket"
+  | "top_knit_cardigan"
+  | "top_sports_jersey"
+  // 3. Pants & Bottoms (裤子 / 下装)
+  | "bottom_jeans"
+  | "bottom_swim_shorts"
+  | "bottom_cargo"
+  | "bottom_skirt"
+  | "bottom_overalls"
+  | "bottom_cyber_joggers"
+  | "bottom_martial_pants"
+  // 4. Headwear & Accessories (头部饰品)
   | "astronaut"
   | "halo"
   | "shades"
@@ -39,13 +77,15 @@ export interface AccessoryDefinition {
   name: string;
   icon: string;
   desc: string;
-  category: "hat" | "glasses" | "special";
+  category: PetAccessoryCategory;
   price: number;
   unlockLevel: number;
   rows: { r: number; c: number; color: string }[];
 }
 
-export const ACCESSORY_SPRITES: Record<PetAccessory, AccessoryDefinition> = {
+import { EXTRA_ACCESSORY_SPRITES } from "./petOutfits";
+
+const BASE_ACCESSORY_SPRITES: Partial<Record<PetAccessory, AccessoryDefinition>> = {
   none: {
     name: "原汁原味",
     icon: "✨",
@@ -286,6 +326,11 @@ export const ACCESSORY_SPRITES: Record<PetAccessory, AccessoryDefinition> = {
     ],
   },
 };
+
+export const ACCESSORY_SPRITES: Record<PetAccessory, AccessoryDefinition> = {
+  ...BASE_ACCESSORY_SPRITES,
+  ...(EXTRA_ACCESSORY_SPRITES as Record<PetAccessory, AccessoryDefinition>),
+} as Record<PetAccessory, AccessoryDefinition>;
 
 // 16x16 Pixel Art Matrices for 11 distinct species
 export interface PetDefinition {

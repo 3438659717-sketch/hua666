@@ -25,7 +25,8 @@ export const PetWardrobeModal: React.FC<PetWardrobeModalProps> = ({
   onUpdateState,
   onShowToast,
 }) => {
-  const [activeTab, setActiveTab] = useState<"animals" | "costumes">("animals");
+  const [activeTab, setActiveTab] = useState<"animals" | "costumes">("costumes");
+  const [costumeFilter, setCostumeFilter] = useState<"all" | "suit" | "top" | "bottom" | "head">("all");
   const [previewPet, setPreviewPet] = useState<PixelPetType>(state.selectedPet);
   const [previewAcc, setPreviewAcc] = useState<PetAccessory>(state.currentAccessory);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -281,85 +282,141 @@ export const PetWardrobeModal: React.FC<PetWardrobeModalProps> = ({
 
           {/* COSTUMES LIST */}
           {activeTab === "costumes" && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-              {accessoryKeys.map((accKey) => {
-                const acc = ACCESSORY_SPRITES[accKey];
-                const isEquipped = state.currentAccessory === accKey;
-                const isUnlocked = state.unlockedAccessories.includes(accKey);
-                const canUnlockLevel = state.level >= acc.unlockLevel;
-                const canAfford = state.coins >= acc.price;
-
-                return (
-                  <div
-                    key={accKey}
-                    className={`p-3.5 rounded-xl border flex flex-col justify-between transition-all ${
-                      isEquipped
-                        ? "bg-purple-950/40 border-purple-400 ring-1 ring-purple-400/50 shadow-lg"
-                        : "bg-slate-800/60 border-white/10 hover:border-white/20"
+            <div className="space-y-3">
+              {/* Category Filter Pills */}
+              <div className="flex flex-wrap items-center gap-1.5 pb-1">
+                {[
+                  { id: "all", label: "🌟 全部款式" },
+                  { id: "suit", label: "✨ 完整套装" },
+                  { id: "top", label: "👔 衣服外套" },
+                  { id: "bottom", label: "👖 裤装下装" },
+                  { id: "head", label: "🎩 头部与面饰" },
+                ].map((pill) => (
+                  <button
+                    key={pill.id}
+                    onClick={() => setCostumeFilter(pill.id as any)}
+                    className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${
+                      costumeFilter === pill.id
+                        ? "bg-purple-500 text-white font-bold shadow-sm shadow-purple-500/30"
+                        : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
                     }`}
                   >
-                    <div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-3xl">{acc.icon}</span>
-                        {isEquipped ? (
-                          <span className="px-2 py-0.5 rounded-full bg-purple-500 text-white text-[10px] font-bold flex items-center gap-1">
-                            <Check className="w-3 h-3" /> 已佩戴
+                    {pill.label}
+                  </button>
+                ))}
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                {accessoryKeys
+                  .filter((accKey) => {
+                    if (costumeFilter === "all") return true;
+                    const acc = ACCESSORY_SPRITES[accKey];
+                    if (costumeFilter === "suit") return acc.category === "suit";
+                    if (costumeFilter === "top") return acc.category === "top";
+                    if (costumeFilter === "bottom") return acc.category === "bottom";
+                    if (costumeFilter === "head")
+                      return (
+                        acc.category === "hat" ||
+                        acc.category === "glasses" ||
+                        acc.category === "special"
+                      );
+                    return true;
+                  })
+                  .map((accKey) => {
+                    const acc = ACCESSORY_SPRITES[accKey];
+                    const isEquipped = state.currentAccessory === accKey;
+                    const isUnlocked = state.unlockedAccessories.includes(accKey);
+                    const canUnlockLevel = state.level >= acc.unlockLevel;
+                    const canAfford = state.coins >= acc.price;
+
+                    const getCategoryLabel = () => {
+                      if (acc.category === "suit") return "【整套】";
+                      if (acc.category === "top") return "【上衣】";
+                      if (acc.category === "bottom") return "【裤子】";
+                      if (acc.category === "glasses") return "【面饰】";
+                      if (acc.category === "hat") return "【头饰】";
+                      return "【配饰】";
+                    };
+
+                    return (
+                      <div
+                        key={accKey}
+                        className={`p-3.5 rounded-xl border flex flex-col justify-between transition-all ${
+                          isEquipped
+                            ? "bg-purple-950/40 border-purple-400 ring-1 ring-purple-400/50 shadow-lg"
+                            : "bg-slate-800/60 border-white/10 hover:border-white/20"
+                        }`}
+                      >
+                        <div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-3xl">{acc.icon}</span>
+                            {isEquipped ? (
+                              <span className="px-2 py-0.5 rounded-full bg-purple-500 text-white text-[10px] font-bold flex items-center gap-1">
+                                <Check className="w-3 h-3" /> 已佩戴
+                              </span>
+                            ) : isUnlocked ? (
+                              <span className="text-[10px] text-emerald-400 font-mono font-medium">
+                                已拥有
+                              </span>
+                            ) : (
+                              <span className="text-[10px] text-amber-400 font-mono font-bold">
+                                🪙 {acc.price}
+                              </span>
+                            )}
+                          </div>
+
+                          <div className="mt-2 font-bold text-xs text-white flex items-center gap-1">
+                            <span className="text-[10px] text-purple-300/80 font-normal">
+                              {getCategoryLabel()}
+                            </span>
+                            <span>{acc.name}</span>
+                          </div>
+                          <p className="text-[11px] text-white/50 mt-0.5">{acc.desc}</p>
+                        </div>
+
+                        <div className="mt-3 pt-2 border-t border-white/10 flex items-center justify-between">
+                          <span className="text-[10px] text-white/40 font-mono">
+                            {acc.unlockLevel > 1 ? `需 Lv.${acc.unlockLevel}` : "无等级限制"}
                           </span>
-                        ) : isUnlocked ? (
-                          <span className="text-[10px] text-emerald-400 font-mono font-medium">已拥有</span>
-                        ) : (
-                          <span className="text-[10px] text-amber-400 font-mono font-bold">
-                            🪙 {acc.price}
-                          </span>
-                        )}
-                      </div>
 
-                      <div className="mt-2 font-bold text-xs text-white">{acc.name}</div>
-                      <p className="text-[11px] text-white/50 mt-0.5">{acc.desc}</p>
-                    </div>
-
-                    <div className="mt-3 pt-2 border-t border-white/10 flex items-center justify-between">
-                      <span className="text-[10px] text-white/40 font-mono">
-                        {acc.unlockLevel > 1 ? `需 Lv.${acc.unlockLevel}` : "无等级限制"}
-                      </span>
-
-                      {isEquipped ? (
-                        <button
-                          onClick={() => handleSelectAccessory("none")}
-                          className="px-2.5 py-1 rounded-lg bg-white/10 text-white/70 hover:text-white text-[11px]"
-                        >
-                          卸下
-                        </button>
-                      ) : isUnlocked ? (
-                        <button
-                          onClick={() => handleSelectAccessory(accKey)}
-                          className="px-3 py-1 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-[11px] font-bold shadow-sm"
-                        >
-                          佩戴
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => handleSelectAccessory(accKey)}
-                          disabled={!canUnlockLevel || !canAfford}
-                          className={`px-3 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1 transition-all ${
-                            canUnlockLevel && canAfford
-                              ? "bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 text-black shadow-md shadow-amber-500/20"
-                              : "bg-white/10 text-white/30 cursor-not-allowed"
-                          }`}
-                        >
-                          {!canUnlockLevel ? (
-                            <>
-                              <Lock className="w-3 h-3" /> 等级不足
-                            </>
+                          {isEquipped ? (
+                            <button
+                              onClick={() => handleSelectAccessory("none")}
+                              className="px-2.5 py-1 rounded-lg bg-white/10 text-white/70 hover:text-white text-[11px]"
+                            >
+                              卸下
+                            </button>
+                          ) : isUnlocked ? (
+                            <button
+                              onClick={() => handleSelectAccessory(accKey)}
+                              className="px-3 py-1 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-[11px] font-bold shadow-sm"
+                            >
+                              佩戴
+                            </button>
                           ) : (
-                            `解锁 (🪙${acc.price})`
+                            <button
+                              onClick={() => handleSelectAccessory(accKey)}
+                              disabled={!canUnlockLevel || !canAfford}
+                              className={`px-3 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1 transition-all ${
+                                canUnlockLevel && canAfford
+                                  ? "bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 text-black shadow-md shadow-amber-500/20"
+                                  : "bg-white/10 text-white/30 cursor-not-allowed"
+                              }`}
+                            >
+                              {!canUnlockLevel ? (
+                                <>
+                                  <Lock className="w-3 h-3" /> 等级不足
+                                </>
+                              ) : (
+                                `解锁 (🪙${acc.price})`
+                              )}
+                            </button>
                           )}
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
             </div>
           )}
         </div>
