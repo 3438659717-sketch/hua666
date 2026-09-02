@@ -18,6 +18,15 @@ import {
   BookOpen,
   ArrowRight,
   TrendingUp,
+  Shirt,
+  Wrench,
+  Gamepad2,
+  Maximize2,
+  EyeOff,
+  Compass,
+  Footprints,
+  Moon,
+  MousePointer,
 } from "lucide-react";
 import {
   PetGrowthState,
@@ -31,6 +40,7 @@ import {
 } from "../../data/petGrowthStorage";
 import { PIXEL_SPRITES, PixelPetType } from "../../data/petData";
 import { playPetSound, isPetSoundMuted, setPetSoundMuted } from "../../utils/petSound";
+import { RealisticPetCanvas } from "./RealisticPetCanvas";
 
 interface PetCareModalProps {
   isOpen: boolean;
@@ -41,6 +51,14 @@ interface PetCareModalProps {
   onTriggerPetAction?: (action: "pet" | "feed" | "bath" | "trick" | "sleep") => void;
   onOpenQuiz?: () => void;
   onOpenKnowledge?: () => void;
+  onOpenWardrobe?: () => void;
+  onOpenTools?: () => void;
+  onOpenMiniGame?: () => void;
+  petDisplaySize?: number;
+  onCyclePetSize?: () => void;
+  behaviorMode?: "wander" | "follow" | "stay" | "sleep";
+  onChangeBehaviorMode?: (mode: "wander" | "follow" | "stay" | "sleep") => void;
+  onHidePet?: () => void;
 }
 
 export const PetCareModal: React.FC<PetCareModalProps> = ({
@@ -52,6 +70,14 @@ export const PetCareModal: React.FC<PetCareModalProps> = ({
   onTriggerPetAction,
   onOpenQuiz,
   onOpenKnowledge,
+  onOpenWardrobe,
+  onOpenTools,
+  onOpenMiniGame,
+  petDisplaySize,
+  onCyclePetSize,
+  behaviorMode = "wander",
+  onChangeBehaviorMode,
+  onHidePet,
 }) => {
   const [activeTab, setActiveTab] = useState<"status" | "feed" | "shop" | "career" | "quests">("status");
   const [soundMuted, setSoundMutedState] = useState(isPetSoundMuted());
@@ -274,8 +300,13 @@ export const PetCareModal: React.FC<PetCareModalProps> = ({
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-white/10 bg-slate-950/60">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500/20 via-pink-500/20 to-amber-500/20 border border-cyan-400/30 flex items-center justify-center text-xl shadow-inner">
-              {currentPetDef.emoji}
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-cyan-500/20 via-pink-500/20 to-amber-500/20 border border-cyan-400/30 flex items-center justify-center p-1 shadow-inner overflow-hidden">
+              <RealisticPetCanvas
+                species={state.selectedPet}
+                accessory={state.currentAccessory}
+                size={52}
+                renderMode="realistic"
+              />
             </div>
             <div>
               <div className="flex items-center gap-2">
@@ -611,6 +642,171 @@ export const PetCareModal: React.FC<PetCareModalProps> = ({
                     <div className="text-xs font-bold text-white">翻滚特技</div>
                     <div className="text-[10px] text-purple-300 font-mono">灵感+15 / 亲密+6</div>
                   </button>
+                </div>
+              </div>
+
+              {/* Feature Hub & System Controls */}
+              <div className="pt-3 border-t border-white/10 space-y-3">
+                <h3 className="text-xs font-bold text-white/80 flex items-center gap-1.5">
+                  <Compass className="w-3.5 h-3.5 text-cyan-400" />
+                  <span>玩法百宝箱与快捷中心</span>
+                </h3>
+
+                {/* Grid of Main Feature Modals */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                  {onOpenWardrobe && (
+                    <button
+                      onClick={() => {
+                        onClose();
+                        onOpenWardrobe();
+                      }}
+                      className="p-3 rounded-xl bg-purple-950/40 hover:bg-purple-900/50 border border-purple-500/30 hover:border-purple-400/60 text-left transition-all active:scale-95 group shadow-sm flex items-center gap-2.5"
+                    >
+                      <div className="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-300 group-hover:scale-110 transition-transform shrink-0">
+                        <Shirt className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-white">宇宙衣橱</div>
+                        <div className="text-[10px] text-purple-300/80">换装与物种切换</div>
+                      </div>
+                    </button>
+                  )}
+
+                  {onOpenTools && (
+                    <button
+                      onClick={() => {
+                        onClose();
+                        onOpenTools();
+                      }}
+                      className="p-3 rounded-xl bg-amber-950/40 hover:bg-amber-900/50 border border-amber-500/30 hover:border-amber-400/60 text-left transition-all active:scale-95 group shadow-sm flex items-center gap-2.5"
+                    >
+                      <div className="w-8 h-8 rounded-lg bg-amber-500/20 flex items-center justify-center text-amber-300 group-hover:scale-110 transition-transform shrink-0">
+                        <Wrench className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-white">生产力百宝箱</div>
+                        <div className="text-[10px] text-amber-300/80">番茄钟/AI诊断/灵感</div>
+                      </div>
+                    </button>
+                  )}
+
+                  {onOpenMiniGame && (
+                    <button
+                      onClick={() => {
+                        onClose();
+                        onOpenMiniGame();
+                      }}
+                      className="p-3 rounded-xl bg-emerald-950/40 hover:bg-emerald-900/50 border border-emerald-500/30 hover:border-emerald-400/60 text-left transition-all active:scale-95 group shadow-sm flex items-center gap-2.5"
+                    >
+                      <div className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-300 group-hover:scale-110 transition-transform shrink-0">
+                        <Gamepad2 className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-white">零食大作战</div>
+                        <div className="text-[10px] text-emerald-300/80">接光球小游戏赚币</div>
+                      </div>
+                    </button>
+                  )}
+
+                  {onOpenQuiz && (
+                    <button
+                      onClick={() => {
+                        onClose();
+                        onOpenQuiz();
+                      }}
+                      className="p-3 rounded-xl bg-cyan-950/40 hover:bg-cyan-900/50 border border-cyan-500/30 hover:border-cyan-400/60 text-left transition-all active:scale-95 group shadow-sm flex items-center gap-2.5"
+                    >
+                      <div className="w-8 h-8 rounded-lg bg-cyan-500/20 flex items-center justify-center text-cyan-300 group-hover:scale-110 transition-transform shrink-0">
+                        <BrainCircuit className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-white">带货问答对决</div>
+                        <div className="text-[10px] text-cyan-300/80">答题提升带货技能</div>
+                      </div>
+                    </button>
+                  )}
+
+                  {onOpenKnowledge && (
+                    <button
+                      onClick={() => {
+                        onClose();
+                        onOpenKnowledge();
+                      }}
+                      className="p-3 rounded-xl bg-blue-950/40 hover:bg-blue-900/50 border border-blue-500/30 hover:border-blue-400/60 text-left transition-all active:scale-95 group shadow-sm flex items-center gap-2.5"
+                    >
+                      <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-300 group-hover:scale-110 transition-transform shrink-0">
+                        <BookOpen className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-white">爆款运营宝典</div>
+                        <div className="text-[10px] text-blue-300/80">精选电商知识卡片</div>
+                      </div>
+                    </button>
+                  )}
+
+                  {onCyclePetSize && (
+                    <button
+                      onClick={() => {
+                        onCyclePetSize();
+                        playPetSound("click");
+                      }}
+                      className="p-3 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 border border-white/10 hover:border-cyan-400/40 text-left transition-all active:scale-95 group shadow-sm flex items-center gap-2.5"
+                    >
+                      <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-cyan-300 group-hover:scale-110 transition-transform shrink-0">
+                        <Maximize2 className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-white">桌宠尺寸调节</div>
+                        <div className="text-[10px] text-cyan-300 font-mono">当前: {petDisplaySize || 95}px (点击切换)</div>
+                      </div>
+                    </button>
+                  )}
+                </div>
+
+                {/* Pet Behavior Mode & Hide Control Bar */}
+                <div className="p-3 rounded-xl bg-slate-950/60 border border-white/10 flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-white/70 font-medium">🐾 行为模式:</span>
+                    <div className="flex items-center gap-1 bg-slate-900 p-1 rounded-lg border border-white/10 text-xs">
+                      {[
+                        { id: "wander", label: "漫步", icon: "🚀" },
+                        { id: "follow", label: "随行", icon: "🛰️" },
+                        { id: "stay", label: "驻留", icon: "🛑" },
+                        { id: "sleep", label: "小憩", icon: "💤" },
+                      ].map((mode) => (
+                        <button
+                          key={mode.id}
+                          onClick={() => {
+                            if (onChangeBehaviorMode) {
+                              onChangeBehaviorMode(mode.id as any);
+                              playPetSound("click");
+                            }
+                          }}
+                          className={`px-2.5 py-1 rounded font-medium text-[11px] transition-all flex items-center gap-1 ${
+                            behaviorMode === mode.id
+                              ? "bg-cyan-500/30 text-cyan-300 border border-cyan-400/50 shadow-sm font-bold"
+                              : "text-white/60 hover:text-white"
+                          }`}
+                        >
+                          <span>{mode.icon}</span>
+                          <span>{mode.label}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {onHidePet && (
+                    <button
+                      onClick={() => {
+                        onClose();
+                        onHidePet();
+                      }}
+                      className="px-3 py-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-1.5 transition-all ml-auto hover:bg-rose-500/20 active:scale-95"
+                    >
+                      <EyeOff className="w-3.5 h-3.5" />
+                      <span>暂时收起桌宠</span>
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

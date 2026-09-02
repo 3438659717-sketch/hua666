@@ -16,6 +16,8 @@ import {
   Package,
   TrendingUp,
   Award,
+  Maximize2,
+  ZoomIn,
 } from "lucide-react";
 import { ProductId, AngleCategory } from "../types";
 import { PRODUCTS_CONFIG } from "../data/templates";
@@ -25,6 +27,7 @@ import {
   PIXEL_SPRITES,
   ACCESSORY_SPRITES,
 } from "../data/petData";
+import { renderKawaiiPixelPet } from "../data/kawaiiPixelPetArt";
 import {
   PetGrowthState,
   loadPetGrowthState,
@@ -140,6 +143,35 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
 
   // Mini HUD / Quick Action Popover
   const [isQuickMenuOpen, setIsQuickMenuOpen] = useState<boolean>(false);
+
+  // Scaled Display Size State (Default balanced Medium size ~95px)
+  const [petSizeScale, setPetSizeScale] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem("pixel_pet_display_size_scale");
+      if (saved) {
+        const parsed = parseFloat(saved);
+        if (!isNaN(parsed) && parsed >= 0.85 && parsed <= 2.2) return parsed;
+      }
+    } catch {}
+    return 1.18; // Default 1.18x (~95px classic medium kawaii companion size)
+  });
+
+  const petDisplaySize = Math.round(80 * petSizeScale);
+
+  const cyclePetSize = useCallback(() => {
+    setPetSizeScale((prev) => {
+      let next = 1.18;
+      if (prev < 1.05) next = 1.18;      // Medium (95px) - default
+      else if (prev < 1.35) next = 1.45;  // Medium-Large (116px)
+      else if (prev < 1.7) next = 1.8;    // Large (144px)
+      else next = 0.95;                  // Compact (76px)
+      try {
+        localStorage.setItem("pixel_pet_display_size_scale", next.toString());
+      } catch {}
+      return next;
+    });
+    playPetSound("bubble");
+  }, []);
   const isQuickMenuOpenRef = useRef<boolean>(false);
   isQuickMenuOpenRef.current = isQuickMenuOpen;
 
@@ -240,14 +272,15 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
   useEffect(() => {
     const handleGlobalMouseMove = (e: MouseEvent) => {
       mouseCoordRef.current = { x: e.clientX, y: e.clientY };
-      const curX = posRef.current.x + 40;
-      const curY = posRef.current.y + 40;
+      const halfSize = petDisplaySize / 2;
+      const curX = posRef.current.x + halfSize;
+      const curY = posRef.current.y + halfSize;
       const dist = Math.hypot(e.clientX - curX, e.clientY - curY);
-      setIsNearCursor(dist < 115);
+      setIsNearCursor(dist < (petDisplaySize * 0.9));
     };
     window.addEventListener("mousemove", handleGlobalMouseMove, { passive: true });
     return () => window.removeEventListener("mousemove", handleGlobalMouseMove);
-  }, []);
+  }, [petDisplaySize]);
 
   // Natural spontaneous blinking cycle (every 3.2 ~ 6.5 seconds for 140ms)
   useEffect(() => {
@@ -277,9 +310,9 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
     if (typeof window === "undefined") return;
     const handleResize = () => {
       const minX = 20;
-      const maxX = Math.max(minX, window.innerWidth - 105);
+      const maxX = Math.max(minX, window.innerWidth - (petDisplaySize + 40));
       const minY = 65;
-      const maxY = Math.max(minY, window.innerHeight - 115);
+      const maxY = Math.max(minY, window.innerHeight - (petDisplaySize + 55));
       posRef.current.x = Math.max(minX, Math.min(maxX, posRef.current.x));
       posRef.current.y = Math.max(minY, Math.min(maxY, posRef.current.y));
       updateDomPosition(posRef.current.x, posRef.current.y);
@@ -287,231 +320,41 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
     updateDomPosition(posRef.current.x, posRef.current.y);
     window.addEventListener("resize", handleResize, { passive: true });
     return () => window.removeEventListener("resize", handleResize);
-  }, [updateDomPosition]);
+  }, [updateDomPosition, petDisplaySize]);
 
-  // Render current frame to 16x16 canvas scaled up crisp (80x80) with pixel accessories & behavioral action props
+  // Render current frame using High-Density Kawaii Pixel Engine (matching ref images)
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    const size = petDisplaySize;
+    // Scale factor for high DPI screens, keeping integer pixel fidelity
+    const scaleFactor = typeof window !== "undefined" ? Math.min(window.devicePixelRatio || 2, 2) : 2;
+    canvas.width = size * scaleFactor;
+    canvas.height = size * scaleFactor;
+
     ctx.imageSmoothingEnabled = false;
-    ctx.clearRect(0, 0, 80, 80);
+    ctx.save();
+    ctx.scale(scaleFactor, scaleFactor);
 
-    const frameMatrix = petConfig.frames[currentFrame] || petConfig.frames.idle1;
-    const scale = 5; // 16x16 -> 80x80 crisp integer scaling
+    renderKawaiiPixelPet({
+      ctx,
+      size,
+      species: selectedPet,
+      frame: currentFrame,
+      accessory: currentAccessory,
+      isBlinking,
+      time: performance.now(),
+      activity: currentActivity,
+      activityStep,
+      facingLeft: isFacingLeft,
+      isHappy: currentFrame === "happy",
+    });
 
-    const drawPixel = (c: number, r: number, color: string) => {
-      if (r >= 0 && r < 16 && c >= 0 && c < 16 && color && color !== "transparent") {
-        ctx.fillStyle = color;
-        ctx.fillRect(c * scale, r * scale, scale, scale);
-      }
-    };
-
-    // 1. Draw Pet Base Sprite
-    for (let r = 0; r < 16; r++) {
-      const row = frameMatrix[r] || "";
-      for (let c = 0; c < 16; c++) {
-        const char = row[c] || " ";
-        const color = petConfig.palette[char];
-        if (color && color !== "transparent") {
-          ctx.fillStyle = color;
-          ctx.fillRect(c * scale, r * scale, scale, scale);
-        }
-      }
-    }
-
-    // 1.5 Natural Spontaneous Blink Eyelid Overlay
-    if (isBlinking && currentFrame !== "sleep" && currentFrame !== "jump" && currentActivity === "none") {
-      const darkColor = petConfig.palette["K"] || "#0f172a";
-      const bodyTone = petConfig.palette["W"] || petConfig.palette["S"] || petConfig.palette["C"] || petConfig.color;
-      // Close left eye
-      drawPixel(4, 6, bodyTone);
-      drawPixel(5, 6, bodyTone);
-      drawPixel(6, 6, bodyTone);
-      drawPixel(4, 7, darkColor);
-      drawPixel(5, 7, darkColor);
-      drawPixel(6, 7, darkColor);
-
-      // Close right eye
-      drawPixel(9, 6, bodyTone);
-      drawPixel(10, 6, bodyTone);
-      drawPixel(11, 6, bodyTone);
-      drawPixel(9, 7, darkColor);
-      drawPixel(10, 7, darkColor);
-      drawPixel(11, 7, darkColor);
-    }
-
-    // 2. Draw Accessory Overlay (if applicable and not sleeping)
-    if (currentAccessory !== "none" && currentFrame !== "sleep") {
-      const accData = ACCESSORY_SPRITES[currentAccessory];
-      if (accData && accData.rows) {
-        accData.rows.forEach(({ r, c, color }) => {
-          drawPixel(c, r, color);
-        });
-      }
-    }
-
-    // 3. Draw Dynamic Behavior Action Pixel Props & Animations
-    if (currentActivity === "type_keyboard") {
-      // Laptop Screen: Rows 8 to 11, Cols 0 to 5
-      // Bezel
-      drawPixel(0, 8, "#334155"); drawPixel(1, 8, "#334155"); drawPixel(2, 8, "#334155"); drawPixel(3, 8, "#334155"); drawPixel(4, 8, "#334155"); drawPixel(5, 8, "#334155");
-      // Screen glass with glowing code & flickering cursor
-      drawPixel(0, 9, "#334155"); drawPixel(1, 9, "#0f172a"); drawPixel(2, 9, "#38bdf8"); drawPixel(3, 9, "#0f172a"); drawPixel(4, 9, "#22d3ee"); drawPixel(5, 9, "#334155");
-      drawPixel(0, 10, "#334155"); drawPixel(1, 10, "#0f172a"); drawPixel(2, 10, "#0f172a");
-      drawPixel(3, 10, activityStep % 2 === 0 ? "#facc15" : "#0f172a");
-      drawPixel(4, 10, "#38bdf8"); drawPixel(5, 10, "#334155");
-      // Keyboard base & hinge
-      drawPixel(0, 11, "#64748b"); drawPixel(1, 11, "#94a3b8"); drawPixel(2, 11, "#94a3b8"); drawPixel(3, 11, "#94a3b8"); drawPixel(4, 11, "#94a3b8"); drawPixel(5, 11, "#64748b");
-      drawPixel(0, 12, "#1e293b"); drawPixel(1, 12, "#475569"); drawPixel(2, 12, "#475569"); drawPixel(3, 12, "#475569"); drawPixel(4, 12, "#475569"); drawPixel(5, 12, "#475569"); drawPixel(6, 12, "#1e293b");
-      drawPixel(0, 13, "#0f172a"); drawPixel(1, 13, "#334155"); drawPixel(2, 13, "#334155"); drawPixel(3, 13, "#0284c7"); drawPixel(4, 13, "#334155"); drawPixel(5, 13, "#334155"); drawPixel(6, 13, "#0f172a");
-
-      // Animated Paws Alternate Typing
-      if (activityStep % 2 === 0) {
-        drawPixel(2, 12, "#ffffff"); drawPixel(3, 12, "#ffffff");
-        drawPixel(5, 10, "#ffffff"); drawPixel(6, 10, "#ffffff");
-        drawPixel(2, 11, "#38bdf8");
-      } else {
-        drawPixel(2, 10, "#ffffff"); drawPixel(3, 10, "#ffffff");
-        drawPixel(5, 12, "#ffffff"); drawPixel(6, 12, "#ffffff");
-        drawPixel(5, 11, "#38bdf8");
-      }
-
-      // Flying code sparks from screen
-      if (activityStep === 0 || activityStep === 2) {
-        drawPixel(1, 6, "#38bdf8"); drawPixel(2, 5, "#22d3ee");
-      } else {
-        drawPixel(4, 6, "#facc15"); drawPixel(5, 5, "#38bdf8");
-      }
-    } else if (currentActivity === "coffee_time") {
-      const isSipping = activityStep % 2 === 1;
-      if (!isSipping) {
-        // Holding Coffee Mug below mouth
-        drawPixel(2, 10, "#0284c7"); drawPixel(3, 10, "#fde047"); drawPixel(4, 10, "#78350f"); drawPixel(5, 10, "#0284c7");
-        drawPixel(2, 11, "#0284c7"); drawPixel(3, 11, "#0ea5e9"); drawPixel(4, 11, "#0ea5e9"); drawPixel(5, 11, "#0284c7");
-        drawPixel(2, 12, "#0284c7"); drawPixel(3, 12, "#0ea5e9"); drawPixel(4, 12, "#0ea5e9"); drawPixel(5, 12, "#0284c7");
-        drawPixel(3, 13, "#0284c7"); drawPixel(4, 13, "#0284c7");
-        drawPixel(1, 11, "#0284c7"); drawPixel(1, 12, "#0284c7");
-        // Paws
-        drawPixel(2, 11, "#ffffff"); drawPixel(5, 11, "#ffffff");
-        // Steam rising
-        if (activityStep === 0) {
-          drawPixel(3, 8, "#e2e8f0"); drawPixel(4, 7, "#f8fafc"); drawPixel(3, 6, "#cbd5e1");
-        } else {
-          drawPixel(4, 8, "#e2e8f0"); drawPixel(3, 7, "#f8fafc"); drawPixel(4, 6, "#cbd5e1");
-        }
-      } else {
-        // Sipping: Mug tilted to mouth
-        drawPixel(3, 8, "#0284c7"); drawPixel(4, 8, "#78350f"); drawPixel(5, 8, "#fde047"); drawPixel(6, 8, "#0284c7");
-        drawPixel(3, 9, "#0284c7"); drawPixel(4, 9, "#0ea5e9"); drawPixel(5, 9, "#0ea5e9"); drawPixel(6, 9, "#0284c7");
-        drawPixel(4, 10, "#0284c7"); drawPixel(5, 10, "#0ea5e9"); drawPixel(6, 10, "#0284c7");
-        drawPixel(4, 11, "#0284c7"); drawPixel(5, 11, "#0284c7");
-        drawPixel(7, 9, "#0284c7"); drawPixel(7, 10, "#0284c7");
-        // Paws holding cup
-        drawPixel(3, 9, "#ffffff"); drawPixel(6, 9, "#ffffff");
-        // Delicious drop
-        drawPixel(2, 8, "#facc15");
-      }
-    } else if (currentActivity === "inspect_copy") {
-      // Magnifying Lens sweeps across cols 4 -> 6 -> 8 -> 6
-      const colCenters = [4, 6, 8, 6];
-      const cCenter = colCenters[activityStep];
-      const rCenter = 9;
-
-      // 3x3 Lens
-      drawPixel(cCenter - 1, rCenter - 1, "#64748b"); drawPixel(cCenter, rCenter - 1, "#94a3b8"); drawPixel(cCenter + 1, rCenter - 1, "#64748b");
-      drawPixel(cCenter - 1, rCenter, "#94a3b8"); drawPixel(cCenter, rCenter, "#e0f2fe"); drawPixel(cCenter + 1, rCenter, "#38bdf8");
-      drawPixel(cCenter - 1, rCenter + 1, "#64748b"); drawPixel(cCenter, rCenter + 1, "#94a3b8"); drawPixel(cCenter + 1, rCenter + 1, "#64748b");
-      // Handle
-      drawPixel(cCenter - 2, rCenter + 2, "#b45309"); drawPixel(cCenter - 3, rCenter + 3, "#78350f");
-      drawPixel(cCenter - 2, rCenter + 1, "#ffffff");
-
-      // Holographic Scanner Beam
-      if (activityStep === 1 || activityStep === 2) {
-        drawPixel(cCenter - 1, rCenter + 2, "#06b6d4"); drawPixel(cCenter, rCenter + 2, "#22d3ee"); drawPixel(cCenter + 1, rCenter + 2, "#06b6d4");
-        drawPixel(cCenter - 1, rCenter + 3, "#38bdf8"); drawPixel(cCenter, rCenter + 3, "#38bdf8"); drawPixel(cCenter + 1, rCenter + 3, "#38bdf8");
-      }
-      if (activityStep === 3) {
-        drawPixel(cCenter + 2, rCenter - 2, "#facc15"); drawPixel(cCenter + 3, rCenter - 3, "#fde047");
-      }
-    } else if (currentActivity === "daydream_spark") {
-      // Golden Lightbulb Inspiration directly above head
-      if (activityStep === 0) {
-        drawPixel(7, 1, "#64748b"); drawPixel(8, 1, "#64748b");
-        drawPixel(6, 2, "#64748b"); drawPixel(7, 2, "#fde047"); drawPixel(8, 2, "#64748b");
-        drawPixel(7, 3, "#64748b"); drawPixel(8, 3, "#64748b");
-        drawPixel(7, 4, "#475569"); drawPixel(8, 4, "#475569");
-      } else if (activityStep === 1 || activityStep === 2) {
-        drawPixel(7, 1, "#facc15"); drawPixel(8, 1, "#facc15");
-        drawPixel(6, 2, "#facc15"); drawPixel(7, 2, "#ffffff"); drawPixel(8, 2, "#fef08a"); drawPixel(9, 2, "#facc15");
-        drawPixel(6, 3, "#facc15"); drawPixel(7, 3, "#fef08a"); drawPixel(8, 3, "#fef08a"); drawPixel(9, 3, "#facc15");
-        drawPixel(7, 4, "#ca8a04"); drawPixel(8, 4, "#ca8a04");
-        drawPixel(7, 5, "#94a3b8"); drawPixel(8, 5, "#94a3b8");
-
-        if (activityStep === 2) {
-          // Radiant Energy Rays Burst
-          drawPixel(7, 0, "#fde047"); drawPixel(8, 0, "#fde047");
-          drawPixel(4, 1, "#facc15"); drawPixel(11, 1, "#facc15");
-          drawPixel(4, 3, "#facc15"); drawPixel(11, 3, "#facc15");
-          drawPixel(5, 5, "#fde047"); drawPixel(10, 5, "#fde047");
-        }
-      } else {
-        // Sparkles raining down
-        drawPixel(6, 2, "#fef08a"); drawPixel(9, 3, "#facc15");
-        drawPixel(4, 5, "#fde047"); drawPixel(11, 5, "#fde047");
-        drawPixel(5, 7, "#facc15"); drawPixel(10, 7, "#facc15");
-      }
-    } else if (currentActivity === "stretch_workout") {
-      if (activityStep === 0) {
-        drawPixel(2, 2, "#ffffff"); drawPixel(3, 2, "#ffffff"); drawPixel(2, 3, "#ffffff"); drawPixel(3, 3, "#ffffff");
-        drawPixel(12, 2, "#ffffff"); drawPixel(13, 2, "#ffffff"); drawPixel(12, 3, "#ffffff"); drawPixel(13, 3, "#ffffff");
-      } else if (activityStep === 1) {
-        drawPixel(0, 4, "#ffffff"); drawPixel(1, 4, "#ffffff"); drawPixel(1, 5, "#ffffff"); drawPixel(2, 5, "#ffffff");
-        drawPixel(9, 3, "#ffffff"); drawPixel(10, 3, "#ffffff");
-      } else if (activityStep === 2) {
-        drawPixel(5, 3, "#ffffff"); drawPixel(6, 3, "#ffffff");
-        drawPixel(14, 4, "#ffffff"); drawPixel(15, 4, "#ffffff"); drawPixel(13, 5, "#ffffff"); drawPixel(14, 5, "#ffffff");
-      } else {
-        drawPixel(1, 3, "#38bdf8"); drawPixel(0, 4, "#0284c7");
-        drawPixel(14, 3, "#38bdf8"); drawPixel(15, 4, "#0284c7");
-        drawPixel(7, 14, "#38bdf8"); drawPixel(8, 14, "#38bdf8");
-      }
-    } else if (currentActivity === "cheer_fan") {
-      if (activityStep === 0 || activityStep === 2) {
-        // High 'V' Glowsticks
-        drawPixel(1, 3, "#ec4899"); drawPixel(2, 4, "#ec4899"); drawPixel(3, 5, "#f472b6"); drawPixel(4, 6, "#ffffff");
-        drawPixel(14, 3, "#06b6d4"); drawPixel(13, 4, "#06b6d4"); drawPixel(12, 5, "#38bdf8"); drawPixel(11, 6, "#ffffff");
-        drawPixel(3, 1, "#facc15"); drawPixel(12, 1, "#a855f7"); drawPixel(0, 6, "#22c55e"); drawPixel(15, 6, "#f43f5e");
-      } else {
-        // Wave Downward Glowsticks
-        drawPixel(2, 8, "#ec4899"); drawPixel(3, 9, "#f472b6"); drawPixel(4, 10, "#ffffff");
-        drawPixel(13, 8, "#06b6d4"); drawPixel(12, 9, "#38bdf8"); drawPixel(11, 10, "#ffffff");
-        drawPixel(1, 2, "#f43f5e"); drawPixel(14, 2, "#facc15"); drawPixel(7, 0, "#06b6d4");
-      }
-    } else if (currentActivity === "groom_polish") {
-      if (activityStep === 0) {
-        drawPixel(3, 5, "#ffffff"); drawPixel(4, 5, "#ffffff"); drawPixel(4, 6, "#ffffff");
-      } else if (activityStep === 1) {
-        drawPixel(5, 6, "#ffffff"); drawPixel(6, 6, "#ffffff"); drawPixel(5, 7, "#ffffff");
-      } else if (activityStep === 2) {
-        drawPixel(11, 5, "#ffffff"); drawPixel(12, 5, "#ffffff"); drawPixel(11, 6, "#ffffff");
-      } else {
-        drawPixel(12, 3, "#38bdf8");
-        drawPixel(11, 4, "#38bdf8"); drawPixel(12, 4, "#ffffff"); drawPixel(13, 4, "#38bdf8");
-        drawPixel(12, 5, "#38bdf8");
-      }
-    } else if (currentActivity === "hunt_lucky_star") {
-      if (activityStep % 2 === 0) {
-        drawPixel(0, 11, "#94a3b8"); drawPixel(1, 11, "#cbd5e1");
-        drawPixel(0, 13, "#cbd5e1"); drawPixel(1, 13, "#f1f5f9");
-      } else {
-        drawPixel(0, 10, "#94a3b8"); drawPixel(1, 10, "#cbd5e1");
-        drawPixel(0, 12, "#cbd5e1"); drawPixel(1, 12, "#f1f5f9");
-      }
-    }
-  }, [selectedPet, currentFrame, petConfig, currentAccessory, currentActivity, activityStep, isBlinking]);
+    ctx.restore();
+  }, [selectedPet, currentFrame, petConfig, currentAccessory, currentActivity, activityStep, isBlinking, isFacingLeft, petDisplaySize]);
 
   // Catching Lucky Star function
   const handleCollectLuckyStar = useCallback(() => {
@@ -565,9 +408,9 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
         const targetWaypoint = targetWaypointRef.current;
 
         const minX = 20;
-        const maxX = typeof window !== "undefined" ? Math.max(minX, window.innerWidth - 105) : 800;
+        const maxX = typeof window !== "undefined" ? Math.max(minX, window.innerWidth - (petDisplaySize + 40)) : 800;
         const minY = 65;
-        const maxY = typeof window !== "undefined" ? Math.max(minY, window.innerHeight - 115) : 600;
+        const maxY = typeof window !== "undefined" ? Math.max(minY, window.innerHeight - (petDisplaySize + 55)) : 600;
 
         if (toy) {
           if (toy.type === "gravity") {
@@ -1344,6 +1187,35 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
           setIsCareModalOpen(false);
           setIsKnowledgeModalOpen(true);
         }}
+        onOpenWardrobe={() => {
+          setIsCareModalOpen(false);
+          setIsWardrobeModalOpen(true);
+        }}
+        onOpenTools={() => {
+          setIsCareModalOpen(false);
+          setIsToolsModalOpen(true);
+        }}
+        onOpenMiniGame={() => {
+          setIsCareModalOpen(false);
+          setIsMiniGameModalOpen(true);
+        }}
+        petDisplaySize={petDisplaySize}
+        onCyclePetSize={cyclePetSize}
+        behaviorMode={behaviorMode}
+        onChangeBehaviorMode={(mode) => {
+          setBehaviorMode(mode);
+          behaviorModeRef.current = mode;
+          if (mode === "follow") {
+            showBubble("🛰️ 开启伴随随行模式！", 2500);
+          } else if (mode === "stay") {
+            showBubble("🛑 已开启静止驻留！", 2500);
+          } else if (mode === "sleep") {
+            showBubble("💤 进入小憩睡眠模式，Zzz...", 2500);
+          } else {
+            showBubble("🚀 开启自由漫步模式！", 2500);
+          }
+        }}
+        onHidePet={() => setIsVisible(false)}
       />
 
       <PetWardrobeModal
@@ -1388,17 +1260,17 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
         onShowToast={showPetToast}
       />
 
-      {/* 5. Main Pixel Pet Box (Hardware-Accelerated Translation, Larger 80x80 Clear Canvas) */}
+      {/* 5. Main Pixel Pet Box (Hardware-Accelerated Translation, Scaled Dynamic Container) */}
       <div
         ref={petBoxRef}
-        className="fixed top-0 left-0 z-40 select-none touch-none pointer-events-auto transition-shadow"
+        className="fixed top-0 left-0 z-40 select-none touch-none pointer-events-auto transition-shadow flex items-center justify-center"
         style={{
-          width: "80px",
-          height: "80px",
+          width: `${petDisplaySize}px`,
+          height: `${petDisplaySize}px`,
           willChange: "transform",
         }}
       >
-        <div className="relative w-full h-full group">
+        <div className="relative w-full h-full group flex items-center justify-center">
           {/* A. Speech Bubble */}
           <AnimatePresence>
             {isBubbleVisible && bubbleText && (
@@ -1406,7 +1278,7 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
                 initial={{ opacity: 0, y: 8, scale: 0.85 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 8, scale: 0.85 }}
-                className="absolute bottom-[calc(100%+38px)] left-1/2 -translate-x-1/2 min-w-[170px] max-w-[260px] p-2.5 rounded-2xl bg-slate-950/95 border border-white/20 text-white text-[11px] shadow-2xl backdrop-blur-xl pointer-events-none z-50 flex flex-col gap-0.5"
+                className="absolute bottom-[calc(100%+28px)] left-1/2 -translate-x-1/2 min-w-[150px] max-w-[240px] p-2 rounded-2xl bg-slate-950/95 border border-white/20 text-white text-[11px] shadow-2xl backdrop-blur-xl pointer-events-none z-50 flex flex-col gap-0.5"
               >
                 <div className="flex items-center justify-between text-[9px] font-mono text-cyan-300/80 mb-0.5">
                   <span className="flex items-center gap-1">
@@ -1549,16 +1421,23 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
 
           {/* C. Dynamic Realistic Ground Shadow (Grounded 3D presence) */}
           <div
-            className={`absolute -bottom-1 left-1/2 -translate-x-1/2 bg-black/45 rounded-full blur-[2.5px] pointer-events-none transition-all duration-300 ${
+            style={{
+              width: `${Math.round(petDisplaySize * 0.72)}px`,
+              height: `${Math.max(5, Math.round(petDisplaySize * 0.14))}px`,
+              bottom: "1px",
+            }}
+            className={`absolute left-1/2 -translate-x-1/2 bg-black/45 rounded-full blur-[2px] pointer-events-none transition-all duration-300 ${
               currentFrame === "jump"
-                ? "w-8 h-1.5 opacity-20"
+                ? "opacity-20 translate-y-1 scale-75"
                 : currentFrame === "walk1" || currentFrame === "walk2"
-                ? "w-12 h-2.5 opacity-40"
-                : "w-14 h-3.5 opacity-55"
+                ? "opacity-45"
+                : isNearCursor
+                ? "opacity-75 scale-105"
+                : "opacity-55"
             }`}
           />
 
-          {/* C.1 The 80x80 Crisp Pixel Pet Canvas & Organic Living Transform */}
+          {/* C.1 High-Definition Scaled Pixel Pet Canvas & Organic Living Transform */}
           <div
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
@@ -1572,7 +1451,11 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
               setIsHovered(false);
               isHoveredRef.current = false;
             }}
-            className={`relative w-20 h-20 cursor-grab active:cursor-grabbing transition-transform duration-200 ${
+            style={{
+              width: `${petDisplaySize}px`,
+              height: `${petDisplaySize}px`,
+            }}
+            className={`relative cursor-grab active:cursor-grabbing transition-transform duration-200 flex items-center justify-center ${
               isFacingLeft ? "scale-x-[-1]" : "scale-x-100"
             } ${
               isDragging
@@ -1593,31 +1476,18 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
           >
             <canvas
               ref={canvasRef}
-              width={80}
-              height={80}
-              className="w-full h-full pixelated drop-shadow-[0_6px_16px_rgba(0,0,0,0.6)] drop-shadow-[0_0_12px_rgba(56,189,248,0.2)]"
+              width={petDisplaySize * 2}
+              height={petDisplaySize * 2}
+              className="w-full h-full pixelated drop-shadow-[0_8px_18px_rgba(0,0,0,0.35)] drop-shadow-[0_0_12px_rgba(56,189,248,0.2)] select-none"
               style={{ imageRendering: "pixelated" }}
             />
           </div>
 
-          {/* D. Status Badge: Lv. & Mood (Positioned at -top-8 above pet to avoid obstruction) */}
+          {/* D. Unified Compact Top Status Capsule Bar (Only Level/Coins + Quick Behavior Mode) */}
           <div
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsCareModalOpen(true);
-              playPetSound("click");
-            }}
-            className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full bg-slate-950/90 border border-white/25 text-[9.5px] font-mono text-cyan-300 flex items-center gap-1.5 cursor-pointer hover:bg-slate-800 hover:border-cyan-400/60 transition-all shadow-lg active:scale-95 whitespace-nowrap backdrop-blur-md select-none pointer-events-auto"
-            title="点击打开桌宠养成与状态面板"
+            className="absolute -top-7 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-slate-950/90 border border-white/25 text-[9px] font-mono text-cyan-300 flex items-center gap-1.5 shadow-xl whitespace-nowrap backdrop-blur-md select-none pointer-events-auto z-40"
           >
-            <span className="font-bold text-cyan-300">Lv.{growthState.level}</span>
-            <span className="text-white/30">•</span>
-            <span className="text-amber-300 font-semibold">🪙 {growthState.coins}</span>
-          </div>
-
-          {/* E. Floating Quick Control Capsule Bar (Positioned at -bottom-9) */}
-          <div className="absolute -bottom-9 left-1/2 -translate-x-1/2 flex items-center gap-1 p-1 rounded-full bg-slate-950/85 border border-white/20 backdrop-blur-md shadow-xl transition-opacity">
-            {/* 1. Nurture & Care Hub */}
+            {/* 1. Level & Coins (Clickable to open Care & Status Panel with all sub-features) */}
             <button
               type="button"
               onPointerDown={(e) => e.stopPropagation()}
@@ -1626,88 +1496,17 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
                 setIsCareModalOpen(true);
                 playPetSound("click");
               }}
-              className="p-1 text-white/70 hover:text-cyan-300 hover:bg-white/15 rounded-full transition-all cursor-pointer hover:scale-110 active:scale-95"
-              title="🎒 桌宠养成与喂养中心"
+              className="flex items-center gap-1 hover:text-cyan-200 transition-colors cursor-pointer mr-0.5 active:scale-95"
+              title="点击打开桌宠养成、玩法百宝箱与更多设置"
             >
-              <Heart className="w-3.5 h-3.5 text-pink-400" />
+              <span className="font-bold text-cyan-300">Lv.{growthState.level}</span>
+              <span className="text-white/30">•</span>
+              <span className="text-amber-300 font-semibold">🪙 {growthState.coins}</span>
             </button>
 
-            {/* 2. Wardrobe & Species Hub */}
-            <button
-              type="button"
-              onPointerDown={(e) => e.stopPropagation()}
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsWardrobeModalOpen(true);
-                playPetSound("click");
-              }}
-              className="p-1 text-white/70 hover:text-purple-300 hover:bg-white/15 rounded-full transition-all cursor-pointer hover:scale-110 active:scale-95"
-              title="👗 宇宙衣橱与伙伴切换"
-            >
-              <Shirt className="w-3.5 h-3.5 text-purple-400" />
-            </button>
+            <span className="w-px h-3 bg-white/20" />
 
-            {/* 3. Creator Assist Tools */}
-            <button
-              type="button"
-              onPointerDown={(e) => e.stopPropagation()}
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsToolsModalOpen(true);
-                playPetSound("click");
-              }}
-              className="p-1 text-white/70 hover:text-amber-300 hover:bg-white/15 rounded-full transition-all cursor-pointer hover:scale-110 active:scale-95"
-              title="🛠️ 生产力百宝箱 (番茄钟/AI标题诊断/灵感扭蛋)"
-            >
-              <Wrench className="w-3.5 h-3.5 text-amber-400" />
-            </button>
-
-            {/* 4. Catching Mini Game */}
-            <button
-              type="button"
-              onPointerDown={(e) => e.stopPropagation()}
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsMiniGameModalOpen(true);
-                playPetSound("click");
-              }}
-              className="p-1 text-white/70 hover:text-emerald-300 hover:bg-white/15 rounded-full transition-all cursor-pointer hover:scale-110 active:scale-95"
-              title="🎮 星际接光球零食大作战小游戏"
-            >
-              <Gamepad2 className="w-3.5 h-3.5 text-emerald-400" />
-            </button>
-
-            {/* 5. Knowledge Quiz Challenge */}
-            <button
-              type="button"
-              onPointerDown={(e) => e.stopPropagation()}
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsQuizModalOpen(true);
-                playPetSound("click");
-              }}
-              className="p-1 text-white/70 hover:text-cyan-300 hover:bg-white/15 rounded-full transition-all cursor-pointer hover:scale-110 active:scale-95"
-              title="🧠 TikTok/电商带货问答对决 (答对即涨工作技能与高额亲密)"
-            >
-              <BrainCircuit className="w-3.5 h-3.5 text-cyan-400" />
-            </button>
-
-            {/* 6. Knowledge Study Cards */}
-            <button
-              type="button"
-              onPointerDown={(e) => e.stopPropagation()}
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsKnowledgeModalOpen(true);
-                playPetSound("click");
-              }}
-              className="p-1 text-white/70 hover:text-blue-300 hover:bg-white/15 rounded-full transition-all cursor-pointer hover:scale-110 active:scale-95"
-              title="📚 爆款营销与运营知识卡片 (翻阅精进+增加亲密度)"
-            >
-              <BookOpen className="w-3.5 h-3.5 text-blue-400" />
-            </button>
-
-            {/* 7. Behavior Mode Switcher */}
+            {/* 2. Behavior Mode Switcher */}
             <button
               type="button"
               onPointerDown={(e) => e.stopPropagation()}
@@ -1725,7 +1524,7 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
                 behaviorModeRef.current = nextMode;
                 playPetSound("click");
                 if (nextMode === "follow") {
-                  showBubble("🛰️ 开启伴随随行模式！(悬停或点击宠物可随时退出)", 2800);
+                  showBubble("🛰️ 开启伴随随行模式！", 2500);
                 } else if (nextMode === "stay") {
                   showBubble("🛑 已退出随行，开启静止驻留！", 2500);
                 } else if (nextMode === "sleep") {
@@ -1734,7 +1533,7 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
                   showBubble("🚀 开启自由漫步模式！", 2500);
                 }
               }}
-              className={`p-1 text-xs rounded-full transition-all cursor-pointer hover:scale-110 active:scale-95 ${
+              className={`p-0.5 text-[10px] rounded-full transition-all cursor-pointer hover:scale-110 active:scale-95 ${
                 behaviorMode === "wander"
                   ? "bg-emerald-500/30 text-emerald-300 ring-1 ring-emerald-400/40"
                   : behaviorMode === "follow"
@@ -1760,31 +1559,6 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
                 : behaviorMode === "stay"
                 ? "🛑"
                 : "💤"}
-            </button>
-
-            {/* 6. Sound Switcher */}
-            <button
-              type="button"
-              onPointerDown={(e) => e.stopPropagation()}
-              onClick={handleToggleSound}
-              className="p-1 text-white/50 hover:text-white hover:bg-white/15 rounded-full transition-all cursor-pointer"
-              title={isMuted ? "开启 8-bit 音效" : "静音桌宠音效"}
-            >
-              {isMuted ? <VolumeX className="w-3 h-3 text-rose-400" /> : <Volume2 className="w-3 h-3 text-cyan-300" />}
-            </button>
-
-            {/* 7. Hide Pet Button */}
-            <button
-              type="button"
-              onPointerDown={(e) => e.stopPropagation()}
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsVisible(false);
-              }}
-              className="p-1 text-white/40 hover:text-white hover:bg-white/15 rounded-full transition-all cursor-pointer"
-              title="暂时收起桌宠"
-            >
-              <EyeOff className="w-3 h-3" />
             </button>
           </div>
         </div>

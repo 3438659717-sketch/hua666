@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { X, Check, Lock, Sparkles, Shirt, PawPrint } from "lucide-react";
 import {
@@ -9,6 +9,7 @@ import {
 } from "../../data/petData";
 import { PetGrowthState } from "../../data/petGrowthStorage";
 import { playPetSound } from "../../utils/petSound";
+import { RealisticPetCanvas } from "./RealisticPetCanvas";
 
 interface PetWardrobeModalProps {
   isOpen: boolean;
@@ -29,7 +30,6 @@ export const PetWardrobeModal: React.FC<PetWardrobeModalProps> = ({
   const [costumeFilter, setCostumeFilter] = useState<"all" | "suit" | "top" | "bottom" | "head">("all");
   const [previewPet, setPreviewPet] = useState<PixelPetType>(state.selectedPet);
   const [previewAcc, setPreviewAcc] = useState<PetAccessory>(state.currentAccessory);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   // Sync state when modal opens
   useEffect(() => {
@@ -38,44 +38,6 @@ export const PetWardrobeModal: React.FC<PetWardrobeModalProps> = ({
       setPreviewAcc(state.currentAccessory);
     }
   }, [isOpen, state.selectedPet, state.currentAccessory]);
-
-  // Render 64x64 live canvas preview of the pixel pet with costume
-  useEffect(() => {
-    if (!isOpen || !canvasRef.current) return;
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    ctx.clearRect(0, 0, 64, 64);
-    ctx.imageSmoothingEnabled = false;
-
-    const petDef = PIXEL_SPRITES[previewPet] || PIXEL_SPRITES.cat;
-    const frame = petDef.frames.idle1;
-    const palette = petDef.palette;
-    const pixelSize = 4; // 16x16 -> 64x64
-
-    // Draw Pet
-    for (let r = 0; r < 16; r++) {
-      const row = frame[r] || "";
-      for (let c = 0; c < 16; c++) {
-        const char = row[c] || " ";
-        const color = palette[char];
-        if (color && color !== "transparent") {
-          ctx.fillStyle = color;
-          ctx.fillRect(c * pixelSize, r * pixelSize, pixelSize, pixelSize);
-        }
-      }
-    }
-
-    // Draw Accessory Overlay
-    const accDef = ACCESSORY_SPRITES[previewAcc];
-    if (accDef && accDef.rows.length > 0) {
-      accDef.rows.forEach(({ r, c, color }) => {
-        ctx.fillStyle = color;
-        ctx.fillRect(c * pixelSize, r * pixelSize, pixelSize, pixelSize);
-      });
-    }
-  }, [isOpen, previewPet, previewAcc]);
 
   if (!isOpen) return null;
 
@@ -170,28 +132,28 @@ export const PetWardrobeModal: React.FC<PetWardrobeModalProps> = ({
         {/* Live Preview Bar */}
         <div className="p-4 bg-gradient-to-r from-slate-950/90 via-slate-900/70 to-slate-950/90 border-b border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="relative w-20 h-20 bg-slate-950 rounded-2xl border border-cyan-500/30 flex items-center justify-center p-2 shadow-inner overflow-hidden">
+            <div className="relative w-28 h-28 bg-slate-950 rounded-2xl border border-cyan-500/30 flex items-center justify-center p-2 shadow-inner overflow-hidden">
               <div className="absolute inset-0 bg-cyan-500/5 backdrop-blur-xs" />
-              <canvas
-                ref={canvasRef}
-                width={64}
-                height={64}
-                className="w-16 h-16 pixelated z-10 drop-shadow-md"
-                style={{ imageRendering: "pixelated" }}
+              <RealisticPetCanvas
+                species={previewPet}
+                accessory={previewAcc}
+                size={104}
+                renderMode="realistic"
+                className="z-10 drop-shadow-md"
               />
             </div>
 
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-lg font-bold text-white">{currentPetDef.name}</span>
-                <span className="text-xs px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono">
+                <span className="text-xl font-bold text-white">{currentPetDef.name}</span>
+                <span className="text-xs px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono">
                   {ACCESSORY_SPRITES[previewAcc].name}
                 </span>
               </div>
-              <p className="text-xs text-cyan-300/80 mt-0.5 flex items-center gap-1">
+              <p className="text-xs text-cyan-300/80 mt-1 flex items-center gap-1">
                 <Sparkles className="w-3.5 h-3.5" /> {currentPetDef.buff}
               </p>
-              <p className="text-[11px] text-white/40 mt-0.5">{currentPetDef.intro}</p>
+              <p className="text-[12px] text-white/50 mt-1">{currentPetDef.intro}</p>
             </div>
           </div>
 
@@ -233,7 +195,7 @@ export const PetWardrobeModal: React.FC<PetWardrobeModalProps> = ({
                 : "border-transparent text-white/50 hover:text-white/80"
             }`}
           >
-            <Shirt className="w-4 h-4" /> 👗 像素服装与配饰 ({accessoryKeys.length} 款)
+            <Shirt className="w-4 h-4" /> 👗 专属服饰与配饰 ({accessoryKeys.length} 款)
           </button>
         </div>
 
@@ -257,9 +219,13 @@ export const PetWardrobeModal: React.FC<PetWardrobeModalProps> = ({
                   >
                     <div>
                       <div className="flex items-center justify-between">
-                        <span className="text-3xl group-hover:scale-110 transition-transform">
-                          {def.emoji}
-                        </span>
+                        <div className="w-14 h-14 rounded-xl bg-slate-900/80 border border-white/10 flex items-center justify-center p-1 group-hover:scale-105 transition-transform overflow-hidden shadow-inner">
+                          <RealisticPetCanvas
+                            species={petKey}
+                            size={52}
+                            renderMode="realistic"
+                          />
+                        </div>
                         {isSelected && (
                           <span className="px-2 py-0.5 rounded-full bg-cyan-500 text-black text-[10px] font-bold flex items-center gap-1">
                             <Check className="w-3 h-3" /> 伴随中
