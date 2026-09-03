@@ -1,6 +1,6 @@
 import { AngleCategory, GeneratedTitle } from "../types";
 
-export const FOS10_FIXED_TAGS = "#FOSMET#FOS10#女性の健康#スマートウォッチ#ポータブル";
+export const FOS10_FIXED_TAGS = "#FOSMET #FOS10 #女性の健康 #スマートウォッチ #ポータブル";
 
 interface HookTemplate {
   pattern: (brand: string, model: string, keyword?: string) => string;

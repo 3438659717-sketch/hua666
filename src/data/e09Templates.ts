@@ -1,6 +1,6 @@
 import { AngleCategory, GeneratedTitle } from "../types";
 
-export const E09_FIXED_TAGS = "#FOSMET#E09#スマートグラス#服装#デイリーレコード";
+export const E09_FIXED_TAGS = "#FOSMET #E09 #スマートグラス #服装 #デイリーレコード";
 
 export interface E09HookTemplate {
   pattern: (brand: string, model: string) => string;

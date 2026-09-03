@@ -6,18 +6,18 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const REC10_HASHTAGS = "#FOSMET#REC10#AIレコーダー#ChatGPT#プロモーションの仕事";
-const QS40_HASHTAGS = "#FOSEMT#QS40#スマートウォッチ#健康管理者#ai";
-const T20_HASHTAGS = "#FOSMET#T20#スマートウォッチ#屋外#スポーツ";
-const KT80_SPANISH_HASHTAGS = "#FOSMET#KT80#reloj inteligente#Relojes para exteriores#herramienta";
-const KT80_GERMAN_HASHTAGS = "#FOSMET#KT80#Smartwatch#Outdoor Smartwatch#Werkzeug";
-const G58_SPANISH_HASHTAGS = "#FOSMET#G58#reloj inteligente#Atuendo#Salud de la mujer";
-const G58_GERMAN_HASHTAGS = "#FOSMET#G58#Smartwatch#Outfit#Frauengesundheit";
-const E12_HASHTAGS = "#FOSMET#E12#Bluetoothヘッドホン#デイリーレコード#AIイヤホン";
-const E05_HASHTAGS = "#FOSMET#E05#スマートグラス#服装#イヤホン";
-const E09_HASHTAGS = "#FOSMET#E09#スマートグラス#服装#デイリーレコード";
-const G2_HASHTAGS = "#FOSMET#G2#女性の健康#スマートウォッチ#服装";
-const FOS10_HASHTAGS = "#FOSMET#FOS10#女性の健康#スマートウォッチ#ポータブル";
+const REC10_HASHTAGS = "#FOSMET #REC10 #AIレコーダー #ChatGPT #プロモーションの仕事";
+const QS40_HASHTAGS = "#FOSMET #QS40 #スマートウォッチ #健康管理者 #ai";
+const T20_HASHTAGS = "#FOSMET #T20 #スマートウォッチ #屋外 #スポーツ";
+const KT80_SPANISH_HASHTAGS = "#FOSMET #KT80 #reloj inteligente #Relojes para exteriores #herramienta";
+const KT80_GERMAN_HASHTAGS = "#FOSMET #KT80 #Smartwatch #Outdoor Smartwatch #Werkzeug";
+const G58_SPANISH_HASHTAGS = "#FOSMET #G58 #reloj inteligente #Atuendo #Salud de la mujer";
+const G58_GERMAN_HASHTAGS = "#FOSMET #G58 #Smartwatch #Outfit #Frauengesundheit";
+const E12_HASHTAGS = "#FOSMET #E12 #Bluetoothヘッドホン #デイリーレコード #AIイヤホン";
+const E05_HASHTAGS = "#FOSMET #E05 #スマートグラス #服装 #イヤホン";
+const E09_HASHTAGS = "#FOSMET #E09 #スマートグラス #服装 #デイリーレコード";
+const G2_HASHTAGS = "#FOSMET #G2 #女性の健康 #スマートウォッチ #服装";
+const FOS10_HASHTAGS = "#FOSMET #FOS10 #女性の健康 #スマートウォッチ #ポータブル";
 
 async function startServer() {
   const app = express();

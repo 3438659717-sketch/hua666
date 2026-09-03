@@ -1,6 +1,6 @@
 import { AngleCategory, GeneratedTitle } from "../types";
 
-export const E12_FIXED_TAGS = "#FOSMET#E12#Bluetoothヘッドホン#デイリーレコード#AIイヤホン";
+export const E12_FIXED_TAGS = "#FOSMET #E12 #Bluetoothヘッドホン #デイリーレコード #AIイヤホン";
 
 export interface E12HookTemplate {
   pattern: (brand: string, model: string) => string;

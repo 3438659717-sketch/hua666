@@ -1,6 +1,6 @@
 import { AngleCategory, GeneratedTitle } from "../types";
 
-export const G2_FIXED_TAGS = "#FOSMET#G2#女性の健康#スマートウォッチ#服装";
+export const G2_FIXED_TAGS = "#FOSMET #G2 #女性の健康 #スマートウォッチ #服装";
 
 interface HookTemplate {
   pattern: (brand: string, model: string, keyword?: string) => string;

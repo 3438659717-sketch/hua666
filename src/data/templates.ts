@@ -9,7 +9,7 @@ import { generateG58AlgorithmicTitles, G58_SPANISH_TAGS, G58_GERMAN_TAGS } from 
 import { generateG2AlgorithmicTitles, G2_FIXED_TAGS } from "./g2Templates";
 import { generateFos10AlgorithmicTitles, FOS10_FIXED_TAGS } from "./fos10Templates";
 
-export const FIXED_TAGS = "#FOSMET#REC10#AIレコーダー#ChatGPT#プロモーションの仕事";
+export const FIXED_TAGS = "#FOSMET #REC10 #AIレコーダー #ChatGPT #プロモーションの仕事";
 export const REC10_FIXED_TAGS = FIXED_TAGS;
 
 export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
@@ -20,7 +20,7 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
     name: "FOSMET REC10",
     japaneseType: "AIボイスレコーダー / AI録音カード",
     shortDesc: "伪装成极简名片的桌面效率引擎 (35h续航 / 64GB / ChatGPT×Gemini双AI)",
-    fixedTags: "#FOSMET#REC10#AIレコーダー#ChatGPT#プロモーションの仕事",
+    fixedTags: "#FOSMET #REC10 #AIレコーダー #ChatGPT #プロモーションの仕事",
     badge: "AI录音卡片",
     accentColor: "#3B82F6",
     tiktokFormula: "反常识痛点钩子 + 无剧情硬核展示 + 效率结果前置",
@@ -32,7 +32,7 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
       { label: "双AI大模型", value: "ChatGPT ＆ Gemini 双AI模型协同驱动 (DOWAY App)" },
       { label: "核心AI能力", value: "实时高精度转写・一秒生成精炼会议纪要・自动输出思维导图" },
       { label: "行业专属模板", value: "商务谈判/日常会议/课堂讲座/采访/医疗/法律等31种场景模板" },
-      { label: "固定标签", value: "#FOSMET#REC10#AIレコーダー#ChatGPT#プロモーションの仕事" },
+      { label: "固定标签", value: "#FOSMET #REC10 #AIレコーダー #ChatGPT #プロモーションの仕事" },
     ],
     highlights: [
       "极简名片级薄度，手机磁吸与桌面平放无违和",
@@ -47,7 +47,7 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
     name: "FOSMET QS40 (Series III)",
     japaneseType: "次世代AIスマートウォッチ",
     shortDesc: "极具高级感洗练银色金属腕表・ChatGPT对腕语音交互・不到1万日元破天荒性价比",
-    fixedTags: "#FOSMET#QS40#スマートウォッチ#健康管理者#ai",
+    fixedTags: "#FOSMET #QS40 #スマートウォッチ #健康管理者 #ai",
     badge: "次世代AI智能手表",
     accentColor: "#8B5CF6",
     tiktokFormula: "价格/打字痛点反转 + 9.8mm洗练银色硬核实机 + ChatGPT秒级解答/健康管理前置",
@@ -61,7 +61,7 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
       { label: "科学睡眠监测", value: "24h休息守护，连午休/小憩 (仮眠まで逃さず) 都能精准记录与阶段分析" },
       { label: "运动与防水", value: "150+种运动模式 / GPS联动记录 / 紧急SOS / 3ATM专业日常防水" },
       { label: "智能通信", value: "Bluetooth蓝牙高清通话 / 邮件与LINE/SNS通知一览 / 自定义下按键快捷键" },
-      { label: "固定标签", value: "#FOSEMT#QS40#スマートウォッチ#健康管理者#ai" },
+      { label: "固定标签", value: "#FOSMET #QS40 #スマートウォッチ #健康管理者 #ai" },
     ],
     highlights: [
       "ChatGPT智能语音交互：对腕发声秒获解答，彻底终结小屏幕打字烦恼",
@@ -76,7 +76,7 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
     name: "FOSMET T20 (C32 Pro)",
     japaneseType: "アウトドア＆スポーツ 本格派スマートウォッチ",
     shortDesc: "户外探索＆硬核运动专业级仪表盘・多星GNSS脱机轨迹・电子指南针/气压高度计・智能物理排水",
-    fixedTags: "#FOSMET#T20#スマートウォッチ#屋外#スポーツ",
+    fixedTags: "#FOSMET #T20 #スマートウォッチ #屋外 #スポーツ",
     badge: "专业户外运动手表",
     accentColor: "#10B981",
     tiktokFormula: "高额户外表/水没痛点反转 + 独立多星GNSS/物理智能排水硬核展示 + 100+运动/腕上本格计器直给",
@@ -90,7 +90,7 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
       { label: "科学睡眠追踪", value: "深睡/浅睡/清醒阶段精确分析、睡眠品质评分" },
       { label: "全能互联与通话", value: "Bluetooth 5.3蓝牙通话（手表直接拨号接听）、AI智能语音助手、LINE/SNS通知" },
       { label: "日常工具生态", value: "音乐控制、实时天气、遥控拍照、手机查找、计算器、闹钟/秒表/计时器" },
-      { label: "固定标签", value: "#FOSMET#T20#スマートウォッチ#屋外#スポーツ" },
+      { label: "固定标签", value: "#FOSMET #T20 #スマートウォッチ #屋外 #スポーツ" },
     ],
     highlights: [
       "多星GNSS脱机独立定位 + 高精度电子指南针与气压高度传感器，户外探索不迷路",
@@ -105,7 +105,7 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
     name: "FOSMET KT80",
     japaneseType: "Reloj Inteligente Outdoor / Outdoor-Smartwatch",
     shortDesc: "1.46\"大屏・坚固银色金属・800mAh超大电池・5ATM潜水级防水・侧边LED强光手电筒",
-    fixedTags: "#FOSMET#KT80#reloj inteligente#Relojes para exteriores#herramienta",
+    fixedTags: "#FOSMET #KT80 #reloj inteligente #Relojes para exteriores #herramienta",
     defaultLanguage: "es",
     supportedLanguages: ["es", "de"],
     badge: "户外全能工具表",
@@ -120,8 +120,8 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
       { label: "通信与通话", value: "全面支持高清蓝牙接打电话，腕上双向清晰通话" },
       { label: "健康管理", value: "24/7 全天候心率连续监测、血氧饱和度监测与科学睡眠分析" },
       { label: "运动追踪", value: "100+ 种专业运动模式全面记录" },
-      { label: "固定标签(西语)", value: "#FOSMET#KT80#reloj inteligente#Relojes para exteriores#herramienta" },
-      { label: "固定标签(德语)", value: "#FOSMET#KT80#Smartwatch#Outdoor Smartwatch#Werkzeug" },
+      { label: "固定标签(西语)", value: "#FOSMET #KT80 #reloj inteligente #Relojes para exteriores #herramienta" },
+      { label: "固定标签(德语)", value: "#FOSMET #KT80 #Smartwatch #Outdoor Smartwatch #Werkzeug" },
     ],
     highlights: [
       "800 mAh 超大容量电池 + 真正的 5ATM 潜水级防水，极限续航无惧涉水",
@@ -136,7 +136,7 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
     name: "FOSMET E12",
     japaneseType: "AI搭載スポーツヘッドホン（カメラ付き） / オープンイヤーAIイヤホン",
     shortDesc: "开放式零压佩戴 ✕ 16mm大喇叭HiFi音质 ✕ 内置摄像头与OpenAI助手 ✕ 语音Vlog与拍照识物",
-    fixedTags: "#FOSMET#E12#Bluetoothヘッドホン#デイリーレコード#AIイヤホン",
+    fixedTags: "#FOSMET #E12 #Bluetoothヘッドホン #デイリーレコード #AIイヤホン",
     defaultLanguage: "ja",
     supportedLanguages: ["ja"],
     badge: "AI摄像头蓝牙耳机",
@@ -153,7 +153,7 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
       { label: "麦克风与降噪", value: "アレイ3マイク (3麦克风阵列 / 2718封装 38dB 降噪通话)" },
       { label: "数据传输与充电", value: "Wi-Fi 高速直连手机传输写真与视频 / 2PIN 磁吸快速充电 / 220mAh 电池" },
       { label: "隐私与状态指示", value: "3色LED状态指示灯 + 专属白色微闪拍摄隐私提示灯 (エチケット設計)" },
-      { label: "固定标签", value: "#FOSMET#E12#Bluetoothヘッドホン#デイリーレコード#AIイヤホン" },
+      { label: "固定标签", value: "#FOSMET #E12 #Bluetoothヘッドホン #デイリーレコード #AIイヤホン" },
     ],
     highlights: [
       "颠覆性内置 SONY 800万画素摄像头：耳边一键或语音「Hi Luma」即可拍摄第一视角日常 Vlog 与 1080P 视频",
@@ -168,7 +168,7 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
     name: "FOSMET E05",
     japaneseType: "4段階調光スマートオーディオグラス / AIスマートメガネ",
     shortDesc: "极简穿搭美学 ✕ 4档电致变色镜片 ✕ ENC双麦降噪 ✕ AI智能问答与实时同传",
-    fixedTags: "#FOSMET#E05#スマートグラス#服装#イヤホン",
+    fixedTags: "#FOSMET #E05 #スマートグラス #服装 #イヤホン",
     defaultLanguage: "ja",
     supportedLanguages: ["ja"],
     badge: "4档变色智能眼镜",
@@ -183,7 +183,7 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
       { label: "手势触控交互", value: "镜腿触控区滑动调节音量 (前滑UP/后滑DOWN) ＆ 轻触切歌、播放/暂停、通话接挂" },
       { label: "电池与续航", value: "连续听歌 8 小时超长音乐续航 / 7 天以上超长待机 / 专用磁吸充电" },
       { label: "产品形态", value: "智能音频眼镜 (スマートオーディオグラス) / 解放双手、无缝陪伴的未来智能生活新体验" },
-      { label: "固定标签", value: "#FOSMET#E05#スマートグラス#服装#イヤホン" },
+      { label: "固定标签", value: "#FOSMET #E05 #スマートグラス #服装 #イヤホン" },
     ],
     highlights: [
       "指尖丝滑 4 档电致变色 (4段階調光)：告别眼镜与墨镜频繁更换，室内透明/户外遮阳一秒切换",
@@ -198,7 +198,7 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
     name: "FOSMET E09",
     japaneseType: "カメラ搭載スマートグラス / AI録画撮影メガネ",
     shortDesc: "40g極軽量 ✕ SONY 800万画素POVカメラ ✕ 透明防蓝光护眼 ✕ 专属物理按键10分录像 ✕ 开放式双扬声器＆AI语音",
-    fixedTags: "#FOSMET#E09#スマートグラス#服装#デイリーレコード",
+    fixedTags: "#FOSMET #E09 #スマートグラス #服装 #デイリーレコード",
     defaultLanguage: "ja",
     supportedLanguages: ["ja"],
     badge: "AI拍照录像眼镜",
@@ -214,7 +214,7 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
       { label: "AI智能与互联", value: "Hi Luma APP / 手机端 AI 语音对话助手 (ChatGPT/AI会話) 快速唤醒问答" },
       { label: "状态指示与安全", value: "配备工作指示灯与摄影补光灯，录制状态一目了然" },
       { label: "使用场景", value: "解放双手的 POV 第一人称日常 Vlog、骑行、烹饪、带娃、出游记录、工作与生活无缝衔接" },
-      { label: "固定标签", value: "#FOSMET#E09#スマートグラス#服装#デイリーレコード" },
+      { label: "固定标签", value: "#FOSMET #E09 #スマートグラス #服装 #デイリーレコード" },
     ],
     highlights: [
       "40g 极轻机身 ✕ PC+ABS 高耐久材质：透明防蓝光镜片，羽量级护眼舒适佩戴，告别沉重压鼻梁",
@@ -229,7 +229,7 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
     name: "FOSMET G58",
     japaneseType: "レディース ファッション スマートウォッチ / Reloj Inteligente Elegante para Mujer",
     shortDesc: "1.27\" 390×390 HD触控屏 ✕ 98%高屏占比 ✕ 女性生理周期管理 ✕ 24/7健康监测 ✕ 120+运动模式 ✕ 蓝牙5.3高清通话 ✕ 米兰尼斯+硅胶双表带",
-    fixedTags: "#FOSMET#G58#reloj inteligente#Atuendo#Salud de la mujer",
+    fixedTags: "#FOSMET #G58 #reloj inteligente #Atuendo #Salud de la mujer",
     defaultLanguage: "es",
     supportedLanguages: ["es", "de"],
     badge: "女性时尚智能手表",
@@ -245,8 +245,8 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
       { label: "语音助手与SOS", value: "双击上按键快速唤醒 AI 语音助手，长按支持一键紧急 SOS 电话" },
       { label: "实用工具生态", value: "实时天气预报、音乐播放控制、手机拍照遥控(晃动/点击拍摄)、查找手机、闹钟、秒表、小游戏" },
       { label: "防水与App互联", value: "IP68 专业级防尘防水 / GloryFit App 深度同步数据与表盘切换" },
-      { label: "固定标签(西语)", value: "#FOSMET#G58#reloj inteligente#Atuendo#Salud de la mujer" },
-      { label: "固定标签(德语)", value: "#FOSMET#G58#Smartwatch#Outfit#Frauengesundheit" },
+      { label: "固定标签(西语)", value: "#FOSMET #G58 #reloj inteligente #Atuendo #Salud de la mujer" },
+      { label: "固定标签(德语)", value: "#FOSMET #G58 #Smartwatch #Outfit #Frauengesundheit" },
     ],
     highlights: [
       "1.27\" 390×390 高清触控屏 (98%屏占比) + 米兰尼斯与硅胶双表带随心切换，百搭任何 OOTD 穿搭",
@@ -261,7 +261,7 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
     name: "FOSMET G2",
     japaneseType: "多機能ヘルスケア＆レディース スマートウォッチ",
     shortDesc: "全天健康监测 ✕ 女性月经周期 ✕ 120+运动模式 ✕ 蓝牙5.3通话 ✕ 语音助手 ✕ IP68防尘防水 ✕ FitCloudPro App",
-    fixedTags: "#FOSMET#G2#女性の健康#スマートウォッチ#服装",
+    fixedTags: "#FOSMET #G2 #女性の健康 #スマートウォッチ #服装",
     defaultLanguage: "ja",
     supportedLanguages: ["ja"],
     badge: "女性健康全能手表",
@@ -276,7 +276,7 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
       { label: "AI智能语音与工具", value: "AI 语音助手、手机音乐播放控制、实时天气与空气质量、查找手机、闹钟、计时器、秒表、计算器" },
       { label: "个性外观与交互", value: "支持自定义及下载更多表盘、多种菜单显示风格、抬腕亮屏 (腕上げ点灯)" },
       { label: "防护等级", value: "IP68 专业级防尘防水（日常洗手、雨天出行、洗车无忧）" },
-      { label: "固定标签", value: "#FOSMET#G2#女性の健康#スマートウォッチ#服装" },
+      { label: "固定标签", value: "#FOSMET #G2 #女性の健康 #スマートウォッチ #服装" },
     ],
     highlights: [
       "全天健康监测 ＋ 女性生理周期追踪 ＋ FitCloudPro 深度健康分析与呼吸减压，全天候贴心守护",
@@ -291,10 +291,10 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
     name: "FOSMET FOS10",
     japaneseType: "超薄型・軽量ポータブルスマートウォッチ",
     shortDesc: "10.66mm極薄・14.9g超軽量 ✕ 100+文字盤DIY ✕ 女性の健康＆24hバイタル ✕ 100+運動モード ✕ IP68防水 ✕ ポータブル快適装着",
-    fixedTags: "#FOSMET#FOS10#女性の健康#スマートウォッチ#ポータブル",
+    fixedTags: "#FOSMET #FOS10 #女性の健康 #スマートウォッチ #ポータブル",
     badge: "便携轻薄智能手表",
     accentColor: "#FB7185",
-    tiktokFormula: "手首疲れ/体調痛点反転 + 10.66mm極薄14.9g/100+文字盤DIY実機展示 + 女性健康/睡眠深度/100+運動直給",
+    tiktokFormula: "手首疲れ/体調痛点反转 + 10.66mm極薄14.9g/100+文字盤DIY実機展示 + 女性健康/睡眠深度/100+運動直給",
     defaultLanguage: "ja",
     supportedLanguages: ["ja"],
     specs: [
@@ -305,7 +305,7 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
       { label: "运动管理", value: "支持 100+ 种运动模式，精准记录运动状态、步数、运动距离与消耗卡路里" },
       { label: "智能通信与通知", value: "Bluetooth 5.3 稳定低功耗连接，支持 LINE、Facebook、SMS 等即时来电与消息通知" },
       { label: "系统兼容与防护", value: "IP68 专业级防尘防水，全面兼容 Android 8.0+ / iOS 10.0+" },
-      { label: "固定标签", value: "#FOSMET#FOS10#女性の健康#スマートウォッチ#ポータブル" },
+      { label: "固定标签", value: "#FOSMET #FOS10 #女性の健康 #スマートウォッチ #ポータブル" },
     ],
     highlights: [
       "10.66mm 极薄机身 ＋ 约 14.9g 羽量化设计：轻盈贴合手腕，全天候与睡眠佩戴零负担",
@@ -688,7 +688,7 @@ export const PRODUCT_CHEATSHEET = {
     { label: "核心AI能力", value: "实时高精度转写・一秒生成精炼会议纪要・自动输出思维导图" },
     { label: "行业专属模板", value: "商务谈判/日常会议/课堂讲座/采访/医疗/法律等31种场景模板" },
     { label: "多格式导出", value: "TXT, DOCX, PDF, Markdown (思维导图), MP3, WAV" },
-    { label: "5大固定标签", value: "#FOSMET#REC10#AIレコーダー#ChatGPT#プロモーションの仕事" },
+    { label: "5大固定标签", value: "#FOSMET #REC10 #AIレコーダー #ChatGPT #プロモーションの仕事" },
   ],
   videoHooksAdvice: [
     "开头0~3秒用「还在手写做笔记？」「开会最烦写纪要」等反常识痛点切入，锁住完播率",

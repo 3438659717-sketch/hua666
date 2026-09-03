@@ -835,7 +835,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
               <input
                 type="text"
                 id="input-tag-line"
-                placeholder="#FOSMET#REC10#AIレコーダー..."
+                placeholder="#FOSMET #REC10 #AIレコーダー..."
                 value={lineInputValue}
                 onChange={(e) => handleLineInputChange(e.target.value)}
                 className="w-full pl-8 pr-3 py-2.5 text-xs bg-black/60 border border-white/[0.1] rounded-[14px] focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 text-white font-mono outline-hidden transition-all placeholder:text-white/30"

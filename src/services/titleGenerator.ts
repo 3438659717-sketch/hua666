@@ -14,9 +14,9 @@ export async function generateTitles(params: GenerationParams): Promise<{
   const activeTags = (params.customTags && params.customTags.trim())
     ? params.customTags.trim()
     : (prodId === "kt80" && lang === "de"
-        ? "#FOSMET#KT80#Smartwatch#Outdoor Smartwatch#Werkzeug"
+        ? "#FOSMET #KT80 #Smartwatch #Outdoor Smartwatch #Werkzeug"
         : prodId === "g58" && lang === "de"
-        ? "#FOSMET#G58#Smartwatch#Outfit#Frauengesundheit"
+        ? "#FOSMET #G58 #Smartwatch #Outfit #Frauengesundheit"
         : productConfig.fixedTags);
 
   if (params.useAiApi) {

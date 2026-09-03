@@ -1,6 +1,6 @@
 import { AngleCategory, GeneratedTitle } from "../types";
 
-export const QS40_FIXED_TAGS = "#FOSMET#QS40#スマートウォッチ#健康管理者#ai";
+export const QS40_FIXED_TAGS = "#FOSMET #QS40 #スマートウォッチ #健康管理者 #ai";
 
 interface HookTemplate {
   pattern: (brand: string, model: string, keyword?: string) => string;

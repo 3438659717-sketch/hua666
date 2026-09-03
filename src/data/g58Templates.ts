@@ -1,7 +1,7 @@
 import { AngleCategory, GeneratedTitle, ProductId, TargetLanguage } from "../types";
 
-export const G58_SPANISH_TAGS = "#FOSMET#G58#reloj inteligente#Atuendo#Salud de la mujer";
-export const G58_GERMAN_TAGS = "#FOSMET#G58#Smartwatch#Outfit#Frauengesundheit";
+export const G58_SPANISH_TAGS = "#FOSMET #G58 #reloj inteligente #Atuendo #Salud de la mujer";
+export const G58_GERMAN_TAGS = "#FOSMET #G58 #Smartwatch #Outfit #Frauengesundheit";
 
 interface HookTemplate {
   pattern: (brand: string, model: string, keyword?: string) => string;
