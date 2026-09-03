@@ -13,6 +13,7 @@ const KT80_SPANISH_HASHTAGS = "#FOSMET #KT80 #reloj inteligente #Relojes para ex
 const KT80_GERMAN_HASHTAGS = "#FOSMET #KT80 #Smartwatch #Outdoor Smartwatch #Werkzeug";
 const G58_SPANISH_HASHTAGS = "#FOSMET #G58 #reloj inteligente #Atuendo #Salud de la mujer";
 const G58_GERMAN_HASHTAGS = "#FOSMET #G58 #Smartwatch #Outfit #Frauengesundheit";
+const I228_HASHTAGS = "#FOSMET #I228 #Salud de la mujer #Atuendo #reloj inteligente";
 const E12_HASHTAGS = "#FOSMET #E12 #Bluetoothヘッドホン #デイリーレコード #AIイヤホン";
 const E05_HASHTAGS = "#FOSMET #E05 #スマートグラス #服装 #イヤホン";
 const E09_HASHTAGS = "#FOSMET #E09 #スマートグラス #服装 #デイリーレコード";
@@ -66,19 +67,22 @@ async function startServer() {
       const isT20 = productId === "t20";
       const isKt80 = productId === "kt80";
       const isG58 = productId === "g58";
+      const isI228 = productId === "i228";
       const isE12 = productId === "e12";
       const isE05 = productId === "e05";
       const isE09 = productId === "e09";
       const isGerman = (isKt80 || isG58) && language === "de";
 
       const targetBrand = "FOSMET";
-      const targetModel = isFos10 ? "FOS10" : isG2 ? "G2" : isG58 ? "G58" : isE09 ? "E09" : isE05 ? "E05" : isE12 ? "E12" : isKt80 ? "KT80" : isT20 ? "T20" : isQs40 ? "QS40" : "REC10";
+      const targetModel = isFos10 ? "FOS10" : isG2 ? "G2" : isG58 ? "G58" : isI228 ? "I228" : isE09 ? "E09" : isE05 ? "E05" : isE12 ? "E12" : isKt80 ? "KT80" : isT20 ? "T20" : isQs40 ? "QS40" : "REC10";
 
       let defaultHashtags = REC10_HASHTAGS;
       if (isFos10) {
         defaultHashtags = FOS10_HASHTAGS;
       } else if (isG2) {
         defaultHashtags = G2_HASHTAGS;
+      } else if (isI228) {
+        defaultHashtags = I228_HASHTAGS;
       } else if (isG58) {
         defaultHashtags = isGerman ? G58_GERMAN_HASHTAGS : G58_SPANISH_HASHTAGS;
       } else if (isE09) {
@@ -182,6 +186,45 @@ ${customKeyword ? `※ Palabra clave a destacar: "${customKeyword}"` : ""}`;
 Tono: ${tone}
 Petición: Genera 50 títulos virales en español para FOSMET G58 en TikTok que terminen en: ${targetHashtags}`;
         }
+      } else if (isI228) {
+        categoryPromptMap = {
+          all_mixed: "Diseño elegante y femenino, pantalla táctil HD de 1.27\" 390×390 con 98% de ratio de pantalla, doble correa milanesa y silicona para cualquier atuendo, gestión completa del ciclo menstrual y salud de la mujer, llamadas Bluetooth 5.3, 120+ deportes e impermeabilidad IP68",
+          pain_point: "【Dolor y Estilo】Cansada de relojes inteligentes toscos que arruinan tu atuendo, olvidos del ciclo menstrual y ovulación, no escuchar llamadas en el bolso, gastar fortunas en marcas sin funciones",
+          efficiency: "【Salud de la Mujer y Llamadas HD】Gestión de periodo y ovulación, responder llamadas y mensajes en tu muñeca con Bluetooth 5.3, 120+ deportes, salud biométrica 24/7 (SpO2, ritmo cardíaco y fases del sueño)",
+          gadget: "【Doble Correa Milanesa/Silicona y Pantalla HD 1.27\"】Malla milanesa elegante + silicona suave, pantalla táctil 390×390 con 98% de pantalla y cristal antihuellas, diseño ultraligero y esferas personalizables",
+          ai_power: "【Asistente de Voz y Monitoreo Inteligente】Asistente de voz en la muñeca, 100 contactos y teclado numérico, análisis de sueño profundo/ligero, control de música y disparo de fotos remoto",
+          secret_hack: "【Secreto de Moda y Estilo】El secreto de las chicas con más estilo para combinar accesorios y atuendos, cambio de correa en segundos, disparo de selfies a distancia agitando la muñeca",
+          question: "【Pregunta y Debate】¿Es este el smartwatch para mujer más bonito y completo de 2026? ¿Prefieres correa milanesa o de silicona para tu outfit?",
+          spec_power: "【Especificaciones Prémium】Pantalla 1.27\" 390×390 HD, Bluetooth 5.3 llamadas, 100 contactos, 120+ modos deportivos, IP68 impermeable, cristal resistente antihuellas",
+        };
+
+        const selectedCategoryDesc = categoryPromptMap[category] || categoryPromptMap.all_mixed;
+
+        systemInstruction = `Eres un estratega experto en marketing de contenidos y creador de títulos virales para TikTok especializado en moda femenina, estilo de vida y tecnología en español.
+Crea títulos de alto impacto y ganchos (hooks) en español para el nuevo reloj inteligente para mujer "FOSMET I228".
+
+【Datos del Producto FOSMET I228】:
+- Marca: FOSMET | Modelo: I228
+- Posicionamiento: Reloj inteligente de moda diseñado exclusivamente para mujeres. Integra elegancia femenina, gestión de salud y funciones inteligentes de vida diaria.
+- Pantalla y Diseño: Pantalla táctil HD de 1.27 pulgadas, resolución 390×390, ratio de pantalla de aproximadamente 98%, cristal de alta dureza con revestimiento antihuellas. Aspecto ligero y elegante.
+- Doble Correa Intercambiable: Incluye correa milanesa de acero inoxidable y correa de silicona suave para intercambiar libremente según cada atuendo u ocasión (oficina, fiesta, deporte).
+- Salud Femenina Integral: Gestión del ciclo fisiológico de la mujer (registro de menstruación, período de ovulación, período seguro, recordatorios de ciclo menstrual y registro de embarazo).
+- Monitoreo de Salud 24/7: Frecuencia cardíaca continua, oxígeno en sangre (SpO₂), análisis científico del sueño (sueño profundo, sueño ligero, tiempo de vigilia).
+- Deportes y Fitness: Más de 120 modos de entrenamiento (pasos, distancia, calorías quemadas para running, yoga, gimnasio, etc.).
+- Llamadas y Conectividad: Bluetooth 5.3 llamadas nítidas en la muñeca, altavoz integrado, almacenamiento de 100 contactos, teclado numérico de marcación y asistente de voz.
+- Funciones Prácticas Diarias: Pronóstico del tiempo, control de reproducción de música, alarma, cronómetro, disparador remoto de cámara del móvil, buscar teléfono, resistencia al agua IP68.
+
+【Reglas de Generación (Estricto Cumplimiento)】:
+1. Cada título DEBE incluir de forma natural y atractiva la marca "FOSMET" y el modelo "I228".
+2. Redacta ganchos (hooks) virales en español con alta tasa de clics y retención (entre 40 y 85 caracteres) que conecten de inmediato con el público femenino (moda, salud, estética, practicidad).
+3. Cada título DEBE terminar OBLIGATORIAMENTE con estos 5 hashtags exactos separados por espacios:
+   ${targetHashtags}
+4. Genera exactamente ${count} títulos únicos en formato de arreglo JSON. ¡Sin duplicados!
+${customKeyword ? `※ Palabra clave especial para incluir en algunos títulos: "${customKeyword}"` : ""}`;
+
+        userPrompt = `Categoría: ${selectedCategoryDesc}
+Tono: ${tone}
+Solicitud: Crea ${count} títulos virales en español para TikTok para FOSMET I228 que incluyan "FOSMET", "I228" y terminen con los hashtags: ${targetHashtags}`;
       } else if (isKt80) {
         if (isGerman) {
           categoryPromptMap = {
@@ -602,6 +645,10 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
                       type: Type.STRING,
                       description: "Target viewer",
                     },
+                    translationZh: {
+                      type: Type.STRING,
+                      description: "Accurate, fluent Chinese translation of the title hook for easy reference by Chinese marketing operators",
+                    },
                   },
                   required: ["title", "hook", "angle"],
                 },
@@ -643,10 +690,11 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
           productId,
           title: fullTitle,
           hook: hook || fullTitle.replace(targetHashtags, "").trim(),
-          angle: item.angle || (isGerman ? "Highlight" : (isKt80 || isG58) ? "Destacado" : "AIおすすめ"),
-          targetAudience: item.targetAudience || (isGerman ? "Damen & Alltag" : (isKt80 || isG58) ? "Público activo" : "ターゲット層"),
+          angle: item.angle || (isGerman ? "Highlight" : (isKt80 || isG58 || isI228) ? "Destacado" : "AIおすすめ"),
+          targetAudience: item.targetAudience || (isGerman ? "Damen & Alltag" : (isKt80 || isG58 || isI228) ? "Mujeres & Moda" : "ターゲット層"),
+          translationZh: item.translationZh || "",
           charCount: fullTitle.length,
-          language: (isKt80 || isG58) ? (isGerman ? "de" : "es") : "ja",
+          language: (isKt80 || isG58) ? (isGerman ? "de" : "es") : isI228 ? "es" : "ja",
           createdAt: new Date().toISOString(),
         };
       });
@@ -656,7 +704,7 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
         productId,
         count: titles.length,
         category,
-        language: (isKt80 || isG58) ? (isGerman ? "de" : "es") : "ja",
+        language: (isKt80 || isG58) ? (isGerman ? "de" : "es") : isI228 ? "es" : "ja",
         titles,
       });
     } catch (err: any) {

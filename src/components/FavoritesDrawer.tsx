@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { GeneratedTitle } from "../types";
-import { X, Bookmark, Copy, Check, Trash2, Download, ExternalLink, Hash, FileSpreadsheet, FileText } from "lucide-react";
+import { X, Bookmark, Copy, Check, Trash2, Download, ExternalLink, Hash, FileSpreadsheet, FileText, Languages } from "lucide-react";
 import { MagneticButton } from "./MagneticButton";
+import { getChineseTranslation } from "../utils/translator";
 
 interface FavoritesDrawerProps {
   isOpen: boolean;
@@ -163,6 +164,16 @@ export const FavoritesDrawer: React.FC<FavoritesDrawerProps> = ({
                   <p className="text-xs font-normal text-white/95 leading-relaxed select-all">
                     {item.title}
                   </p>
+
+                  <div className="bg-black/40 border border-white/10 rounded-[8px] p-2 flex items-start gap-1.5">
+                    <span className="text-[9px] font-bold px-1 py-0.2 rounded bg-amber-500/20 text-amber-300 flex-shrink-0 mt-0.5 flex items-center gap-0.5">
+                      <Languages className="w-2.5 h-2.5" />
+                      <span>译</span>
+                    </span>
+                    <p className="text-[11px] text-zinc-300 leading-snug font-normal">
+                      {item.translationZh || getChineseTranslation(item)}
+                    </p>
+                  </div>
 
                   <div className="flex items-center justify-between pt-2 border-t border-white/[0.06] text-[11px]">
                     <span className="text-white/40 truncate text-[10.5px]">

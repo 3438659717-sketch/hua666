@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { GeneratedTitle } from "../types";
-import { Copy, Check, Bookmark, Smartphone, Hash, Sparkles, Zap, Flame, ShieldAlert, Trophy, Star, TrendingUp } from "lucide-react";
+import { Copy, Check, Bookmark, Smartphone, Hash, Sparkles, Zap, Flame, ShieldAlert, Trophy, Star, TrendingUp, Languages } from "lucide-react";
 import { TiltGlassCard, CardThemeColor } from "./TiltGlassCard";
 import { MagneticButton } from "./MagneticButton";
+import { getChineseTranslation } from "../utils/translator";
 
 interface TitleCardProps {
   item: GeneratedTitle;
@@ -271,9 +272,22 @@ const TitleCardComponent: React.FC<TitleCardProps> = ({
         </div>
 
         {/* Main Hook Body Text with High Legibility & Clarity */}
-        <div className="mb-4">
+        <div className="mb-3">
           <p className="text-[15px] sm:text-[16px] font-medium leading-relaxed tracking-normal text-white select-all">
             {renderHookText(item.hook)}
+          </p>
+        </div>
+
+        {/* Chinese Translation Box for convenient review */}
+        <div className="mb-3.5 px-3 py-2 rounded-[12px] bg-white/[0.04] border border-white/[0.08] flex items-start gap-2 select-all">
+          <div className="flex items-center gap-1 flex-shrink-0 mt-0.5">
+            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-[5px] bg-amber-500/20 border border-amber-400/40 text-amber-300 font-mono flex items-center gap-1">
+              <Languages className="w-2.5 h-2.5" />
+              <span>中译</span>
+            </span>
+          </div>
+          <p className="text-[13px] text-zinc-300 leading-relaxed font-normal">
+            {item.translationZh || getChineseTranslation(item)}
           </p>
         </div>
 

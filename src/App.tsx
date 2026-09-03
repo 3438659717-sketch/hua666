@@ -80,6 +80,7 @@ export default function App() {
       case "g2":
         return "purple";
       case "g58":
+      case "i228":
         return "pink";
       case "e09":
         return "sky";
@@ -105,6 +106,7 @@ export default function App() {
       case "g2":
         return "text-purple-300";
       case "g58":
+      case "i228":
         return "text-pink-300";
       case "e09":
         return "text-sky-300";
@@ -145,6 +147,8 @@ export default function App() {
               ? activeParams.language === "de"
                 ? "德语"
                 : "西语"
+              : targetProd === "i228"
+              ? "西语"
               : "日语";
           addToast(
             `已为 ${targetProdConfig.name} 生成 50 组精选 ${langLabel} 文案 (${

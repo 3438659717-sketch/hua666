@@ -59,6 +59,7 @@ export const ProductCheatsheetModal: React.FC<ProductCheatsheetModalProps> = ({
       case "fos10":
         return <Feather className="w-4 h-4" />;
       case "g2":
+      case "i228":
         return <Heart className="w-4 h-4" />;
       case "g58":
         return <Sparkles className="w-4 h-4" />;
@@ -85,6 +86,7 @@ export const ProductCheatsheetModal: React.FC<ProductCheatsheetModalProps> = ({
     "t20",
     "kt80",
     "g58",
+    "i228",
     "e12",
     "e05",
     "e09",

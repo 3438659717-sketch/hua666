@@ -88,6 +88,9 @@ export function getDefaultTagsForProduct(productId: string = "rec10", language: 
       ? "#FOSMET #G58 #Smartwatch #Outfit #Frauengesundheit"
       : "#FOSMET #G58 #RelojInteligente #ModaFemenina #SaludMujer";
   }
+  if (productId === "i228") {
+    return "#FOSMET #I228 #Salud de la mujer #Atuendo #reloj inteligente";
+  }
   if (productId === "fos10") {
     return "#FOSMET #FOS10 #スマートウォッチ #スマートバンド #レディース時計";
   }

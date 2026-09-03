@@ -111,6 +111,17 @@ const G58_CATEGORIES_ES: { id: AngleCategory; label: string; desc: string; icon:
   { id: "question", label: "互动共鸣・女性话题引流", desc: "「能精准测经期的神仙手表你心动了吗？」激发女性观众热烈讨论与分享", icon: "💬" },
 ];
 
+const I228_CATEGORIES_ES: { id: AngleCategory; label: string; desc: string; icon: string }[] = [
+  { id: "all_mixed", label: "全维黄金配比 (Recomendado)", desc: "1.27\"高清屏 / 女性生理周期 / 米兰尼斯+硅胶双表带 / 蓝牙5.3通话 均衡输出", icon: "✨" },
+  { id: "pain_point", label: "痛点反转・告别笨重表", desc: "打破「智能手表笨重难搭女装、忘记经期」痛点，优雅轻盈与女性健康兼备", icon: "🎯" },
+  { id: "gadget", label: "1.27\"高清屏・98%高屏占比", desc: "390×390高分辨率 / 高硬度防指纹玻璃 / 极致轻盈时尚外观 / 视觉通透清晰", icon: "💎" },
+  { id: "ai_power", label: "专属女性健康・生理周期管理", desc: "经期/排卵期/安全期智能预测跟踪，经期关怀提醒与孕期记录，24/7全天守护", icon: "🌸" },
+  { id: "efficiency", label: "米兰尼斯+硅胶・双表带随心搭", desc: "职场优雅米兰尼斯 / 运动透气硅胶表带随心换 / 120+种专业运动模式", icon: "👗" },
+  { id: "spec_power", label: "蓝牙5.3高清通话・IP68防水", desc: "手腕直接接打电话、100联系人与拨号键盘 / 心率血氧睡眠监测 / IP68级防水", icon: "📞" },
+  { id: "secret_hack", label: "时尚博主秘密穿搭神物", desc: "「千元级大牌轻奢质感」高颜值女性智能饰品，穿搭加分神器", icon: "🤫" },
+  { id: "question", label: "互动共鸣・女性话题引流", desc: "「能精准测经期、换双表带的神仙手表你心动了吗？」激发热烈讨论", icon: "💬" },
+];
+
 const G58_CATEGORIES_DE: { id: AngleCategory; label: string; desc: string; icon: string }[] = [
   { id: "all_mixed", label: "Goldener Schnitt (Empfohlen)", desc: "1,27\" HD Touchscreen / Zyklus- & Schwangerschaftstracker / Milanese & Silikon / BT-Calls", icon: "✨" },
   { id: "pain_point", label: "Schmerzpunkt & Eleganz", desc: "Schluss mit klobigen Smartwatches – Perfekt abgestimmt auf feminine Outfits", icon: "🎯" },
@@ -183,6 +194,7 @@ const TAG_SUGGESTIONS: Record<string, string[]> = {
   t20: ["スマートウォッチ", "アウトドアギア", "登山装備", "ガジェット男子", "耐衝撃", "キャンプギア", "FOSMET"],
   kt80: ["smartwatch", "relojinteligente", "gadgets2025", "supervivencia", "tecnologia", "linternaLED", "FOSMET"],
   g58: ["smartwatchmujer", "relojfemenino", "saludfemenina", "modamujer", "regalosparamujer", "estiloelegante", "FOSMET"],
+  i228: ["smartwatchmujer", "relojfemenino", "saludfemenina", "modamujer", "regalosparamujer", "estiloelegante", "FOSMET"],
   e12: ["スマートグラス", "POV動画", "AIカメラ", "ガジェット紹介", "耳を塞がない", "サイクリング", "FOSMET"],
   e05: ["スマートグラス", "調光サングラス", "AI同時通訳", "ガジェット紹介", "耳を塞がない", "運転用メガネ", "FOSMET"],
   e09: ["スマートグラス", "Vlog撮影", "POV動画", "SONYセンサー", "ガジェット紹介", "旅行用カメラ", "FOSMET"],
@@ -202,10 +214,11 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
 }) => {
   const currentProductId = params.productId || "rec10";
   const currentProduct = PRODUCTS_CONFIG[currentProductId] || PRODUCTS_CONFIG.rec10;
-  const currentLang = params.language || "ja";
+  const currentLang = params.language || (currentProductId === "i228" ? "es" : "ja");
 
   const isKt80 = currentProductId === "kt80";
   const isG58 = currentProductId === "g58";
+  const isI228 = currentProductId === "i228";
   const isMultilingual = isKt80 || isG58;
   const isGerman = currentLang === "de";
   const isSpanish = currentLang === "es";
@@ -219,7 +232,8 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   const isQs40 = currentProductId === "qs40";
 
   let categories = REC10_CATEGORIES;
-  if (isFos10) categories = FOS10_CATEGORIES;
+  if (isI228) categories = I228_CATEGORIES_ES;
+  else if (isFos10) categories = FOS10_CATEGORIES;
   else if (isG2) categories = G2_CATEGORIES;
   else if (isE09) categories = E09_CATEGORIES;
   else if (isE05) categories = E05_CATEGORIES;
@@ -412,6 +426,12 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           { label: "WOMEN HEALTH SUITE", val: "24/7", unit: "守护", desc: "生理周期/排卵智能预测 · 经期关怀", color: "liquid-metal-gold", icon: <Heart className="w-4 h-4 text-rose-400" /> },
           { label: "DUAL WRIST STRAP", val: "双带", unit: "标配", desc: "米兰尼斯轻奢 + 亲肤硅胶随心换", color: "liquid-metal-silver", icon: <Watch className="w-4 h-4 text-white" /> },
         ];
+      case "i228":
+        return [
+          { label: "DISPLAY RESOLUTION", val: "390", unit: "px", desc: "1.27\"全彩触控 · 98%屏占比防指纹", color: "liquid-metal-rose", icon: <Sparkles className="w-4 h-4 text-pink-400" /> },
+          { label: "WOMEN HEALTH & CYCLE", val: "24/7", unit: "守护", desc: "经期/排卵期/孕期智能预测 · 关怀提醒", color: "liquid-metal-gold", icon: <Heart className="w-4 h-4 text-rose-400" /> },
+          { label: "DUAL WRIST STRAP", val: "双带", unit: "标配", desc: "米兰尼斯金属 + 亲肤硅胶随心换", color: "liquid-metal-silver", icon: <Watch className="w-4 h-4 text-white" /> },
+        ];
       case "g2":
         return [
           { label: "SPORTS TRACKING", val: "120+", unit: "模式", desc: "FitCloudPro深度互联 · 运动生理分析", color: "liquid-metal-purple", icon: <Activity className="w-4 h-4 text-purple-400" /> },
@@ -449,7 +469,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
               <span>硬件矩阵 (Product Matrix)</span>
             </span>
             <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-white/[0.08] text-white border border-white/[0.12] shadow-xs">
-              10款旗舰设备
+              11款旗舰设备
             </span>
           </div>
           <span className="text-[11.5px] text-white/50">
@@ -457,13 +477,14 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           </span>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 xl:grid-cols-10 gap-2.5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-11 gap-2.5">
           {[
             { id: "rec10" as ProductId, label: "REC10", desc: "名片AI录音", icon: <Mic className="w-3.5 h-3.5" />, tag: "#AIレコーダー" },
             { id: "qs40" as ProductId, label: "QS40", desc: "对腕ChatGPT", icon: <Watch className="w-3.5 h-3.5" />, tag: "#スマートウォッチ" },
             { id: "t20" as ProductId, label: "T20", desc: "多星GNSS", icon: <Compass className="w-3.5 h-3.5" />, tag: "#アウトドア" },
             { id: "kt80" as ProductId, label: "KT80", desc: "800mAh战术", icon: <Flashlight className="w-3.5 h-3.5" />, tag: "#smartwatch" },
             { id: "g58" as ProductId, label: "G58", desc: "女性时尚表", icon: <Sparkles className="w-3.5 h-3.5" />, tag: "#SaludMujer" },
+            { id: "i228" as ProductId, label: "I228", desc: "女性便携表", icon: <Heart className="w-3.5 h-3.5" />, tag: "#I228" },
             { id: "e12" as ProductId, label: "E12", desc: "POV相机耳机", icon: <Headphones className="w-3.5 h-3.5" />, tag: "#POV動画" },
             { id: "e05" as ProductId, label: "E05", desc: "4档调光镜", icon: <Glasses className="w-3.5 h-3.5" />, tag: "#スマートグラス" },
             { id: "e09" as ProductId, label: "E09", desc: "SONY高清镜", icon: <Camera className="w-3.5 h-3.5" />, tag: "#Vlog撮影" },
@@ -476,7 +497,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                 key={prod.id}
                 type="button"
                 id={`tab-product-${prod.id}`}
-                onClick={() => onChangeParams({ productId: prod.id, language: prod.id === "kt80" || prod.id === "g58" ? "es" : "ja" })}
+                onClick={() => onChangeParams({ productId: prod.id, language: prod.id === "kt80" || prod.id === "g58" || prod.id === "i228" ? "es" : "ja" })}
                 className={`group relative flex flex-col justify-between p-3.5 rounded-[22px] text-left transition-all duration-200 cursor-pointer overflow-hidden min-h-[100px] physic-spring-tap ${
                   isSelected
                     ? "bg-white/[0.16] border border-white/[0.3] shadow-[0_8px_24px_rgba(0,0,0,0.6)] text-white ring-1 ring-white/40"

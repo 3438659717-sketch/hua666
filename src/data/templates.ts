@@ -8,6 +8,8 @@ import { generateE09AlgorithmicTitles, E09_FIXED_TAGS } from "./e09Templates";
 import { generateG58AlgorithmicTitles, G58_SPANISH_TAGS, G58_GERMAN_TAGS } from "./g58Templates";
 import { generateG2AlgorithmicTitles, G2_FIXED_TAGS } from "./g2Templates";
 import { generateFos10AlgorithmicTitles, FOS10_FIXED_TAGS } from "./fos10Templates";
+import { generateI228AlgorithmicTitles, I228_FIXED_TAGS } from "./i228Templates";
+import { getChineseTranslation } from "../utils/translator";
 
 export const FIXED_TAGS = "#FOSMET #REC10 #AIレコーダー #ChatGPT #プロモーションの仕事";
 export const REC10_FIXED_TAGS = FIXED_TAGS;
@@ -313,11 +315,41 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
       "24h 心率/血氧/睡眠周期监测 ＋ 呼吸训练 ＋ 100+ 运动模式 ＋ IP68 防水 ＋ Bluetooth 5.3 通知",
     ],
   },
+  i228: {
+    id: "i228",
+    brand: "FOSMET",
+    model: "I228",
+    name: "FOSMET I228",
+    japaneseType: "便携式女性时尚智能手表 / Reloj Inteligente Elegante para Mujer",
+    shortDesc: "1.27\" 390×390 HD触控屏 ✕ 98%高屏占比 ✕ 女性生理周期管理 ✕ 24/7全天候健康 ✕ 120+运动模式 ✕ 蓝牙5.3高清通话 ✕ 米兰尼斯+硅胶双表带",
+    fixedTags: "#FOSMET #I228 #Salud de la mujer #Atuendo #reloj inteligente",
+    defaultLanguage: "es",
+    supportedLanguages: ["es"],
+    badge: "女性时尚智能手表",
+    accentColor: "#F43F5E",
+    tiktokFormula: "痛点反转/告别笨重表 + 1.27\" 390×390 HD 98%屏/米兰尼斯硅胶双表带实机展示 + 女性经期孕期/120+运动/BT5.3通话直给",
+    specs: [
+      { label: "屏幕与显示", value: "1.27英寸高清触控屏、390×390分辨率、约98%屏占比，高硬度防指纹涂层玻璃" },
+      { label: "外观与双表带", value: "轻盈时尚女性专属设计，标配米兰尼斯金属表带 + 亲肤硅胶表带两种可更换表带，百搭穿搭" },
+      { label: "女性健康管理", value: "支持女性生理周期管理（经期、排卵期、安全期、经期关怀提醒、孕期记录功能）" },
+      { label: "24/7全天候健康", value: "全天候心率连续监测、SpO₂血氧饱和度监测、科学睡眠分析（深睡、浅睡、清醒时间）" },
+      { label: "120+运动模式", value: "支持 120+ 种运动模式，精准记录步数、距离、卡路里消耗" },
+      { label: "蓝牙5.3高清通话", value: "Bluetooth 5.3 稳定通话，腕上直接接打电话、100个联系人存储、拨号键盘、语音助手" },
+      { label: "日常实用生态", value: "天气预报、音乐播放控制、闹钟、秒表、手机拍照遥控、查找手机、IP68防水" },
+      { label: "固定标签(西语)", value: "#FOSMET #I228 #Salud de la mujer #Atuendo #reloj inteligente" },
+    ],
+    highlights: [
+      "1.27\" 390×390 高清触控屏 (98%屏占比) + 米兰尼斯与硅胶双表带随心切换，百搭任何优雅或运动 OOTD",
+      "女性生理周期智能预测（经期、排卵期、孕期记录） + 24/7 全天候心率/血氧/深度睡眠健康守护",
+      "Bluetooth 5.3 腕上高清双向通话 + 120+ 种专业运动模式 + 语音助手 + IP68 级防尘防水",
+    ],
+  },
 };
 
 // Highly varied Japanese TikTok formula patterns for FOSMET REC10
 interface HookTemplate {
   pattern: (brand: string, model: string, keyword?: string) => string;
+  patternZh: (brand: string, model: string, keyword?: string) => string;
   category: AngleCategory;
   angleLabel: string;
   targetAudience: string;
@@ -327,60 +359,70 @@ export const HOOK_TEMPLATES: HookTemplate[] = [
   // 1. 反常识痛点型 (Pain point / Counter-intuitive)
   {
     pattern: (b, m) => `まだ手書きでメモ取ってるの？${b} ${m}で会議の常識が変わる`,
+    patternZh: (b, m) => `还在手写做会议笔记？有了 ${b} ${m} 彻底颠覆你的开会常识`,
     category: "pain_point",
     angleLabel: "反常識・脱手書き",
     targetAudience: "新社会人・メモ魔",
   },
   {
     pattern: (b, m) => `ノート取る人ほど仕事が遅い？${b} ${m}が暴く驚きの事実`,
+    patternZh: (b, m) => `越是拼命记笔记的人工作越慢？${b} ${m} 揭开职场效率惊人真相`,
     category: "pain_point",
     angleLabel: "反常識・仕事術",
     targetAudience: "ビジネスマン",
   },
   {
     pattern: (b, m) => `会議の議事録係、今すぐ辞めて！${b} ${m}があれば一瞬で終了`,
+    patternZh: (b, m) => `别再苦哈哈当会议记录员了！有了 ${b} ${m} 一瞬间就能全自动搞定`,
     category: "pain_point",
     angleLabel: "議事録解放",
     targetAudience: "若手社員・書記担当",
   },
   {
     pattern: (b, m) => `【絶望】商談メモ取れなくて怒られた人に教えたい${b} ${m}`,
+    patternZh: (b, m) => `【绝望】想告诉因没记全商务会谈笔记挨批评的人：你需要 ${b} ${m}`,
     category: "pain_point",
     angleLabel: "商談トラブル解決",
     targetAudience: "営業職・コンサル",
   },
   {
     pattern: (b, m) => `大事な面談で聞き逃しゼロに！${b} ${m}を持参したら人生変わった`,
+    patternZh: (b, m) => `重要面谈绝不错漏任何一句话！带上 ${b} ${m} 后工作体验彻底改变`,
     category: "pain_point",
     angleLabel: "聞き逃し防止",
     targetAudience: "就活生・人事・面接官",
   },
   {
     pattern: (b, m) => `手動でメモ取る時代は終了！${b} ${m}で残業とおさらばする裏ワザ`,
+    patternZh: (b, m) => `纯手动记笔记的时代已经终结！用 ${b} ${m} 彻底告别加班的私藏技巧`,
     category: "pain_point",
     angleLabel: "残業脱出",
     targetAudience: "残業が多い人",
   },
   {
     pattern: (b, m) => `【後悔】もっと早く買えばよかった…${b} ${m}がチートすぎる件`,
+    patternZh: (b, m) => `【后悔】后悔没早点入手… ${b} ${m} 的效率提升简直如同开挂`,
     category: "pain_point",
     angleLabel: "後悔フック",
     targetAudience: "全社会人",
   },
   {
     pattern: (b, m) => `「要点なんだっけ？」を完全撲滅！${b} ${m}が救う毎日の会議`,
+    patternZh: (b, m) => `彻底告别“刚才会议要点是啥”的尴尬！${b} ${m} 拯救你每天的会议`,
     category: "pain_point",
     angleLabel: "物忘れ防止",
     targetAudience: "多忙なリーダー層",
   },
   {
     pattern: (b, m) => `上司の早口な指示についていけない？${b} ${m}で一発解決`,
+    patternZh: (b, m) => `领导语速太快指令记不全？${b} ${m} 一键帮你精准捕捉解决`,
     category: "pain_point",
     angleLabel: "指示聞き漏らし対策",
     targetAudience: "新人・アシスタント",
   },
   {
     pattern: (b, m) => `講義のノート書きに追われて頭に入らない学生へ送る${b} ${m}`,
+    patternZh: (b, m) => `送给忙于手抄笔记而顾不上听课的学生：用 ${b} ${m} 开启高效学习`,
     category: "pain_point",
     angleLabel: "学習効率化",
     targetAudience: "大学生・資格受験生",
@@ -389,60 +431,70 @@ export const HOOK_TEMPLATES: HookTemplate[] = [
   // 2. 効率結果前置型 (Front-loaded Efficiency / Zero Overtime)
   {
     pattern: (b, m) => `1時間の会議終了と同時に議事録完成！${b} ${m}が神すぎる`,
+    patternZh: (b, m) => `1小时会议结束的瞬间会议纪要同步完成！${b} ${m} 简直太神了`,
     category: "efficiency",
     angleLabel: "即時議事録化",
     targetAudience: "プロジェクトマネージャー",
   },
   {
     pattern: (b, m) => `残業がガチでゼロになった秘密兵器、${b} ${m}の爆速AI要約`,
+    patternZh: (b, m) => `让加班真正清零的秘密武器：${b} ${m} 的极速 AI 智能摘要总结`,
     category: "efficiency",
     angleLabel: "定時退社",
     targetAudience: "オフィスワーカー",
   },
   {
     pattern: (b, m) => `会議終わった瞬間にマインドマップ出力できる${b} ${m}が最強`,
+    patternZh: (b, m) => `开完会一秒自动生成思维导图，${b} ${m} 的生产力堪称行业天花板`,
     category: "efficiency",
     angleLabel: "マインドマップ生成",
     targetAudience: "企画職・クリエイター",
   },
   {
     pattern: (b, m) => `タイピング不要！${b} ${m}で音声から爆速ドキュメント化`,
+    patternZh: (b, m) => `完全无需打字！用 ${b} ${m} 将现场语音极速转化为排版文档`,
     category: "efficiency",
     angleLabel: "音声文字起こし",
     targetAudience: "ライター・取材記者",
   },
   {
     pattern: (b, m) => `定時退社を叶えるデスクの相棒！${b} ${m}の効率化がエグい`,
+    patternZh: (b, m) => `助你准点下班的桌面最佳拍档！${b} ${m} 的效率提升令人震撼`,
     category: "efficiency",
     angleLabel: "デスク効率化",
     targetAudience: "全社員",
   },
   {
     pattern: (b, m) => `商談まとめが3秒で終わる！${b} ${m}のAI要約スピードに驚愕`,
+    patternZh: (b, m) => `商务谈判纪要3秒搞定！${b} ${m} 的 AI 总结速度让人惊叹`,
     category: "efficiency",
     angleLabel: "3秒まとめ",
     targetAudience: "トップセールス",
   },
   {
     pattern: (b, m) => `【時短革命】2時間の長丁場インタビューも${b} ${m}で即テキスト化`,
+    patternZh: (b, m) => `【省时革命】长达2小时的漫长采访，用 ${b} ${m} 也能瞬间精准转写成稿`,
     category: "efficiency",
     angleLabel: "インタビュー効率化",
     targetAudience: "メディア関係者・広報",
   },
   {
     pattern: (b, m) => `マラソン会議を瞬時に3行まとめにする${b} ${m}の神業`,
+    patternZh: (b, m) => `把冗长冗杂的马拉松会议瞬间凝炼成3行核心要点：${b} ${m} 的神级能力`,
     category: "efficiency",
     angleLabel: "3行要約",
     targetAudience: "経営幹部・リーダー",
   },
   {
     pattern: (b, m) => `仕事効率が10倍に跳ね上がる！${b} ${m}を導入した結果がヤバい`,
+    patternZh: (b, m) => `工作效率直接飙升10倍！引入 ${b} ${m} 后的办公改变太惊人`,
     category: "efficiency",
     angleLabel: "10倍効率",
     targetAudience: "効率化マニア",
   },
   {
     pattern: (b, m) => `ブレスト会議の散らかったアイデアを${b} ${m}で一発整理！`,
+    patternZh: (b, m) => `头脑风暴会上散落零碎的灵感，用 ${b} ${m} 一键整理成清晰结构！`,
     category: "efficiency",
     angleLabel: "アイデア整理",
     targetAudience: "マーケター・デザイナー",
@@ -451,54 +503,63 @@ export const HOOK_TEMPLATES: HookTemplate[] = [
   // 3. 名刺サイズ・ハードウェア型 (Business card form factor / Hardware showcase)
   {
     pattern: (b, m) => `名刺入れに入る極薄AI！${b} ${m}がデスクで大活躍する理由`,
+    patternZh: (b, m) => `能轻松装入名片夹的超薄 AI 录音卡！揭秘 ${b} ${m} 席卷办公桌的原因`,
     category: "gadget",
     angleLabel: "極薄名刺サイズ",
     targetAudience: "ガジェット好き",
   },
   {
     pattern: (b, m) => `スマホの裏にペタッと磁吸！${b} ${m}の携帯性が便利すぎる`,
+    patternZh: (b, m) => `啪嗒一声磁吸在手机背面！${b} ${m} 的随身便携性简直太方便了`,
     category: "gadget",
     angleLabel: "MagSafe磁気吸着",
     targetAudience: "スマホヘビーユーザー",
   },
   {
     pattern: (b, m) => `堂々と机に置ける名刺サイズ！${b} ${m}の圧倒的ミニマル感`,
+    patternZh: (b, m) => `光明正大平放办公桌上的名片级设计！${b} ${m} 拥有纯粹极致的极简质感`,
     category: "gadget",
     angleLabel: "ミニマル卓上デザイン",
     targetAudience: "デスク環境こだわり派",
   },
   {
     pattern: (b, m) => `薄さ極限のアルミボディ！${b} ${m}の高級感が半端ない`,
+    patternZh: (b, m) => `极致轻薄的航空铝合金机身！${b} ${m} 的精致高级质感扑面而来`,
     category: "gadget",
     angleLabel: "アルミ合金ボディ",
     targetAudience: "デザイン重視層",
   },
   {
     pattern: (b, m) => `ワンタッチ即録音！${b} ${m}のシンプル操作が心地よすぎる`,
+    patternZh: (b, m) => `一键盲操即刻开启录音！${b} ${m} 极简纯粹的操作逻辑无比舒心`,
     category: "gadget",
     angleLabel: "ワンタッチ録音",
     targetAudience: "シニア・機械苦手な人",
   },
   {
     pattern: (b, m) => `財布や手帳にスッと収まる！${b} ${m}の薄さにみんな二度見`,
+    patternZh: (b, m) => `轻巧滑入钱包和随身手账！${b} ${m} 的纤薄程度让人忍不住多看几眼`,
     category: "gadget",
     angleLabel: "超薄型携帯性",
     targetAudience: "ミニマリスト",
   },
   {
     pattern: (b, m) => `【実機レビュー】名刺とほぼ同サイズの${b} ${m}を1週間使ってみた`,
+    patternZh: (b, m) => `【实机测评】与名片大小几乎完全一致的 ${b} ${m} 深度体验一周报告`,
     category: "gadget",
     angleLabel: "実機検証",
     targetAudience: "購入検討者",
   },
   {
     pattern: (b, m) => `スマホと一体化する快感！${b} ${m}のマグネット磁吸が革命的`,
+    patternZh: (b, m) => `与手机融为一体的无感佩戴快感！${b} ${m} 的强力磁吸设计极具革新`,
     category: "gadget",
     angleLabel: "スマホ一体化",
     targetAudience: "外回り営業",
   },
   {
     pattern: (b, m) => `OLED画面付きで状態一目瞭然！${b} ${m}の洗練されたUI`,
+    patternZh: (b, m) => `配备清晰状态屏指示一目了然！${b} ${m} 洗练优雅的硬件人机交互`,
     category: "gadget",
     angleLabel: "ディスプレイ搭載",
     targetAudience: "テック好き",
@@ -507,48 +568,56 @@ export const HOOK_TEMPLATES: HookTemplate[] = [
   // 4. ChatGPT×Gemini AI機能型 (Dual AI Power & Mind Map)
   {
     pattern: (b, m) => `ChatGPTとGemini両方使える${b} ${m}が最強AIレコーダーだった`,
+    patternZh: (b, m) => `同时接入 ChatGPT 与 Gemini 双大模型的 ${b} ${m}，堪称最强 AI 录音卡`,
     category: "ai_power",
     angleLabel: "双AIモデル連携",
     targetAudience: "AIツール活用派",
   },
   {
     pattern: (b, m) => `録音するだけでChatGPTが議事録に要約！${b} ${m}の近未来感`,
+    patternZh: (b, m) => `只需录下声音，ChatGPT 就会自动提炼会议纪要！${b} ${m} 带来满满未来感`,
     category: "ai_power",
     angleLabel: "ChatGPT自動要約",
     targetAudience: "ChatGPTユーザー",
   },
   {
     pattern: (b, m) => `音声からマインドマップを自動生成する${b} ${m}のAI力が異次元`,
+    patternZh: (b, m) => `直接从现场语音全自动生成思维导图，${b} ${m} 的 AI 实力简直降维打击`,
     category: "ai_power",
     angleLabel: "マインドマップ自動化",
     targetAudience: "思考整理したい人",
   },
   {
     pattern: (b, m) => `31種類の業界テンプレート搭載！${b} ${m}でどんな会議も完璧対応`,
+    patternZh: (b, m) => `内置 31 种专业行业模板！${b} ${m} 轻松自如应对各类严苛会议场景`,
     category: "ai_power",
     angleLabel: "31種専門テンプレ",
     targetAudience: "士業・医療・営業・講師",
   },
   {
     pattern: (b, m) => `多言語リアルタイム高精度文字起こし！${b} ${m}のグローバル実力`,
+    patternZh: (b, m) => `多语言实时高精度转写成文！${b} ${m} 展现极其强悍的跨国商务实力`,
     category: "ai_power",
     angleLabel: "多言語翻訳・文字起こし",
     targetAudience: "海外ビジネス・語学学習者",
   },
   {
     pattern: (b, m) => `双AI大モデルの降維打撃！${b} ${m}の文字起こし精度がレベチ`,
+    patternZh: (b, m) => `双 AI 大模型协同降维打击！${b} ${m} 的转写准确度完全不是一个层级`,
     category: "ai_power",
     angleLabel: "降維打撃AI精度",
     targetAudience: "ITエンジニア・役員",
   },
   {
     pattern: (b, m) => `音声データを即Word・PDF・Markdownへ！${b} ${m}のエクスポート力`,
+    patternZh: (b, m) => `录音数据瞬间导出为 Word、PDF 与思维导图！${b} ${m} 强大的全能导出能力`,
     category: "ai_power",
     angleLabel: "多形式エクスポート",
     targetAudience: "事務・総務・ドキュメント作成者",
   },
   {
     pattern: (b, m) => `雑音を消して声だけクリア抽出！${b} ${m}のAIノイズリダクション`,
+    patternZh: (b, m) => `强力消除环境杂音精准提取清晰人声！${b} ${m} 的 AI 降噪黑科技`,
     category: "ai_power",
     angleLabel: "AIノイズキャンセリング",
     targetAudience: "カフェ作業派・出張族",
@@ -557,42 +626,49 @@ export const HOOK_TEMPLATES: HookTemplate[] = [
   // 5. 暴露・裏技・社外秘型 (Secret Hack / Expose / Curiosity)
   {
     pattern: (b, m) => `【社外秘】仕事がデキる上司の机に置いてある${b} ${m}の正体`,
+    patternZh: (b, m) => `【公司绝密】精明强干的上司办公桌上悄悄放着的 ${b} ${m} 真实身份大揭秘`,
     category: "secret_hack",
     angleLabel: "社外秘暴露",
     targetAudience: "部下・若手社員",
   },
   {
     pattern: (b, m) => `会議で絶対に怒られない人の秘密兵器、${b} ${m}をこっそり公開`,
+    patternZh: (b, m) => `开会时从不被问责挑刺的人私藏的秘密武器：${b} ${m} 悄悄为你公开`,
     category: "secret_hack",
     angleLabel: "秘密兵器",
     targetAudience: "怒られがちな社員",
   },
   {
     pattern: (b, m) => `トップ営業マンが商談で必ずポッケに忍ばせる${b} ${m}の威力`,
+    patternZh: (b, m) => `王牌销售谈判时口袋里必带的秘密装备：${b} ${m} 带来无法忽视的助力`,
     category: "secret_hack",
     angleLabel: "トップ営業の裏技",
     targetAudience: "営業マン",
   },
   {
     pattern: (b, m) => `【暴露】定時で帰るあの人が隠し持つ${b} ${m}がズルすぎる`,
+    patternZh: (b, m) => `【揭秘】天天准点下班的同事随身私藏的 ${b} ${m} 简直好用到让人嫉妒`,
     category: "secret_hack",
     angleLabel: "定時退社の秘密",
     targetAudience: "同僚・後輩",
   },
   {
     pattern: (b, m) => `社内評価が爆上がりした理由…実は${b} ${m}を使ってただけ`,
+    patternZh: (b, m) => `在公司绩效评价突飞猛进的秘密…其实只是因为在用 ${b} ${m}`,
     category: "secret_hack",
     angleLabel: "評価爆上げハック",
     targetAudience: "昇進を目指す社会人",
   },
   {
     pattern: (b, m) => `【裏技】1時間の商談メモが30秒で終わる${b} ${m}活用法`,
+    patternZh: (b, m) => `【隐藏技巧】让1小时商务会谈笔记在30秒内整理完毕的 ${b} ${m} 实战攻略`,
     category: "secret_hack",
     angleLabel: "30秒商談術",
     targetAudience: "コンサル・士業",
   },
   {
     pattern: (b, m) => `知らなきゃ損する最新AIガジェット！${b} ${m}がヤバい`,
+    patternZh: (b, m) => `不知道就亏大了的最新前沿 AI 黑科技单品！${b} ${m} 实在太强了`,
     category: "secret_hack",
     angleLabel: "知らなきゃ損",
     targetAudience: "トレンドに敏感な層",
@@ -601,36 +677,42 @@ export const HOOK_TEMPLATES: HookTemplate[] = [
   // 6. 質問・疑問・問いかけ型 (Question & Interaction hooks)
   {
     pattern: (b, m) => `この名刺みたいな銀色の板、何かわかる？最新${b} ${m}です`,
+    patternZh: (b, m) => `你能猜出这个像名片一样的银色金属板是什么吗？它就是最新的 ${b} ${m}`,
     category: "question",
     angleLabel: "モノ当てクイズ",
     targetAudience: "一般視聴者",
   },
   {
     pattern: (b, m) => `会議でこれ使ってる人、何者？${b} ${m}の正体が凄すぎた`,
+    patternZh: (b, m) => `开会用这个小卡片的人到底什么来头？揭开 ${b} ${m} 令人惊艳的真面目`,
     category: "question",
     angleLabel: "何者フック",
     targetAudience: "同僚・上司",
   },
   {
     pattern: (b, m) => `なぜ新入社員が全員${b} ${m}を欲しがるのか？理由を解説`,
+    patternZh: (b, m) => `为什么职场新人都在疯狂种草 ${b} ${m}？深度解析其中原因`,
     category: "question",
     angleLabel: "なぜ人気？",
     targetAudience: "新社会人・就活生",
   },
   {
     pattern: (b, m) => `スマホの裏についてるコレ何？実は最新AIの${b} ${m}`,
+    patternZh: (b, m) => `吸在手机背面的这个是什么？其实是搭载前沿 AI 的 ${b} ${m}`,
     category: "question",
     angleLabel: "これ何？フック",
     targetAudience: "スマホユーザー",
   },
   {
     pattern: (b, m) => `まだ議事録で消耗してるの？${b} ${m}を使わない理由ある？`,
+    patternZh: (b, m) => `还在把宝贵时间消耗在手写纪要上？真的还有理由不用 ${b} ${m} 吗？`,
     category: "question",
     angleLabel: "問題提起",
     targetAudience: "残業多めビジネスマン",
   },
   {
     pattern: (b, m) => `【質問】あなたの会社、会議の議事録どうしてる？${b} ${m}なら即解決`,
+    patternZh: (b, m) => `【互动提问】你们公司开会纪要平时怎么整理？用 ${b} ${m} 抬手秒级搞定`,
     category: "question",
     angleLabel: "コメント誘導",
     targetAudience: "TikTokアクティブ層",
@@ -639,39 +721,56 @@ export const HOOK_TEMPLATES: HookTemplate[] = [
   // 7. スペック・安心感・ハードウェア持続力 (35h battery & 64GB storage specs)
   {
     pattern: (b, m) => `35時間ぶっ通し録音可能！${b} ${m}のロングバッテリーが神`,
+    patternZh: (b, m) => `支持连续35小时不间断录音！${b} ${m} 的怪兽级续航实在太让人安心了`,
     category: "spec_power",
     angleLabel: "35h連続駆動",
     targetAudience: "長時間の取材・出張者",
   },
   {
     pattern: (b, m) => `待機66日！充電忘れ常習犯でも安心な${b} ${m}のタフさ`,
+    patternZh: (b, m) => `超长待机达66天！经常忘记充电的人也能彻底放心的坚固耐用 ${b} ${m}`,
     category: "spec_power",
     angleLabel: "66日スタンバイ",
     targetAudience: "忘れっぽい人",
   },
   {
     pattern: (b, m) => `64GB大容量メモリ内蔵！${b} ${m}なら容量不足の心配ゼロ`,
+    patternZh: (b, m) => `机身内置 64GB 超大存储空间！使用 ${b} ${m} 彻底告别内存不足焦虑`,
     category: "spec_power",
     angleLabel: "64GB大容量",
     targetAudience: "音声データ多用派",
   },
   {
     pattern: (b, m) => `デュアルマイクで遠くの声もクリア！${b} ${m}の驚異の集音力`,
+    patternZh: (b, m) => `双麦克风远距离收音清澈纯净！${b} ${m} 拥有令人惊叹的拾音性能`,
     category: "spec_power",
     angleLabel: "デュアル集音マイク",
     targetAudience: "大会議室・セミナー受講者",
   },
   {
     pattern: (b, m) => `Bluetooth即連携でスマホで即確認！${b} ${m}のスムーズ連携`,
+    patternZh: (b, m) => `蓝牙高速直连手机即时同步查看！${b} ${m} 带来行云流水般的协同体验`,
     category: "spec_power",
     angleLabel: "Bluetooth5.3高速通信",
     targetAudience: "スマホ管理派",
   },
 ];
 
-// Dynamic modifier pool for generating limitless unique combinations
-const PREFIX_EMOJIS = ["【衝撃】", "【暴露】", "【神コスパ】", "【裏技】", "【必見】", "【保存版】", "【検証】", "【革命】", "【残業ゼロ】", "【超時短】", "【速報】", "【チート級】"];
-const SUFFIX_CTA = ["", "が凄すぎた", "使ってみた結果", "の威力がヤバい", "を徹底検証", "がガチで有能", "で人生変わる", "の進化が止まらない"];
+// Dynamic modifier pool for generating limitless unique combinations with paired Chinese translations
+const REC10_PREFIX_PAIRS: [string, string][] = [
+  ["【衝撃】", "【震撼】"],
+  ["【暴露】", "【揭秘】"],
+  ["【神コスパ】", "【超高性价比】"],
+  ["【裏技】", "【隐藏技巧】"],
+  ["【必見】", "【必看推荐】"],
+  ["【保存版】", "【建议收藏】"],
+  ["【検証】", "【硬核实测】"],
+  ["【革命】", "【效率革命】"],
+  ["【残業ゼロ】", "【告别加班】"],
+  ["【超時短】", "【极速搞定】"],
+  ["【速報】", "【重磅速报】"],
+  ["【チート級】", "【开挂黑科技】"],
+];
 
 export const PRODUCT_CHEATSHEET = {
   brand: "FOSMET",
@@ -706,137 +805,141 @@ export function generateAlgorithmicTitles(
   batchSeed = Date.now(),
   language: TargetLanguage = "es"
 ): GeneratedTitle[] {
+  let rawResults: GeneratedTitle[] = [];
+
   if (productId === "qs40") {
-    return generateQs40AlgorithmicTitles(category, customKeyword, customTags);
-  }
-  if (productId === "t20") {
-    return generateT20AlgorithmicTitles(category, customKeyword, customTags);
-  }
-  if (productId === "kt80") {
-    return generateKt80AlgorithmicTitles(category, customKeyword, customTags, language);
-  }
-  if (productId === "e12") {
-    return generateE12AlgorithmicTitles(category, customKeyword, customTags);
-  }
-  if (productId === "e05") {
-    return generateE05AlgorithmicTitles(category, customKeyword, customTags, batchSeed);
-  }
-  if (productId === "e09") {
-    return generateE09AlgorithmicTitles(category, customKeyword, customTags, String(batchSeed));
-  }
-  if (productId === "g58") {
-    return generateG58AlgorithmicTitles("FOSMET", "G58", category, customKeyword, customTags, language);
-  }
-  if (productId === "g2") {
-    return generateG2AlgorithmicTitles(category, customKeyword, customTags, batchSeed);
-  }
-  if (productId === "fos10") {
-    return generateFos10AlgorithmicTitles(category, customKeyword, customTags, batchSeed);
-  }
+    rawResults = generateQs40AlgorithmicTitles(category, customKeyword, customTags);
+  } else if (productId === "t20") {
+    rawResults = generateT20AlgorithmicTitles(category, customKeyword, customTags);
+  } else if (productId === "kt80") {
+    rawResults = generateKt80AlgorithmicTitles(category, customKeyword, customTags, language);
+  } else if (productId === "e12") {
+    rawResults = generateE12AlgorithmicTitles(category, customKeyword, customTags);
+  } else if (productId === "e05") {
+    rawResults = generateE05AlgorithmicTitles(category, customKeyword, customTags, batchSeed);
+  } else if (productId === "e09") {
+    rawResults = generateE09AlgorithmicTitles(category, customKeyword, customTags, String(batchSeed));
+  } else if (productId === "g58") {
+    rawResults = generateG58AlgorithmicTitles("FOSMET", "G58", category, customKeyword, customTags, language);
+  } else if (productId === "g2") {
+    rawResults = generateG2AlgorithmicTitles(category, customKeyword, customTags, batchSeed);
+  } else if (productId === "fos10") {
+    rawResults = generateFos10AlgorithmicTitles(category, customKeyword, customTags, batchSeed);
+  } else if (productId === "i228") {
+    rawResults = generateI228AlgorithmicTitles("FOSMET", "I228", category, customKeyword, customTags, language);
+  } else {
+    const brand = "FOSMET";
+    const model = "REC10";
+    const activeTags = (customTags && customTags.trim()) ? customTags.trim() : FIXED_TAGS;
 
-  const brand = "FOSMET";
-  const model = "REC10";
-  const activeTags = (customTags && customTags.trim()) ? customTags.trim() : FIXED_TAGS;
-
-  let eligiblePool = HOOK_TEMPLATES;
-  if (category !== "all_mixed") {
-    eligiblePool = HOOK_TEMPLATES.filter((t) => t.category === category);
-    if (eligiblePool.length === 0) {
-      eligiblePool = HOOK_TEMPLATES;
-    }
-  }
-
-  // Shuffle pool with deterministic pseudo-randomness based on seed
-  const shuffled = [...eligiblePool].sort(() => 0.5 - Math.random());
-  const allTemplates = [...HOOK_TEMPLATES].sort(() => 0.5 - Math.random());
-
-  const generatedList: GeneratedTitle[] = [];
-  const usedHooks = new Set<string>();
-
-  // Helper to construct a single title
-  const makeTitle = (template: HookTemplate, index: number): GeneratedTitle => {
-    let hookText = template.pattern(brand, model, customKeyword);
-
-    // Apply varied style modifiers based on index to ensure fresh flavor
-    if (index % 5 === 1) {
-      const prefix = PREFIX_EMOJIS[Math.floor(Math.random() * PREFIX_EMOJIS.length)];
-      if (!hookText.startsWith("【")) {
-        hookText = `${prefix}${hookText}`;
-      }
-    } else if (index % 7 === 2 && customKeyword) {
-      hookText = `${hookText}（${customKeyword}にも対応）`;
-    }
-
-    // Ensure brand and model are present
-    if (!hookText.includes("FOSMET") || !hookText.includes("REC10")) {
-      if (!hookText.includes("FOSMET") && !hookText.includes("REC10")) {
-        hookText = `【FOSMET REC10】${hookText}`;
-      } else if (!hookText.includes("FOSMET")) {
-        hookText = hookText.replace("REC10", "FOSMET REC10");
-      } else if (!hookText.includes("REC10")) {
-        hookText = hookText.replace("FOSMET", "FOSMET REC10");
+    let eligiblePool = HOOK_TEMPLATES;
+    if (category !== "all_mixed") {
+      eligiblePool = HOOK_TEMPLATES.filter((t) => t.category === category);
+      if (eligiblePool.length === 0) {
+        eligiblePool = HOOK_TEMPLATES;
       }
     }
 
-    const fullTitle = `${hookText} ${activeTags}`;
+    const shuffled = [...eligiblePool].sort(() => 0.5 - Math.random());
+    const allTemplates = [...HOOK_TEMPLATES].sort(() => 0.5 - Math.random());
 
-    return {
-      id: `gen-${batchSeed}-${index + 1}`,
-      productId: "rec10",
-      title: fullTitle,
-      hook: hookText,
-      tags: activeTags,
-      angle: template.angleLabel,
-      angleCategory: template.category,
-      targetAudience: template.targetAudience,
-      charCount: fullTitle.length,
-      hookCharCount: hookText.length,
-      isFavorite: false,
-      createdAt: new Date().toISOString(),
-    };
-  };
+    const generatedList: GeneratedTitle[] = [];
+    const usedHooks = new Set<string>();
 
-  let templateIndex = 0;
-  while (generatedList.length < 50) {
-    let t: HookTemplate;
-    if (category === "all_mixed") {
-      t = allTemplates[templateIndex % allTemplates.length];
-    } else {
-      if (templateIndex < shuffled.length) {
-        t = shuffled[templateIndex];
-      } else {
-        // Fallback to all templates to reach 50 while keeping flavor
-        t = allTemplates[templateIndex % allTemplates.length];
+    const makeTitle = (template: HookTemplate, index: number): GeneratedTitle => {
+      let hookText = template.pattern(brand, model, customKeyword);
+      let translationText = template.patternZh(brand, model, customKeyword);
+
+      if (index % 5 === 1) {
+        const [origPrefix, zhPrefix] = REC10_PREFIX_PAIRS[Math.floor(Math.random() * REC10_PREFIX_PAIRS.length)];
+        if (!hookText.startsWith("【")) {
+          hookText = `${origPrefix}${hookText}`;
+          translationText = `${zhPrefix} ${translationText}`;
+        }
+      } else if (index % 7 === 2 && customKeyword) {
+        hookText = `${hookText}（${customKeyword}にも対応）`;
+        translationText = `${translationText}（同时完美适配${customKeyword}）`;
       }
-    }
 
-    const item = makeTitle(t, generatedList.length);
-    if (!usedHooks.has(item.hook)) {
-      usedHooks.add(item.hook);
-      generatedList.push(item);
-    }
-    templateIndex++;
+      if (!hookText.includes("FOSMET") || !hookText.includes("REC10")) {
+        if (!hookText.includes("FOSMET") && !hookText.includes("REC10")) {
+          hookText = `【FOSMET REC10】${hookText}`;
+          translationText = `【FOSMET REC10】${translationText}`;
+        } else if (!hookText.includes("FOSMET")) {
+          hookText = hookText.replace("REC10", "FOSMET REC10");
+          translationText = translationText.replace("REC10", "FOSMET REC10");
+        } else if (!hookText.includes("REC10")) {
+          hookText = hookText.replace("FOSMET", "FOSMET REC10");
+          translationText = translationText.replace("FOSMET", "FOSMET REC10");
+        }
+      }
 
-    // Safety break to prevent infinite loop
-    if (templateIndex > 300) {
-      // Add dynamic variation
-      const fallbackHook = `【爆款${generatedList.length + 1}】仕事効率10倍のFOSMET REC10が名刺サイズでChatGPT搭載 ${activeTags}`;
-      generatedList.push({
-        id: `gen-${batchSeed}-${generatedList.length + 1}`,
+      const fullTitle = `${hookText} ${activeTags}`;
+
+      return {
+        id: `gen-${batchSeed}-${index + 1}`,
         productId: "rec10",
-        title: fallbackHook,
-        hook: fallbackHook.replace(` ${activeTags}`, ""),
+        title: fullTitle,
+        hook: hookText,
         tags: activeTags,
-        angle: "効率爆上げ",
-        angleCategory: "efficiency",
-        targetAudience: "全社会人",
-        charCount: fallbackHook.length,
-        hookCharCount: fallbackHook.replace(` ${activeTags}`, "").length,
+        angle: template.angleLabel,
+        angleCategory: template.category,
+        targetAudience: template.targetAudience,
+        charCount: fullTitle.length,
+        hookCharCount: hookText.length,
+        translationZh: translationText,
         isFavorite: false,
         createdAt: new Date().toISOString(),
-      });
+      };
+    };
+
+    let templateIndex = 0;
+    while (generatedList.length < 50) {
+      let t: HookTemplate;
+      if (category === "all_mixed") {
+        t = allTemplates[templateIndex % allTemplates.length];
+      } else {
+        if (templateIndex < shuffled.length) {
+          t = shuffled[templateIndex];
+        } else {
+          t = allTemplates[templateIndex % allTemplates.length];
+        }
+      }
+
+      const item = makeTitle(t, generatedList.length);
+      if (!usedHooks.has(item.hook)) {
+        usedHooks.add(item.hook);
+        generatedList.push(item);
+      }
+      templateIndex++;
+
+      if (templateIndex > 300) {
+        const fallbackHook = `【爆款${generatedList.length + 1}】仕事効率10倍のFOSMET REC10が名刺サイズでChatGPT搭載 ${activeTags}`;
+        const fallbackZh = `【热销爆款${generatedList.length + 1}】工作效率提升10倍的 FOSMET REC10 名片级机身搭载 ChatGPT 双AI`;
+        generatedList.push({
+          id: `gen-${batchSeed}-${generatedList.length + 1}`,
+          productId: "rec10",
+          title: fallbackHook,
+          hook: fallbackHook.replace(` ${activeTags}`, ""),
+          tags: activeTags,
+          angle: "効率爆上げ",
+          angleCategory: "efficiency",
+          targetAudience: "全社会人",
+          charCount: fallbackHook.length,
+          hookCharCount: fallbackHook.replace(` ${activeTags}`, "").length,
+          translationZh: fallbackZh,
+          isFavorite: false,
+          createdAt: new Date().toISOString(),
+        });
+      }
     }
+
+    rawResults = generatedList;
   }
 
-  return generatedList;
+  // Ensure 100% of generated titles have accurate, fluent Chinese translation
+  return rawResults.map((t) => ({
+    ...t,
+    translationZh: t.translationZh || getChineseTranslation(t),
+  }));
 }

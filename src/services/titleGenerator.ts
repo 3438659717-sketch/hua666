@@ -1,5 +1,6 @@
 import { AngleCategory, GeneratedTitle, GenerationParams, ProductId } from "../types";
 import { generateAlgorithmicTitles, PRODUCTS_CONFIG } from "../data/templates";
+import { getChineseTranslation } from "../utils/translator";
 
 const FAVORITES_STORAGE_KEY = "fosmet_product_favorite_titles";
 
@@ -146,25 +147,34 @@ export function copyToClipboard(text: string): Promise<boolean> {
   }
 }
 
-export function exportTitlesAsTxt(titles: GeneratedTitle[], filename = "FOSMET_REC10_TikTok_Titles.txt"): void {
-  const content = titles.map((t, idx) => `${idx + 1}. ${t.title}`).join("\n\n");
+export function exportTitlesAsTxt(titles: GeneratedTitle[], filename = "FOSMET_TikTok_Titles.txt"): void {
+  const content = titles
+    .map((t, idx) => {
+      const zh = t.translationZh || getChineseTranslation(t);
+      return `${idx + 1}. ${t.title}\n   [中文参考]: ${zh}`;
+    })
+    .join("\n\n");
   downloadFile(content, filename, "text/plain;charset=utf-8");
 }
 
-export function exportTitlesAsCsv(titles: GeneratedTitle[], filename = "FOSMET_REC10_TikTok_Titles.csv"): void {
-  const header = "No,タイトル（タグ含む）,フック本文,固定タグ,切り口タイプ,ターゲット層,文字数\n";
+export function exportTitlesAsCsv(titles: GeneratedTitle[], filename = "FOSMET_TikTok_Titles.csv"): void {
+  const header = "No,标题文案（含标签）,正文钩子,中文翻译参考,固定标签,切入点类型,目标受众,字数\n";
   const rows = titles
-    .map(
-      (t, idx) =>
-        `"${idx + 1}","${escapeCsv(t.title)}","${escapeCsv(t.hook)}","${escapeCsv(t.tags)}","${escapeCsv(t.angle)}","${escapeCsv(t.targetAudience)}","${t.charCount}"`
-    )
+    .map((t, idx) => {
+      const zh = t.translationZh || getChineseTranslation(t);
+      return `"${idx + 1}","${escapeCsv(t.title)}","${escapeCsv(t.hook)}","${escapeCsv(zh)}","${escapeCsv(t.tags)}","${escapeCsv(t.angle)}","${escapeCsv(t.targetAudience)}","${t.charCount}"`;
+    })
     .join("\n");
-  const bom = "\uFEFF"; // UTF-8 BOM for Excel Japanese support
+  const bom = "\uFEFF"; // UTF-8 BOM for Excel support
   downloadFile(bom + header + rows, filename, "text/csv;charset=utf-8");
 }
 
-export function exportTitlesAsJson(titles: GeneratedTitle[], filename = "FOSMET_REC10_TikTok_Titles.json"): void {
-  const content = JSON.stringify(titles, null, 2);
+export function exportTitlesAsJson(titles: GeneratedTitle[], filename = "FOSMET_TikTok_Titles.json"): void {
+  const formatted = titles.map((t) => ({
+    ...t,
+    translationZh: t.translationZh || getChineseTranslation(t),
+  }));
+  const content = JSON.stringify(formatted, null, 2);
   downloadFile(content, filename, "application/json;charset=utf-8");
 }
 

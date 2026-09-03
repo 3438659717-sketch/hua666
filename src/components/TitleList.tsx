@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { MagneticButton } from "./MagneticButton";
 import { motion, AnimatePresence } from "motion/react";
+import { getChineseTranslation } from "../utils/translator";
 
 interface TitleListProps {
   titles: GeneratedTitle[];
@@ -69,11 +70,14 @@ const TitleListComponent: React.FC<TitleListProps> = ({
   // Filtered & sorted titles
   const filteredTitles = useMemo(() => {
     const list = titles.filter((t) => {
+      const q = searchQuery.toLowerCase().trim();
+      const zh = (t.translationZh || getChineseTranslation(t)).toLowerCase();
       const matchesSearch =
-        searchQuery.trim() === "" ||
-        t.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        t.angle.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (t.targetAudience && t.targetAudience.toLowerCase().includes(searchQuery.toLowerCase()));
+        q === "" ||
+        t.title.toLowerCase().includes(q) ||
+        t.angle.toLowerCase().includes(q) ||
+        zh.includes(q) ||
+        (t.targetAudience && t.targetAudience.toLowerCase().includes(q));
 
       const matchesAngle =
         selectedAngleFilter === "all" || t.angle === selectedAngleFilter;

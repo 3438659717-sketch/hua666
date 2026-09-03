@@ -10,8 +10,10 @@ import {
   Check,
   Copy,
   Feather,
+  Languages,
 } from "lucide-react";
 import { MagneticButton } from "./MagneticButton";
+import { getChineseTranslation } from "../utils/translator";
 
 interface TikTokPreviewModalProps {
   item: GeneratedTitle | null;
@@ -182,10 +184,20 @@ export const TikTokPreviewModal: React.FC<TikTokPreviewModalProps> = ({
             </div>
 
             {/* Title Hook & Tags */}
-            <div className="space-y-1">
+            <div className="space-y-1.5">
               <p className="text-[13px] sm:text-[14px] font-normal leading-relaxed text-white">
                 {item.hook}
               </p>
+              {/* Chinese Translation In Preview */}
+              <div className="bg-black/60 backdrop-blur-sm border border-white/15 px-2.5 py-1.5 rounded-[8px] flex items-start gap-1.5">
+                <span className="text-[9px] font-bold px-1 py-0.2 rounded bg-amber-500/20 text-amber-300 flex-shrink-0 mt-0.5 flex items-center gap-0.5">
+                  <Languages className="w-2.5 h-2.5" />
+                  <span>译</span>
+                </span>
+                <p className="text-[11px] text-zinc-300 leading-snug font-normal">
+                  {item.translationZh || getChineseTranslation(item)}
+                </p>
+              </div>
               <p className="text-[11px] font-medium text-white/70 leading-snug break-all font-mono">
                 {item.tags}
               </p>

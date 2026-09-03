@@ -94,6 +94,14 @@ export const Header: React.FC<HeaderProps> = ({
       themeColor: "text-pink-400",
     },
     {
+      id: "i228",
+      label: "I228",
+      subLabel: "女性便携",
+      icon: <Heart className="w-3.5 h-3.5" />,
+      activeClass: "bg-rose-500 text-white shadow-[0_4px_20px_rgba(244,63,94,0.5)] border-rose-300/50",
+      themeColor: "text-rose-400",
+    },
+    {
       id: "e12",
       label: "E12",
       subLabel: "摄像耳机",
@@ -138,6 +146,9 @@ export const Header: React.FC<HeaderProps> = ({
   const currentNav = productNavList.find((p) => p.id === currentProductId) || productNavList[0];
 
   const getMarketLabel = () => {
+    if (currentProductId === "i228") {
+      return "TikTok 西语区营销";
+    }
     if (currentProductId === "kt80" || currentProductId === "g58") {
       return currentLanguage === "de" ? "TikTok 德语区营销" : "TikTok 西语区营销";
     }
