@@ -9,6 +9,8 @@ import { generateG58AlgorithmicTitles, G58_SPANISH_TAGS, G58_GERMAN_TAGS } from 
 import { generateG2AlgorithmicTitles, G2_FIXED_TAGS } from "./g2Templates";
 import { generateFos10AlgorithmicTitles, FOS10_FIXED_TAGS } from "./fos10Templates";
 import { generateI228AlgorithmicTitles, I228_FIXED_TAGS } from "./i228Templates";
+import { generateV18proAlgorithmicTitles, V18PRO_FIXED_TAGS } from "./v18proTemplates";
+import { generateV17maxAlgorithmicTitles, V17MAX_FIXED_TAGS } from "./v17maxTemplates";
 import { getChineseTranslation } from "../utils/translator";
 
 export const FIXED_TAGS = "#FOSMET #REC10 #AIレコーダー #ChatGPT #プロモーションの仕事";
@@ -342,6 +344,66 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
       "1.27\" 390×390 高清触控屏 (98%屏占比) + 米兰尼斯与硅胶双表带随心切换，百搭任何优雅或运动 OOTD",
       "女性生理周期智能预测（经期、排卵期、孕期记录） + 24/7 全天候心率/血氧/深度睡眠健康守护",
       "Bluetooth 5.3 腕上高清双向通话 + 120+ 种专业运动模式 + 语音助手 + IP68 级防尘防水",
+    ],
+  },
+  v18pro: {
+    id: "v18pro",
+    brand: "DyMona",
+    model: "V18 PRO",
+    name: "DyMona V18 PRO",
+    japaneseType: "高性能无线吸尘器 / Aspiradora sin cable de alto rendimiento",
+    shortDesc: "650W电机・50 kPa超强吸力・65cm折叠金属臂・0cm贴边免弯腰・7重过滤99.99%微尘・绿光显尘2.0・1.4kg羽量",
+    fixedTags: "#DyMona #V18PRO #aspiradora #limpiezahogar #tiktokshop #hogarlimpio",
+    defaultLanguage: "es",
+    supportedLanguages: ["es"],
+    badge: "折叠绿光吸尘器",
+    accentColor: "#10B981",
+    tiktokFormula: "弯腰/微尘痛点反转 + 65cm折叠臂/绿光显尘2.0硬核实测 + 50kPa吸力/7合1全场景清洁直给",
+    specs: [
+      { label: "电机与真空吸力", value: "650W 强劲无刷电机 ✕ 50 kPa 超强真空飓风吸力" },
+      { label: "免弯腰折叠臂", value: "65cm 可一键折叠金属臂，轻松伸入床底、沙发底，0cm 贴边清洁" },
+      { label: "绿光显尘技术 2.0", value: "300cm 超广照射范围 ✕ 135° 超大广角，隐秘微尘无所遁形" },
+      { label: "高效过滤系统", value: "7 重高效过滤系统，99.99% 拦截小至 0.3 微米微尘，杜绝二次污染" },
+      { label: "机身重量与静音", value: "仅 1.4 kg 羽量化超轻机身，60 dB 超低音静音运行不扰宠" },
+      { label: "电池与续航", value: "节能模式 50 分钟 / 标准模式 30 分钟 / 强力模式 20 分钟" },
+      { label: "屏幕与交互", value: "智能高清 LED 数字大屏，电量与工作模式实时显示" },
+      { label: "收纳与多功能", value: "90° 自立展示停放 + 壁挂充电收纳 + 7 合 1 多场景多刷头切换" },
+      { label: "固定标签(西语)", value: "#DyMona #V18PRO #aspiradora #limpiezahogar #tiktokshop #hogarlimpio" },
+    ],
+    highlights: [
+      "650W 电机 + 50 kPa 飓风吸力 + 65cm 折叠金属臂免弯腰 0cm 贴边深度清洁",
+      "绿光显尘 2.0 (300cm/135°超广角) + 7 重高效过滤 99.99% 拦截微尘 + 智能 LED 数字大屏",
+      "仅 1.4 kg 超轻机身 + 60 dB 低音运行 + 50 分钟长续航 + 90° 自立与壁挂充电 7 合 1 全场景",
+    ],
+  },
+  v17max: {
+    id: "v17max",
+    brand: "DyMona",
+    model: "V17 MAX",
+    name: "DyMona V17 MAX",
+    japaneseType: "旗舰级大户型无线吸尘器 / Flaggschiff Akku-Staubsauger für Großräume",
+    shortDesc: "专为大户型复式楼打造・650W电机・58 kPa极限怪兽吸力・双电池150min续航・25.5cm防缠绕V刷・HEPA H14・2L超大尘桶",
+    fixedTags: "#DyMona #V17MAX #staubsauger #putztipps #haushaltshelfer #tiktokshop",
+    defaultLanguage: "de",
+    supportedLanguages: ["de"],
+    badge: "大户型旗舰吸尘器",
+    accentColor: "#F59E0B",
+    tiktokFormula: "大户型续航/倒垃圾痛点反转 + 58kPa极限吸力/25.5cm防缠绕V刷实测 + 150min双电/2L尘桶/HEPA H14直给",
+    specs: [
+      { label: "适用场景与面积", value: "专为大户型与复式楼家庭打造，轻松覆盖高达 500㎡ 大空间" },
+      { label: "电机与极限吸力", value: "650W 强劲无刷电机 ✕ 58 kPa 极限怪兽级真空吸力" },
+      { label: "双电池与超长续航", value: "双电池配置提供高达 150 分钟超长续航，支持 4 小时快速充电" },
+      { label: "防缠绕地刷", value: "25.5cm 加宽 V 型防缠绕地刷，毛发顺畅吸入不缠绕" },
+      { label: "医疗级空气过滤", value: "HEPA H14 级过滤系统，99.99% 高效拦截小至 0.3 微米微尘" },
+      { label: "超大集尘容量", value: "2L 超大集尘桶，支持 3 个月免倒垃圾，一键单手倾倒不脏手" },
+      { label: "充电与收纳停放", value: "支持 3 种灵活充电方式 + 90° 自立展示停放 + 标配二合一吸头/长缝隙吸头/伸缩管" },
+      { label: "智能屏幕显示", value: "清晰 LED 智能大屏，实时掌握电量与运转状态" },
+      { label: "固定标签(德语)", value: "#DyMona #V17MAX #staubsauger #putztipps #haushaltshelfer #tiktokshop" },
+    ],
+    highlights: [
+      "专为 500㎡ 大户型复式楼设计 + 650W 电机与 58 kPa 极限怪兽吸力",
+      "双电池配置长达 150 分钟不间断续航 + 25.5cm 加宽 V 型防缠绕地刷",
+      "HEPA H14 医疗级 99.99% 过滤 + 2L 超大集尘桶 (3个月免倒) + 90° 自立与 3 种快充模式",
     ],
   },
 };
@@ -827,6 +889,10 @@ export function generateAlgorithmicTitles(
     rawResults = generateFos10AlgorithmicTitles(category, customKeyword, customTags, batchSeed);
   } else if (productId === "i228") {
     rawResults = generateI228AlgorithmicTitles("FOSMET", "I228", category, customKeyword, customTags, language);
+  } else if (productId === "v18pro") {
+    rawResults = generateV18proAlgorithmicTitles(category, customKeyword, customTags, batchSeed);
+  } else if (productId === "v17max") {
+    rawResults = generateV17maxAlgorithmicTitles(category, customKeyword, customTags, batchSeed);
   } else {
     const brand = "FOSMET";
     const model = "REC10";

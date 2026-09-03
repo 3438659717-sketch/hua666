@@ -30,6 +30,7 @@ import {
   Radio,
   X,
   Trash2,
+  Wind,
 } from "lucide-react";
 import { PRODUCTS_CONFIG } from "../data/templates";
 import { parseTagsToArray, formatArrayToTagString, normalizeTagString, getDefaultTagsForProduct } from "../utils/tagUtils";
@@ -188,6 +189,28 @@ const FOS10_CATEGORIES: { id: AngleCategory; label: string; desc: string; icon: 
   { id: "question", label: "インタラクティブ・共感喚起", desc: "「14.9gって本当に着けてないみたい？実際に試してみた」TikTok視聴者の好奇心を惹きつけるフック", icon: "💬" },
 ];
 
+const V18PRO_CATEGORIES_ES: { id: AngleCategory; label: string; desc: string; icon: string }[] = [
+  { id: "all_mixed", label: "全维黄金配比 (Recomendado)", desc: "650W电机 / 50 kPa超强吸力 / 65cm折叠金属臂 / 绿光显尘2.0 / 7重过滤 / 1.4kg 均衡输出", icon: "✨" },
+  { id: "pain_point", label: "痛点反转・免弯腰＆折叠臂", desc: "彻底打破弯腰清扫沙发底/床底的疲劳，65cm一键折叠臂直达深处，0cm极致贴边", icon: "🎯" },
+  { id: "gadget", label: "65cm折叠臂 ✕ 90°自立停放", desc: "可折叠金属臂黑科技，免打孔90°随处自立停放，壁挂充电收纳一体轻奢美学", icon: "💎" },
+  { id: "efficiency", label: "绿光显尘2.0 ✕ 50分钟长续航", desc: "135°超广角绿光让肉眼不可见微尘现形，300cm超远照射，清洁效率翻倍", icon: "⚡" },
+  { id: "ai_power", label: "7重过滤 ✕ 99.99%微尘拦截", desc: "7重高效过滤系统拦截小至0.3微米微尘，杜绝二次扬尘，呵护全家呼吸健康", icon: "🛡️" },
+  { id: "spec_power", label: "650W ✕ 50 kPa ✕ 60dB低音", desc: "大功率无刷电机与50 kPa飓风吸力，60 dB超静音运行不扰宠，3档智能调节", icon: "📊" },
+  { id: "secret_hack", label: "1.4kg羽量 ✕ 7合1多场景", desc: "仅1.4kg单手轻松举起清扫天花板与爱车，7合1多刷头随心切换，精致博主秘密装备", icon: "🤫" },
+  { id: "question", label: "互动共鸣・西语话题引流", desc: "「清扫床底你还在弯腰趴在地上吗？绿光显尘实测」激发拉美/西班牙观众热议", icon: "💬" },
+];
+
+const V17MAX_CATEGORIES_DE: { id: AngleCategory; label: string; desc: string; icon: string }[] = [
+  { id: "all_mixed", label: "Goldener Schnitt (Empfohlen)", desc: "58 kPa Monster-Saugleistung / 150min Dual-Akku / 500m² Abdeckung / 25,5cm V-Bürste / 2L XXL 均衡输出", icon: "✨" },
+  { id: "pain_point", label: "Schmerzpunkt: Großraum & Akku", desc: "Schluss mit ständigem Nachladen & Mülleimer-Entleeren bei 500m² Maisonette-Wohnungen", icon: "🎯" },
+  { id: "spec_power", label: "58 kPa Saugleistung ✕ 650W Motor", desc: "Extreme Monster-Saugkraft gegen tiefsitzenden Schmutz in dicken Teppichen und Fugen", icon: "📊" },
+  { id: "efficiency", label: "150min Dual-Akku ✕ 25,5cm V-Bürste", desc: "Bis zu 150 Min Non-Stop-Laufzeit mit Dual-Akku, verbreiterte V-Anti-Tangle Bürste gegen Tierhaare", icon: "⚡" },
+  { id: "ai_power", label: "HEPA H14 ✕ 2L XXL Staubbehälter", desc: "Medizinische H14-Filterung für 99,99% Partikel, 2 Liter XXL-Behälter für 3 Monate ohne Entleeren", icon: "🛡️" },
+  { id: "gadget", label: "90° Freistehend ✕ 3 Lademodi", desc: "Freistehende Parkfunktion ohne Bohren, 3 flexible Lademethoden & 4h Schnellladung", icon: "💎" },
+  { id: "secret_hack", label: "Geheimtipp für Großhäuser", desc: "Flaggschiff-Leistung ohne 800€ Marken-Aufpreis – Der Preis-Leistungs-Sieger für große Wohnungen", icon: "🤫" },
+  { id: "question", label: "Community & Extrem-Härtetest", desc: "58 kPa vs Hundehaare im Teppich! Schafft der V17 MAX den Härtetest in großen Häusern?", icon: "💬" },
+];
+
 const TAG_SUGGESTIONS: Record<string, string[]> = {
   rec10: ["AIボイスレコーダー", "ChatGPT活用", "議事録自動化", "社会人ハック", "便利グッズ", "仕事効率化", "FOSMET"],
   qs40: ["スマートウォッチ", "ChatGPT連携", "ガジェット紹介", "高見え", "便利アイテム", "QOL向上", "FOSMET"],
@@ -195,6 +218,8 @@ const TAG_SUGGESTIONS: Record<string, string[]> = {
   kt80: ["smartwatch", "relojinteligente", "gadgets2025", "supervivencia", "tecnologia", "linternaLED", "FOSMET"],
   g58: ["smartwatchmujer", "relojfemenino", "saludfemenina", "modamujer", "regalosparamujer", "estiloelegante", "FOSMET"],
   i228: ["smartwatchmujer", "relojfemenino", "saludfemenina", "modamujer", "regalosparamujer", "estiloelegante", "FOSMET"],
+  v18pro: ["aspiradora", "limpiezahogar", "hogarlimpio", "limpiezadecasa", "tiktokshop", "DyMona"],
+  v17max: ["staubsauger", "putztipps", "haushaltshelfer", "großraumwohnung", "tiktokshop", "DyMona"],
   e12: ["スマートグラス", "POV動画", "AIカメラ", "ガジェット紹介", "耳を塞がない", "サイクリング", "FOSMET"],
   e05: ["スマートグラス", "調光サングラス", "AI同時通訳", "ガジェット紹介", "耳を塞がない", "運転用メガネ", "FOSMET"],
   e09: ["スマートグラス", "Vlog撮影", "POV動画", "SONYセンサー", "ガジェット紹介", "旅行用カメラ", "FOSMET"],
@@ -214,11 +239,13 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
 }) => {
   const currentProductId = params.productId || "rec10";
   const currentProduct = PRODUCTS_CONFIG[currentProductId] || PRODUCTS_CONFIG.rec10;
-  const currentLang = params.language || (currentProductId === "i228" ? "es" : "ja");
+  const currentLang = params.language || (currentProductId === "v17max" ? "de" : currentProductId === "i228" || currentProductId === "v18pro" ? "es" : "ja");
 
   const isKt80 = currentProductId === "kt80";
   const isG58 = currentProductId === "g58";
   const isI228 = currentProductId === "i228";
+  const isV18pro = currentProductId === "v18pro";
+  const isV17max = currentProductId === "v17max";
   const isMultilingual = isKt80 || isG58;
   const isGerman = currentLang === "de";
   const isSpanish = currentLang === "es";
@@ -232,7 +259,9 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   const isQs40 = currentProductId === "qs40";
 
   let categories = REC10_CATEGORIES;
-  if (isI228) categories = I228_CATEGORIES_ES;
+  if (isV18pro) categories = V18PRO_CATEGORIES_ES;
+  else if (isV17max) categories = V17MAX_CATEGORIES_DE;
+  else if (isI228) categories = I228_CATEGORIES_ES;
   else if (isFos10) categories = FOS10_CATEGORIES;
   else if (isG2) categories = G2_CATEGORIES;
   else if (isE09) categories = E09_CATEGORIES;
@@ -363,6 +392,8 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   };
 
   const getProductColor = () => {
+    if (isV18pro) return "text-emerald-400";
+    if (isV17max) return "text-amber-400";
     if (isFos10) return "text-teal-400";
     if (isG2) return "text-purple-400";
     if (isG58) return "text-pink-400";
@@ -384,6 +415,18 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   // Exaggerated Hardware Metrics for the Telemetry Dashboard
   const getHardwareTelemetrySpecs = () => {
     switch (currentProductId) {
+      case "v18pro":
+        return [
+          { label: "FOLDABLE ARM & SUCTION", val: "50", unit: "kPa", desc: "65cm折叠臂 · 650W飓风吸力免弯腰", color: "liquid-metal-emerald", icon: <Wind className="w-4 h-4 text-emerald-400" /> },
+          { label: "GREEN DUST LIGHT 2.0", val: "135", unit: "°", desc: "300cm超广照射 · 隐藏微尘无所遁形", color: "liquid-metal-cyan", icon: <Sparkles className="w-4 h-4 text-cyan-400" /> },
+          { label: "FEATHERWEIGHT & SILENT", val: "1.4", unit: "kg", desc: "60 dB低音运行 · 7重过滤99.99%", color: "liquid-metal-gold", icon: <Battery className="w-4 h-4 text-amber-400" /> },
+        ];
+      case "v17max":
+        return [
+          { label: "MONSTER SUCTION", val: "58", unit: "kPa", desc: "650W极限电机 · 500㎡大户型复式楼", color: "liquid-metal-orange", icon: <Wind className="w-4 h-4 text-orange-400" /> },
+          { label: "DUAL BATTERY PACK", val: "150", unit: "min", desc: "双电池超长续航 · 25.5cm防缠绕V刷", color: "liquid-metal-gold", icon: <Battery className="w-4 h-4 text-amber-400" /> },
+          { label: "HEPA H14 & XXL BIN", val: "2", unit: "L", desc: "医疗级H14过滤 · 3个月免倒免脏手", color: "liquid-metal-cyan", icon: <ShieldCheck className="w-4 h-4 text-cyan-400" /> },
+        ];
       case "kt80":
         return [
           { label: "BATTERY CAPACITY", val: "800", unit: "mAh", desc: "Monster Battery · 超强户外续航", color: "liquid-metal-orange", icon: <Battery className="w-4 h-4 text-orange-400" /> },
@@ -469,7 +512,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
               <span>硬件矩阵 (Product Matrix)</span>
             </span>
             <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-white/[0.08] text-white border border-white/[0.12] shadow-xs">
-              11款旗舰设备
+              13款旗舰设备
             </span>
           </div>
           <span className="text-[11.5px] text-white/50">
@@ -477,19 +520,21 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           </span>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-11 gap-2.5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 2xl:grid-cols-13 gap-2.5">
           {[
-            { id: "rec10" as ProductId, label: "REC10", desc: "名片AI录音", icon: <Mic className="w-3.5 h-3.5" />, tag: "#AIレコーダー" },
-            { id: "qs40" as ProductId, label: "QS40", desc: "对腕ChatGPT", icon: <Watch className="w-3.5 h-3.5" />, tag: "#スマートウォッチ" },
-            { id: "t20" as ProductId, label: "T20", desc: "多星GNSS", icon: <Compass className="w-3.5 h-3.5" />, tag: "#アウトドア" },
-            { id: "kt80" as ProductId, label: "KT80", desc: "800mAh战术", icon: <Flashlight className="w-3.5 h-3.5" />, tag: "#smartwatch" },
-            { id: "g58" as ProductId, label: "G58", desc: "女性时尚表", icon: <Sparkles className="w-3.5 h-3.5" />, tag: "#SaludMujer" },
-            { id: "i228" as ProductId, label: "I228", desc: "女性便携表", icon: <Heart className="w-3.5 h-3.5" />, tag: "#I228" },
-            { id: "e12" as ProductId, label: "E12", desc: "POV相机耳机", icon: <Headphones className="w-3.5 h-3.5" />, tag: "#POV動画" },
-            { id: "e05" as ProductId, label: "E05", desc: "4档调光镜", icon: <Glasses className="w-3.5 h-3.5" />, tag: "#スマートグラス" },
-            { id: "e09" as ProductId, label: "E09", desc: "SONY高清镜", icon: <Camera className="w-3.5 h-3.5" />, tag: "#Vlog撮影" },
-            { id: "g2" as ProductId, label: "G2", desc: "女性健康表", icon: <Heart className="w-3.5 h-3.5" />, tag: "#女性健康" },
-            { id: "fos10" as ProductId, label: "FOS10", desc: "14.9g极轻", icon: <Sparkles className="w-3.5 h-3.5" />, tag: "#ポータブル" },
+            { id: "v18pro" as ProductId, label: "V18 PRO", desc: "折叠绿光吸尘", icon: <Wind className="w-3.5 h-3.5" />, tag: "#V18PRO", lang: "es" as TargetLanguage },
+            { id: "v17max" as ProductId, label: "V17 MAX", desc: "大户型旗舰吸", icon: <Wind className="w-3.5 h-3.5" />, tag: "#V17MAX", lang: "de" as TargetLanguage },
+            { id: "rec10" as ProductId, label: "REC10", desc: "名片AI录音", icon: <Mic className="w-3.5 h-3.5" />, tag: "#AIレコーダー", lang: "ja" as TargetLanguage },
+            { id: "qs40" as ProductId, label: "QS40", desc: "对腕ChatGPT", icon: <Watch className="w-3.5 h-3.5" />, tag: "#スマートウォッチ", lang: "ja" as TargetLanguage },
+            { id: "t20" as ProductId, label: "T20", desc: "多星GNSS", icon: <Compass className="w-3.5 h-3.5" />, tag: "#アウトドア", lang: "ja" as TargetLanguage },
+            { id: "kt80" as ProductId, label: "KT80", desc: "800mAh战术", icon: <Flashlight className="w-3.5 h-3.5" />, tag: "#smartwatch", lang: "es" as TargetLanguage },
+            { id: "g58" as ProductId, label: "G58", desc: "女性时尚表", icon: <Sparkles className="w-3.5 h-3.5" />, tag: "#SaludMujer", lang: "es" as TargetLanguage },
+            { id: "i228" as ProductId, label: "I228", desc: "女性便携表", icon: <Heart className="w-3.5 h-3.5" />, tag: "#I228", lang: "es" as TargetLanguage },
+            { id: "e12" as ProductId, label: "E12", desc: "POV相机耳机", icon: <Headphones className="w-3.5 h-3.5" />, tag: "#POV動画", lang: "ja" as TargetLanguage },
+            { id: "e05" as ProductId, label: "E05", desc: "4档调光镜", icon: <Glasses className="w-3.5 h-3.5" />, tag: "#スマートグラス", lang: "ja" as TargetLanguage },
+            { id: "e09" as ProductId, label: "E09", desc: "SONY高清镜", icon: <Camera className="w-3.5 h-3.5" />, tag: "#Vlog撮影", lang: "ja" as TargetLanguage },
+            { id: "g2" as ProductId, label: "G2", desc: "女性健康表", icon: <Heart className="w-3.5 h-3.5" />, tag: "#女性健康", lang: "ja" as TargetLanguage },
+            { id: "fos10" as ProductId, label: "FOS10", desc: "14.9g极轻", icon: <Sparkles className="w-3.5 h-3.5" />, tag: "#ポータブル", lang: "ja" as TargetLanguage },
           ].map((prod) => {
             const isSelected = currentProductId === prod.id;
             return (
@@ -497,7 +542,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                 key={prod.id}
                 type="button"
                 id={`tab-product-${prod.id}`}
-                onClick={() => onChangeParams({ productId: prod.id, language: prod.id === "kt80" || prod.id === "g58" || prod.id === "i228" ? "es" : "ja" })}
+                onClick={() => onChangeParams({ productId: prod.id, language: prod.lang })}
                 className={`group relative flex flex-col justify-between p-3.5 rounded-[22px] text-left transition-all duration-200 cursor-pointer overflow-hidden min-h-[100px] physic-spring-tap ${
                   isSelected
                     ? "bg-white/[0.16] border border-white/[0.3] shadow-[0_8px_24px_rgba(0,0,0,0.6)] text-white ring-1 ring-white/40"

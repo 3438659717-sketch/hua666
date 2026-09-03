@@ -11,10 +11,14 @@ export async function generateTitles(params: GenerationParams): Promise<{
 }> {
   const prodId: ProductId = params.productId || "rec10";
   const productConfig = PRODUCTS_CONFIG[prodId];
-  const lang = params.language || (prodId === "kt80" || prodId === "g58" ? "es" : "ja");
+  const lang = params.language || (prodId === "v17max" ? "de" : prodId === "kt80" || prodId === "g58" || prodId === "i228" || prodId === "v18pro" ? "es" : "ja");
   const activeTags = (params.customTags && params.customTags.trim())
     ? params.customTags.trim()
-    : (prodId === "kt80" && lang === "de"
+    : (prodId === "v18pro"
+        ? "#DyMona #V18PRO #aspiradora #limpiezahogar #tiktokshop #hogarlimpio"
+        : prodId === "v17max"
+        ? "#DyMona #V17MAX #staubsauger #putztipps #haushaltshelfer #tiktokshop"
+        : prodId === "kt80" && lang === "de"
         ? "#FOSMET #KT80 #Smartwatch #Outdoor Smartwatch #Werkzeug"
         : prodId === "g58" && lang === "de"
         ? "#FOSMET #G58 #Smartwatch #Outfit #Frauengesundheit"

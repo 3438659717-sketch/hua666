@@ -1,4 +1,4 @@
-export type ProductId = "rec10" | "qs40" | "t20" | "kt80" | "e12" | "e05" | "e09" | "g58" | "g2" | "fos10" | "i228";
+export type ProductId = "rec10" | "qs40" | "t20" | "kt80" | "e12" | "e05" | "e09" | "g58" | "g2" | "fos10" | "i228" | "v18pro" | "v17max";
 
 export type TargetLanguage = "ja" | "es" | "de";
 

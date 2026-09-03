@@ -17,6 +17,7 @@ import {
   Glasses,
   Heart,
   Feather,
+  Wind,
 } from "lucide-react";
 import { PRODUCTS_CONFIG } from "../data/templates";
 import { ProductId } from "../types";
@@ -56,6 +57,9 @@ export const ProductCheatsheetModal: React.FC<ProductCheatsheetModalProps> = ({
 
   const getHeaderIcon = (pid: ProductId) => {
     switch (pid) {
+      case "v18pro":
+      case "v17max":
+        return <Wind className="w-4 h-4" />;
       case "fos10":
         return <Feather className="w-4 h-4" />;
       case "g2":
@@ -81,6 +85,8 @@ export const ProductCheatsheetModal: React.FC<ProductCheatsheetModalProps> = ({
   };
 
   const productList: ProductId[] = [
+    "v18pro",
+    "v17max",
     "rec10",
     "qs40",
     "t20",
