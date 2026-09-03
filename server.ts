@@ -19,8 +19,10 @@ const E05_HASHTAGS = "#FOSMET #E05 #スマートグラス #服装 #イヤホン"
 const E09_HASHTAGS = "#FOSMET #E09 #スマートグラス #服装 #デイリーレコード";
 const G2_HASHTAGS = "#FOSMET #G2 #女性の健康 #スマートウォッチ #服装";
 const FOS10_HASHTAGS = "#FOSMET #FOS10 #女性の健康 #スマートウォッチ #ポータブル";
-const V18PRO_HASHTAGS = "#DyMona #V18PRO #aspiradora #limpiezahogar #tiktokshop #hogarlimpio";
-const V17MAX_HASHTAGS = "#DyMona #V17MAX #staubsauger #putztipps #haushaltshelfer #tiktokshop";
+const V18PRO_SPANISH_HASHTAGS = "#DyMona #V18PRO #aspiradora #limpiezahogar #tiktokshop #hogarlimpio";
+const V18PRO_GERMAN_HASHTAGS = "#DyMona #V18PRO #staubsauger #haushaltshelfer #putztipps #tiktokshop";
+const V17MAX_GERMAN_HASHTAGS = "#DyMona #V17MAX #staubsauger #putztipps #haushaltshelfer #tiktokshop";
+const V17MAX_SPANISH_HASHTAGS = "#DyMona #V17MAX #aspiradora #hogargrande #limpiezahogar #tiktokshop #mascotas";
 
 async function startServer() {
   const app = express();
@@ -75,16 +77,16 @@ async function startServer() {
       const isE12 = productId === "e12";
       const isE05 = productId === "e05";
       const isE09 = productId === "e09";
-      const isGerman = (isKt80 || isG58 || isV17max) && (language === "de" || isV17max);
+      const isGerman = (isKt80 || isG58 || isV18pro || isV17max) && (language === "de" || (isV17max && language !== "es"));
 
       const targetBrand = isV18pro || isV17max ? "DyMona" : "FOSMET";
       const targetModel = isV18pro ? "V18 PRO" : isV17max ? "V17 MAX" : isFos10 ? "FOS10" : isG2 ? "G2" : isG58 ? "G58" : isI228 ? "I228" : isE09 ? "E09" : isE05 ? "E05" : isE12 ? "E12" : isKt80 ? "KT80" : isT20 ? "T20" : isQs40 ? "QS40" : "REC10";
 
       let defaultHashtags = REC10_HASHTAGS;
       if (isV18pro) {
-        defaultHashtags = V18PRO_HASHTAGS;
+        defaultHashtags = isGerman ? V18PRO_GERMAN_HASHTAGS : V18PRO_SPANISH_HASHTAGS;
       } else if (isV17max) {
-        defaultHashtags = V17MAX_HASHTAGS;
+        defaultHashtags = isGerman ? V17MAX_GERMAN_HASHTAGS : V17MAX_SPANISH_HASHTAGS;
       } else if (isFos10) {
         defaultHashtags = FOS10_HASHTAGS;
       } else if (isG2) {
@@ -114,20 +116,59 @@ async function startServer() {
       let userPrompt: string;
 
       if (isV18pro) {
-        categoryPromptMap = {
-          all_mixed: "Brazo plegable de 65cm para limpiar bajo muebles sin agacharse, luz verde 2.0 de 135° que revela polvo invisible, succión huracanada de 50 kPa con motor de 650W, diseño ultraligero de 1.4kg y filtración 99.99%",
-          pain_point: "【Dolor de Espalda y Polvo Oculto】¿Harto de agacharte para limpiar bajo sofás y camas? ¿Pasas la escoba pero sigue habiendo polvo microscópico? Olvídate del dolor de lumbares con el brazo plegable 65cm",
-          efficiency: "【Succión Monstruosa 50 kPa & 650W】Aspira pelos de mascota, polvo fino y migas de una pasada con motor de 650W y hasta 50 minutos de batería",
-          gadget: "【Luz Verde 2.0 & Pantalla Digital】Luz LED verde de 135° con 300cm de alcance que hace visible hasta la mota más invisible en pisos y alfombras",
-          ai_power: "【Filtración 7 Capas 99.99%】Sistema de 7 etapas que retiene alérgenos de hasta 0.3 micras, aire puro garantizado para hogares con alergias o bebés",
-          secret_hack: "【0cm Ajuste a Bordes & 1.4kg Pluma】Limpia esquinas y rodapiés al milímetro con cabezal 0cm y cuerpo de solo 1.4kg que no cansa el brazo",
-          question: "【Pregunta y Debate】¿Sabías cuánta suciedad invisible hay debajo de tu cama? ¿Prefieres aspiradora pesada tradicional o brazo plegable ultraligero?",
-          spec_power: "【Especificaciones Prémium】Motor 650W, 50 kPa, 1.4kg peso pluma, 60 dB silenciosa, 7 accesorios en 1, soporte de pared con carga",
-        };
+        if (isGerman) {
+          categoryPromptMap = {
+            all_mixed: "65cm Klapparm gegen Bücken, grünes Staubsuchlicht 2.0 (135°/300cm), 50 kPa Monster-Saugleistung mit 650W Motor, 1,4kg ultraleicht, 7-fache Filtration (99,99%) und 50min Akkulaufzeit",
+            pain_point: "【Schmerzpunkt: Bücken & unsichtbarer Staub】Schluss mit Rückenschmerzen beim Saugen unter Sofa & Bett! Der 65cm Knickarm gleitet mühelos bis ganz nach hinten, ohne dass du dich bücken musst",
+            efficiency: "【50 kPa Saugleistung & 650W Brushless-Motor】Saugt Tierhaare, Krümel und Feinstaub in einem einzigen Durchgang auf, bis zu 50 Minuten Laufzeit",
+            gadget: "【Grünes Suchlicht 2.0 & LED-Smart-Display】135° Weitwinkel-Grünlicht macht mikroskopisch kleinen Feinstaub auf Hartböden sichtbar, 300cm Weitreiche",
+            ai_power: "【7-fach Filtersystem 99,99%】Hocheffiziente 7-stufige Filtration fängt 99,99% aller Partikel bis 0,3 µm ab – saubere Raumluft für Allergiker & Kinder",
+            secret_hack: "【0mm Kantenreinigung & 1,4kg Federleicht】Reicht bis auf 0mm an Fußleisten heran, wiegt nur 1,4 kg – müheloses Saugen von Vorhängen & Decken",
+            question: "【Community & Engagement】Bückst du dich noch beim Putzen unter Möbeln? Was hältst du vom grünen Licht gegen unsichtbaren Staub?",
+            spec_power: "【Technische Daten】650W Motor, 50 kPa Saugleistung, 1,4kg Gewicht, 60 dB leise, 7-in-1 Zubehörset, Wandhalterung mit Ladefunktion",
+          };
 
-        const selectedCategoryDesc = categoryPromptMap[category] || categoryPromptMap.all_mixed;
+          const selectedCategoryDesc = categoryPromptMap[category] || categoryPromptMap.all_mixed;
 
-        systemInstruction = `Eres un director de marketing de comercio electrónico y TikTok en español (España y Latinoamérica).
+          systemInstruction = `Du bist ein erfahrener deutscher TikTok- und E-Commerce Marketing-Direktor für innovative Haushaltsgeräte.
+Erstelle hochkonvertierende deutsche TikTok-Videotitel / Hooks für den Akku-Staubsauger mit Klapparm "DyMona V18 PRO".
+
+【Produktdaten DyMona V18 PRO】:
+- Marke: DyMona | Modell: V18 PRO
+- 65cm Klapparm: Patentierter Knick-Mechanismus, reinigt mühelos unter Betten und Sofas ohne Bücken
+- Saugleistung: 650W bürstenloser Motor mit 50 kPa (50.000 Pa) extremer Zyklonsaugkraft
+- Grünes Licht 2.0: 135° Weitwinkel-Grünlicht mit 300cm Reichweite deckt unsichtbaren Feinstaub auf
+- Gewicht & Geräusch: Nur 1,4 kg ultraleichtes Handteil, 60 dB flüsterleise
+- Filtration: 7-faches Filtersystem filtert 99,99% aller Partikel bis 0,3 Mikrometer
+- Akku: Eco 50 Min, Standard 30 Min, Boost 20 Min
+- Vielseitigkeit: 7-in-1 Multibürsten, LED-Display, 90° freistehend & Wandhalterung
+
+【Regeln】:
+1. Jeder Titel MUSS zwingend "DyMona" und "V18 PRO" natürlich und ansprechend enthalten.
+2. Formuliere packende deutsche Hooks (ca. 40-75 Zeichen) mit Fokus auf Klapparm (ohne Bücken), Grünlicht und Saugkraft.
+3. Jeder Titel MUSS am Ende EXAKT die folgenden Hashtags enthalten:
+   ${targetHashtags}
+4. Gib genau ${count} individuelle Titel als JSON-Array aus. Keine Duplikate!
+${customKeyword ? `※ Besonderes Keyword zum Einbauen: "${customKeyword}"` : ""}`;
+
+          userPrompt = `Kategorie: ${selectedCategoryDesc}
+Tonalität: ${tone}
+Aufgabe: Erstelle 50 packende deutsche TikTok-Titel für DyMona V18 PRO mit den Hashtags: ${targetHashtags}`;
+        } else {
+          categoryPromptMap = {
+            all_mixed: "Brazo plegable de 65cm para limpiar bajo muebles sin agacharse, luz verde 2.0 de 135° que revela polvo invisible, succión huracanada de 50 kPa con motor de 650W, diseño ultraligero de 1.4kg y filtración 99.99%",
+            pain_point: "【Dolor de Espalda y Polvo Oculto】¿Harto de agacharte para limpiar bajo sofás y camas? ¿Pasas la escoba pero sigue habiendo polvo microscópico? Olvídate del dolor de lumbares con el brazo plegable 65cm",
+            efficiency: "【Succión Monstruosa 50 kPa & 650W】Aspira pelos de mascota, polvo fino y migas de una pasada con motor de 650W y hasta 50 minutos de batería",
+            gadget: "【Luz Verde 2.0 & Pantalla Digital】Luz LED verde de 135° con 300cm de alcance que hace visible hasta la mota más invisible en pisos y alfombras",
+            ai_power: "【Filtración 7 Capas 99.99%】Sistema de 7 etapas que retiene alérgenos de hasta 0.3 micras, aire puro garantizado para hogares con alergias o bebés",
+            secret_hack: "【0cm Ajuste a Bordes & 1.4kg Pluma】Limpia esquinas y rodapiés al milímetro con cabezal 0cm y cuerpo de solo 1.4kg que no cansa el brazo",
+            question: "【Pregunta y Debate】¿Sabías cuánta suciedad invisible hay debajo de tu cama? ¿Prefieres aspiradora pesada tradicional o brazo plegable ultraligero?",
+            spec_power: "【Especificaciones Prémium】Motor 650W, 50 kPa, 1.4kg peso pluma, 60 dB silenciosa, 7 accesorios en 1, soporte de pared con carga",
+          };
+
+          const selectedCategoryDesc = categoryPromptMap[category] || categoryPromptMap.all_mixed;
+
+          systemInstruction = `Eres un director de marketing de comercio electrónico y TikTok en español (España y Latinoamérica).
 Crea ganchos y títulos virales de alta conversión para la aspiradora inalámbrica inteligente "DyMona V18 PRO".
 
 【Información del producto DyMona V18 PRO】:
@@ -148,24 +189,64 @@ Crea ganchos y títulos virales de alta conversión para la aspiradora inalámbr
 4. Genera exactamente ${count} títulos únicos en formato de arreglo JSON de strings.
 ${customKeyword ? `※ Palabra clave obligatoria a incluir: "${customKeyword}"` : ""}`;
 
-        userPrompt = `Categoría: ${selectedCategoryDesc}
+          userPrompt = `Categoría: ${selectedCategoryDesc}
 Tono: ${tone}
 Crea 50 títulos virales para DyMona V18 PRO en español con los hashtags: ${targetHashtags}`;
+        }
       } else if (isV17max) {
-        categoryPromptMap = {
-          all_mixed: "Monster-Saugleistung 58 kPa mit 650W Motor, Doppel-Akkusystem für 150 Minuten Laufzeit für bis zu 500m² Wohnfläche, 2L XXL-Staubbehälter, medizinischer HEPA H14 Filter und 25.5cm Anti-Haarwickel-V-Bürste",
-          pain_point: "【Frust mit schwachen Akkusaugern】Akku nach 15 Minuten leer? Staubbehälter ständig voll? Tierhaare verheddert in der Bürste? Der DyMona V17 MAX löst alle Probleme großer Häuser",
-          efficiency: "【58 kPa Monster-Power & 650W Motor】Beseitigt tiefsitzenden Schmutz aus Teppichen und Ritzen in einem einzigen Zug mit 58.000 Pa extremer Saugkraft",
-          gadget: "【Doppel-Akku 150 Min & 500m² Abdeckung】Reicht für riesige Villen, Einfamilienhäuser und mehrstöckige Wohnungen ohne Ladepause dank Wechselakkus",
-          ai_power: "【HEPA H14 Filtration & 2L XXL-Behälter】Medizinische H14 Filtration filtert 99.995% aller Feinstaubpartikel und Allergene, 2L Riesenvolumen",
-          secret_hack: "【25.5cm Anti-Tangle V-Walze】Keine verhedderten langen Haare oder Tierhaare mehr dank V-förmiger Spezialwalzenkonstruktion",
-          question: "【Frage & Community-Engagement】Wie lange hält dein aktueller Staubsauger durch? Reichen dir 150 Minuten für das ganze Haus?",
-          spec_power: "【Fakten & Spezifikationen】58 kPa / 650W, 150 Min Dual-Akku, 2L XXL Behälter, HEPA H14, LED-Bodenleuchte, Wandhalterung",
-        };
+        if (!isGerman && language === "es") {
+          // Spanish for V17 MAX
+          categoryPromptMap = {
+            all_mixed: "Succión monstruo de 58 kPa con motor de 650W, batería dual para 150 minutos de autonomía en casas de hasta 500m², depósito XXL de 2L, filtración médica HEPA H14 y cepillo en V antienredos de 25.5cm",
+            pain_point: "【Hogares Grandes y Casas de 2 Pisos】¿Cansado de quedarte sin batería a mitad de la limpieza? ¿Bolsas pequeñas y pelos atascados en el cepillo? DyMona V17 MAX está diseñada para casas gigantes",
+            efficiency: "【58 kPa Potencia Monstruo & 650W】Aspira toda la suciedad incrustada en alfombras gruesas y suelos de una sola pasada con 58.000 Pa de succión",
+            gadget: "【Batería Dual 150 Min & 500m²】Limpia chalets enteros, pisos grandes y dúplex sin interrupciones gracias a su doble batería de larga duración",
+            ai_power: "【HEPA H14 Médico & Depósito 2L XXL】Filtra el 99.995% de polvo y alérgenos con grado hospitalario H14, depósito gigante de 2 Litros para 3 meses sin vaciar",
+            secret_hack: "【Cepillo en V Antienredos 25.5cm】Diseño especial en V que dirige los pelos de mascota y cabellos largos directamente al conducto sin atascarse",
+            question: "【Pregunta y Debate TikTok】¿Cuánto tiempo dura la batería de tu aspiradora? ¿Aguantaría tu casa un reto de 150 minutos con 58 kPa?",
+            spec_power: "【Especificaciones Tope de Gama】58 kPa / 650W, 150 min batería dual, depósito 2L XXL, HEPA H14, pantalla LED inteligente, 3 modos de recarga",
+          };
 
-        const selectedCategoryDesc = categoryPromptMap[category] || categoryPromptMap.all_mixed;
+          const selectedCategoryDesc = categoryPromptMap[category] || categoryPromptMap.all_mixed;
 
-        systemInstruction = `Du bist ein erfahrener deutscher TikTok- und E-Commerce Marketing-Direktor für Premium-Haushaltsgeräte.
+          systemInstruction = `Eres un director de marketing de comercio electrónico y TikTok en español (España y Latinoamérica).
+Crea ganchos y títulos virales de alta conversión para la aspiradora inalámbrica de máxima potencia "DyMona V17 MAX".
+
+【Información del producto DyMona V17 MAX】:
+- Marca: DyMona | Modelo: V17 MAX
+- Succión: 58 kPa (58.000 Pa) succión monstruo con motor brushless de 650W
+- Autonomía: Sistema de batería dual con hasta 150 minutos de duración continua, ideal para 500 m²
+- Depósito: Capacidad XXL de 2 Litros para vaciar solo cada 3 meses con vaciado limpio en 1 clic
+- Cepillo: Cabezal ancho de 25.5 cm con rodillo en V anti-enredos para pelos de perros y gatos
+- Filtración: Filtro médico HEPA H14 (eficiencia del 99.995% para personas alérgicas)
+- Pantalla y carga: Pantalla digital inteligente, autosoporte a 90°, 3 formas de recarga rápida
+
+【Reglas estrictas】:
+1. Cada título DEBE incluir "DyMona" y "V17 MAX" de forma natural y atractiva.
+2. Ganchos virales en español (40-75 caracteres) enfocados en potencia brutal, casas grandes y pelos de mascotas.
+3. Cada título DEBE terminar con estos hashtags exactos:
+   ${targetHashtags}
+4. Genera exactamente ${count} títulos únicos en formato JSON.
+${customKeyword ? `※ Palabra clave obligatoria a incluir: "${customKeyword}"` : ""}`;
+
+          userPrompt = `Categoría: ${selectedCategoryDesc}
+Tono: ${tone}
+Crea 50 títulos virales para DyMona V17 MAX en español con los hashtags: ${targetHashtags}`;
+        } else {
+          categoryPromptMap = {
+            all_mixed: "Monster-Saugleistung 58 kPa mit 650W Motor, Doppel-Akkusystem für 150 Minuten Laufzeit für bis zu 500m² Wohnfläche, 2L XXL-Staubbehälter, medizinischer HEPA H14 Filter und 25.5cm Anti-Haarwickel-V-Bürste",
+            pain_point: "【Frust mit schwachen Akkusaugern】Akku nach 15 Minuten leer? Staubbehälter ständig voll? Tierhaare verheddert in der Bürste? Der DyMona V17 MAX löst alle Probleme großer Häuser",
+            efficiency: "【58 kPa Monster-Power & 650W Motor】Beseitigt tiefsitzenden Schmutz aus Teppichen und Ritzen in einem einzigen Zug mit 58.000 Pa extremer Saugkraft",
+            gadget: "【Doppel-Akku 150 Min & 500m² Abdeckung】Reicht für riesige Villen, Einfamilienhäuser und mehrstöckige Wohnungen ohne Ladepause dank Wechselakkus",
+            ai_power: "【HEPA H14 Filtration & 2L XXL-Behälter】Medizinische H14 Filtration filtert 99.995% aller Feinstaubpartikel und Allergene, 2L Riesenvolumen",
+            secret_hack: "【25.5cm Anti-Tangle V-Walze】Keine verhedderten langen Haare oder Tierhaare mehr dank V-förmiger Spezialwalzenkonstruktion",
+            question: "【Frage & Community-Engagement】Wie lange hält dein aktueller Staubsauger durch? Reichen dir 150 Minuten für das ganze Haus?",
+            spec_power: "【Fakten & Spezifikationen】58 kPa / 650W, 150 Min Dual-Akku, 2L XXL Behälter, HEPA H14, LED-Bodenleuchte, Wandhalterung",
+          };
+
+          const selectedCategoryDesc = categoryPromptMap[category] || categoryPromptMap.all_mixed;
+
+          systemInstruction = `Du bist ein erfahrener deutscher TikTok- und E-Commerce Marketing-Direktor für Premium-Haushaltsgeräte.
 Erstelle hochkonvertierende deutsche TikTok-Videotitel / Hooks für den Flaggschiff-Akku-Staubsauger "DyMona V17 MAX".
 
 【Produktdaten DyMona V17 MAX】:
@@ -185,9 +266,10 @@ Erstelle hochkonvertierende deutsche TikTok-Videotitel / Hooks für den Flaggsch
 4. Gib genau ${count} individuelle Titel als JSON-Array aus. Keine Duplikate!
 ${customKeyword ? `※ Besonderes Keyword zum Einbauen: "${customKeyword}"` : ""}`;
 
-        userPrompt = `Kategorie: ${selectedCategoryDesc}
+          userPrompt = `Kategorie: ${selectedCategoryDesc}
 Tonalität: ${tone}
 Aufgabe: Erstelle 50 packende deutsche TikTok-Titel für DyMona V17 MAX mit den Hashtags: ${targetHashtags}`;
+        }
       } else if (isG58) {
         if (isGerman) {
           categoryPromptMap = {

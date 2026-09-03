@@ -79,10 +79,14 @@ export function normalizeTagString(input: string): string {
 // Get official default tags based on product and language
 export function getDefaultTagsForProduct(productId: string = "rec10", language: string = "ja"): string {
   if (productId === "v18pro") {
-    return "#DyMona #V18PRO #aspiradora #limpiezahogar #tiktokshop #hogarlimpio";
+    return language === "de"
+      ? "#DyMona #V18PRO #staubsauger #haushaltshelfer #putztipps #tiktokshop"
+      : "#DyMona #V18PRO #aspiradora #limpiezahogar #tiktokshop #hogarlimpio";
   }
   if (productId === "v17max") {
-    return "#DyMona #V17MAX #staubsauger #putztipps #haushaltshelfer #tiktokshop";
+    return language === "es"
+      ? "#DyMona #V17MAX #aspiradora #hogargrande #limpiezahogar #tiktokshop #mascotas"
+      : "#DyMona #V17MAX #staubsauger #putztipps #haushaltshelfer #tiktokshop";
   }
   if (productId === "kt80") {
     return language === "de"

@@ -15,9 +15,13 @@ export async function generateTitles(params: GenerationParams): Promise<{
   const activeTags = (params.customTags && params.customTags.trim())
     ? params.customTags.trim()
     : (prodId === "v18pro"
-        ? "#DyMona #V18PRO #aspiradora #limpiezahogar #tiktokshop #hogarlimpio"
+        ? (lang === "de"
+            ? "#DyMona #V18PRO #staubsauger #haushaltshelfer #putztipps #tiktokshop"
+            : "#DyMona #V18PRO #aspiradora #limpiezahogar #tiktokshop #hogarlimpio")
         : prodId === "v17max"
-        ? "#DyMona #V17MAX #staubsauger #putztipps #haushaltshelfer #tiktokshop"
+        ? (lang === "es"
+            ? "#DyMona #V17MAX #aspiradora #hogargrande #limpiezahogar #tiktokshop #mascotas"
+            : "#DyMona #V17MAX #staubsauger #putztipps #haushaltshelfer #tiktokshop")
         : prodId === "kt80" && lang === "de"
         ? "#FOSMET #KT80 #Smartwatch #Outdoor Smartwatch #Werkzeug"
         : prodId === "g58" && lang === "de"

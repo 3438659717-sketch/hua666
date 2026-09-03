@@ -181,15 +181,29 @@ const BASE_ACCESSORY_SPRITES: Partial<Record<PetAccessory, AccessoryDefinition>>
     ],
   },
   bow: {
-    name: "甜美蝴蝶结",
+    name: "甜美颈圈蝴蝶结",
     icon: "🎀",
-    desc: "缎带粉色双层蝴蝶结，散发甜美香气",
+    desc: "佩戴在脖颈处的丝缎粉色精致领结，点缀金色珍珠扣",
     category: "special",
     price: 80,
     unlockLevel: 2,
     rows: [
-      { r: 2, c: 4, color: "#fb7185" }, { r: 2, c: 5, color: "#f43f5e" }, { r: 2, c: 6, color: "#fb7185" },
-      { r: 3, c: 3, color: "#fda4af" }, { r: 3, c: 4, color: "#f43f5e" }, { r: 3, c: 5, color: "#facc15" }, { r: 3, c: 6, color: "#f43f5e" }, { r: 3, c: 7, color: "#fda4af" },
+      // Collar Band
+      { r: 8, c: 4, color: "#fda4af" }, { r: 8, c: 5, color: "#fda4af" }, { r: 8, c: 9, color: "#fda4af" }, { r: 8, c: 10, color: "#fda4af" },
+      // Left Wing
+      { r: 7, c: 5, color: "#fb7185" }, { r: 7, c: 6, color: "#fda4af" },
+      { r: 8, c: 5, color: "#f43f5e" }, { r: 8, c: 6, color: "#fb7185" },
+      { r: 9, c: 5, color: "#e11d48" }, { r: 9, c: 6, color: "#f43f5e" },
+      // Center Knot & Golden Clasp
+      { r: 8, c: 7, color: "#fff1f2" }, { r: 8, c: 8, color: "#f43f5e" },
+      { r: 9, c: 7, color: "#facc15" }, { r: 9, c: 8, color: "#e11d48" },
+      // Right Wing
+      { r: 7, c: 9, color: "#fda4af" }, { r: 7, c: 10, color: "#fb7185" },
+      { r: 8, c: 9, color: "#fb7185" }, { r: 8, c: 10, color: "#f43f5e" },
+      { r: 9, c: 9, color: "#f43f5e" }, { r: 9, c: 10, color: "#e11d48" },
+      // Dainty Tails
+      { r: 10, c: 6, color: "#f43f5e" }, { r: 11, c: 6, color: "#e11d48" },
+      { r: 10, c: 9, color: "#f43f5e" }, { r: 11, c: 9, color: "#e11d48" },
     ],
   },
   cap: {

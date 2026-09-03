@@ -351,11 +351,11 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
     brand: "DyMona",
     model: "V18 PRO",
     name: "DyMona V18 PRO",
-    japaneseType: "高性能无线吸尘器 / Aspiradora sin cable de alto rendimiento",
+    japaneseType: "高性能无线吸尘器 / Aspiradora sin cable (ES) / Akku-Staubsauger (DE)",
     shortDesc: "650W电机・50 kPa超强吸力・65cm折叠金属臂・0cm贴边免弯腰・7重过滤99.99%微尘・绿光显尘2.0・1.4kg羽量",
     fixedTags: "#DyMona #V18PRO #aspiradora #limpiezahogar #tiktokshop #hogarlimpio",
     defaultLanguage: "es",
-    supportedLanguages: ["es"],
+    supportedLanguages: ["es", "de"],
     badge: "折叠绿光吸尘器",
     accentColor: "#10B981",
     tiktokFormula: "弯腰/微尘痛点反转 + 65cm折叠臂/绿光显尘2.0硬核实测 + 50kPa吸力/7合1全场景清洁直给",
@@ -368,7 +368,7 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
       { label: "电池与续航", value: "节能模式 50 分钟 / 标准模式 30 分钟 / 强力模式 20 分钟" },
       { label: "屏幕与交互", value: "智能高清 LED 数字大屏，电量与工作模式实时显示" },
       { label: "收纳与多功能", value: "90° 自立展示停放 + 壁挂充电收纳 + 7 合 1 多场景多刷头切换" },
-      { label: "固定标签(西语)", value: "#DyMona #V18PRO #aspiradora #limpiezahogar #tiktokshop #hogarlimpio" },
+      { label: "固定标签(西语/德语)", value: "ES: #DyMona #V18PRO #aspiradora #limpiezahogar | DE: #DyMona #V18PRO #staubsauger #putztipps" },
     ],
     highlights: [
       "650W 电机 + 50 kPa 飓风吸力 + 65cm 折叠金属臂免弯腰 0cm 贴边深度清洁",
@@ -381,11 +381,11 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
     brand: "DyMona",
     model: "V17 MAX",
     name: "DyMona V17 MAX",
-    japaneseType: "旗舰级大户型无线吸尘器 / Flaggschiff Akku-Staubsauger für Großräume",
+    japaneseType: "旗舰级大户型无线吸尘器 / Akku-Staubsauger für Großräume (DE) / Aspiradora Casas Grandes (ES)",
     shortDesc: "专为大户型复式楼打造・650W电机・58 kPa极限怪兽吸力・双电池150min续航・25.5cm防缠绕V刷・HEPA H14・2L超大尘桶",
     fixedTags: "#DyMona #V17MAX #staubsauger #putztipps #haushaltshelfer #tiktokshop",
     defaultLanguage: "de",
-    supportedLanguages: ["de"],
+    supportedLanguages: ["de", "es"],
     badge: "大户型旗舰吸尘器",
     accentColor: "#F59E0B",
     tiktokFormula: "大户型续航/倒垃圾痛点反转 + 58kPa极限吸力/25.5cm防缠绕V刷实测 + 150min双电/2L尘桶/HEPA H14直给",
@@ -398,7 +398,7 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
       { label: "超大集尘容量", value: "2L 超大集尘桶，支持 3 个月免倒垃圾，一键单手倾倒不脏手" },
       { label: "充电与收纳停放", value: "支持 3 种灵活充电方式 + 90° 自立展示停放 + 标配二合一吸头/长缝隙吸头/伸缩管" },
       { label: "智能屏幕显示", value: "清晰 LED 智能大屏，实时掌握电量与运转状态" },
-      { label: "固定标签(德语)", value: "#DyMona #V17MAX #staubsauger #putztipps #haushaltshelfer #tiktokshop" },
+      { label: "固定标签(德语/西语)", value: "DE: #DyMona #V17MAX #staubsauger #putztipps | ES: #DyMona #V17MAX #aspiradora #hogargrande" },
     ],
     highlights: [
       "专为 500㎡ 大户型复式楼设计 + 650W 电机与 58 kPa 极限怪兽吸力",
@@ -890,9 +890,9 @@ export function generateAlgorithmicTitles(
   } else if (productId === "i228") {
     rawResults = generateI228AlgorithmicTitles("FOSMET", "I228", category, customKeyword, customTags, language);
   } else if (productId === "v18pro") {
-    rawResults = generateV18proAlgorithmicTitles(category, customKeyword, customTags, batchSeed);
+    rawResults = generateV18proAlgorithmicTitles(category, customKeyword, customTags, batchSeed, language);
   } else if (productId === "v17max") {
-    rawResults = generateV17maxAlgorithmicTitles(category, customKeyword, customTags, batchSeed);
+    rawResults = generateV17maxAlgorithmicTitles(category, customKeyword, customTags, batchSeed, language);
   } else {
     const brand = "FOSMET";
     const model = "REC10";

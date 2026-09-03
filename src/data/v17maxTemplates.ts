@@ -1,6 +1,8 @@
-import { AngleCategory, GeneratedTitle } from "../types";
+import { AngleCategory, GeneratedTitle, TargetLanguage } from "../types";
 
-export const V17MAX_FIXED_TAGS = "#DyMona #V17MAX #staubsauger #putztipps #haushaltshelfer #tiktokshop";
+export const V17MAX_FIXED_TAGS_DE = "#DyMona #V17MAX #staubsauger #putztipps #haushaltshelfer #tiktokshop";
+export const V17MAX_FIXED_TAGS_ES = "#DyMona #V17MAX #aspiradora #hogargrande #limpiezahogar #tiktokshop #mascotas";
+export const V17MAX_FIXED_TAGS = V17MAX_FIXED_TAGS_DE;
 
 interface HookTemplate {
   pattern: (brand: string, model: string, keyword?: string) => string;
@@ -10,7 +12,7 @@ interface HookTemplate {
   targetAudience: string;
 }
 
-export const V17MAX_HOOK_TEMPLATES: HookTemplate[] = [
+export const V17MAX_HOOK_TEMPLATES_DE: HookTemplate[] = [
   // 1. 痛点反转・大户型电量焦虑＆频繁倒垃圾＆毛发缠绕型 (Pain Point & 150min Dual Battery & 2L Dustbin)
   {
     pattern: (b, m) => `Schluss mit ständigem Nachladen bei großen Häusern: ${b} ${m} hält mit Dual-Akku bis zu 150 Minuten durch`,
@@ -98,162 +100,327 @@ export const V17MAX_HOOK_TEMPLATES: HookTemplate[] = [
     patternZh: (b, m) => `650W 大功率无刷电机 ✕ 双电池并联技术：${b} ${m} 重新定义旗舰无线吸尘器行业标杆`,
     category: "gadget",
     angleLabel: "650W无刷电机工业美学",
-    targetAudience: "科技数码极客・测评博主",
+    targetAudience: "数码硬件极客・测评博主",
   },
   {
-    pattern: (b, m) => `Parken ohne Wandhalterung: Das 90° selbststehende Design des ${b} ${m} begeistert jeden`,
-    patternZh: (b, m) => `无需靠墙或打孔固定：${b} ${m} 创新的 90° 自由站立停放设计随时随地随停随用`,
+    pattern: (b, m) => `2L XXL-Behälter mit antibakterieller Versiegelung: Premium-Technik im ${b} ${m}`,
+    patternZh: (b, m) => `2L 巨量集尘筒搭配严密抗菌密封系统：${b} ${m} 展现德系精工级别的硬件工艺`,
     category: "gadget",
-    angleLabel: "90°免打孔独立自立",
-    targetAudience: "空间设计与收纳控",
+    angleLabel: "2L巨无霸集尘结构",
+    targetAudience: "品质生活家・细节控",
   },
   {
-    pattern: (b, m) => `3 flexible Ladeoptionen inklusive Wandhalterung: Das durchdachte Ladekonzept des ${b} ${m}`,
-    patternZh: (b, m) => `支持独立电池充、机身直充与壁挂充 3 种模式：${b} ${m} 的充电体系兼具美观与便利`,
+    pattern: (b, m) => `3 vielseitige Lade-Optionen für maximale Flexibilität: So schlau ist der ${b} ${m}`,
+    patternZh: (b, m) => `整机座充/电池单独充/机身直充 3 种灵活充电方式：${b} ${m} 让大空间用电自由随心`,
     category: "gadget",
-    angleLabel: "3种灵活快充体系",
-    targetAudience: "便利生活追求者",
-  },
-  {
-    pattern: (b, m) => `Metallverstärktes Teleskoprohr und V-Bürste: Die hochwertige Haptik des ${b} ${m}`,
-    patternZh: (b, m) => `金属加固可伸缩延长管 ✕ 特种 V 型滚刷：${b} ${m} 带来无可挑剔的德系质感做工`,
-    category: "gadget",
-    angleLabel: "金属伸缩质感做工",
-    targetAudience: "品质生活鉴赏家",
+    angleLabel: "3种灵活充电模式",
+    targetAudience: "科技生活追求者",
   },
 
-  // 4. 深度健康・HEPA H14与母婴级防微尘型 (Health & HEPA H14 Clean Air)
+  // 4. 深度健康・HEPA H14医疗级过滤型 (AI / Health & H14 Medical Grade)
   {
-    pattern: (b, m) => `HEPA H14 Filterstufe: Wie der ${b} ${m} 99,99% der Allergene für gesunde Raumluft einfängt`,
-    patternZh: (b, m) => `HEPA H14 医疗级超净过滤：${b} ${m} 紧锁 99.99% 隐蔽过敏原，还全家清新健康的室内空气`,
+    pattern: (b, m) => `HEPA H14 filtert 99,995% bis 0,3µm: Der ${b} ${m} ist ideal für Allergiker & Haustierbesitzer`,
+    patternZh: (b, m) => `HEPA H14 级医疗滤网过滤 99.995% 微尘与过敏原：${b} ${m} 守护母婴与养宠家庭空气健康`,
     category: "ai_power",
-    angleLabel: "HEPA H14母婴级净化",
-    targetAudience: "健康生活家庭・过敏体质",
+    angleLabel: "HEPA H14医疗级抗敏",
+    targetAudience: "过敏体质・高端母婴",
   },
   {
-    pattern: (b, m) => `Tiefenreinigung für Matratzen und Sofas: Der ${b} ${m} zieht jeden Milbenkot aus den Polstern`,
-    patternZh: (b, m) => `床垫与布艺沙发的深层净化：${b} ${m} 以 58 kPa 负压吸力将微尘皮屑连根拔起`,
+    pattern: (b, m) => `Tiefenreinigung für Polster und Matratzen: Beseitigt Milben mit 58 kPa Unterdruck im ${b} ${m}`,
+    patternZh: (b, m) => `58 kPa 极限真空负压直透床垫被褥拔除深层螨虫与皮屑，${b} ${m} 全方位净化家居生态`,
     category: "ai_power",
-    angleLabel: "深层织物除螨杀菌",
-    targetAudience: "家庭除螨・精致生活",
+    angleLabel: "床褥织物深层除螨",
+    targetAudience: "除螨健康倡导者",
   },
   {
-    pattern: (b, m) => `Der 2L Staubbehälter versiegelt Feinstaub absolut geruchsdicht – ideal für Haustierbesitzer: ${b} ${m}`,
-    patternZh: (b, m) => `2L 大容量集尘系统紧密密封粉尘与异味，${b} ${m} 堪称养宠家庭最值得拥有的空气卫士`,
+    pattern: (b, m) => `Reine Ausblasluft dank 6-Stufen-Zyklon: Atme auf beim Saugen mit dem ${b} ${m}`,
+    patternZh: (b, m) => `6 重多锥气旋密封分离技术，排气洁净度超越日常空气，让使用 ${b} ${m} 成为享受`,
     category: "ai_power",
-    angleLabel: "密封锁味防溢出",
-    targetAudience: "宠物家庭・爱宠人士",
+    angleLabel: "多锥气旋洁净排气",
+    targetAudience: "注重空气品质人群",
   },
 
-  // 5. 硬核参数・650W电机＆58kPa超强吸力型 (Spec Power & 58 kPa Monster)
+  // 5. 硬核参数・58kPa极限吸力＆650W大功率型 (Spec Power & 58 kPa)
   {
-    pattern: (b, m) => `650W Motor & 58 kPa: Wir testen die maximale Saugleistung des ${b} ${m} im Härtetest`,
-    patternZh: (b, m) => `650W 动力核心 ✕ 58 kPa 极限负压：极限严苛实测 ${b} ${m} 的恐怖吸力表现`,
+    pattern: (b, m) => `58 kPa Saugleistung & 650W Power: Warum der ${b} ${m} jeden Schmutz im Nu eliminiert`,
+    patternZh: (b, m) => `58 kPa 极限真空吸力 ✕ 650W 澎湃动力：为什么说 ${b} ${m} 能瞬间粉碎各种顽固垃圾`,
     category: "spec_power",
-    angleLabel: "650W/58kPa极限实测",
-    targetAudience: "硬核数码评测观众",
+    angleLabel: "58kPa/650W性能怪兽",
+    targetAudience: "硬核数据党・测评发烧友",
   },
   {
-    pattern: (b, m) => `150 Minuten Non-Stop-Laufzeit: Der ${b} ${m} schlägt fast jeden Akku-Staubsauger am Markt`,
-    patternZh: (b, m) => `长达 150 分钟不间断续航！${b} ${m} 在续航能力上直接超越市面绝大多数无线吸尘器`,
+    pattern: (b, m) => `Dual-Akku für 150 Minuten Nonstop-Einsatz: Der ${b} ${m} bricht alle Ausdauer-Rekorde`,
+    patternZh: (b, m) => `双电池系统实现 150 分钟无中断极限续航：${b} ${m} 打破同级别无线吸尘器续航纪录`,
     category: "spec_power",
-    angleLabel: "150分钟续航天花板",
-    targetAudience: "参数党・大户型业主",
+    angleLabel: "150分钟超长续航",
+    targetAudience: "大平层业主・长续航刚需",
   },
   {
-    pattern: (b, m) => `4 Stunden Schnellladung für zwei Akkus: Die smarte Power-Technologie des ${b} ${m}`,
-    patternZh: (b, m) => `仅需 4 小时即可完成双电池极速快充：${b} ${m} 的先进电源管理让清洁无需漫长等待`,
+    pattern: (b, m) => `25,5 cm V-Walzenbürste: Optimale Strömungsmechanik im ${b} ${m} für rückstandslose Sauberkeit`,
+    patternZh: (b, m) => `25.5 cm 加宽 V 型滚刷与流体动力风道设计：${b} ${m} 实现真正的一吸即净零残留`,
     category: "spec_power",
-    angleLabel: "4h双电极速快充",
-    targetAudience: "高效快节奏人群",
+    angleLabel: "25.5cm防缠绕空气动力学",
+    targetAudience: "参数党・机械美学爱好者",
   },
 
-  // 6. 秘密技巧・大户型保洁秘密＆高性价比神机 (Secret Hack & Großraum-Wunder)
+  // 6. 秘密技巧・大户型家务极速流 (Secret Hack & Big House Routine)
   {
-    pattern: (b, m) => `【Geheimtipp】Wie du ein 300m² Haus in unter 30 Minuten blitzsauber hältst mit ${b} ${m}`,
-    patternZh: (b, m) => `【清洁秘籍】如何用 ${b} ${m} 在不到 30 分钟内把 300㎡ 豪宅打理得锃亮一尘不染`,
+    pattern: (b, m) => `【Villa-Putzroutine】Wie man 500m² in 30 Minuten sauber hält mit dem ${b} ${m}`,
+    patternZh: (b, m) => `【大宅保洁秘诀】如何用 ${b} ${m} 在 30 分钟内高效打理完 500㎡ 别墅复式空间`,
     category: "secret_hack",
-    angleLabel: "30分钟大户型速成秘籍",
-    targetAudience: "德国大户型中产家庭",
+    angleLabel: "大户型30分钟极速保洁",
+    targetAudience: "别墅业主・多层住宅家庭",
   },
   {
-    pattern: (b, m) => `Warum Profi-Reiniger auf den 2L Staubbehälter des ${b} ${m} schwören`,
-    patternZh: (b, m) => `为什么经验丰富的保洁达人对 ${b} ${m} 的 2L 超大集尘桶赞不绝口？揭秘大容量真相`,
+    pattern: (b, m) => `Keine Tierhaare mehr an der Bürste: Der geniale V-Form Trick des ${b} ${m}`,
+    patternZh: (b, m) => `滚刷从此告别宠物毛发缠绕：揭秘 ${b} ${m} 独家 V 型螺旋结构的防缠绕神奇妙用`,
     category: "secret_hack",
-    angleLabel: "保洁达人真实推荐",
-    targetAudience: "居家清洁达人",
+    angleLabel: "防缠毛发隐藏技巧",
+    targetAudience: "猫狗宠物博主・铲屎官",
   },
   {
-    pattern: (b, m) => `Top-Tier Saugleistung ohne 800€ Marken-Aufpreis: Der ${b} ${m} ist der Preis-Leistungs-Sieger`,
-    patternZh: (b, m) => `无需为动辄几千上万的大牌溢价买单：${b} ${m} 凭借旗舰吸力与配置成为真正的性价比王者`,
+    pattern: (b, m) => `【Kaufberatung 2026】Warum der ${b} ${m} teure Marken-Sauger mühelos schlägt`,
+    patternZh: (b, m) => `【2026选购指南】为什么配置拉满的 ${b} ${m} 能在大户型深度清洁中完胜高价大牌`,
     category: "secret_hack",
-    angleLabel: "性价比屠夫破局者",
-    targetAudience: "务实中产・比价达人",
+    angleLabel: "高性价比旗舰选购",
+    targetAudience: "精明买手・理性消费者",
   },
 
-  // 7. 互动提问・激发德国观众评论区热议型 (Question & Community Viral)
+  // 7. 互动提问・引发高讨论度型 (Question & Community Engagement)
   {
-    pattern: (b, m) => `58 kPa Saugleistung vs. Hundehaare im dicken Teppich: Schafft der ${b} ${m} den Extremtest?`,
-    patternZh: (b, m) => `58 kPa 极限吸力挑战厚地毯里的顽固狗毛：看 ${b} ${m} 能否顺利通过这项极限测试！`,
+    pattern: (b, m) => `Reicht dir die Akkulaufzeit deines Saugers? Teste 150 Minuten mit ${b} ${m}`,
+    patternZh: (b, m) => `你家吸尘器平时充满电能吸多久？来看看拥有 150 分钟双电续航的 ${b} ${m} 表现`,
     category: "question",
-    angleLabel: "地毯狗毛极限挑战",
-    targetAudience: "TikTok德国受众",
+    angleLabel: "续航焦虑互动提问",
+    targetAudience: "TikTok德语区观众",
   },
   {
-    pattern: (b, m) => `Würdest du deinen alten Staubsauger für 150 Minuten Akkulaufzeit eintauschen? Der ${b} ${m} im Check`,
-    patternZh: (b, m) => `面对 150 分钟超长续航你会换掉家里的老吸尘器吗？带你看实测 ${b} ${m} 的惊艳表现`,
+    pattern: (b, m) => `Hundehaare oder Katzenhaare? Wir testen die Anti-Tangle-Bürste des ${b} ${m}`,
+    patternZh: (b, m) => `狗狗掉毛还是猫咪换毛？实测 ${b} ${m} 的防缠绕 V 刷面对满地毛发究竟缠不缠`,
     category: "question",
-    angleLabel: "150分钟续航互动",
-    targetAudience: "德国TikTok观众",
+    angleLabel: "宠物毛发防缠挑战",
+    targetAudience: "养宠人群・测试围观者",
   },
   {
-    pattern: (b, m) => `2 Liter Staubbehälter – wie oft musst du wirklich leeren? Wir testen den ${b} ${m}`,
-    patternZh: (b, m) => `2 升超大集尘桶到底多久才需要倒一次？实测记录 ${b} ${m} 的真实容纳量`,
+    pattern: (b, m) => `58 kPa Saugleistung: Schafft der ${b} ${m} schwere Kaffeebohnen & Schrauben?`,
+    patternZh: (b, m) => `58 kPa 极限怪兽吸力！带你实测 ${b} ${m} 连咖啡豆、硬币螺丝都能瞬间吸入吗`,
     category: "question",
-    angleLabel: "2L集尘真实容量挑战",
-    targetAudience: "好奇心受众・生活类博主",
+    angleLabel: "极限颗粒硬核吸力测试",
+    targetAudience: "猎奇观众・评测达人",
   },
 ];
 
-const V17MAX_PREFIX_PAIRS: [string, string][] = [
-  ["【Saugungeheuer 2026】", "【2026极限吸力怪兽】"],
-  ["【Nie wieder täglich laden】", "【彻底告别天天充电】"],
-  ["【Der Retter für Großhäuser】", "【大户型豪宅清洁救星】"],
-  ["【Echter 58 kPa Härtetest】", "【真实58kPa吸力实测】"],
-  ["【Schluss mit Tierhaaren】", "【彻底终结宠物掉毛缠绕】"],
-  ["【Geheimtipp für den Haushalt】", "【现代家庭必备神器】"],
-  ["【150 Minuten Power-Akku】", "【150分钟超强双电池】"],
-  ["【2L XXL Staubbehälter】", "【2L超大尘桶省心利器】"],
-  ["【Der Preis-Leistungs-King】", "【旗舰级性能性价比之王】"],
-  ["【Putztipp für große Wohnungen】", "【大平层超实用保洁技巧】"],
+export const V17MAX_HOOK_TEMPLATES_ES: HookTemplate[] = [
+  // 1. 痛点反转・大户型电量焦虑＆频繁倒垃圾＆毛发缠绕型 (Pain Point & 150min Dual Battery - Spanish)
+  {
+    pattern: (b, m) => `¿Cansado de recargar la aspiradora a mitad de la limpieza? ${b} ${m} dura hasta 150 minutos con batería dual`,
+    patternZh: (b, m) => `大户型打扫再也不用频繁停下来充电：配备双电池的 ${b} ${m} 拥有长达 150 分钟超长续航`,
+    category: "pain_point",
+    angleLabel: "150分钟告别电量焦虑",
+    targetAudience: "大户型・复式楼・别墅家庭",
+  },
+  {
+    pattern: (b, m) => `¿Harto de vaciar el depósito a cada rato? El tanque XXL de 2L en ${b} ${m} dura hasta 3 meses`,
+    patternZh: (b, m) => `受够了每次吸两下就要跑去倒垃圾？${b} ${m} 的 2L 超大集尘桶足以支撑 3 个月免倒垃圾`,
+    category: "pain_point",
+    angleLabel: "2L超大尘桶免倒垃圾",
+    targetAudience: "家庭主妇・大空间家庭",
+  },
+  {
+    pattern: (b, m) => `¿Pelos de mascota atascados en el cepillo? El cabezal en V de 25.5cm de ${b} ${m} nunca se enreda`,
+    patternZh: (b, m) => `宠物毛发总是死死缠在滚刷上？${b} ${m} 的 25.5cm 加宽 V 型防缠绕地刷彻底告别手动清理`,
+    category: "pain_point",
+    angleLabel: "V型防缠绕地刷",
+    targetAudience: "养宠家庭・长发人群",
+  },
+  {
+    pattern: (b, m) => `¿Alergias al polvo en casa? El filtro HEPA H14 de ${b} ${m} atrapa el 99.99% de micropartículas`,
+    patternZh: (b, m) => `吸尘时总担心扬尘引发过敏？${b} ${m} 搭载 HEPA H14 级滤网，99.99% 深度锁住 0.3 微米微尘`,
+    category: "pain_point",
+    angleLabel: "HEPA H14级医疗级过滤",
+    targetAudience: "易敏体质・母婴家庭",
+  },
+  {
+    pattern: (b, m) => `¿Casa de más de 300m²? Por qué ${b} ${m} es la aspiradora definitiva para casas grandes`,
+    patternZh: (b, m) => `面对 500㎡ 复式豪宅无从下手？为什么说 ${b} ${m} 是大空间深度清洁的终极神器`,
+    category: "pain_point",
+    angleLabel: "500㎡大户型全屋覆盖",
+    targetAudience: "大平层业主・高端家庭",
+  },
+
+  // 2. 效率前置・58kPa怪兽吸力＆25.5cm加宽刷头＆省时型 (Efficiency & 58 kPa - Spanish)
+  {
+    pattern: (b, m) => `58 kPa de succión monstruosa: Mira cómo ${b} ${m} limpia alfombras y ranuras en tiempo récord`,
+    patternZh: (b, m) => `58 kPa 极限怪兽吸力！看 ${b} ${m} 如何在创纪录的时间内将地毯与缝隙深层污垢一吸而净`,
+    category: "efficiency",
+    angleLabel: "58kPa怪兽级深层吸力",
+    targetAudience: "效率党・高要求保洁",
+  },
+  {
+    pattern: (b, m) => `Con su cepillo extra ancho de 25.5 cm, ${b} ${m} limpia 500m² en la mitad de tiempo`,
+    patternZh: (b, m) => `配备 25.5 cm 超宽滚刷，${b} ${m} 让你清洁 500㎡ 大户型所花费的时间直接减半`,
+    category: "efficiency",
+    angleLabel: "25.5cm加宽清洁覆盖",
+    targetAudience: "大空间高效率清洁人群",
+  },
+  {
+    pattern: (b, m) => `Vaciado en 1 clic y se sostiene sola a 90°: la limpieza moderna sin esfuerzo con ${b} ${m}`,
+    patternZh: (b, m) => `一键倾倒垃圾 ✕ 90° 随处自立停放：使用 ${b} ${m} 让现代家庭保洁变得毫不费力`,
+    category: "efficiency",
+    angleLabel: "1键倒尘/自立停放",
+    targetAudience: "家务效率达人",
+  },
+  {
+    pattern: (b, m) => `La pantalla LED inteligente de ${b} ${m} muestra la batería y potencia al segundo`,
+    patternZh: (b, m) => `${b} ${m} 搭载清晰智能 LED 大屏，实时精准显示剩余电量百分比与实时工作状态`,
+    category: "efficiency",
+    angleLabel: "清晰LED智能大屏",
+    targetAudience: "科技家电爱好者",
+  },
+
+  // 3. 硬件工业美学・650W电机＆双电快充 (Gadget & Flagship - Spanish)
+  {
+    pattern: (b, m) => `Motor de 650W y batería dual intercambiable: ${b} ${m} redefine la gama alta`,
+    patternZh: (b, m) => `650W 大功率无刷电机 ✕ 双电池并联技术：${b} ${m} 重新定义旗舰无线吸尘器行业标杆`,
+    category: "gadget",
+    angleLabel: "650W无刷电机工业美学",
+    targetAudience: "数码硬件极客・测评博主",
+  },
+  {
+    pattern: (b, m) => `Depósito gigante de 2L con sellado antibacteriano: la tecnología prémium de ${b} ${m}`,
+    patternZh: (b, m) => `2L 巨量集尘筒搭配严密抗菌密封系统：${b} ${m} 展现高端精工级别的硬件工艺`,
+    category: "gadget",
+    angleLabel: "2L巨无霸集尘结构",
+    targetAudience: "品质生活家・细节控",
+  },
+
+  // 4. 深度健康・HEPA H14医疗级过滤型 (AI / Health - Spanish)
+  {
+    pattern: (b, m) => `Filtro HEPA H14 médico al 99.99%: ${b} ${m} es perfecta para hogares con mascotas y alergias`,
+    patternZh: (b, m) => `HEPA H14 级医疗滤网过滤 99.995% 微尘与过敏原：${b} ${m} 守护母婴与养宠家庭空气健康`,
+    category: "ai_power",
+    angleLabel: "HEPA H14医疗级抗敏",
+    targetAudience: "过敏体质・高端母婴",
+  },
+  {
+    pattern: (b, m) => `Elimina ácaros y suciedad profunda en colchones con los 58 kPa de succión de ${b} ${m}`,
+    patternZh: (b, m) => `58 kPa 极限真空负压直透床垫被褥拔除深层螨虫与皮屑，${b} ${m} 全方位净化家居生态`,
+    category: "ai_power",
+    angleLabel: "床褥织物深层除螨",
+    targetAudience: "除螨健康倡导者",
+  },
+
+  // 5. 硬核参数・58kPa极限吸力＆650W大功率 (Spec Power - Spanish)
+  {
+    pattern: (b, m) => `58 kPa de pura potencia y 650W: Por qué ${b} ${m} supera a cualquier aspiradora del mercado`,
+    patternZh: (b, m) => `58 kPa 极限真空吸力 ✕ 650W 澎湃动力：为什么说 ${b} ${m} 能瞬间粉碎各种顽固垃圾`,
+    category: "spec_power",
+    angleLabel: "58kPa/650W性能怪兽",
+    targetAudience: "硬核数据党・测评发烧友",
+  },
+  {
+    pattern: (b, m) => `Batería dual para 150 minutos de autonomía: el récord imbatible de ${b} ${m}`,
+    patternZh: (b, m) => `双电池系统实现 150 分钟无中断极限续航：${b} ${m} 打破同级别无线吸尘器续航纪录`,
+    category: "spec_power",
+    angleLabel: "150分钟超长续航",
+    targetAudience: "大平层业主・长续航刚需",
+  },
+
+  // 6. 秘密技巧・大户型家务极速流 (Secret Hack - Spanish)
+  {
+    pattern: (b, m) => `【Rutina de limpieza】Cómo limpiar una casa de 500m² en 30 minutos con ${b} ${m}`,
+    patternZh: (b, m) => `【大宅保洁秘诀】如何用 ${b} ${m} 在 30 分钟内高效打理完 500㎡ 别墅复式空间`,
+    category: "secret_hack",
+    angleLabel: "大户型30分钟极速保洁",
+    targetAudience: "别墅业主・多层住宅家庭",
+  },
+  {
+    pattern: (b, m) => `El truco definitivo para pelos de perro y gato: el cepillo en V de ${b} ${m}`,
+    patternZh: (b, m) => `滚刷从此告别宠物毛发缠绕：揭秘 ${b} ${m} 独家 V 型螺旋结构的防缠绕神奇妙用`,
+    category: "secret_hack",
+    angleLabel: "防缠毛发隐藏技巧",
+    targetAudience: "猫狗宠物博主・铲屎官",
+  },
+
+  // 7. 互动提问・引发高讨论度型 (Question - Spanish)
+  {
+    pattern: (b, m) => `¿Cuánto dura la batería de tu aspiradora? Mira lo que duran 150 minutos en ${b} ${m}`,
+    patternZh: (b, m) => `你家吸尘器平时充满电能吸多久？来看看拥有 150 分钟双电续航的 ${b} ${m} 表现`,
+    category: "question",
+    angleLabel: "续航焦虑互动提问",
+    targetAudience: "TikTok西语区观众",
+  },
+  {
+    pattern: (b, m) => `¿Pelos de mascota en la alfombra? Pusimos a prueba el cepillo anti-enredo de ${b} ${m}`,
+    patternZh: (b, m) => `地毯上的厚重宠物毛发怎么清？实测 ${b} ${m} 防缠绕滚刷能否一扫而空`,
+    category: "question",
+    angleLabel: "宠物毛发防缠挑战",
+    targetAudience: "养宠人群・测试围观者",
+  },
 ];
 
-const V17MAX_SUFFIX_PAIRS: [string, string][] = [
-  [" – das musst du gesehen haben!", "，这效果必须亲眼看看！"],
-  [" – der Boden war noch nie so sauber!", "，家里地面从来没这么透亮干净过！"],
-  [" – absolute Kaufempfehlung für 2026!", "，2026年绝对值得闭眼入手的家电！"],
-  [" – Hausarbeit war noch nie so schnell erledigt!", "，做家务从未如此神速轻松！"],
-  [" – der Härtetest hat alle überrascht!", "，严苛实测效果震撼全场！"],
-  [" – so macht Putzen endlich Spaß!", "，从此做打扫都变成一种享受！"],
+const V17MAX_PREFIX_PAIRS_DE: [string, string][] = [
+  ["【58 kPa Monster-Sauger】", "【58kPa怪兽级旗舰】"],
+  ["【150 Min Dual-Akku】", "【150分钟双电超长续航】"],
+  ["【500m² Großraum-Tipp】", "【500㎡大户型清洁神器】"],
+  ["【Keine verhedderten Haare】", "【彻底告别毛发缠绕】"],
+  ["【2L XXL-Behälter】", "【2L巨无霸免倒尘桶】"],
+  ["【HEPA H14 Medizin-Filter】", "【HEPA H14医疗级过滤】"],
+  ["【Echter Härtetest 2026】", "【2026硬核实测】"],
+  ["【Flaggschiff-Sauger】", "【旗舰顶配天花板】"],
+];
+
+const V17MAX_SUFFIX_PAIRS_DE: [string, string][] = [
+  [" – das beste Großraum-Upgrade für 2026!", "，堪称 2026 年大户型清洁的最强升级！"],
+  [" – saugen ohne Ladepause für das ganze Haus!", "，全屋清洁一气呵成无需中途充电！"],
+  [" – kein Haar verheddert sich mehr in der Bürste!", "，滚刷再也不会缠满恼人的长毛发！"],
+  [" – 3 Monate staubsaugen ohne Müll zu entleeren!", "，长达 3 个月无需倒垃圾脏手！"],
+  [" – Teppiche werden tiefenrein wie am ersten Tag!", "，地毯深层微尘瞬间吸净如新！"],
+];
+
+const V17MAX_PREFIX_PAIRS_ES: [string, string][] = [
+  ["¡58 kPa de potencia monstruo!", "【58kPa怪兽级旗舰】"],
+  ["¡150 min de batería dual!", "【150分钟双电超长续航】"],
+  ["¡Para casas de más de 300m²!", "【大户型豪宅清洁神器】"],
+  ["¡Cero pelos enredados!", "【彻底告别毛发缠绕】"],
+  ["¡Depósito XXL de 2 Litros!", "【2L巨无霸免倒尘桶】"],
+  ["¡Filtro médico HEPA H14!", "【HEPA H14医疗级过滤】"],
+  ["¡Top 1 para hogares grandes!", "【大空间清洁口碑榜首】"],
+];
+
+const V17MAX_SUFFIX_PAIRS_ES: [string, string][] = [
+  [" ¡la mejor compra para casas grandes en 2026!", "，堪称 2026 年大户型清洁的最强升级！"],
+  [" ¡limpia toda la casa sin parar a cargar!", "，全屋清洁一气呵成无需中途充电！"],
+  [" ¡los pelos de mascota ya no son un problema!", "，滚刷再也不会缠满恼人的长毛发！"],
+  [" ¡3 meses aspirando sin vaciar el depósito!", "，长达 3 个月无需倒垃圾脏手！"],
+  [" ¡las alfombras quedan como nuevas en 1 pasada!", "，地毯深层微尘瞬间吸净如新！"],
 ];
 
 export function generateV17maxAlgorithmicTitles(
   category: AngleCategory = "all_mixed",
   customKeyword?: string,
   customTags?: string,
-  batchSeed = Date.now()
+  batchSeed = Date.now(),
+  language: TargetLanguage = "de"
 ): GeneratedTitle[] {
   const brand = "DyMona";
   const model = "V17 MAX";
-  const activeTags = (customTags && customTags.trim()) ? customTags.trim() : V17MAX_FIXED_TAGS;
+  const isGerman = language === "de";
+
+  const defaultTags = isGerman ? V17MAX_FIXED_TAGS_DE : V17MAX_FIXED_TAGS_ES;
+  const activeTags = (customTags && customTags.trim()) ? customTags.trim() : defaultTags;
   const results: GeneratedTitle[] = [];
   const seenHooks = new Set<string>();
 
+  const baseTemplates = isGerman ? V17MAX_HOOK_TEMPLATES_DE : V17MAX_HOOK_TEMPLATES_ES;
+  const prefixPairs = isGerman ? V17MAX_PREFIX_PAIRS_DE : V17MAX_PREFIX_PAIRS_ES;
+  const suffixPairs = isGerman ? V17MAX_SUFFIX_PAIRS_DE : V17MAX_SUFFIX_PAIRS_ES;
+
   // Filter templates by category
-  let pool = V17MAX_HOOK_TEMPLATES.filter(
+  let pool = baseTemplates.filter(
     (t) => category === "all_mixed" || t.category === category
   );
-  if (pool.length === 0) pool = V17MAX_HOOK_TEMPLATES;
+  if (pool.length === 0) pool = baseTemplates;
 
   // Shuffle pool
   const shuffledPool = [...pool].sort(() => Math.random() - 0.5);
@@ -271,12 +438,12 @@ export function generateV17maxAlgorithmicTitles(
 
     // Apply smart permutations for rich uniqueness with paired translations
     const styleRoll = Math.random();
-    if (styleRoll < 0.28 && !baseHook.startsWith("【") && !baseHook.startsWith("¿") && !baseHook.startsWith("!")) {
-      const [pfx, pfxZh] = V17MAX_PREFIX_PAIRS[Math.floor(Math.random() * V17MAX_PREFIX_PAIRS.length)];
+    if (styleRoll < 0.28 && !baseHook.startsWith("¡") && !baseHook.startsWith("¿") && !baseHook.startsWith("【")) {
+      const [pfx, pfxZh] = prefixPairs[Math.floor(Math.random() * prefixPairs.length)];
       baseHook = `${pfx} ${baseHook}`;
       baseZh = `${pfxZh} ${baseZh}`;
     } else if (styleRoll > 0.72 && baseHook.length < 70 && !baseHook.endsWith("!") && !baseHook.endsWith("?")) {
-      const [sfx, sfxZh] = V17MAX_SUFFIX_PAIRS[Math.floor(Math.random() * V17MAX_SUFFIX_PAIRS.length)];
+      const [sfx, sfxZh] = suffixPairs[Math.floor(Math.random() * suffixPairs.length)];
       baseHook = `${baseHook}${sfx}`;
       baseZh = `${baseZh}${sfxZh}`;
     }
@@ -301,7 +468,7 @@ export function generateV17maxAlgorithmicTitles(
     const fullTitle = `${baseHook} ${activeTags}`;
 
     results.push({
-      id: `v17max-algo-${batchSeed}-${results.length + 1}-${Math.random().toString(36).substr(2, 4)}`,
+      id: `v17max-algo-${language}-${batchSeed}-${results.length + 1}-${Math.random().toString(36).substr(2, 4)}`,
       productId: "v17max",
       title: fullTitle,
       hook: baseHook,
@@ -311,7 +478,7 @@ export function generateV17maxAlgorithmicTitles(
       targetAudience: tpl.targetAudience,
       charCount: fullTitle.length,
       hookCharCount: baseHook.length,
-      language: "de",
+      language: language,
       translationZh: baseZh,
       isFavorite: false,
       createdAt: new Date().toISOString(),

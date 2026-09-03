@@ -747,12 +747,42 @@ function renderKawaiiAccessory(
       break;
     }
 
-    // 6. CUTE PINK BOW
+    // 6. CUTE PINK PETITE COLLAR BOW (Worn delicately on the Neck)
     case "bow": {
-      drawRectPx(ctx, 14, 6 + bobY, 5, 3, "#f43f5e", p, ox, oy);
-      drawPx(ctx, 16, 7 + bobY, "#ffe4e6", p, ox, oy); // Center knot
-      drawPx(ctx, 13, 6 + bobY, "#fb7185", p, ox, oy);
-      drawPx(ctx, 19, 6 + bobY, "#fb7185", p, ox, oy);
+      // 1. Dainty collar ribbon band around the neck for realistic wearable fit
+      drawRectPx(ctx, 12, 17 + bobY, 8, 1, "#fda4af", p, ox, oy); // Collar band
+      drawPx(ctx, 11, 17 + bobY, "#e11d48", p, ox, oy); // Band side edge
+      drawPx(ctx, 20, 17 + bobY, "#e11d48", p, ox, oy);
+
+      // 2. Delicate Left Ribbon Wing (compact 2x3 size, realistic taper)
+      drawPx(ctx, 13, 16 + bobY, "#fb7185", p, ox, oy); // Top flare
+      drawPx(ctx, 14, 16 + bobY, "#fda4af", p, ox, oy); // Top sheen
+      drawPx(ctx, 13, 17 + bobY, "#f43f5e", p, ox, oy); // Mid body
+      drawPx(ctx, 14, 17 + bobY, "#fb7185", p, ox, oy);
+      drawPx(ctx, 13, 18 + bobY, "#e11d48", p, ox, oy); // Bottom fold
+      drawPx(ctx, 14, 18 + bobY, "#f43f5e", p, ox, oy);
+      drawPx(ctx, 12, 17 + bobY, "#9f1239", p, ox, oy); // Outer wing crease accent
+
+      // 3. Delicate Right Ribbon Wing (compact 2x3 size, realistic taper)
+      drawPx(ctx, 17, 16 + bobY, "#fda4af", p, ox, oy); // Top sheen
+      drawPx(ctx, 18, 16 + bobY, "#fb7185", p, ox, oy); // Top flare
+      drawPx(ctx, 17, 17 + bobY, "#fb7185", p, ox, oy); // Mid body
+      drawPx(ctx, 18, 17 + bobY, "#f43f5e", p, ox, oy);
+      drawPx(ctx, 17, 18 + bobY, "#f43f5e", p, ox, oy); // Bottom fold
+      drawPx(ctx, 18, 18 + bobY, "#e11d48", p, ox, oy);
+      drawPx(ctx, 19, 17 + bobY, "#9f1239", p, ox, oy); // Outer wing crease accent
+
+      // 4. Center Golden Clasp Knot (2x2)
+      drawPx(ctx, 15, 17 + bobY, "#fff1f2", p, ox, oy); // High specular shine
+      drawPx(ctx, 16, 17 + bobY, "#f43f5e", p, ox, oy);
+      drawPx(ctx, 15, 18 + bobY, "#facc15", p, ox, oy); // Golden jewel/pearl brooch
+      drawPx(ctx, 16, 18 + bobY, "#e11d48", p, ox, oy);
+
+      // 5. Short Dainty Ribbon Tails (hanging naturally, not oversized)
+      drawPx(ctx, 14, 19 + bobY, "#f43f5e", p, ox, oy);
+      drawPx(ctx, 14, 20 + bobY, "#e11d48", p, ox, oy);
+      drawPx(ctx, 17, 19 + bobY, "#f43f5e", p, ox, oy);
+      drawPx(ctx, 17, 20 + bobY, "#e11d48", p, ox, oy);
       break;
     }
 

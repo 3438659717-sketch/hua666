@@ -200,6 +200,17 @@ const V18PRO_CATEGORIES_ES: { id: AngleCategory; label: string; desc: string; ic
   { id: "question", label: "互动共鸣・西语话题引流", desc: "「清扫床底你还在弯腰趴在地上吗？绿光显尘实测」激发拉美/西班牙观众热议", icon: "💬" },
 ];
 
+const V18PRO_CATEGORIES_DE: { id: AngleCategory; label: string; desc: string; icon: string }[] = [
+  { id: "all_mixed", label: "Goldener Schnitt (Empfohlen)", desc: "650W Motor / 50 kPa Saugleistung / 65cm Klapparm / Grünes Licht 2.0 / 7-fach Filterung / 1,4kg", icon: "✨" },
+  { id: "pain_point", label: "Schmerzpunkt: Bücken & Gewicht", desc: "Schluss mit Bücken beim Saugen unter Bett & Sofa – 65cm Knick-Gelenk & 0mm Kantenreinigung", icon: "🎯" },
+  { id: "gadget", label: "65cm Klapparm ✕ 90° Freistehend", desc: "Klappbares Metallrohr, 90° Freisteh-Funktion ohne Bohren & Wandhalterung mit Ladefunktion", icon: "💎" },
+  { id: "efficiency", label: "Grünes Licht 2.0 ✕ 50min Akku", desc: "135° Weitwinkel-Grünlicht deckt mikroskopischen Staub auf, 300cm Reichweite, doppelte Effizienz", icon: "⚡" },
+  { id: "ai_power", label: "7-fach Filter ✕ 99,99% Feinstaub", desc: "7-stufige HEPA-Filtration stoppt Partikel bis 0,3 µm, reine Abluft für Allergiker & Babys", icon: "🛡️" },
+  { id: "spec_power", label: "650W ✕ 50 kPa ✕ 60dB Flüsterleise", desc: "Brushless-Motor mit 50 kPa Monster-Saugleistung, 60 dB leise gegen Haustier-Stress, 3 Saugstufen", icon: "📊" },
+  { id: "secret_hack", label: "1,4kg Federleicht ✕ 7-in-1 Zubehör", desc: "Nur 1,4 kg leicht für Decken & Auto, 7-in-1 Aufsätze für alle Ecken – Geheimtipp für clevere Haushalte", icon: "🤫" },
+  { id: "question", label: "Community & Video-Diskussion", desc: "„Bückst du dich noch beim Putzen? Grünes Licht im Test“ – Starker Diskussions-Hook für TikTok", icon: "💬" },
+];
+
 const V17MAX_CATEGORIES_DE: { id: AngleCategory; label: string; desc: string; icon: string }[] = [
   { id: "all_mixed", label: "Goldener Schnitt (Empfohlen)", desc: "58 kPa Monster-Saugleistung / 150min Dual-Akku / 500m² Abdeckung / 25,5cm V-Bürste / 2L XXL 均衡输出", icon: "✨" },
   { id: "pain_point", label: "Schmerzpunkt: Großraum & Akku", desc: "Schluss mit ständigem Nachladen & Mülleimer-Entleeren bei 500m² Maisonette-Wohnungen", icon: "🎯" },
@@ -211,9 +222,20 @@ const V17MAX_CATEGORIES_DE: { id: AngleCategory; label: string; desc: string; ic
   { id: "question", label: "Community & Extrem-Härtetest", desc: "58 kPa vs Hundehaare im Teppich! Schafft der V17 MAX den Härtetest in großen Häusern?", icon: "💬" },
 ];
 
+const V17MAX_CATEGORIES_ES: { id: AngleCategory; label: string; desc: string; icon: string }[] = [
+  { id: "all_mixed", label: "全维黄金配比 (Recomendado)", desc: "58 kPa succión monstruo / Batería dual 150 min / Cobertura 500m² / Cepillo V 25.5cm / Depósito 2L", icon: "✨" },
+  { id: "pain_point", label: "痛点反转・大户型电量焦虑", desc: "Sin paradas para recargar ni vaciar el depósito en casas de 500m² con batería dual de 150 min", icon: "🎯" },
+  { id: "spec_power", label: "58 kPa succión ✕ Motor 650W", desc: "Potencia extrema de 58 kPa para alfombras gruesas y suciedad profunda incrustada", icon: "📊" },
+  { id: "efficiency", label: "Batería dual 150 min ✕ Cepillo V 25.5cm", desc: "150 min de autonomía sin pausas y cepillo ancho en V anti-enredos para pelos de mascotas", icon: "⚡" },
+  { id: "ai_power", label: "HEPA H14 médico ✕ Depósito 2L XXL", desc: "Filtración médica H14 al 99.99% y gran depósito de 2 Litros para aspirar 3 meses sin vaciar", icon: "🛡️" },
+  { id: "gadget", label: "90° Auto-soporte ✕ 3 modos de carga", desc: "Se sostiene sola a 90° sin perforar la pared, 3 modos flexibles de carga rápida en 4h", icon: "💎" },
+  { id: "secret_hack", label: "El secreto para casas grandes", desc: "Rendimiento tope de gama sin sobrecostes de marca – La mejor compra para pisos grandes y chalets", icon: "🤫" },
+  { id: "question", label: "Interacción y reto viral TikTok", desc: "¿Tu aspiradora aguanta 150 minutos? Prueba extrema de 58 kPa con pelos y alfombras", icon: "💬" },
+];
+
 const TAG_SUGGESTIONS: Record<string, string[]> = {
   rec10: ["AIボイスレコーダー", "ChatGPT活用", "議事録自動化", "社会人ハック", "便利グッズ", "仕事効率化", "FOSMET"],
-  qs40: ["スマートウォッチ", "ChatGPT連携", "ガジェット紹介", "高見え", "便利アイテム", "QOL向上", "FOSMET"],
+  qs40: ["スマートウォッチ", "ChatGPT連携", "ガジェット紹介", "高见え", "便利アイテム", "QOL向上", "FOSMET"],
   t20: ["スマートウォッチ", "アウトドアギア", "登山装備", "ガジェット男子", "耐衝撃", "キャンプギア", "FOSMET"],
   kt80: ["smartwatch", "relojinteligente", "gadgets2025", "supervivencia", "tecnologia", "linternaLED", "FOSMET"],
   g58: ["smartwatchmujer", "relojfemenino", "saludfemenina", "modamujer", "regalosparamujer", "estiloelegante", "FOSMET"],
@@ -229,6 +251,8 @@ const TAG_SUGGESTIONS: Record<string, string[]> = {
 
 const KT80_GERMAN_SUGGESTIONS = ["smartwatch", "outdooruhr", "überleben", "taschenlampe", "technik2025", "männergeschenke", "FOSMET"];
 const G58_GERMAN_SUGGESTIONS = ["smartwatchdamen", "damenuhr", "frauengesundheit", "frauenmode", "geschenkidee", "eleganterlook", "FOSMET"];
+const V18PRO_GERMAN_SUGGESTIONS = ["staubsauger", "haushaltshelfer", "putztipps", "putzroutine", "klapparm", "DyMona"];
+const V17MAX_SPANISH_SUGGESTIONS = ["aspiradora", "hogargrande", "limpiezahogar", "mascotas", "tiktokshop", "DyMona"];
 
 export const ControlPanel: React.FC<ControlPanelProps> = ({
   params,
@@ -246,7 +270,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   const isI228 = currentProductId === "i228";
   const isV18pro = currentProductId === "v18pro";
   const isV17max = currentProductId === "v17max";
-  const isMultilingual = isKt80 || isG58;
+  const isMultilingual = isKt80 || isG58 || isV18pro || isV17max;
   const isGerman = currentLang === "de";
   const isSpanish = currentLang === "es";
 
@@ -259,10 +283,13 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   const isQs40 = currentProductId === "qs40";
 
   let categories = REC10_CATEGORIES;
-  if (isV18pro) categories = V18PRO_CATEGORIES_ES;
-  else if (isV17max) categories = V17MAX_CATEGORIES_DE;
-  else if (isI228) categories = I228_CATEGORIES_ES;
-  else if (isFos10) categories = FOS10_CATEGORIES;
+  if (isV18pro) {
+    categories = isGerman ? V18PRO_CATEGORIES_DE : V18PRO_CATEGORIES_ES;
+  } else if (isV17max) {
+    categories = isSpanish ? V17MAX_CATEGORIES_ES : V17MAX_CATEGORIES_DE;
+  } else if (isI228) {
+    categories = I228_CATEGORIES_ES;
+  } else if (isFos10) categories = FOS10_CATEGORIES;
   else if (isG2) categories = G2_CATEGORIES;
   else if (isE09) categories = E09_CATEGORIES;
   else if (isE05) categories = E05_CATEGORIES;
@@ -406,7 +433,11 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
     return "text-blue-400";
   };
 
-  const currentSuggestions = isG58
+  const currentSuggestions = isV18pro
+    ? (isGerman ? V18PRO_GERMAN_SUGGESTIONS : TAG_SUGGESTIONS.v18pro)
+    : isV17max
+    ? (isSpanish ? V17MAX_SPANISH_SUGGESTIONS : TAG_SUGGESTIONS.v17max)
+    : isG58
     ? (isGerman ? G58_GERMAN_SUGGESTIONS : TAG_SUGGESTIONS.g58)
     : isKt80
     ? (isGerman ? KT80_GERMAN_SUGGESTIONS : TAG_SUGGESTIONS.kt80)
