@@ -195,7 +195,7 @@ export const PetKnowledgeCardModal: React.FC<PetKnowledgeCardModalProps> = ({
                   {onApplyInspiration && (
                     <button
                       onClick={() => {
-                        onApplyInspiration("painpoint", tip.title);
+                        onApplyInspiration("pain_point", tip.title);
                         onClose();
                       }}
                       className="text-xs text-cyan-400 hover:text-cyan-300 flex items-center gap-1 font-medium"

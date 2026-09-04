@@ -64,3 +64,43 @@ export interface ProductConfig {
   specs: { label: string; value: string }[];
   highlights: string[];
 }
+
+export type ChatbotPersona =
+  | "tiktok_strategist"
+  | "market_scout"
+  | "localization_master"
+  | "specs_engineer";
+
+export type GeminiModelId =
+  | "gemini-3.5-flash"
+  | "gemini-3.1-pro-preview"
+  | "gemini-3.1-flash-lite";
+
+export interface GroundingSource {
+  title: string;
+  uri: string;
+}
+
+export interface ChatMessage {
+  id: string;
+  role: "user" | "model" | "system";
+  content: string;
+  timestamp: string;
+  persona?: ChatbotPersona;
+  modelUsed?: GeminiModelId;
+  searchGroundingUsed?: boolean;
+  groundingSources?: GroundingSource[];
+  isError?: boolean;
+}
+
+export interface ChatSessionHistory {
+  id: string;
+  title: string;
+  messages: ChatMessage[];
+  persona: ChatbotPersona;
+  model: GeminiModelId;
+  enableSearchGrounding: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+

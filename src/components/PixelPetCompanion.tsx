@@ -53,8 +53,12 @@ export type AutonomousActivity =
   | "none"
   | "walk_to_target"
   | "inspect_copy"
+  | "magnifier_audit"
   | "type_keyboard"
   | "coffee_time"
+  | "snack_time"
+  | "music_vibe"
+  | "gaming_retro"
   | "stretch_workout"
   | "daydream_spark"
   | "hunt_lucky_star"
@@ -73,6 +77,7 @@ interface PixelPetCompanionProps {
   onCheer?: () => void;
   lastAction?: { type: "generate" | "copy" | "favorite" | "change_product"; timestamp: number; data?: any } | null;
   onApplyInspiration?: (category: AngleCategory, keyword: string) => void;
+  onOpenChat?: () => void;
 }
 
 const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
@@ -80,6 +85,7 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
   onCheer,
   lastAction,
   onApplyInspiration,
+  onOpenChat,
 }) => {
   // Persistent Growth State
   const [growthState, setGrowthState] = useState<PetGrowthState>(() => loadPetGrowthState());
@@ -110,8 +116,23 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
   // Natural Blinking Cycle for organic lifelike feel
   const [isBlinking, setIsBlinking] = useState<boolean>(false);
 
-  // Natural Cursor Proximity Awareness
+  // Natural Cursor Proximity Awareness & Dynamic Gaze Tracking
   const [isNearCursor, setIsNearCursor] = useState<boolean>(false);
+  const [gazeOffset, setGazeOffset] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+
+  // Procedural Micro-Animations: Ear Twitch & Yawn
+  const [earTwitch, setEarTwitch] = useState<number>(0); // 0 = none, 1 = left, 2 = right
+  const [isYawning, setIsYawning] = useState<boolean>(false);
+
+  // Dynamic Physical & Interactive Reactions
+  const [isBackflipping, setIsBackflipping] = useState<boolean>(false);
+  const [isLandingSpring, setIsLandingSpring] = useState<boolean>(false);
+  const [pettingCombo, setPettingCombo] = useState<number>(0);
+  const lastPetTimeRef = useRef<number>(0);
+  const comboResetTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Dynamic Movement Banking Tilt Angle (Degrees)
+  const [bankTiltAngle, setBankTiltAngle] = useState<number>(0);
 
   // Temporary Reaction Ref (for user petting/copy reward animations without locking frame loop)
   const isReactingRef = useRef<boolean>(false);
@@ -268,19 +289,55 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
     }
   }, []);
 
-  // Track global mouse position for follow mode, petting, and living proximity awareness
+  // Track global mouse position for follow mode, petting, and living proximity & gaze awareness
   useEffect(() => {
     const handleGlobalMouseMove = (e: MouseEvent) => {
       mouseCoordRef.current = { x: e.clientX, y: e.clientY };
       const halfSize = petDisplaySize / 2;
       const curX = posRef.current.x + halfSize;
       const curY = posRef.current.y + halfSize;
-      const dist = Math.hypot(e.clientX - curX, e.clientY - curY);
-      setIsNearCursor(dist < (petDisplaySize * 0.9));
+      const dx = e.clientX - curX;
+      const dy = e.clientY - curY;
+      const dist = Math.hypot(dx, dy);
+      setIsNearCursor(dist < (petDisplaySize * 1.1));
+
+      // Interactive Gaze Tracking: calculate gaze direction if cursor is nearby (< 280px)
+      if (dist < 280 && dist > 15) {
+        const signX = isFacingLeft ? (dx > 20 ? -1 : dx < -20 ? 1 : 0) : (dx > 20 ? 1 : dx < -20 ? -1 : 0);
+        const signY = dy > 20 ? 1 : dy < -20 ? -1 : 0;
+        setGazeOffset({ x: signX, y: signY });
+      } else {
+        setGazeOffset({ x: 0, y: 0 });
+      }
     };
     window.addEventListener("mousemove", handleGlobalMouseMove, { passive: true });
     return () => window.removeEventListener("mousemove", handleGlobalMouseMove);
-  }, [petDisplaySize]);
+  }, [petDisplaySize, isFacingLeft]);
+
+  // Procedural Micro-Animations: Spontaneous Ear Twitches & Yawns
+  useEffect(() => {
+    let twitchTimer: NodeJS.Timeout;
+    let twitchEndTimer: NodeJS.Timeout;
+
+    const scheduleNextTwitch = () => {
+      const delay = 2500 + Math.random() * 4000;
+      twitchTimer = setTimeout(() => {
+        // Randomly twitch left (1) or right (2) ear
+        const side = Math.random() < 0.5 ? 1 : 2;
+        setEarTwitch(side);
+        twitchEndTimer = setTimeout(() => {
+          setEarTwitch(0);
+          scheduleNextTwitch();
+        }, 160);
+      }, delay);
+    };
+
+    scheduleNextTwitch();
+    return () => {
+      clearTimeout(twitchTimer);
+      clearTimeout(twitchEndTimer);
+    };
+  }, []);
 
   // Natural spontaneous blinking cycle (every 3.2 ~ 6.5 seconds for 140ms)
   useEffect(() => {
@@ -351,10 +408,26 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
       activityStep,
       facingLeft: isFacingLeft,
       isHappy: currentFrame === "happy",
+      gazeOffset,
+      earTwitch,
+      isYawning,
     });
 
     ctx.restore();
-  }, [selectedPet, currentFrame, petConfig, currentAccessory, currentActivity, activityStep, isBlinking, isFacingLeft, petDisplaySize]);
+  }, [
+    selectedPet,
+    currentFrame,
+    petConfig,
+    currentAccessory,
+    currentActivity,
+    activityStep,
+    isBlinking,
+    isFacingLeft,
+    petDisplaySize,
+    gazeOffset,
+    earTwitch,
+    isYawning,
+  ]);
 
   // Catching Lucky Star function
   const handleCollectLuckyStar = useCallback(() => {
@@ -665,9 +738,21 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
         return;
       }
 
-      if (activity === "type_keyboard") {
-        // Fast typing animation
+      if (activity === "type_keyboard" || activity === "gaming_retro") {
+        // Fast typing / gaming button-mashing animation
         setCurrentFrame(tick % 2 === 0 ? "sit" : "idle2");
+        return;
+      }
+
+      if (activity === "music_vibe") {
+        // Rhythmic head bop to the beat
+        setCurrentFrame(tick % 2 === 0 ? "sit" : "jump");
+        return;
+      }
+
+      if (activity === "snack_time") {
+        // Chewing delicious snack
+        setCurrentFrame(tick % 3 === 0 ? "happy" : tick % 3 === 1 ? "sit" : "idle1");
         return;
       }
 
@@ -681,7 +766,7 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
         return;
       }
 
-      if (activity === "inspect_copy" || activity === "daydream_spark") {
+      if (activity === "inspect_copy" || activity === "magnifier_audit" || activity === "daydream_spark") {
         setCurrentFrame(tick % 4 === 0 ? "idle2" : "idle1");
         return;
       }
@@ -726,7 +811,7 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
           setCurrentFrame(tick % 6 === 0 ? "sit" : "idle1");
         }
       }
-    }, 240);
+    }, 200);
 
     return () => clearInterval(animInterval);
   }, []);
@@ -749,7 +834,11 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
       const allActionPool: AutonomousActivity[] = [
         "type_keyboard",
         "coffee_time",
+        "snack_time",
+        "music_vibe",
+        "gaming_retro",
         "inspect_copy",
+        "magnifier_audit",
         "daydream_spark",
         "stretch_workout",
         "catnap",
@@ -776,7 +865,7 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
         setCurrentActivity("type_keyboard");
         currentActivityRef.current = "type_keyboard";
         velRef.current = { vx: 0, vy: 0 };
-        if (Math.random() < 0.25) {
+        if (Math.random() < 0.3) {
           const workQuotes = [
             `⌨️ 正在拆解【${currentProd.name}】爆款前3秒完播率~`,
             "💻 陪主人一起工作，灵感源源不断~",
@@ -787,12 +876,60 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
           currentActivityRef.current = "none";
           setCurrentActivity("none");
         }, 5000);
+      } else if (chosenActivity === "music_vibe") {
+        // [Action: Chill Lo-Fi Music & Headbanging]
+        setCurrentActivity("music_vibe");
+        currentActivityRef.current = "music_vibe";
+        velRef.current = { vx: 0, vy: 0 };
+        if (Math.random() < 0.3) {
+          showBubble("🎧 戴上耳机听会儿 Lo-Fi 沉浸电台~ 节奏感拉满！", 3200);
+        }
+        setTimeout(() => {
+          currentActivityRef.current = "none";
+          setCurrentActivity("none");
+        }, 4800);
+      } else if (chosenActivity === "snack_time") {
+        // [Action: Enjoying Snack & Donut]
+        setCurrentActivity("snack_time");
+        currentActivityRef.current = "snack_time";
+        velRef.current = { vx: 0, vy: 0 };
+        if (Math.random() < 0.3) {
+          showBubble("🍩 吧唧吧唧~ 来块草莓甜甜圈补充多巴胺！", 3200);
+        }
+        setTimeout(() => {
+          currentActivityRef.current = "none";
+          setCurrentActivity("none");
+        }, 4500);
+      } else if (chosenActivity === "gaming_retro") {
+        // [Action: Retro Handheld Gaming]
+        setCurrentActivity("gaming_retro");
+        currentActivityRef.current = "gaming_retro";
+        velRef.current = { vx: 0, vy: 0 };
+        if (Math.random() < 0.3) {
+          showBubble("🎮 休息 3 分钟打通像素小游戏最高分！", 3200);
+        }
+        setTimeout(() => {
+          currentActivityRef.current = "none";
+          setCurrentActivity("none");
+        }, 4600);
+      } else if (chosenActivity === "magnifier_audit") {
+        // [Action: Magnifier Audit Marketing Hooks]
+        setCurrentActivity("magnifier_audit");
+        currentActivityRef.current = "magnifier_audit";
+        velRef.current = { vx: 0, vy: 0 };
+        if (Math.random() < 0.3) {
+          showBubble(`🔍 正在深度审查【${currentProd.model}】的痛点卖点共鸣词~`, 3500);
+        }
+        setTimeout(() => {
+          currentActivityRef.current = "none";
+          setCurrentActivity("none");
+        }, 4500);
       } else if (chosenActivity === "coffee_time") {
         // [Action: Coffee / Bubble Tea Break]
         setCurrentActivity("coffee_time");
         currentActivityRef.current = "coffee_time";
         velRef.current = { vx: 0, vy: 0 };
-        if (Math.random() < 0.25) {
+        if (Math.random() < 0.3) {
           showBubble("☕ 喝口生椰冷萃~ 主人也记得多喝水哦", 3200);
         }
         setTimeout(() => {
@@ -804,7 +941,7 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
         setCurrentActivity("inspect_copy");
         currentActivityRef.current = "inspect_copy";
         velRef.current = { vx: 0, vy: 0 };
-        if (Math.random() < 0.25) {
+        if (Math.random() < 0.3) {
           showBubble("🧐 正在巡检本页面的高转化钩子~", 3500);
         }
         setTimeout(() => {
@@ -816,7 +953,7 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
         setCurrentActivity("daydream_spark");
         currentActivityRef.current = "daydream_spark";
         velRef.current = { vx: 0, vy: 0 };
-        if (Math.random() < 0.25) {
+        if (Math.random() < 0.3) {
           showBubble("💡 灵光一闪！捕捉到一个出海创意分镜~", 3500);
         }
         setTimeout(() => {
@@ -828,7 +965,7 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
         setCurrentActivity("stretch_workout");
         currentActivityRef.current = "stretch_workout";
         velRef.current = { vx: 0, vy: 0 };
-        if (Math.random() < 0.25) {
+        if (Math.random() < 0.3) {
           showBubble("🧘 伸个懒腰活动筋骨~ 保持专注力满格！", 3200);
         }
         setTimeout(() => {
@@ -866,7 +1003,7 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
         setCurrentActivity("cheer_fan");
         currentActivityRef.current = "cheer_fan";
         velRef.current = { vx: 0, vy: 0 };
-        if (Math.random() < 0.25) {
+        if (Math.random() < 0.3) {
           showBubble("🎉 主人加油！海外播放量势不可挡~", 3200);
         }
         setTimeout(() => {
@@ -949,7 +1086,42 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
     isMoved: false,
   });
 
-  // Pet interactive click (Petting & Nurturing)
+  // Pet interactive double click (Acrobatic Backflip)
+  const handlePetDoubleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isBackflipping) return;
+    setIsBackflipping(true);
+    triggerJump();
+    playPetSound("levelUp");
+
+    updateGrowthState((s) => ({
+      ...s,
+      exp: s.exp + 15,
+      happiness: Math.min(100, s.happiness + 10),
+      affinity: Math.min(1000, s.affinity + 8),
+    }));
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const sparkId = getUniquePetId("spark_flip");
+    setClickSparks((prev) => [
+      ...prev.slice(-3),
+      { id: sparkId, x, y: y - 10, text: "🌟 360° 华丽后空翻！", color: "#facc15" },
+    ]);
+    setTimeout(() => {
+      setClickSparks((prev) => prev.filter((s) => s.id !== sparkId));
+    }, 1200);
+
+    showBubble("🐾 喵哈！看我超帅气的空中 360° 灵巧后空翻~", 3200);
+
+    setTimeout(() => {
+      setIsBackflipping(false);
+    }, 750);
+  };
+
+  // Pet interactive click (Petting & Combo Nurturing)
   const handlePetClick = (e: React.MouseEvent | React.PointerEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -963,24 +1135,62 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
       return;
     }
 
+    // Petting Combo Mechanics
+    const now = Date.now();
+    const isCombo = now - lastPetTimeRef.current < 1400;
+    const nextCombo = isCombo ? Math.min(10, pettingCombo + 1) : 1;
+    lastPetTimeRef.current = now;
+    setPettingCombo(nextCombo);
+
+    if (comboResetTimerRef.current) clearTimeout(comboResetTimerRef.current);
+    comboResetTimerRef.current = setTimeout(() => {
+      setPettingCombo(0);
+    }, 1800);
+
     playPetSound("pet");
     const { nextState, gainedExp, gainedAffinity } = petCareAction(growthState);
-    updateGrowthState(() => nextState);
+    const expBonus = Math.floor(gainedExp * (1 + (nextCombo - 1) * 0.25));
+    const affBonus = Math.floor(gainedAffinity * (1 + (nextCombo - 1) * 0.2));
 
-    // Spawn heart spark
+    updateGrowthState((s) => ({
+      ...nextState,
+      exp: s.exp + expBonus,
+      affinity: Math.min(1000, s.affinity + affBonus),
+    }));
+
+    // Spawn combo heart / star spark
     const sparkId = getUniquePetId("spark");
-    const sparkWords = ["💖 抚摸", `✨ +${gainedExp} EXP`, "🔥 爆款！", "⭐ 9.8分", "🐾 咕噜~"];
-    const text = sparkWords[Math.floor(Math.random() * sparkWords.length)];
-    setClickSparks((prev) => [...prev.slice(-3), { id: sparkId, x, y, text, color: petConfig.color }]);
+    let sparkText = `💖 抚摸 +${expBonus}EXP`;
+    let sparkColor = petConfig.color;
+
+    if (nextCombo === 2) {
+      sparkText = "💖 x2 呼噜呼噜~";
+      sparkColor = "#f472b6";
+    } else if (nextCombo === 3) {
+      sparkText = "✨ x3 超级开心！";
+      sparkColor = "#38bdf8";
+    } else if (nextCombo === 4) {
+      sparkText = "🔥 x4 萌力爆发！";
+      sparkColor = "#fb923c";
+    } else if (nextCombo >= 5) {
+      sparkText = `🌟 MAX x${nextCombo} 亲密狂欢！`;
+      sparkColor = "#facc15";
+    }
+
+    setClickSparks((prev) => [...prev.slice(-3), { id: sparkId, x, y, text: sparkText, color: sparkColor }]);
 
     setTimeout(() => {
       setClickSparks((prev) => prev.filter((s) => s.id !== sparkId));
-    }, 900);
+    }, 950);
 
     triggerHappy();
 
-    const randomQuote = petConfig.quotes[Math.floor(Math.random() * petConfig.quotes.length)];
-    showBubble(randomQuote, 3500);
+    if (nextCombo >= 4) {
+      showBubble("💖 咕噜咕噜~ 太舒服啦！亲密度与灵感持续狂飙~", 3200);
+    } else {
+      const randomQuote = petConfig.quotes[Math.floor(Math.random() * petConfig.quotes.length)];
+      showBubble(randomQuote, 3200);
+    }
 
     if (onCheer) onCheer();
   };
@@ -1054,6 +1264,10 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
     if (wasMoved) {
       isDraggingRef.current = false;
       setIsDragging(false);
+      // Trigger elastic ground squash & stretch bounce
+      setIsLandingSpring(true);
+      setTimeout(() => setIsLandingSpring(false), 450);
+
       triggerHappy();
       if (behaviorModeRef.current === "follow") {
         setBehaviorMode("stay");
@@ -1357,6 +1571,64 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
             </div>
           )}
 
+          {currentActivity === "music_vibe" && (
+            <div className="absolute inset-0 pointer-events-none z-30">
+              <motion.div
+                initial={{ opacity: 1, y: 4, x: -6, scale: 0.7 }}
+                animate={{ opacity: 0, y: -26, x: -14, scale: 1.1 }}
+                transition={{ duration: 1.2, repeat: Infinity, ease: "easeOut" }}
+                className="absolute top-0 left-1 text-[11px] font-mono text-purple-300 drop-shadow-[0_0_8px_rgba(216,180,254,0.8)]"
+              >
+                ♪
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 1, y: 6, x: 6, scale: 0.7 }}
+                animate={{ opacity: 0, y: -28, x: 14, scale: 1.2 }}
+                transition={{ duration: 1.0, delay: 0.35, repeat: Infinity, ease: "easeOut" }}
+                className="absolute top-0 right-1 text-[12px] font-mono text-cyan-300 drop-shadow-[0_0_8px_rgba(103,232,249,0.8)]"
+              >
+                ♫
+              </motion.div>
+            </div>
+          )}
+
+          {currentActivity === "snack_time" && (
+            <div className="absolute inset-0 pointer-events-none z-30">
+              <motion.div
+                initial={{ opacity: 1, y: 0, scale: 0.7 }}
+                animate={{ opacity: 0, y: -16, scale: 1.1 }}
+                transition={{ duration: 0.8, repeat: Infinity, ease: "easeOut" }}
+                className="absolute top-2 right-2 text-[10px] font-mono text-pink-300 drop-shadow"
+              >
+                🍩✨
+              </motion.div>
+            </div>
+          )}
+
+          {currentActivity === "gaming_retro" && (
+            <div className="absolute inset-0 pointer-events-none z-30">
+              <motion.div
+                initial={{ opacity: 0.9, y: 0 }}
+                animate={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.7, repeat: Infinity, ease: "easeOut" }}
+                className="absolute -top-3 left-1/2 -translate-x-1/2 text-[9px] font-mono font-bold text-emerald-300 drop-shadow-[0_0_6px_rgba(110,231,183,0.8)]"
+              >
+                🎮 +100 PTS
+              </motion.div>
+            </div>
+          )}
+
+          {currentActivity === "magnifier_audit" && (
+            <div className="absolute inset-0 pointer-events-none z-30 overflow-hidden rounded-2xl">
+              <motion.div
+                initial={{ scale: 0.5, opacity: 0.8 }}
+                animate={{ scale: 1.4, opacity: 0 }}
+                transition={{ duration: 1.2, repeat: Infinity, ease: "easeOut" }}
+                className="w-full h-full rounded-full border border-cyan-400/80 shadow-[0_0_12px_rgba(6,182,212,0.8)]"
+              />
+            </div>
+          )}
+
           {currentActivity === "daydream_spark" && (
             <div className="absolute -top-6 left-1/2 -translate-x-1/2 pointer-events-none z-30">
               <motion.div
@@ -1431,6 +1703,8 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
                 ? "opacity-20 translate-y-1 scale-75"
                 : currentFrame === "walk1" || currentFrame === "walk2"
                 ? "opacity-45"
+                : isLandingSpring
+                ? "opacity-80 scale-125"
                 : isNearCursor
                 ? "opacity-75 scale-105"
                 : "opacity-55"
@@ -1443,6 +1717,7 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
             onPointerCancel={handlePointerCancel}
+            onDoubleClick={handlePetDoubleClick}
             onMouseEnter={() => {
               setIsHovered(true);
               isHoveredRef.current = true;
@@ -1458,7 +1733,11 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
             className={`relative cursor-grab active:cursor-grabbing transition-transform duration-200 flex items-center justify-center ${
               isFacingLeft ? "scale-x-[-1]" : "scale-x-100"
             } ${
-              isDragging
+              isBackflipping
+                ? "animate-[spin_0.75s_ease-out] scale-110"
+                : isLandingSpring
+                ? "scale-y-[0.82] scale-x-[1.18] translate-y-1"
+                : isDragging
                 ? "scale-110"
                 : currentFrame === "jump"
                 ? "-translate-y-3 scale-105"
@@ -1472,7 +1751,7 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
                 ? "scale-105"
                 : "hover:scale-105"
             }`}
-            title="拖拽可移动桌宠，单击可抚摸互动"
+            title="拖拽移动，单击抚摸连击，双击华丽后空翻"
           >
             <canvas
               ref={canvasRef}
@@ -1506,7 +1785,26 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
 
             <span className="w-px h-3 bg-white/20" />
 
-            {/* 2. Behavior Mode Switcher */}
+            {/* 2. Quick Gemini AI Assistant Trigger */}
+            {onOpenChat && (
+              <button
+                type="button"
+                onPointerDown={(e) => e.stopPropagation()}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onOpenChat();
+                  playPetSound("trick");
+                }}
+                className="p-0.5 text-[10px] rounded-full bg-cyan-500/30 hover:bg-cyan-500/50 text-cyan-200 ring-1 ring-cyan-400/40 hover:scale-110 active:scale-95 transition-all cursor-pointer"
+                title="开启 Gemini 3.5 AI 出海智囊团与 Google 实时检索"
+              >
+                🤖
+              </button>
+            )}
+
+            {onOpenChat && <span className="w-px h-3 bg-white/20" />}
+
+            {/* 3. Behavior Mode Switcher */}
             <button
               type="button"
               onPointerDown={(e) => e.stopPropagation()}

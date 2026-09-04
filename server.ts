@@ -778,50 +778,59 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
 各タイトルは必ず「FOSMET」と「REC10」を含み、末尾は必ず「${targetHashtags}」で終わること。`;
       }
 
-      const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
-        contents: userPrompt,
-        config: {
-          systemInstruction,
-          temperature: 0.85,
-          topP: 0.95,
-          responseMimeType: "application/json",
-          responseSchema: {
-            type: Type.OBJECT,
-            properties: {
-              titles: {
-                type: Type.ARRAY,
-                items: {
-                  type: Type.OBJECT,
-                  properties: {
-                    title: {
-                      type: Type.STRING,
-                      description: `The full TikTok title string including hook and ending tags ${targetHashtags}`,
-                    },
-                    hook: {
-                      type: Type.STRING,
-                      description: "The pure hook part before hashtags",
-                    },
-                    angle: {
-                      type: Type.STRING,
-                      description: "Angle category name",
-                    },
-                    targetAudience: {
-                      type: Type.STRING,
-                      description: "Target viewer",
-                    },
-                    translationZh: {
-                      type: Type.STRING,
-                      description: "Accurate, fluent Chinese translation of the title hook for easy reference by Chinese marketing operators",
-                    },
+      const enableSearchGrounding = req.body.enableSearchGrounding === true;
+      const modelToUse = enableSearchGrounding ? "gemini-3.5-flash" : "gemini-3.5-flash";
+
+      const generateConfig: any = {
+        systemInstruction,
+        temperature: 0.85,
+        topP: 0.95,
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            titles: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  title: {
+                    type: Type.STRING,
+                    description: `The full TikTok title string including hook and ending tags ${targetHashtags}`,
                   },
-                  required: ["title", "hook", "angle"],
+                  hook: {
+                    type: Type.STRING,
+                    description: "The pure hook part before hashtags",
+                  },
+                  angle: {
+                    type: Type.STRING,
+                    description: "Angle category name",
+                  },
+                  targetAudience: {
+                    type: Type.STRING,
+                    description: "Target viewer",
+                  },
+                  translationZh: {
+                    type: Type.STRING,
+                    description: "Accurate, fluent Chinese translation of the title hook for easy reference by Chinese marketing operators",
+                  },
                 },
+                required: ["title", "hook", "angle"],
               },
             },
-            required: ["titles"],
           },
+          required: ["titles"],
         },
+      };
+
+      if (enableSearchGrounding) {
+        generateConfig.tools = [{ googleSearch: {} }];
+      }
+
+      const response = await ai.models.generateContent({
+        model: modelToUse,
+        contents: userPrompt,
+        config: generateConfig,
       });
 
       const responseText = response.text || "{}";
@@ -877,6 +886,166 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
       res.status(500).json({
         success: false,
         error: err.message || "Failed to generate titles",
+      });
+    }
+  });
+
+  // Multi-turn Gemini AI Chatbot with Role Personas & Search Grounding
+  app.post("/api/chat", async (req, res) => {
+    try {
+      const {
+        messages = [],
+        persona = "tiktok_strategist",
+        model = "gemini-3.5-flash",
+        enableSearchGrounding = false,
+        productContext = {},
+      } = req.body;
+
+      const apiKey = process.env.GEMINI_API_KEY;
+      if (!apiKey) {
+        return res.status(500).json({
+          success: false,
+          error: "GEMINI_API_KEY is not configured in server environment.",
+        });
+      }
+
+      const ai = new GoogleGenAI({
+        apiKey,
+        httpOptions: {
+          headers: {
+            "User-Agent": "aistudio-build",
+          },
+        },
+      });
+
+      // Allowed models
+      const validModels = ["gemini-3.5-flash", "gemini-3.1-pro-preview", "gemini-3.1-flash-lite"];
+      const targetModel = validModels.includes(model) ? model : "gemini-3.5-flash";
+
+      // Build Persona-based System Instruction
+      const prodName = productContext.name || "FOSMET / DyMona 智能硬件";
+      const prodModel = productContext.model || "";
+      const prodBrand = productContext.brand || "FOSMET";
+      const prodDesc = productContext.shortDesc || "";
+      const prodSpecs = productContext.specs ? JSON.stringify(productContext.specs) : "";
+      const prodHighlights = productContext.highlights ? JSON.stringify(productContext.highlights) : "";
+      const prodFormula = productContext.tiktokFormula || "";
+
+      let personaRoleInstruction = "";
+      if (persona === "tiktok_strategist") {
+        personaRoleInstruction = `【你的角色：TikTok 爆款操盘手 (TikTok Viral Strategist)】
+你是一名顶尖跨国 TikTok 爆款内容操盘手与算法增长总监。
+你的核心专长：
+1. 黄金 3 秒完播钩子（Pattern Interrupt / 痛点反转 / 认知颠覆 / 场景代入）。
+2. 高转化分镜脚本拆解（前3秒钩子 -> 核心痛点放大 -> 独家黑科技展现 -> 情绪共鸣 -> 行动号召 CTA）。
+3. 爆款 BGM 风格、快节奏剪辑点与评论区高互动置顶神评设计。
+4. 针对不同国家市场（日区、西语区、德语区、欧美）提供最具爆款潜力的短视频创意。`;
+      } else if (persona === "market_scout") {
+        personaRoleInstruction = `【你的角色：全球实时市场情报官 (Global Market & Trend Scout)】
+你是一名全球跨境电商与消费电子实时市场情报官，擅长结合 Google 实时搜索与全球社媒趋势进行精准调研。
+你的核心专长：
+1. 实时分析日本（TikTok Japan / Rakuten / Amazon JP）、西语区（TikTok Shop ES/MX）及德语区（TikTok DE / Otto / Amazon DE）的最新消费电子风向。
+2. 挖掘竞品热卖点、用户负面痛点评价（Review Mining）、差异化卖点与定价区间。
+3. 当启用 Google 实时搜索时，精准检索最新数据，提供真实、有据可查的市场洞察与数据参考。`;
+      } else if (persona === "localization_master") {
+        personaRoleInstruction = `【你的角色：跨文化本地化翻译与文案大师 (Cross-Border Localization Master)】
+你是一名精通日语、西班牙语、德语与英语母语级本土化文案专家。
+你的核心专长：
+1. 拒绝机械生硬的机翻，深谙当地消费者的文化语境与地道俚语（如日语「神コスパ/リアル本音」、西语「¡No te lo vas a creer! / Calidad-precio brutal」、德语「Monster-Saugkraft / Ohne Bücken」）。
+2. 根据目标国家受众（日本上班族/精致女性、西语家庭、德国严谨实用主义者）调优语调、修辞与标点符号。
+3. 为出海营销团队提供最接地气、最高 CTR 与点击率的本土化文案润色与对照解析。`;
+      } else {
+        // specs_engineer
+        personaRoleInstruction = `【你的角色：硬核产品架构师与技术拆解师 (Hardcore Specs & Selling Point Engineer)】
+你是一名资深消费电子硬件架构师与产品经理。
+你的核心专长：
+1. 深度拆解光学传感器（绿光 2.0 / PPG / SpO2 / 血压 / 睡眠阶段）、声学电机（650W 无刷电机 / 58 kPa 龙卷吸力 / 16mm 动圈）、多星 GNSS 独立定位、5ATM 潜水级防水与物理高频排水结构等底层原理。
+2. 将枯燥的硬核工程参数转化为用户一听就懂、直击痛点的超级卖点（FABE 销售话术法则）。
+3. 清晰解答产品功能边界、耐用性、续航与使用技巧。`;
+      }
+
+      const systemInstruction = `${personaRoleInstruction}
+
+【当前聚焦产品上下文 (Product Context)】:
+- 产品全称: ${prodName} (${prodBrand} ${prodModel})
+- 核心定位: ${prodDesc}
+- TikTok 爆款爆破公式: ${prodFormula}
+- 核心卖点亮点: ${prodHighlights}
+- 核心技术参数: ${prodSpecs}
+
+【回答要求】:
+1. 回答需专业、结构清晰、逻辑严密，多使用 Markdown 格式（标题、加粗、无序列表、高亮块）。
+2. 若涉及文案生成或短视频脚本，务必提供清晰的镜头画面、旁白台词、画面文案与地道外语对照。
+3. 如果用户询问实时趋势或行业竞品，请结合真实最新知识进行全面解答。
+4. 始终保持友好、富有创造力、敏锐且务实的专业工作伙伴态度。`;
+
+      // Format messages into multi-turn contents
+      const formattedContents: any[] = [];
+
+      for (let i = 0; i < messages.length; i++) {
+        const msg = messages[i];
+        if (!msg || !msg.content) continue;
+        const role = msg.role === "model" ? "model" : "user";
+        formattedContents.push({
+          role,
+          parts: [{ text: msg.content }],
+        });
+      }
+
+      // If empty messages, fallback
+      if (formattedContents.length === 0) {
+        formattedContents.push({
+          role: "user",
+          parts: [{ text: "你好！请介绍一下你能为我提供哪些出海营销与爆款打造支持？" }],
+        });
+      }
+
+      const chatConfig: any = {
+        systemInstruction,
+        temperature: 0.75,
+        topP: 0.95,
+      };
+
+      if (enableSearchGrounding) {
+        chatConfig.tools = [{ googleSearch: {} }];
+      }
+
+      const response = await ai.models.generateContent({
+        model: targetModel,
+        contents: formattedContents,
+        config: chatConfig,
+      });
+
+      const responseText = response.text || "";
+
+      // Extract Google Search Grounding sources if available
+      const groundingSources: { title: string; uri: string }[] = [];
+      const rawGroundingChunks = response.candidates?.[0]?.groundingMetadata?.groundingChunks;
+      if (Array.isArray(rawGroundingChunks)) {
+        for (const chunk of rawGroundingChunks) {
+          if (chunk.web && chunk.web.uri) {
+            groundingSources.push({
+              title: chunk.web.title || "Google 实时检索来源",
+              uri: chunk.web.uri,
+            });
+          }
+        }
+      }
+
+      res.json({
+        success: true,
+        text: responseText,
+        groundingSources,
+        modelUsed: targetModel,
+        persona,
+        searchGroundingUsed: enableSearchGrounding,
+        timestamp: new Date().toISOString(),
+      });
+    } catch (err: any) {
+      console.error("Error in /api/chat Gemini endpoint:", err);
+      res.status(500).json({
+        success: false,
+        error: err.message || "Failed to process chat request with Gemini.",
       });
     }
   });

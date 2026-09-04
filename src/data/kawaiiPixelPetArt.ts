@@ -20,6 +20,9 @@ export interface PixelArtRenderOptions {
   activityStep?: number;
   facingLeft?: boolean;
   isHappy?: boolean;
+  gazeOffset?: { x: number; y: number };
+  earTwitch?: number;
+  isYawning?: boolean;
 }
 
 // 32x32 Color Palettes
@@ -296,7 +299,16 @@ function renderKawaiiCat(
   oy: number,
   options: PixelArtRenderOptions
 ) {
-  const { frame = "idle1", isBlinking = false, isHappy = false, activityStep = 0, time = 0 } = options;
+  const {
+    frame = "idle1",
+    isBlinking = false,
+    isHappy = false,
+    activityStep = 0,
+    time = 0,
+    gazeOffset = { x: 0, y: 0 },
+    earTwitch = 0,
+    isYawning = false,
+  } = options;
   const isWalking = frame === "walk1" || frame === "walk2";
   const walkStep = frame === "walk2" ? 1 : 0;
   const isSleeping = frame === "sleep";
@@ -308,12 +320,6 @@ function renderKawaiiCat(
   const heartFloat = Math.sin(time * 0.005) * 1.5;
   const heartY = 3 + heartFloat;
   const heartX = 4;
-  // Heart pixels:
-  //   XX XX
-  //  XXXXXXX
-  //  XXXXXXX
-  //   XXXXX
-  //     X
   const heartColor = "#f472b6";
   const heartShadow = "#db2777";
   drawRectPx(ctx, heartX + 1, heartY, 2, 1, heartColor, p, ox, oy);
@@ -323,9 +329,9 @@ function renderKawaiiCat(
   drawRectPx(ctx, heartX + 2, heartY + 4, 3, 1, heartColor, p, ox, oy);
   drawRectPx(ctx, heartX + 3, heartY + 5, 1, 1, heartShadow, p, ox, oy);
 
-  // 2. TAIL (Curled striped cat tail on the right)
-  const tailWag = Math.sin(time * 0.006) > 0 ? 0 : 1;
-  const tailX = 22 + (isWalking ? (walkStep === 0 ? -1 : 1) : tailWag);
+  // 2. TAIL (Curled striped cat tail with continuous organic sway)
+  const tailSway = Math.sin(time * 0.008) > 0.2 ? 1 : (Math.sin(time * 0.008) < -0.2 ? -1 : 0);
+  const tailX = 22 + (isWalking ? (walkStep === 0 ? -1 : 1) : tailSway);
   const tailY = 17 + bobY;
 
   // Outline for tail
@@ -341,23 +347,26 @@ function renderKawaiiCat(
   drawRectPx(ctx, tailX - 2, tailY + 5, 6, 2, palette.furBase, p, ox, oy);
   drawRectPx(ctx, tailX, tailY + 5, 2, 2, palette.stripe || palette.furShadow, p, ox, oy);
 
-  // 3. EARS (Pointed cute ears with pink triangles)
+  // 3. EARS (Pointed cute ears with pink triangles + natural micro-twitch)
+  const leftTwitch = earTwitch === 1 ? -1 : 0;
+  const rightTwitch = earTwitch === 2 ? -1 : 0;
+
   // Left Ear
-  drawRectPx(ctx, 10, 6 + bobY, 3, 1, palette.outline, p, ox, oy);
-  drawRectPx(ctx, 9, 7 + bobY, 2, 2, palette.outline, p, ox, oy);
+  drawRectPx(ctx, 10, 6 + bobY + leftTwitch, 3, 1, palette.outline, p, ox, oy);
+  drawRectPx(ctx, 9, 7 + bobY + leftTwitch, 2, 2, palette.outline, p, ox, oy);
   drawRectPx(ctx, 8, 9 + bobY, 2, 3, palette.outline, p, ox, oy);
   drawRectPx(ctx, 12, 7 + bobY, 2, 4, palette.outline, p, ox, oy);
   // Left ear fill & pink inner
   drawRectPx(ctx, 10, 7 + bobY, 2, 4, palette.furBase, p, ox, oy);
-  drawRectPx(ctx, 10, 8 + bobY, 2, 3, palette.pinkEar, p, ox, oy);
+  drawRectPx(ctx, 10, 8 + bobY + leftTwitch, 2, 3, palette.pinkEar, p, ox, oy);
 
   // Right Ear
-  drawRectPx(ctx, 20, 7 + bobY, 3, 1, palette.outline, p, ox, oy);
+  drawRectPx(ctx, 20, 7 + bobY + rightTwitch, 3, 1, palette.outline, p, ox, oy);
   drawRectPx(ctx, 19, 8 + bobY, 2, 3, palette.outline, p, ox, oy);
-  drawRectPx(ctx, 22, 8 + bobY, 2, 4, palette.outline, p, ox, oy);
+  drawRectPx(ctx, 22, 8 + bobY + rightTwitch, 2, 4, palette.outline, p, ox, oy);
   // Right ear fill & pink inner
   drawRectPx(ctx, 20, 8 + bobY, 2, 3, palette.furBase, p, ox, oy);
-  drawRectPx(ctx, 20, 9 + bobY, 2, 2, palette.pinkEar, p, ox, oy);
+  drawRectPx(ctx, 20, 9 + bobY + rightTwitch, 2, 2, palette.pinkEar, p, ox, oy);
 
   // Top of head outline connecting ears
   drawRectPx(ctx, 13, 8 + bobY, 7, 1, palette.outline, p, ox, oy);
@@ -397,19 +406,30 @@ function renderKawaiiCat(
   drawRectPx(ctx, 10, 14 + bobY, 2, 2, palette.blush, p, ox, oy);
   drawRectPx(ctx, 21, 14 + bobY, 2, 2, palette.blush, p, ox, oy);
 
-  // 6. EYES & NOSE & MOUTH
+  // 6. EYES & NOSE & MOUTH (With Gaze Tracking & Yawning)
+  const gx = Math.max(-1, Math.min(1, gazeOffset.x || 0));
+  const gy = Math.max(-1, Math.min(1, gazeOffset.y || 0));
+
   if (isSleeping) {
     // Sleeping cute closed curved slits `_ _`
     drawRectPx(ctx, 12, 13 + bobY, 3, 1, palette.eyeDark, p, ox, oy);
     drawRectPx(ctx, 18, 13 + bobY, 3, 1, palette.eyeDark, p, ox, oy);
     // Tiny cute 'Zzz' floating
     drawRectPx(ctx, 23, 7 + bobY, 3, 1, "#38bdf8", p, ox, oy);
-    drawRectPx(ctx, 24, 8 + bobY, 1, 1, "#38bdf8", p, ox, oy);
+    drawPx(ctx, 24, 8 + bobY, "#38bdf8", p, ox, oy);
     drawRectPx(ctx, 23, 9 + bobY, 3, 1, "#38bdf8", p, ox, oy);
   } else if (isBlinking) {
     // Blinking eye horizontal slit
     drawRectPx(ctx, 12, 13 + bobY, 3, 1, palette.eyeDark, p, ox, oy);
     drawRectPx(ctx, 18, 13 + bobY, 3, 1, palette.eyeDark, p, ox, oy);
+  } else if (isYawning) {
+    // Sleepy sweet crescent eyes `u u`
+    drawPx(ctx, 12, 12 + bobY, palette.eyeDark, p, ox, oy);
+    drawPx(ctx, 13, 13 + bobY, palette.eyeDark, p, ox, oy);
+    drawPx(ctx, 14, 12 + bobY, palette.eyeDark, p, ox, oy);
+    drawPx(ctx, 18, 12 + bobY, palette.eyeDark, p, ox, oy);
+    drawPx(ctx, 19, 13 + bobY, palette.eyeDark, p, ox, oy);
+    drawPx(ctx, 20, 12 + bobY, palette.eyeDark, p, ox, oy);
   } else if (isHappy || frame === "jump") {
     // Happy `^ ^` sparkling eye curves
     drawPx(ctx, 12, 12 + bobY, palette.eyeDark, p, ox, oy);
@@ -420,23 +440,32 @@ function renderKawaiiCat(
     drawPx(ctx, 19, 11 + bobY, palette.eyeDark, p, ox, oy);
     drawPx(ctx, 20, 12 + bobY, palette.eyeDark, p, ox, oy);
   } else {
-    // BIG KAWAII GLOSSY PIXEL EYES (Exact Ref Image 2!)
-    // Left Eye: 3x3 block with top-left specular white highlight pixel!
+    // BIG KAWAII GLOSSY PIXEL EYES with dynamic interactive Gaze Tracking!
+    // Left Eye: 3x3 base
     drawRectPx(ctx, 12, 12 + bobY, 3, 3, palette.eyeDark, p, ox, oy);
-    drawPx(ctx, 12, 12 + bobY, palette.eyeGlint, p, ox, oy); // White glint highlight!
-    drawPx(ctx, 13, 14 + bobY, palette.eyeIris || palette.furShadow, p, ox, oy); // Iris reflection
+    // Dynamic specular glint offset based on cursor gaze
+    const glintLeftX = Math.max(12, Math.min(13, 12 + (gx > 0 ? 1 : 0)));
+    const glintLeftY = Math.max(12, Math.min(13, 12 + (gy > 0 ? 1 : 0)));
+    drawPx(ctx, glintLeftX, glintLeftY + bobY, palette.eyeGlint, p, ox, oy);
+    drawPx(ctx, 13 + (gx < 0 ? -1 : 0), 14 + (gy < 0 ? -1 : 0) + bobY, palette.eyeIris || palette.furShadow, p, ox, oy);
 
-    // Right Eye: 3x3 block with top-left specular white highlight pixel!
+    // Right Eye: 3x3 base
     drawRectPx(ctx, 18, 12 + bobY, 3, 3, palette.eyeDark, p, ox, oy);
-    drawPx(ctx, 18, 12 + bobY, palette.eyeGlint, p, ox, oy); // White glint highlight!
-    drawPx(ctx, 19, 14 + bobY, palette.eyeIris || palette.furShadow, p, ox, oy); // Iris reflection
+    const glintRightX = Math.max(18, Math.min(19, 18 + (gx > 0 ? 1 : 0)));
+    const glintRightY = Math.max(12, Math.min(13, 12 + (gy > 0 ? 1 : 0)));
+    drawPx(ctx, glintRightX, glintRightY + bobY, palette.eyeGlint, p, ox, oy);
+    drawPx(ctx, 19 + (gx < 0 ? -1 : 0), 14 + (gy < 0 ? -1 : 0) + bobY, palette.eyeIris || palette.furShadow, p, ox, oy);
   }
 
   // Nose: Tiny dark chocolate pixel
   drawPx(ctx, 16, 14 + bobY, palette.eyeDark, p, ox, oy);
 
-  // Mouth: Cheerful open mouth with pink tongue (Exact Ref Image 2!)
-  if (isHappy || frame === "jump" || frame === "idle1") {
+  // Mouth: Cheerful open mouth, Yawn, or Cat `3`
+  if (isYawning) {
+    // Big round cute yawn mouth `O` with pink inside
+    drawRectPx(ctx, 15, 15 + bobY, 3, 3, palette.outline, p, ox, oy);
+    drawRectPx(ctx, 16, 16 + bobY, 1, 2, palette.tongue, p, ox, oy);
+  } else if (isHappy || frame === "jump" || frame === "idle1") {
     drawPx(ctx, 15, 15 + bobY, palette.outline, p, ox, oy);
     drawPx(ctx, 17, 15 + bobY, palette.outline, p, ox, oy);
     drawRectPx(ctx, 15, 16 + bobY, 3, 2, palette.outline, p, ox, oy);
@@ -449,7 +478,6 @@ function renderKawaiiCat(
   }
 
   // 7. CYAN COLLAR (Reference Image 1 Iconic Feature!)
-  // Bright cyan collar across neck: #06b6d4 / #38bdf8
   const collarY = 17 + bobY;
   drawRectPx(ctx, 10, collarY, 13, 1, palette.accent || "#06b6d4", p, ox, oy);
   drawRectPx(ctx, 11, collarY + 1, 11, 1, palette.accent || "#06b6d4", p, ox, oy);
@@ -919,11 +947,54 @@ function renderKawaiiActivityProps(
     drawRectPx(ctx, 27, 10, 2, 6, "#06b6d4", p, ox, oy); // Cyan glowstick
     drawPx(ctx, 4, 8, "#facc15", p, ox, oy);
     drawPx(ctx, 28, 8, "#a855f7", p, ox, oy);
-  } else if (activity === "inspect_copy") {
-    // 🔍 Magnifying Glass
-    drawRectPx(ctx, 5, 12, 6, 6, "#64748b", p, ox, oy);
-    drawRectPx(ctx, 6, 13, 4, 4, "#e0f2fe", p, ox, oy); // Lens
-    drawRectPx(ctx, 3, 18, 3, 3, "#b45309", p, ox, oy); // Handle
+  } else if (activity === "inspect_copy" || activity === "magnifier_audit") {
+    // 🔍 Magnifying Glass with lens glare & analysis sparkle
+    drawRectPx(ctx, 4, 11, 7, 7, "#64748b", p, ox, oy);
+    drawRectPx(ctx, 5, 12, 5, 5, "#e0f2fe", p, ox, oy); // Lens
+    drawPx(ctx, 6, 13, "#ffffff", p, ox, oy); // Glint
+    drawRectPx(ctx, 2, 17, 3, 3, "#b45309", p, ox, oy); // Handle
+    // Floating inspection sparkle
+    if (activityStep % 2 === 0) {
+      drawPx(ctx, 7, 10, "#38bdf8", p, ox, oy);
+      drawPx(ctx, 8, 9, "#facc15", p, ox, oy);
+    }
+  } else if (activity === "music_vibe") {
+    // 🎵 Floating Rhythm Musical Notes
+    const noteY = 4 + (activityStep % 2 === 0 ? 0 : -2);
+    // Note 1 (♪)
+    drawRectPx(ctx, 4, noteY, 2, 4, "#a855f7", p, ox, oy);
+    drawPx(ctx, 6, noteY, "#a855f7", p, ox, oy);
+    drawRectPx(ctx, 3, noteY + 3, 3, 2, "#9333ea", p, ox, oy);
+    // Note 2 (♫)
+    const note2Y = 2 + (activityStep % 2 === 1 ? 0 : -2);
+    drawRectPx(ctx, 26, note2Y, 4, 1, "#06b6d4", p, ox, oy);
+    drawRectPx(ctx, 26, note2Y + 1, 1, 3, "#06b6d4", p, ox, oy);
+    drawRectPx(ctx, 29, note2Y + 1, 1, 3, "#06b6d4", p, ox, oy);
+    drawRectPx(ctx, 25, note2Y + 3, 2, 2, "#0891b2", p, ox, oy);
+    drawRectPx(ctx, 28, note2Y + 3, 2, 2, "#0891b2", p, ox, oy);
+  } else if (activity === "snack_time") {
+    // 🍩 Yummy Pixel Donut / Strawberry Treat with Chewing Crumbs
+    const snackY = 16 + (activityStep % 2 === 0 ? 0 : -1);
+    drawRectPx(ctx, 13, snackY, 6, 5, "#b45309", p, ox, oy); // Donut dough
+    drawRectPx(ctx, 13, snackY, 6, 2, "#ec4899", p, ox, oy); // Strawberry icing
+    drawPx(ctx, 14, snackY, "#ffffff", p, ox, oy); // Sprinkles
+    drawPx(ctx, 16, snackY + 1, "#facc15", p, ox, oy);
+    drawPx(ctx, 15, snackY + 2, "#38bdf8", p, ox, oy);
+    // Chewing crumbs
+    if (activityStep % 2 === 1) {
+      drawPx(ctx, 11, snackY + 4, "#d97706", p, ox, oy);
+      drawPx(ctx, 20, snackY + 3, "#ec4899", p, ox, oy);
+    }
+  } else if (activity === "gaming_retro") {
+    // 🎮 Tiny Retro Handheld Console with glowing screen
+    drawRectPx(ctx, 3, 13, 8, 8, "#6366f1", p, ox, oy); // Handheld body
+    drawRectPx(ctx, 4, 14, 6, 4, "#22c55e", p, ox, oy); // Retro green screen
+    drawPx(ctx, 5, 15, "#15803d", p, ox, oy); // Pixel character
+    drawPx(ctx, 7, 16, "#15803d", p, ox, oy);
+    // Buttons
+    drawPx(ctx, 5, 19, "#312e81", p, ox, oy); // D-pad
+    drawPx(ctx, 8, 19, "#ef4444", p, ox, oy); // A button
+    drawPx(ctx, 9, 18, "#eab308", p, ox, oy); // B button
   }
 }
 

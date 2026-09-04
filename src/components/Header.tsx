@@ -16,6 +16,8 @@ import {
   ChevronLeft,
   ChevronRight,
   Zap,
+  Bot,
+  Globe,
 } from "lucide-react";
 import { ProductId, TargetLanguage } from "../types";
 import { PRODUCTS_CONFIG } from "../data/templates";
@@ -29,6 +31,7 @@ interface HeaderProps {
   onOpenFavorites: () => void;
   onOpenCheatsheet: () => void;
   onOpenPreviewDemo: () => void;
+  onOpenChat: () => void;
 }
 
 interface ProductNavMeta {
@@ -48,6 +51,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenFavorites,
   onOpenCheatsheet,
   onOpenPreviewDemo,
+  onOpenChat,
 }) => {
   const currentProduct = PRODUCTS_CONFIG[currentProductId] || PRODUCTS_CONFIG.rec10;
   const navScrollRef = useRef<HTMLDivElement | null>(null);
@@ -209,8 +213,18 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
           </div>
 
-          {/* Mobile Favorites Trigger */}
+          {/* Mobile Favorites & Chat Trigger */}
           <div className="flex md:hidden items-center gap-1.5">
+            <button
+              id="mobile-btn-open-chat"
+              type="button"
+              onClick={onOpenChat}
+              className="p-2 rounded-[16px] bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/30 text-cyan-300 physic-spring-tap flex items-center gap-1 text-xs"
+              title="Gemini AI 出海智囊团"
+            >
+              <Bot className="w-4 h-4 text-cyan-400 animate-pulse" />
+            </button>
+
             <button
               onClick={onOpenFavorites}
               className="relative p-2 rounded-[16px] bg-white/[0.08] border border-white/[0.15] text-white physic-spring-tap"
@@ -275,6 +289,20 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center space-x-2 flex-shrink-0 ml-2">
+            {/* Gemini AI Chatbot Trigger Button */}
+            <MagneticButton
+              id="btn-open-gemini-chat"
+              onClick={onOpenChat}
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-cyan-200 hover:text-white bg-gradient-to-r from-cyan-500/20 via-blue-500/20 to-purple-500/20 hover:from-cyan-500/30 hover:to-blue-500/30 rounded-[16px] border border-cyan-500/40 shadow-sm shadow-cyan-500/20 transition-all physic-spring-tap group"
+              title="打开 Gemini 3.5 AI 出海爆款智囊团 (支持 Google 实时检索 & 多轮对话)"
+            >
+              <Bot className="w-3.5 h-3.5 text-cyan-400 group-hover:scale-110 transition-transform animate-pulse" />
+              <span>AI 智囊团</span>
+              <span className="px-1.5 py-0.2 rounded-full text-[9px] font-mono bg-cyan-400/20 text-cyan-300 border border-cyan-400/30 hidden lg:inline">
+                Gemini 3.5
+              </span>
+            </MagneticButton>
+
             <MagneticButton
               id="btn-open-cheatsheet"
               onClick={onOpenCheatsheet}

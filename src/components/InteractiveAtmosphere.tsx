@@ -432,6 +432,7 @@ const InteractiveAtmosphereComponent: React.FC<InteractiveAtmosphereProps> = ({
             vx: Math.cos(angle) * speed,
             vy: Math.sin(angle) * speed,
             size: Math.random() * 2.8 + 0.8,
+            color,
             alpha: 0.95,
             decay: 0.024,
             sparkleSpeed: 0.1,
