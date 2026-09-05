@@ -11,6 +11,7 @@ import { generateFos10AlgorithmicTitles, FOS10_FIXED_TAGS } from "./fos10Templat
 import { generateI228AlgorithmicTitles, I228_FIXED_TAGS } from "./i228Templates";
 import { generateV18proAlgorithmicTitles, V18PRO_FIXED_TAGS } from "./v18proTemplates";
 import { generateV17maxAlgorithmicTitles, V17MAX_FIXED_TAGS } from "./v17maxTemplates";
+import { generateT40AlgorithmicTitles, T40_SPANISH_TAGS, T40_GERMAN_TAGS } from "./t40Templates";
 import { getChineseTranslation } from "../utils/translator";
 
 export const FIXED_TAGS = "#FOSMET #REC10 #AIレコーダー #ChatGPT #プロモーションの仕事";
@@ -404,6 +405,37 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
       "专为 500㎡ 大户型复式楼设计 + 650W 电机与 58 kPa 极限怪兽吸力",
       "双电池配置长达 150 分钟不间断续航 + 25.5cm 加宽 V 型防缠绕地刷",
       "HEPA H14 医疗级 99.99% 过滤 + 2L 超大集尘桶 (3个月免倒) + 90° 自立与 3 种快充模式",
+    ],
+  },
+  t40: {
+    id: "t40",
+    brand: "FOSMET",
+    model: "T40",
+    name: "FOSMET T40",
+    japaneseType: "4Gスマートキッズウォッチ / Reloj Inteligente para Niños (ES) / 4G Kinder-Smartwatch (DE)",
+    shortDesc: "专为儿童打造的安全智能手表・4G双向高清视频・GPS+LBS+WiFi多重定位・SOS一键呼救・课堂模式专注学业・爱的奖励习惯养成・IP68级防水",
+    fixedTags: "#FOSMET #T40 #españa #Niños #relojinteligente",
+    defaultLanguage: "es",
+    supportedLanguages: ["es", "de"],
+    badge: "4G儿童安全手表",
+    accentColor: "#06B6D4",
+    tiktokFormula: "失联/安全痛点反转 + 4G双向视频通话/实时GPS轨迹硬核实机 + 课堂专注/爱的奖励/IP68直给",
+    specs: [
+      { label: "产品定位与核心价值", value: "专为儿童打造的安全智能手表，集安全定位＋实时视频通话＋学习专注管理＋健康运动记录于一体" },
+      { label: "4G通信与双向聊天", value: "支持 4G 双向高清视频聊天、语音聊天与 4G 通话，家长与孩子沟通零距离" },
+      { label: "联系人与SOS紧急守护", value: "支持设置联系人白名单列表与 SOS 紧急联系人，遇险长按一键呼叫，随时随地保持高效沟通和安全守护" },
+      { label: "多重精准定位", value: "搭载 GPS + LBS + WiFi 多重定位，让家长在手机端实时掌握孩子的位置动态与安全足迹" },
+      { label: "课堂免打扰专注模式", value: "配备课堂模式（支持关闭通信访问与互联网），上课期间杜绝打扰，帮助孩子专注学业" },
+      { label: "爱的奖励习惯养成", value: "拥有「爱的奖励」积分激励功能，可用于记录完成作业、完成家务等日常表现，正面引导好习惯" },
+      { label: "拍照与精彩瞬间记录", value: "支持机身高保真拍照功能，记录童年快乐时光与周围精彩风景" },
+      { label: "健康运动与作息管理", value: "支持计步器与科学睡眠监测，从小帮助孩子养成规律作息与健康生活习惯" },
+      { label: "IP68级专业防尘防水", value: "具备 IP68 级专业防水能力，无惧日常洗手、户外玩耍泼溅与下雨天气" },
+      { label: "固定标签(西语/德语)", value: "ES: #FOSMET #T40 #españa #Niños #relojinteligente | DE: #FOSMET #T40 #Kinder #Smartwatch #Kindersicherheit" },
+    ],
+    highlights: [
+      "4G 双向高清视频通话与语音聊天 + 联系人白名单与一键 SOS 紧急联系人安全守护",
+      "GPS + LBS + WiFi 多重精准定位实时掌握动态 + 课堂免打扰模式（上课关闭网络防分心）",
+      "独家「爱的奖励」记录作业与家务 + IP68 级专业深度防水 + 高清拍照与计步睡眠健康监测",
     ],
   },
 };
@@ -893,6 +925,8 @@ export function generateAlgorithmicTitles(
     rawResults = generateV18proAlgorithmicTitles(category, customKeyword, customTags, batchSeed, language);
   } else if (productId === "v17max") {
     rawResults = generateV17maxAlgorithmicTitles(category, customKeyword, customTags, batchSeed, language);
+  } else if (productId === "t40") {
+    rawResults = generateT40AlgorithmicTitles(category, customKeyword, customTags, batchSeed, language);
   } else {
     const brand = "FOSMET";
     const model = "REC10";

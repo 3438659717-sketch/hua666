@@ -57,6 +57,8 @@ export const ProductCheatsheetModal: React.FC<ProductCheatsheetModalProps> = ({
 
   const getHeaderIcon = (pid: ProductId) => {
     switch (pid) {
+      case "t40":
+        return <ShieldCheck className="w-4 h-4" />;
       case "v18pro":
       case "v17max":
         return <Wind className="w-4 h-4" />;
@@ -85,6 +87,7 @@ export const ProductCheatsheetModal: React.FC<ProductCheatsheetModalProps> = ({
   };
 
   const productList: ProductId[] = [
+    "t40",
     "v18pro",
     "v17max",
     "rec10",

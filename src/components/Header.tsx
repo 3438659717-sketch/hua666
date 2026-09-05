@@ -18,6 +18,8 @@ import {
   Zap,
   Bot,
   Globe,
+  Wind,
+  ShieldCheck,
 } from "lucide-react";
 import { ProductId, TargetLanguage } from "../types";
 import { PRODUCTS_CONFIG } from "../data/templates";
@@ -57,6 +59,30 @@ export const Header: React.FC<HeaderProps> = ({
   const navScrollRef = useRef<HTMLDivElement | null>(null);
 
   const productNavList: ProductNavMeta[] = [
+    {
+      id: "t40",
+      label: "T40",
+      subLabel: "4G儿童表",
+      icon: <ShieldCheck className="w-3.5 h-3.5" />,
+      activeClass: "bg-cyan-500 text-black font-extrabold shadow-[0_4px_20px_rgba(6,182,212,0.5)] border-cyan-300/60",
+      themeColor: "text-cyan-400",
+    },
+    {
+      id: "v18pro",
+      label: "V18 PRO",
+      subLabel: "折叠吸尘器",
+      icon: <Wind className="w-3.5 h-3.5" />,
+      activeClass: "bg-emerald-500 text-white shadow-[0_4px_20px_rgba(16,185,129,0.5)] border-emerald-300/50",
+      themeColor: "text-emerald-400",
+    },
+    {
+      id: "v17max",
+      label: "V17 MAX",
+      subLabel: "大户型旗舰",
+      icon: <Wind className="w-3.5 h-3.5" />,
+      activeClass: "bg-amber-500 text-black font-extrabold shadow-[0_4px_20px_rgba(245,158,11,0.5)] border-amber-300/60",
+      themeColor: "text-amber-400",
+    },
     {
       id: "rec10",
       label: "REC10",
@@ -153,7 +179,7 @@ export const Header: React.FC<HeaderProps> = ({
     if (currentProductId === "i228") {
       return "TikTok 西语区营销";
     }
-    if (currentProductId === "kt80" || currentProductId === "g58") {
+    if (currentProductId === "t40" || currentProductId === "v18pro" || currentProductId === "v17max" || currentProductId === "kt80" || currentProductId === "g58") {
       return currentLanguage === "de" ? "TikTok 德语区营销" : "TikTok 西语区营销";
     }
     return "TikTok 日本区矩阵";
@@ -220,9 +246,10 @@ export const Header: React.FC<HeaderProps> = ({
               type="button"
               onClick={onOpenChat}
               className="p-2 rounded-[16px] bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/30 text-cyan-300 physic-spring-tap flex items-center gap-1 text-xs"
-              title="Gemini AI 出海智囊团"
+              title="AI 智能搜索 · 出海爆款智库 (全网实时检索)"
             >
-              <Bot className="w-4 h-4 text-cyan-400 animate-pulse" />
+              <Globe className="w-4 h-4 text-cyan-400 animate-pulse" />
+              <span className="text-[11px] font-bold">AI 搜索</span>
             </button>
 
             <button
@@ -289,17 +316,17 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center space-x-2 flex-shrink-0 ml-2">
-            {/* Gemini AI Chatbot Trigger Button */}
+            {/* AI 智能搜索 Trigger Button */}
             <MagneticButton
               id="btn-open-gemini-chat"
               onClick={onOpenChat}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-cyan-200 hover:text-white bg-gradient-to-r from-cyan-500/20 via-blue-500/20 to-purple-500/20 hover:from-cyan-500/30 hover:to-blue-500/30 rounded-[16px] border border-cyan-500/40 shadow-sm shadow-cyan-500/20 transition-all physic-spring-tap group"
-              title="打开 Gemini 3.5 AI 出海爆款智囊团 (支持 Google 实时检索 & 多轮对话)"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-cyan-200 hover:text-white bg-gradient-to-r from-cyan-500/20 via-blue-500/20 to-teal-500/20 hover:from-cyan-500/30 hover:to-blue-500/30 rounded-[16px] border border-cyan-500/40 shadow-sm shadow-cyan-500/20 transition-all physic-spring-tap group"
+              title="打开 AI 智能搜索 · 出海爆款智库 (全网实时检索常驻 · 现实客观对齐)"
             >
-              <Bot className="w-3.5 h-3.5 text-cyan-400 group-hover:scale-110 transition-transform animate-pulse" />
-              <span>AI 智囊团</span>
-              <span className="px-1.5 py-0.2 rounded-full text-[9px] font-mono bg-cyan-400/20 text-cyan-300 border border-cyan-400/30 hidden lg:inline">
-                Gemini 3.5
+              <Globe className="w-3.5 h-3.5 text-cyan-400 group-hover:scale-110 transition-transform animate-pulse" />
+              <span>AI 搜索</span>
+              <span className="px-1.5 py-0.2 rounded-full text-[9px] font-mono bg-emerald-400/20 text-emerald-300 border border-emerald-400/30 hidden lg:inline">
+                实时对齐
               </span>
             </MagneticButton>
 

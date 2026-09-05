@@ -1,4 +1,4 @@
-export type ProductId = "rec10" | "qs40" | "t20" | "kt80" | "e12" | "e05" | "e09" | "g58" | "g2" | "fos10" | "i228" | "v18pro" | "v17max";
+export type ProductId = "rec10" | "qs40" | "t20" | "kt80" | "e12" | "e05" | "e09" | "g58" | "g2" | "fos10" | "i228" | "v18pro" | "v17max" | "t40";
 
 export type TargetLanguage = "ja" | "es" | "de";
 
@@ -72,9 +72,13 @@ export type ChatbotPersona =
   | "specs_engineer";
 
 export type GeminiModelId =
-  | "gemini-3.5-flash"
+  | "gemini-3.7-flash"
+  | "gemini-3.6-flash"
+  | "gemini-3.1-flash-lite"
+  | "gemini-flash-lite-latest"
+  | "gemini-3.8-flash"
   | "gemini-3.1-pro-preview"
-  | "gemini-3.1-flash-lite";
+  | "gemini-flash-latest";
 
 export interface GroundingSource {
   title: string;

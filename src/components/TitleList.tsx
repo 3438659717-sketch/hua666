@@ -157,7 +157,7 @@ const TitleListComponent: React.FC<TitleListProps> = ({
               {generationSource === "gemini_ai" ? (
                 <span className="inline-flex items-center gap-1.5 text-cyan-300 font-semibold bg-cyan-500/10 px-3 py-1 rounded-[14px] border border-cyan-500/25">
                   <Sparkles className="w-3.5 h-3.5 fill-cyan-300" />
-                  Gemini 3.7 AI 深度创意
+                  AI 搜索 · 现实对齐生成
                 </span>
               ) : (
                 <span className="inline-flex items-center gap-1 text-white/80 bg-white/[0.06] px-3 py-1 rounded-[14px] border border-white/[0.1]">

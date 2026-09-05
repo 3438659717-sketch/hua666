@@ -78,6 +78,11 @@ export function normalizeTagString(input: string): string {
 
 // Get official default tags based on product and language
 export function getDefaultTagsForProduct(productId: string = "rec10", language: string = "ja"): string {
+  if (productId === "t40") {
+    return language === "de"
+      ? "#FOSMET #T40 #Kinder #Smartwatch #Kindersicherheit"
+      : "#FOSMET #T40 #españa #Niños #relojinteligente";
+  }
   if (productId === "v18pro") {
     return language === "de"
       ? "#DyMona #V18PRO #staubsauger #haushaltshelfer #putztipps #tiktokshop"

@@ -233,6 +233,28 @@ const V17MAX_CATEGORIES_ES: { id: AngleCategory; label: string; desc: string; ic
   { id: "question", label: "Interacción y reto viral TikTok", desc: "¿Tu aspiradora aguanta 150 minutos? Prueba extrema de 58 kPa con pelos y alfombras", icon: "💬" },
 ];
 
+const T40_CATEGORIES_ES: { id: AngleCategory; label: string; desc: string; icon: string }[] = [
+  { id: "all_mixed", label: "全维黄金配比 (Recomendado)", desc: "4G videollamadas / GPS+LBS+WiFi / Botón SOS / Modo Clase / Recompensas de amor / IP68", icon: "✨" },
+  { id: "pain_point", label: "痛点反转・家长安全焦虑", desc: "Paz mental total para padres: localización en tiempo real y alternativa segura al móvil", icon: "🎯" },
+  { id: "efficiency", label: "4G双向视频 ✕ 语音畅聊", desc: "Videollamadas 4G HD y chat de voz instantáneo con lista blanca de contactos seguros", icon: "⚡" },
+  { id: "gadget", label: "课堂专注 ✕ 爱的奖励", desc: "Modo Clase anti-distracciones para el colegio y sistema de recompensas para tareas y hábitos", icon: "💎" },
+  { id: "ai_power", label: "GPS+LBS+WiFi ✕ 一键SOS", desc: "Triple precisión de localización satelital y botón SOS de emergencia para auxilio inmediato", icon: "🛡️" },
+  { id: "spec_power", label: "IP68防水 ✕ 计步睡眠监测", desc: "Protección IP68 a prueba de juegos y agua, cámara de fotos, podómetro y monitor de descanso", icon: "📊" },
+  { id: "secret_hack", label: "智慧育儿秘诀・替代手机", desc: "El secreto de los padres para dar autonomía y seguridad sin adicción a pantallas ni redes", icon: "🤫" },
+  { id: "question", label: "社群互动・育儿大讨论", desc: "¿A qué edad comprarías un smartwatch a tu hijo? ¿Smartphone o reloj seguro con SOS?", icon: "💬" },
+];
+
+const T40_CATEGORIES_DE: { id: AngleCategory; label: string; desc: string; icon: string }[] = [
+  { id: "all_mixed", label: "Optimale Mischung (Empfohlen)", desc: "4G Videoanruf / GPS+LBS+WiFi / SOS-Taste / Schulmodus / Belohnungssystem / IP68", icon: "✨" },
+  { id: "pain_point", label: "Kindersicherheit & Schulweg", desc: "Sorgenfreier Schulweg dank Echtzeit-GPS und sichere Smartphone-Alternative ohne Ablenkung", icon: "🎯" },
+  { id: "efficiency", label: "4G Videoanrufe ✕ Sprach-Chat", desc: "4G Zwei-Wege-Videotelefonie und sichere Kontakt-Whitelist gegen unerwünschte Anrufe", icon: "⚡" },
+  { id: "gadget", label: "Schulmodus ✕ Belohnungssystem", desc: "Störungsfreier Unterricht im Schulmodus & motivierendes Belohnungssystem für Hausaufgaben", icon: "💎" },
+  { id: "ai_power", label: "Dreifach-GPS ✕ Mechanischer SOS", desc: "GPS+LBS+WiFi Präzisionsortung mit Sicherheitszonen und verlässlicher SOS-Notrufknopf", icon: "🛡️" },
+  { id: "spec_power", label: "IP68 wasserdicht ✕ Schritt & Schlaf", desc: "Echte IP68 Wasserdichtigkeit für den Spielplatz, integrierte Kamera, Schritt- & Schlaftracker", icon: "📊" },
+  { id: "secret_hack", label: "Geheimtipp für Eltern", desc: "Mehr Selbstständigkeit fürs Schulkind ohne Smartphone-Risiken – Perfekt zur Einschulung", icon: "🤫" },
+  { id: "question", label: "Community & Altersdiskussion", desc: "Smartphone oder Kinderuhr? Ab wann ist eine Kinder-Smartwatch sinnvoll? Diskutiert mit!", icon: "💬" },
+];
+
 const TAG_SUGGESTIONS: Record<string, string[]> = {
   rec10: ["AIボイスレコーダー", "ChatGPT活用", "議事録自動化", "社会人ハック", "便利グッズ", "仕事効率化", "FOSMET"],
   qs40: ["スマートウォッチ", "ChatGPT連携", "ガジェット紹介", "高见え", "便利アイテム", "QOL向上", "FOSMET"],
@@ -242,6 +264,7 @@ const TAG_SUGGESTIONS: Record<string, string[]> = {
   i228: ["smartwatchmujer", "relojfemenino", "saludfemenina", "modamujer", "regalosparamujer", "estiloelegante", "FOSMET"],
   v18pro: ["aspiradora", "limpiezahogar", "hogarlimpio", "limpiezadecasa", "tiktokshop", "DyMona"],
   v17max: ["staubsauger", "putztipps", "haushaltshelfer", "großraumwohnung", "tiktokshop", "DyMona"],
+  t40: ["Niños", "relojinteligente", "españa", "padres", "seguridadinfantil", "FOSMET", "T40"],
   e12: ["スマートグラス", "POV動画", "AIカメラ", "ガジェット紹介", "耳を塞がない", "サイクリング", "FOSMET"],
   e05: ["スマートグラス", "調光サングラス", "AI同時通訳", "ガジェット紹介", "耳を塞がない", "運転用メガネ", "FOSMET"],
   e09: ["スマートグラス", "Vlog撮影", "POV動画", "SONYセンサー", "ガジェット紹介", "旅行用カメラ", "FOSMET"],
@@ -253,6 +276,7 @@ const KT80_GERMAN_SUGGESTIONS = ["smartwatch", "outdooruhr", "überleben", "tasc
 const G58_GERMAN_SUGGESTIONS = ["smartwatchdamen", "damenuhr", "frauengesundheit", "frauenmode", "geschenkidee", "eleganterlook", "FOSMET"];
 const V18PRO_GERMAN_SUGGESTIONS = ["staubsauger", "haushaltshelfer", "putztipps", "putzroutine", "klapparm", "DyMona"];
 const V17MAX_SPANISH_SUGGESTIONS = ["aspiradora", "hogargrande", "limpiezahogar", "mascotas", "tiktokshop", "DyMona"];
+const T40_GERMAN_SUGGESTIONS = ["Kinder", "Kindersicherheit", "SmartwatchKinder", "ElternTipp", "Schulkind", "FOSMET", "T40"];
 
 export const ControlPanel: React.FC<ControlPanelProps> = ({
   params,
@@ -263,14 +287,15 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
 }) => {
   const currentProductId = params.productId || "rec10";
   const currentProduct = PRODUCTS_CONFIG[currentProductId] || PRODUCTS_CONFIG.rec10;
-  const currentLang = params.language || (currentProductId === "v17max" ? "de" : currentProductId === "i228" || currentProductId === "v18pro" ? "es" : "ja");
+  const currentLang = params.language || (currentProductId === "v17max" ? "de" : currentProductId === "i228" || currentProductId === "v18pro" || currentProductId === "t40" ? "es" : "ja");
 
   const isKt80 = currentProductId === "kt80";
   const isG58 = currentProductId === "g58";
   const isI228 = currentProductId === "i228";
   const isV18pro = currentProductId === "v18pro";
   const isV17max = currentProductId === "v17max";
-  const isMultilingual = isKt80 || isG58 || isV18pro || isV17max;
+  const isT40 = currentProductId === "t40";
+  const isMultilingual = isKt80 || isG58 || isV18pro || isV17max || isT40;
   const isGerman = currentLang === "de";
   const isSpanish = currentLang === "es";
 
@@ -283,7 +308,9 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   const isQs40 = currentProductId === "qs40";
 
   let categories = REC10_CATEGORIES;
-  if (isV18pro) {
+  if (isT40) {
+    categories = isGerman ? T40_CATEGORIES_DE : T40_CATEGORIES_ES;
+  } else if (isV18pro) {
     categories = isGerman ? V18PRO_CATEGORIES_DE : V18PRO_CATEGORIES_ES;
   } else if (isV17max) {
     categories = isSpanish ? V17MAX_CATEGORIES_ES : V17MAX_CATEGORIES_DE;
@@ -419,6 +446,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   };
 
   const getProductColor = () => {
+    if (isT40) return "text-cyan-400";
     if (isV18pro) return "text-emerald-400";
     if (isV17max) return "text-amber-400";
     if (isFos10) return "text-teal-400";
@@ -433,7 +461,9 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
     return "text-blue-400";
   };
 
-  const currentSuggestions = isV18pro
+  const currentSuggestions = isT40
+    ? (isGerman ? T40_GERMAN_SUGGESTIONS : TAG_SUGGESTIONS.t40)
+    : isV18pro
     ? (isGerman ? V18PRO_GERMAN_SUGGESTIONS : TAG_SUGGESTIONS.v18pro)
     : isV17max
     ? (isSpanish ? V17MAX_SPANISH_SUGGESTIONS : TAG_SUGGESTIONS.v17max)
@@ -446,6 +476,12 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   // Exaggerated Hardware Metrics for the Telemetry Dashboard
   const getHardwareTelemetrySpecs = () => {
     switch (currentProductId) {
+      case "t40":
+        return [
+          { label: "4G VIDEO CHAT", val: "4G", unit: "HD", desc: "双向高清视频通话 · 随时随地面对面守护", color: "liquid-metal-cyan", icon: <Radio className="w-4 h-4 text-cyan-400" /> },
+          { label: "TRIPLE LOCATING", val: "GPS", unit: "WiFi", desc: "GPS+LBS+WiFi三重定位 · 实时动态轨迹", color: "liquid-metal-gold", icon: <ShieldCheck className="w-4 h-4 text-emerald-400" /> },
+          { label: "CLASS & HABITS", val: "IP68", unit: "防水", desc: "课堂免打扰模式 · 爱的奖励 · 一键SOS", color: "liquid-metal-silver", icon: <CheckCircle2 className="w-4 h-4 text-amber-400" /> },
+        ];
       case "v18pro":
         return [
           { label: "FOLDABLE ARM & SUCTION", val: "50", unit: "kPa", desc: "65cm折叠臂 · 650W飓风吸力免弯腰", color: "liquid-metal-emerald", icon: <Wind className="w-4 h-4 text-emerald-400" /> },
@@ -543,7 +579,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
               <span>硬件矩阵 (Product Matrix)</span>
             </span>
             <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-white/[0.08] text-white border border-white/[0.12] shadow-xs">
-              13款旗舰设备
+              14款旗舰设备
             </span>
           </div>
           <span className="text-[11.5px] text-white/50">
@@ -551,8 +587,9 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           </span>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 2xl:grid-cols-13 gap-2.5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 2xl:grid-cols-14 gap-2.5">
           {[
+            { id: "t40" as ProductId, label: "T40", desc: "4G儿童安全表", icon: <ShieldCheck className="w-3.5 h-3.5" />, tag: "#Niños", lang: "es" as TargetLanguage },
             { id: "v18pro" as ProductId, label: "V18 PRO", desc: "折叠绿光吸尘", icon: <Wind className="w-3.5 h-3.5" />, tag: "#V18PRO", lang: "es" as TargetLanguage },
             { id: "v17max" as ProductId, label: "V17 MAX", desc: "大户型旗舰吸", icon: <Wind className="w-3.5 h-3.5" />, tag: "#V17MAX", lang: "de" as TargetLanguage },
             { id: "rec10" as ProductId, label: "REC10", desc: "名片AI录音", icon: <Mic className="w-3.5 h-3.5" />, tag: "#AIレコーダー", lang: "ja" as TargetLanguage },

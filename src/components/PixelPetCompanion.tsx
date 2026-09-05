@@ -1785,7 +1785,7 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
 
             <span className="w-px h-3 bg-white/20" />
 
-            {/* 2. Quick Gemini AI Assistant Trigger */}
+            {/* 2. Quick AI Search Trigger */}
             {onOpenChat && (
               <button
                 type="button"
@@ -1796,9 +1796,9 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
                   playPetSound("trick");
                 }}
                 className="p-0.5 text-[10px] rounded-full bg-cyan-500/30 hover:bg-cyan-500/50 text-cyan-200 ring-1 ring-cyan-400/40 hover:scale-110 active:scale-95 transition-all cursor-pointer"
-                title="开启 Gemini 3.5 AI 出海智囊团与 Google 实时检索"
+                title="开启 AI 智能搜索 · 出海爆款智库 (全网实时检索常驻 · 现实客观对齐)"
               >
-                🤖
+                🌐
               </button>
             )}
 

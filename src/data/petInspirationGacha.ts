@@ -110,6 +110,30 @@ export const INSPIRATION_CARDS_POOL: InspirationCard[] = [
     sampleCopy: "【アクセ感覚で身につける】上品なローズゴールドと輝くベゼルで女子力UP！FOSMET G58は生理周期管理も通知もバッチリ対応。自分へのご褒美やプレゼントにも最適！ #G58 #FOSMET #大人女子 #オフィスカジュアル",
     keywords: "ローズゴールド レディース ジュエリー 生理周期",
   },
+  {
+    id: "gacha_t40_1",
+    productId: "t40",
+    productName: "FOSMET T40 4G儿童安全手表",
+    category: "pain_point",
+    theme: "放学接娃与独立出行的安全守护神器",
+    hookIdea: "【¿Tu hijo sale solo y te da pánico no saber dónde está?】",
+    targetPainPoint: "担心孩子路上走失或遭遇意外，给手机又怕沉迷网络和游戏",
+    sceneDescription: "实时 GPS+LBS+WiFi 三重定位在地图上清晰显示孩子动态轨迹，一键 4G 高清双向视频通话面对面报平安",
+    sampleCopy: "【Tranquilidad Total para Padres】¡No le compres un móvil a tu hijo! Con FOSMET T40 tienes videollamadas 4G, botón SOS inmediato y triple localización GPS sin distracciones. #FOSMET #T40 #españa #Niños #relojinteligente",
+    keywords: "4G videollamada GPS SOS ModoClase IP68 Niños",
+  },
+  {
+    id: "gacha_t40_2",
+    productId: "t40",
+    productName: "FOSMET T40 4G儿童安全手表",
+    category: "gadget",
+    theme: "课堂专注免打扰与爱的奖励习惯养成",
+    hookIdea: "【Der Geheimtipp für stressfreie Hausaufgaben und sicheren Schulweg】",
+    targetPainPoint: "上课玩手表分心被老师没收，回家磨蹭不写作业不做家务",
+    sceneDescription: "课堂模式上课时间自动锁闭通信与网络，独家「爱的奖励」积分体系激励孩子主动完成作业与家务",
+    sampleCopy: "【Volle Konzentration im Unterricht】FOSMET T40 schaltet im Schulmodus automatisch stumm! Das liebevolle Belohnungssystem motiviert bei Hausaufgaben & Pflichten. #FOSMET #T40 #Kinder #Smartwatch #Kindersicherheit",
+    keywords: "Schulmodus Belohnungssystem IP68 4G-Videoanruf Kinderuhr",
+  },
 ];
 
 export function getRandomInspiration(productId?: ProductId): InspirationCard {

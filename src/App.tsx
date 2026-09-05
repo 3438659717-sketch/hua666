@@ -474,18 +474,18 @@ export default function App() {
           type="button"
           onClick={() => setIsChatOpen(true)}
           className="group relative flex items-center gap-2 px-3.5 py-2.5 rounded-full bg-[#0A1020]/90 hover:bg-[#0E162B] text-white border border-cyan-500/40 shadow-[0_4px_20px_rgba(6,182,212,0.25)] hover:shadow-[0_6px_28px_rgba(6,182,212,0.4)] backdrop-blur-md transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
-          title="打开 Gemini 3.5 AI 出海爆款智囊团"
+          title="打开 AI 智能搜索 · 出海爆款智库 (全网实时检索常驻 · 现实客观对齐)"
         >
           <div className="relative flex items-center justify-center w-6 h-6 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 text-white shadow-sm shadow-cyan-500/50">
-            <Bot className="w-3.5 h-3.5 animate-pulse" />
+            <Globe className="w-3.5 h-3.5 text-cyan-200 animate-pulse" />
             <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
           </div>
           <span className="text-xs font-bold tracking-wide text-cyan-200 group-hover:text-white font-sans">
-            AI 智囊团
+            AI 搜索
           </span>
-          <span className="hidden sm:inline-flex items-center gap-1 text-[10px] font-mono px-1.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
-            <Globe className="w-2.5 h-2.5 text-emerald-400" />
-            <span>Search</span>
+          <span className="hidden sm:inline-flex items-center gap-1 text-[10px] font-mono px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+            <span>现实对齐</span>
           </span>
         </button>
       </div>
