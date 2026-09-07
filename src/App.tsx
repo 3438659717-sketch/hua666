@@ -77,6 +77,12 @@ export default function App() {
 
   const getThemeColorName = (): CardThemeColor => {
     switch (currentProductId) {
+      case "t40":
+        return "cyan";
+      case "v18pro":
+        return "emerald";
+      case "v17max":
+        return "blue";
       case "fos10":
         return "teal";
       case "g2":
@@ -103,6 +109,12 @@ export default function App() {
 
   const getProductColor = () => {
     switch (currentProductId) {
+      case "t40":
+        return "text-cyan-300";
+      case "v18pro":
+        return "text-emerald-300";
+      case "v17max":
+        return "text-blue-300";
       case "fos10":
         return "text-teal-300";
       case "g2":
@@ -145,7 +157,7 @@ export default function App() {
         } else {
           setLastAction({ type: "generate", timestamp: Date.now(), data: { count: result.titles.length } });
           const langLabel =
-            targetProd === "kt80" || targetProd === "g58"
+            targetProd === "kt80" || targetProd === "g58" || targetProd === "t40" || targetProd === "v18pro" || targetProd === "v17max"
               ? activeParams.language === "de"
                 ? "德语"
                 : "西语"

@@ -1,6 +1,7 @@
 import { AngleCategory, GeneratedTitle, GenerationParams, ProductId } from "../types";
 import { generateAlgorithmicTitles, PRODUCTS_CONFIG } from "../data/templates";
 import { getChineseTranslation } from "../utils/translator";
+import { getDefaultTagsForProduct } from "../utils/tagUtils";
 
 const FAVORITES_STORAGE_KEY = "fosmet_product_favorite_titles";
 
@@ -11,22 +12,10 @@ export async function generateTitles(params: GenerationParams): Promise<{
 }> {
   const prodId: ProductId = params.productId || "rec10";
   const productConfig = PRODUCTS_CONFIG[prodId];
-  const lang = params.language || (prodId === "v17max" ? "de" : prodId === "kt80" || prodId === "g58" || prodId === "i228" || prodId === "v18pro" ? "es" : "ja");
+  const lang = params.language || (prodId === "v17max" ? "de" : prodId === "kt80" || prodId === "g58" || prodId === "i228" || prodId === "v18pro" || prodId === "t40" ? "es" : "ja");
   const activeTags = (params.customTags && params.customTags.trim())
     ? params.customTags.trim()
-    : (prodId === "v18pro"
-        ? (lang === "de"
-            ? "#DyMona #V18PRO #staubsauger #haushaltshelfer #putztipps #tiktokshop"
-            : "#DyMona #V18PRO #aspiradora #limpiezahogar #tiktokshop #hogarlimpio")
-        : prodId === "v17max"
-        ? (lang === "es"
-            ? "#DyMona #V17MAX #aspiradora #hogargrande #limpiezahogar #tiktokshop #mascotas"
-            : "#DyMona #V17MAX #staubsauger #putztipps #haushaltshelfer #tiktokshop")
-        : prodId === "kt80" && lang === "de"
-        ? "#FOSMET #KT80 #Smartwatch #Outdoor Smartwatch #Werkzeug"
-        : prodId === "g58" && lang === "de"
-        ? "#FOSMET #G58 #Smartwatch #Outfit #Frauengesundheit"
-        : productConfig.fixedTags);
+    : getDefaultTagsForProduct(prodId, lang);
 
   if (params.useAiApi) {
     try {

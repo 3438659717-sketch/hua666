@@ -1037,11 +1037,11 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
           productId,
           title: fullTitle,
           hook: hook || fullTitle.replace(targetHashtags, "").trim(),
-          angle: item.angle || (isGerman ? "Highlight" : (isKt80 || isG58 || isI228) ? "Destacado" : "AIおすすめ"),
-          targetAudience: item.targetAudience || (isGerman ? "Damen & Alltag" : (isKt80 || isG58 || isI228) ? "Mujeres & Moda" : "ターゲット層"),
+          angle: item.angle || (isGerman ? "Highlight" : (isKt80 || isG58 || isI228 || isT40 || isV18pro || isV17max) ? "Destacado" : "AIおすすめ"),
+          targetAudience: item.targetAudience || (isGerman ? (isT40 ? "Eltern & Familie" : "Zielgruppe") : (isKt80 || isG58 || isI228 || isT40 || isV18pro || isV17max) ? (isT40 ? "Padres & Niños" : "Comunidad") : "ターゲット層"),
           translationZh: item.translationZh || "",
           charCount: fullTitle.length,
-          language: (isKt80 || isG58) ? (isGerman ? "de" : "es") : isI228 ? "es" : "ja",
+          language: (isKt80 || isG58 || isT40 || isV18pro || isV17max) ? (isGerman ? "de" : "es") : isI228 ? "es" : "ja",
           createdAt: new Date().toISOString(),
         };
       });
@@ -1051,7 +1051,7 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
         productId,
         count: titles.length,
         category,
-        language: (isKt80 || isG58) ? (isGerman ? "de" : "es") : isI228 ? "es" : "ja",
+        language: (isKt80 || isG58 || isT40 || isV18pro || isV17max) ? (isGerman ? "de" : "es") : isI228 ? "es" : "ja",
         titles,
       });
     } catch (err: any) {
@@ -1082,6 +1082,7 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
       let liveWebGroundingSnippets: LiveSearchCitation[] = [];
       let liveWebContext = "";
       let groundingSources: { title: string; uri: string }[] = [];
+      let isFactualOrMarketInquiry = false;
 
       // Always execute live search grounding to ensure reality alignment
       try {
@@ -1091,7 +1092,7 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
         const pName = productContext.name || "";
 
         // Check if query is asking for external trends, competitors, or factual inquiries
-        const isFactualOrMarketInquiry =
+        isFactualOrMarketInquiry =
           rawQ.includes("全网") || rawQ.includes("搜索") || rawQ.includes("趋势") ||
           rawQ.includes("竞品") || rawQ.includes("对比") || rawQ.includes("戴森") ||
           rawQ.includes("dyson") || rawQ.includes("shark") || rawQ.includes("apple") ||
