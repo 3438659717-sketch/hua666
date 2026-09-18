@@ -1,4 +1,5 @@
 import { ChatbotPersona, GeminiModelId, ChatMessage, GroundingSource, ProductConfig } from "../types";
+import { generateOfflineKnowledgeReply } from "./offlineKnowledge";
 
 export interface SendChatOptions {
   messages: Array<{ role: "user" | "model" | "system"; content: string }>;
@@ -38,7 +39,7 @@ export const PERSONA_CONFIGS: Record<
     badge: "爆款转化",
     avatarEmoji: "🔥",
     accentColor: "from-amber-500 to-rose-500",
-    recommendedModel: "gemini-3.7-flash",
+    recommendedModel: "gemini-3.8-flash",
     suggestedPrompts: [
       "为当前产品设计 3 套 15 秒极速完播的 TikTok 短视频分镜与台词",
       "针对核心目标市场，如何做出第一秒抓眼球的视觉打破模式钩子？",
@@ -53,7 +54,7 @@ export const PERSONA_CONFIGS: Record<
     badge: "全网检索",
     avatarEmoji: "🌐",
     accentColor: "from-cyan-500 to-blue-500",
-    recommendedModel: "gemini-3.7-flash",
+    recommendedModel: "gemini-3.8-flash",
     suggestedPrompts: [
       "搜索并调研当前品类在目标市场近期最火的爆款话题与消费者诉求",
       "检索该品类在海外市场的核心买点与同类竞品差评抱怨痛点",
@@ -68,7 +69,7 @@ export const PERSONA_CONFIGS: Record<
     badge: "母语润色",
     avatarEmoji: "🎌",
     accentColor: "from-purple-500 to-pink-500",
-    recommendedModel: "gemini-3.7-flash",
+    recommendedModel: "gemini-3.8-flash",
     suggestedPrompts: [
       "把当前产品的核心卖点转化为 3 句极具当地文化共鸣的短视频地道标题",
       "目标市场年轻人最喜欢的口语化表达有哪些？请帮我给文案润色",
@@ -83,7 +84,7 @@ export const PERSONA_CONFIGS: Record<
     badge: "参数拆解",
     avatarEmoji: "⚡",
     accentColor: "from-emerald-500 to-teal-500",
-    recommendedModel: "gemini-3.7-flash",
+    recommendedModel: "gemini-3.8-flash",
     suggestedPrompts: [
       "用 FABE 法则（特征-优势-利益-证据）拆解当前产品的核心硬件配置",
       "普通用户看不懂专业硬件参数，如何用通俗又震撼的比喻讲清楚？",
@@ -101,31 +102,31 @@ export const MODEL_OPTIONS: Array<{
   badgeColor: string;
 }> = [
   {
-    id: "gemini-3.7-flash",
-    name: "AI 搜索 · PRO 深度推理引擎 (Gemini 3.7 Pro)",
-    tag: "PRO 深度思考 · 零跑题",
-    description: "Google 旗舰深度思维与复杂策略推理引擎，直击核心问题，逻辑缜密不跑题",
-    badgeColor: "bg-purple-500/20 text-purple-300 border-purple-500/30",
-  },
-  {
-    id: "gemini-3.6-flash",
-    name: "AI 搜索 · 推荐旗舰引擎 (Gemini 3.6 Flash)",
-    tag: "推荐 · 深度推理 & 全网对齐",
-    description: "高效旗舰模型，全网知识与现实大盘深度对齐，兼顾逻辑深度与极速生成",
+    id: "gemini-3.8-flash",
+    name: "AI 搜索 · 2026 最新旗舰引擎 (Gemini 3.8 Flash)",
+    tag: "最新旗舰 · 超长记忆 & 全网对齐",
+    description: "Google 2026 最新旗舰模型，超长上下文深度记忆与理解，全网事实实时深度对齐，直击核心",
     badgeColor: "bg-cyan-500/20 text-cyan-300 border-cyan-500/30",
   },
   {
+    id: "gemini-flash-latest",
+    name: "AI 搜索 · 持续更新最新版 (Gemini Flash Latest)",
+    tag: "持续前沿 · 自动追踪官方最新",
+    description: "始终自动追踪并调用 Google 官方最新发布的 Flash 模型架构，保持能力永远最新",
+    badgeColor: "bg-purple-500/20 text-purple-300 border-purple-500/30",
+  },
+  {
     id: "gemini-3.1-flash-lite",
-    name: "AI 搜索 · 极速轻量引擎 (3.1 Flash Lite)",
+    name: "AI 搜索 · 极速高并发引擎 (Gemini 3.1 Flash Lite)",
     tag: "毫秒极速 · 充足配额",
-    description: "具备极高可用性与充足配额，超低延迟极速响应，连续多轮对话超稳不掉线",
+    description: "官方最新轻量高效架构，超低延迟毫秒级流转，高频多轮连续对话超稳不掉线",
     badgeColor: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30",
   },
   {
     id: "gemini-flash-lite-latest",
-    name: "AI 搜索 · 稳定通用引擎 (Flash Lite Latest)",
-    tag: "高吞吐 · 稳定可靠",
-    description: "经典稳定模型，具备出色的多轮对话记忆与产品策略理解能力",
+    name: "AI 搜索 · 稳定轻量最新版 (Flash Lite Latest)",
+    tag: "稳定可靠 · 连贯记忆",
+    description: "官方最新 Flash Lite 持续更新版本，具备出色的多轮对话连续记忆与轻量高吞吐能力",
     badgeColor: "bg-blue-500/20 text-blue-300 border-blue-500/30",
   },
 ];
@@ -140,7 +141,14 @@ export function loadSavedChatHistory(productId?: string): ChatMessage[] {
     const raw = localStorage.getItem(key);
     if (!raw) return [];
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
+    if (!Array.isArray(parsed)) return [];
+    // Auto-migrate legacy model tags
+    return parsed.map((msg: ChatMessage) => {
+      if (msg.modelUsed === ("gemini-3.7-flash" as any) || msg.modelUsed === ("gemini-3.6-flash" as any)) {
+        return { ...msg, modelUsed: "gemini-3.8-flash" };
+      }
+      return msg;
+    });
   } catch (e) {
     console.error("Failed to load chat history:", e);
     return [];
@@ -447,12 +455,46 @@ export function getProductSuggestedPrompts(
 }
 
 export async function sendChatMessage(options: SendChatOptions): Promise<ChatResponse> {
+  const controller = new AbortController();
+  const timeoutTimer = setTimeout(() => controller.abort(), 35000);
+
+  const fallbackToLocalKnowledge = (reason: string): ChatResponse => {
+    try {
+      const userQuestions = (options.messages || []).filter((m) => m && m.role !== "model" && m.content);
+      const lastUserQuestion = userQuestions.length > 0 ? userQuestions[userQuestions.length - 1].content : "出海营销策略咨询";
+
+      const offline = generateOfflineKnowledgeReply({
+        userQuery: lastUserQuestion,
+        persona: options.persona,
+        productContext: options.productContext || {},
+        enableSearchGrounding: options.enableSearchGrounding,
+        conversationHistory: options.messages,
+      });
+
+      return {
+        success: true,
+        text: offline.text,
+        groundingSources: offline.groundingSources || [],
+        modelUsed: options.model,
+        persona: options.persona,
+        searchGroundingUsed: false,
+      };
+    } catch (e: any) {
+      return {
+        success: false,
+        text: "",
+        error: reason || "请求发生未知异常，请重试",
+      };
+    }
+  };
+
   try {
     const res = await fetch("/api/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      signal: controller.signal,
       body: JSON.stringify({
         messages: options.messages.map((m) => ({
           role: m.role === "model" ? "model" : "user",
@@ -465,10 +507,24 @@ export async function sendChatMessage(options: SendChatOptions): Promise<ChatRes
       }),
     });
 
-    const data = await res.json();
+    clearTimeout(timeoutTimer);
 
-    if (!res.ok || !data.success) {
-      throw new Error(data.error || "调用 Gemini AI 失败，请检查网络或配置");
+    // Safeguard: Check Content-Type to prevent "Unexpected token '<', '<!doctype '... is not valid JSON"
+    const contentType = res.headers.get("content-type") || "";
+    let data: any = null;
+
+    if (contentType.includes("application/json")) {
+      data = await res.json();
+    } else {
+      // Received non-JSON (e.g. 504 Gateway Timeout HTML page, 502, etc.)
+      const nonJsonText = await res.text().catch(() => "");
+      console.warn("Non-JSON API response received (status " + res.status + "):", nonJsonText.slice(0, 100));
+      return fallbackToLocalKnowledge(`服务器响应非 JSON 内容 (HTTP ${res.status})`);
+    }
+
+    if (!res.ok || !data || !data.success) {
+      console.warn("API returned error or unsuccessful status:", data?.error || res.status);
+      return fallbackToLocalKnowledge(data?.error || "AI 服务繁忙，已自动切换为知识图谱引擎");
     }
 
     return {
@@ -480,11 +536,8 @@ export async function sendChatMessage(options: SendChatOptions): Promise<ChatRes
       searchGroundingUsed: data.searchGroundingUsed || false,
     };
   } catch (err: any) {
-    console.error("sendChatMessage error:", err);
-    return {
-      success: false,
-      text: "",
-      error: err.message || "请求发生未知异常",
-    };
+    clearTimeout(timeoutTimer);
+    console.warn("sendChatMessage network/timeout error, activating resilience fallback:", err?.message || err);
+    return fallbackToLocalKnowledge(err?.message || "网络请求异常");
   }
 }

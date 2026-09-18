@@ -2,11 +2,11 @@
 // Kawaii Pixel Pet Accessory & Wardrobe Renderer (Native 32x32 Grid)
 // =========================================================================
 // Every accessory is carefully mapped to the pet's 32x32 anatomy:
-// - Head: Y = 7..16, X = 9..24 (Eyes: 12..14 & 18..20, Cheeks: 10..11 & 21..22)
+// - Head: Y = 7..16, X = 9..24 (Eyes: 12..14 & 18..20, Nose: 16, Mouth: 15..17)
 // - Neck: Y = 17, X = 11..21 (Collar band & Bowtie zone)
 // - Torso: Y = 18..21, X = 10..22 (Shoulders: 10..12 & 20..22, Chest: 13..19)
-// - Waist / Hips: Y = 20..23 (Waistband: 20..21, Outer Legs: 10..12 & 20..22)
-// - Front Paws: Y = 22..24 (Left: 13..15, Right: 17..19) - Never covered inappropriately!
+// - Waist / Pelvis: Y = 19..22, X = 11..21 (Full waistband, inseam at X=16)
+// - Front Paws: Y = 22..24 (Left: 13..15, Right: 17..19) - Naturally step out below cuffs!
 // All coordinates naturally adjust with breathing/walking bobY.
 
 import { PetAccessory } from "./petData";
@@ -73,7 +73,7 @@ function renderSuitAstronaut(c: AccessoryRenderContext) {
   // Ear comm units
   drawRectPx(ctx, 7, 10 + bobY, 2, 4, "#0284c7", p, ox, oy);
   drawRectPx(ctx, 23, 10 + bobY, 2, 4, "#0284c7", p, ox, oy);
-  // Transparent cyan visor tint
+  // Transparent cyan visor tint (face shines through)
   drawRectPx(ctx, 9, 8 + bobY, 14, 8, "rgba(56, 189, 248, 0.18)", p, ox, oy);
   // Visor curved glint
   drawPx(ctx, 11, 7 + bobY, "#ffffff", p, ox, oy);
@@ -95,16 +95,18 @@ function renderSuitAstronaut(c: AccessoryRenderContext) {
   // Gold EVA Utility Belt
   drawRectPx(ctx, 11, 21 + bobY, 10, 1, "#eab308", p, ox, oy);
   drawPx(ctx, 16, 21 + bobY, "#fef08a", p, ox, oy); // Belt buckle
-  // Pressurized EVA boots over paws
-  drawRectPx(ctx, 13, 22 + bobY, 3, 2, "#f8fafc", p, ox, oy);
+
+  // 3. Pressurized EVA Space Boots over paws
+  drawRectPx(ctx, 11, 21 + bobY, 10, 2, "#e2e8f0", p, ox, oy);
+  drawPx(ctx, 16, 21 + bobY, "#94a3b8", p, ox, oy);
+  drawPx(ctx, 16, 22 + bobY, "#94a3b8", p, ox, oy);
   drawRectPx(ctx, 13, 23 + bobY, 3, 1, "#0284c7", p, ox, oy);
-  drawRectPx(ctx, 17, 22 + bobY, 3, 2, "#f8fafc", p, ox, oy);
   drawRectPx(ctx, 17, 23 + bobY, 3, 1, "#0284c7", p, ox, oy);
 }
 
 function renderSuitWizard(c: AccessoryRenderContext) {
   const { ctx, p, ox, oy, bobY } = c;
-  // 1. Pointed Starry Hat
+  // 1. Pointed Starry Cone Hat
   drawRectPx(ctx, 11, 7 + bobY, 10, 1, "#581c87", p, ox, oy); // Brim
   drawRectPx(ctx, 12, 7 + bobY, 8, 1, "#eab308", p, ox, oy); // Gold ribbon
   drawRectPx(ctx, 12, 5 + bobY, 8, 2, "#6b21a8", p, ox, oy); // Cone lower
@@ -124,8 +126,9 @@ function renderSuitWizard(c: AccessoryRenderContext) {
   // Gold Star Medallion
   drawPx(ctx, 16, 18 + bobY, "#facc15", p, ox, oy);
   drawPx(ctx, 16, 19 + bobY, "#fde047", p, ox, oy);
-  // Gold Rune Sash
-  drawRectPx(ctx, 11, 21 + bobY, 10, 1, "#eab308", p, ox, oy);
+  // Gold Rune Sash & Robe skirt
+  drawRectPx(ctx, 11, 21 + bobY, 10, 2, "#4c1d95", p, ox, oy);
+  drawPx(ctx, 16, 21 + bobY, "#eab308", p, ox, oy);
   drawPx(ctx, 13, 21 + bobY, "#fde047", p, ox, oy);
   drawPx(ctx, 18, 21 + bobY, "#fde047", p, ox, oy);
 }
@@ -133,14 +136,14 @@ function renderSuitWizard(c: AccessoryRenderContext) {
 function renderSuitNinja(c: AccessoryRenderContext) {
   const { ctx, p, ox, oy, bobY } = c;
   // 1. Ninja Headband with Metal Plate
-  drawRectPx(ctx, 10, 9 + bobY, 12, 1, "#0f172a", p, ox, oy); // Black cloth
-  drawRectPx(ctx, 14, 9 + bobY, 4, 1, "#e2e8f0", p, ox, oy); // Silver plate
-  drawPx(ctx, 15, 9 + bobY, "#475569", p, ox, oy); // Engraved emblem
-  drawPx(ctx, 16, 9 + bobY, "#475569", p, ox, oy);
+  drawRectPx(ctx, 10, 8 + bobY, 12, 1, "#0f172a", p, ox, oy); // Black cloth
+  drawRectPx(ctx, 14, 8 + bobY, 4, 1, "#e2e8f0", p, ox, oy); // Silver plate
+  drawPx(ctx, 15, 8 + bobY, "#475569", p, ox, oy); // Engraved emblem
+  drawPx(ctx, 16, 8 + bobY, "#475569", p, ox, oy);
   // Red ribbon knot & tails on left
-  drawPx(ctx, 9, 9 + bobY, "#ef4444", p, ox, oy);
-  drawPx(ctx, 8, 10 + bobY, "#ef4444", p, ox, oy);
-  drawPx(ctx, 8, 11 + bobY, "#dc2626", p, ox, oy);
+  drawPx(ctx, 9, 8 + bobY, "#ef4444", p, ox, oy);
+  drawPx(ctx, 8, 9 + bobY, "#ef4444", p, ox, oy);
+  drawPx(ctx, 8, 10 + bobY, "#dc2626", p, ox, oy);
 
   // 2. Stealth Shinobi Attire
   drawRectPx(ctx, 11, 17 + bobY, 10, 1, "#0f172a", p, ox, oy); // Cowl neckline
@@ -155,11 +158,12 @@ function renderSuitNinja(c: AccessoryRenderContext) {
   // Crimson Obi Sash
   drawRectPx(ctx, 11, 21 + bobY, 10, 1, "#ef4444", p, ox, oy);
   drawPx(ctx, 15, 21 + bobY, "#f87171", p, ox, oy);
-  // Shinobi wrapped bandages on legs
-  drawPx(ctx, 11, 22 + bobY, "#f8fafc", p, ox, oy);
-  drawPx(ctx, 11, 23 + bobY, "#94a3b8", p, ox, oy);
-  drawPx(ctx, 20, 22 + bobY, "#f8fafc", p, ox, oy);
-  drawPx(ctx, 20, 23 + bobY, "#94a3b8", p, ox, oy);
+  // Shinobi Trousers & Wrapped Bandages on paws
+  drawRectPx(ctx, 11, 21 + bobY, 10, 2, "#0f172a", p, ox, oy);
+  drawPx(ctx, 16, 21 + bobY, "#1e293b", p, ox, oy);
+  drawPx(ctx, 16, 22 + bobY, "#1e293b", p, ox, oy);
+  drawRectPx(ctx, 13, 23 + bobY, 3, 1, "#f8fafc", p, ox, oy);
+  drawRectPx(ctx, 17, 23 + bobY, 3, 1, "#f8fafc", p, ox, oy);
 }
 
 function renderSuitKimono(c: AccessoryRenderContext) {
@@ -179,15 +183,17 @@ function renderSuitKimono(c: AccessoryRenderContext) {
   // Royal purple & gold Obi Sash
   drawRectPx(ctx, 11, 20 + bobY, 10, 2, "#7e22ce", p, ox, oy);
   drawRectPx(ctx, 14, 20 + bobY, 4, 1, "#facc15", p, ox, oy); // Golden Obi knot
+  // Robe lower hem
+  drawRectPx(ctx, 11, 22 + bobY, 10, 1, "#be123c", p, ox, oy);
 }
 
 function renderSuitTuxedo(c: AccessoryRenderContext) {
   const { ctx, p, ox, oy, bobY } = c;
   // 1. Silk Top Hat
-  drawRectPx(ctx, 12, 7 + bobY, 8, 1, "#020617", p, ox, oy); // Brim
-  drawRectPx(ctx, 13, 3 + bobY, 6, 4, "#0f172a", p, ox, oy); // Cylinder
-  drawRectPx(ctx, 13, 6 + bobY, 6, 1, "#ef4444", p, ox, oy); // Red ribbon
-  drawPx(ctx, 14, 4 + bobY, "#64748b", p, ox, oy); // Silk sheen
+  drawRectPx(ctx, 12, 6 + bobY, 8, 1, "#020617", p, ox, oy); // Brim
+  drawRectPx(ctx, 13, 2 + bobY, 6, 4, "#0f172a", p, ox, oy); // Cylinder
+  drawRectPx(ctx, 13, 5 + bobY, 6, 1, "#ef4444", p, ox, oy); // Red ribbon
+  drawPx(ctx, 14, 3 + bobY, "#64748b", p, ox, oy); // Silk sheen
 
   // 2. Double-Breasted Tailcoat & Shirt
   drawRectPx(ctx, 10, 18 + bobY, 3, 4, "#0f172a", p, ox, oy); // Left black lapel
@@ -200,11 +206,19 @@ function renderSuitTuxedo(c: AccessoryRenderContext) {
   // Gold buttons
   drawPx(ctx, 16, 19 + bobY, "#facc15", p, ox, oy);
   drawPx(ctx, 16, 20 + bobY, "#facc15", p, ox, oy);
-  // Polished Black Patent Leather Shoes on paws
-  drawRectPx(ctx, 13, 22 + bobY, 3, 2, "#020617", p, ox, oy);
-  drawPx(ctx, 13, 22 + bobY, "#94a3b8", p, ox, oy);
-  drawRectPx(ctx, 17, 22 + bobY, 3, 2, "#020617", p, ox, oy);
-  drawPx(ctx, 17, 22 + bobY, "#94a3b8", p, ox, oy);
+
+  // 3. Black Tailored Dress Trousers
+  drawRectPx(ctx, 11, 21 + bobY, 10, 2, "#09090b", p, ox, oy);
+  drawPx(ctx, 16, 21 + bobY, "#000000", p, ox, oy);
+  drawPx(ctx, 16, 22 + bobY, "#000000", p, ox, oy);
+  drawPx(ctx, 11, 21 + bobY, "#334155", p, ox, oy); // Satin stripe
+  drawPx(ctx, 20, 21 + bobY, "#334155", p, ox, oy);
+
+  // 4. Polished Black Patent Leather Shoes on paws
+  drawRectPx(ctx, 13, 23 + bobY, 3, 1, "#020617", p, ox, oy);
+  drawPx(ctx, 13, 23 + bobY, "#94a3b8", p, ox, oy);
+  drawRectPx(ctx, 17, 23 + bobY, 3, 1, "#020617", p, ox, oy);
+  drawPx(ctx, 17, 23 + bobY, "#94a3b8", p, ox, oy);
 }
 
 function renderSuitSanta(c: AccessoryRenderContext) {
@@ -225,7 +239,11 @@ function renderSuitSanta(c: AccessoryRenderContext) {
   drawRectPx(ctx, 11, 21 + bobY, 10, 1, "#0f172a", p, ox, oy);
   drawPx(ctx, 15, 21 + bobY, "#facc15", p, ox, oy);
   drawPx(ctx, 16, 21 + bobY, "#fde047", p, ox, oy);
-  // Black Snow Boots with White Fur Cuffs
+
+  // 3. Red Velvet Trousers & Snow Boots on paws
+  drawRectPx(ctx, 11, 21 + bobY, 10, 2, "#b91c1c", p, ox, oy);
+  drawPx(ctx, 16, 21 + bobY, "#991b1b", p, ox, oy);
+  drawPx(ctx, 16, 22 + bobY, "#991b1b", p, ox, oy);
   drawRectPx(ctx, 13, 22 + bobY, 3, 1, "#ffffff", p, ox, oy);
   drawRectPx(ctx, 13, 23 + bobY, 3, 1, "#0f172a", p, ox, oy);
   drawRectPx(ctx, 17, 22 + bobY, 3, 1, "#ffffff", p, ox, oy);
@@ -251,17 +269,22 @@ function renderSuitEmperor(c: AccessoryRenderContext) {
   // Golden Chest Armor
   drawRectPx(ctx, 13, 18 + bobY, 6, 3, "#facc15", p, ox, oy);
   drawPx(ctx, 16, 19 + bobY, "#3b82f6", p, ox, oy); // Sapphire emblem
-  // Imperial Gold Belt
+  // Imperial Gold Belt & Royal Robe
   drawRectPx(ctx, 11, 21 + bobY, 10, 1, "#eab308", p, ox, oy);
+  drawRectPx(ctx, 11, 22 + bobY, 10, 1, "#7f1d1d", p, ox, oy);
+  // Gold Imperial Boots on paws
+  drawRectPx(ctx, 13, 23 + bobY, 3, 1, "#facc15", p, ox, oy);
+  drawRectPx(ctx, 17, 23 + bobY, 3, 1, "#facc15", p, ox, oy);
 }
 
 function renderSuitDev(c: AccessoryRenderContext) {
   const { ctx, p, ox, oy, bobY } = c;
-  // 1. Dark Developer Sunglasses
-  drawRectPx(ctx, 11, 12 + bobY, 4, 2, "#0f172a", p, ox, oy);
-  drawRectPx(ctx, 17, 12 + bobY, 4, 2, "#0f172a", p, ox, oy);
+  // 1. Dark Developer Sunglasses (symmetrical, nose at X=16 clear)
+  drawRectPx(ctx, 11, 12 + bobY, 4, 3, "#0f172a", p, ox, oy);
+  drawRectPx(ctx, 17, 12 + bobY, 4, 3, "#0f172a", p, ox, oy);
   drawRectPx(ctx, 15, 12 + bobY, 2, 1, "#0f172a", p, ox, oy);
   drawPx(ctx, 12, 12 + bobY, "#38bdf8", p, ox, oy); // Cyan monitor glare
+  drawPx(ctx, 18, 12 + bobY, "#38bdf8", p, ox, oy);
 
   // 2. Tech Hoodie
   drawRectPx(ctx, 11, 17 + bobY, 10, 1, "#1e293b", p, ox, oy);
@@ -277,14 +300,24 @@ function renderSuitDev(c: AccessoryRenderContext) {
   drawRectPx(ctx, 14, 20 + bobY, 4, 1, "#0f172a", p, ox, oy);
   // Terminal Prompt Badge
   drawPx(ctx, 12, 19 + bobY, "#22c55e", p, ox, oy);
+
+  // 3. Techwear Denim & Sneakers
+  drawRectPx(ctx, 11, 21 + bobY, 10, 2, "#1e3a8a", p, ox, oy);
+  drawPx(ctx, 16, 21 + bobY, "#0f172a", p, ox, oy);
+  drawPx(ctx, 16, 22 + bobY, "#0f172a", p, ox, oy);
+  // White Tech Sneakers on paws
+  drawRectPx(ctx, 13, 23 + bobY, 3, 1, "#f8fafc", p, ox, oy);
+  drawPx(ctx, 14, 23 + bobY, "#38bdf8", p, ox, oy);
+  drawRectPx(ctx, 17, 23 + bobY, 3, 1, "#f8fafc", p, ox, oy);
+  drawPx(ctx, 18, 23 + bobY, "#38bdf8", p, ox, oy);
 }
 
 function renderSuitRockstar(c: AccessoryRenderContext) {
   const { ctx, p, ox, oy, bobY } = c;
   // 1. Red Rebel Punk Bandana
-  drawRectPx(ctx, 10, 9 + bobY, 12, 1, "#dc2626", p, ox, oy);
-  drawPx(ctx, 9, 9 + bobY, "#ef4444", p, ox, oy); // Knot left
-  drawPx(ctx, 8, 10 + bobY, "#ef4444", p, ox, oy);
+  drawRectPx(ctx, 10, 8 + bobY, 12, 1, "#dc2626", p, ox, oy);
+  drawPx(ctx, 9, 8 + bobY, "#ef4444", p, ox, oy); // Knot left
+  drawPx(ctx, 8, 9 + bobY, "#ef4444", p, ox, oy);
 
   // 2. Studded Black Leather Biker Jacket
   drawRectPx(ctx, 10, 17 + bobY, 12, 1, "#18181b", p, ox, oy); // Notched collar
@@ -304,53 +337,77 @@ function renderSuitRockstar(c: AccessoryRenderContext) {
   drawRectPx(ctx, 11, 21 + bobY, 10, 1, "#09090b", p, ox, oy);
   drawPx(ctx, 15, 21 + bobY, "#f8fafc", p, ox, oy);
   drawPx(ctx, 16, 21 + bobY, "#cbd5e1", p, ox, oy);
-  // Ripped denim side cuffs
-  drawPx(ctx, 11, 22 + bobY, "#1d4ed8", p, ox, oy);
-  drawPx(ctx, 20, 22 + bobY, "#1d4ed8", p, ox, oy);
+
+  // 3. Black Distressed Denim & Combat Boots
+  drawRectPx(ctx, 11, 21 + bobY, 10, 2, "#18181b", p, ox, oy);
+  drawPx(ctx, 16, 21 + bobY, "#09090b", p, ox, oy);
+  drawPx(ctx, 16, 22 + bobY, "#09090b", p, ox, oy);
+  drawRectPx(ctx, 13, 23 + bobY, 3, 1, "#09090b", p, ox, oy);
+  drawPx(ctx, 14, 23 + bobY, "#cbd5e1", p, ox, oy);
+  drawRectPx(ctx, 17, 23 + bobY, 3, 1, "#09090b", p, ox, oy);
+  drawPx(ctx, 18, 23 + bobY, "#cbd5e1", p, ox, oy);
 }
 
 function renderSuitCyberMecha(c: AccessoryRenderContext) {
   const { ctx, p, ox, oy, bobY } = c;
-  // 1. Holographic HUD Visor
-  drawRectPx(ctx, 10, 12 + bobY, 12, 2, "#064e3b", p, ox, oy);
-  drawRectPx(ctx, 11, 12 + bobY, 4, 2, "#06b6d4", p, ox, oy); // Cyan HUD left
-  drawRectPx(ctx, 17, 12 + bobY, 4, 2, "#06b6d4", p, ox, oy); // Cyan HUD right
+  // 1. Holographic HUD Visor (translucent, eyes shine through)
+  drawRectPx(ctx, 10, 12 + bobY, 12, 1, "#064e3b", p, ox, oy);
+  drawRectPx(ctx, 11, 12 + bobY, 4, 2, "rgba(6, 182, 212, 0.4)", p, ox, oy);
+  drawRectPx(ctx, 17, 12 + bobY, 4, 2, "rgba(6, 182, 212, 0.4)", p, ox, oy);
   drawPx(ctx, 13, 12 + bobY, "#ffffff", p, ox, oy); // Glint
   drawPx(ctx, 19, 12 + bobY, "#ffffff", p, ox, oy);
 
   // 2. Titanium Exoskeleton Cuirass
   drawRectPx(ctx, 10, 17 + bobY, 12, 1, "#334155", p, ox, oy);
-  drawRectPx(ctx, 10, 18 + bobY, 3, 4, "#0284c7", p, ox, oy); // Left armored pauldron
-  drawRectPx(ctx, 19, 18 + bobY, 3, 4, "#0284c7", p, ox, oy); // Right armored pauldron
+  drawRectPx(ctx, 10, 18 + bobY, 3, 4, "#0284c7", p, ox, oy); // Pauldrons
+  drawRectPx(ctx, 19, 18 + bobY, 3, 4, "#0284c7", p, ox, oy);
   drawRectPx(ctx, 13, 18 + bobY, 6, 3, "#475569", p, ox, oy);
   // Glowing Cyan Arc Reactor Core
   drawRectPx(ctx, 15, 19 + bobY, 2, 2, "#38bdf8", p, ox, oy);
-  drawPx(ctx, 15, 19 + bobY, "#ffffff", p, ox, oy); // Core center glow
+  drawPx(ctx, 15, 19 + bobY, "#ffffff", p, ox, oy);
   // Mech Servo Belt
   drawRectPx(ctx, 11, 21 + bobY, 10, 1, "#0f172a", p, ox, oy);
   drawPx(ctx, 13, 21 + bobY, "#38bdf8", p, ox, oy);
   drawPx(ctx, 18, 21 + bobY, "#38bdf8", p, ox, oy);
+
+  // 3. Titanium Leg Armors & Mag-Lev Boots
+  drawRectPx(ctx, 11, 21 + bobY, 10, 2, "#334155", p, ox, oy);
+  drawPx(ctx, 16, 21 + bobY, "#0f172a", p, ox, oy);
+  drawPx(ctx, 16, 22 + bobY, "#0f172a", p, ox, oy);
+  drawRectPx(ctx, 13, 23 + bobY, 3, 1, "#0284c7", p, ox, oy);
+  drawPx(ctx, 14, 23 + bobY, "#38bdf8", p, ox, oy);
+  drawRectPx(ctx, 17, 23 + bobY, 3, 1, "#0284c7", p, ox, oy);
+  drawPx(ctx, 18, 23 + bobY, "#38bdf8", p, ox, oy);
 }
 
 function renderSuitScientist(c: AccessoryRenderContext) {
   const { ctx, p, ox, oy, bobY } = c;
-  // 1. Steampunk Safety Goggles on forehead
-  drawRectPx(ctx, 11, 9 + bobY, 10, 2, "#78350f", p, ox, oy); // Leather strap
-  drawRectPx(ctx, 12, 9 + bobY, 3, 2, "#10b981", p, ox, oy); // Green lens left
-  drawRectPx(ctx, 17, 9 + bobY, 3, 2, "#10b981", p, ox, oy); // Green lens right
-  drawPx(ctx, 13, 9 + bobY, "#ffffff", p, ox, oy);
+  // 1. Steampunk Safety Goggles on forehead (not covering eyes)
+  drawRectPx(ctx, 11, 8 + bobY, 10, 2, "#78350f", p, ox, oy); // Leather strap
+  drawRectPx(ctx, 12, 8 + bobY, 3, 2, "#10b981", p, ox, oy); // Green lens left
+  drawRectPx(ctx, 17, 8 + bobY, 3, 2, "#10b981", p, ox, oy); // Green lens right
+  drawPx(ctx, 13, 8 + bobY, "#ffffff", p, ox, oy);
 
   // 2. White Laboratory Coat
   drawRectPx(ctx, 11, 17 + bobY, 10, 1, "#f8fafc", p, ox, oy);
-  drawRectPx(ctx, 10, 18 + bobY, 3, 4, "#f8fafc", p, ox, oy); // Left white sleeve
-  drawRectPx(ctx, 19, 18 + bobY, 3, 4, "#f8fafc", p, ox, oy); // Right white sleeve
+  drawRectPx(ctx, 10, 18 + bobY, 3, 4, "#f8fafc", p, ox, oy); // White sleeves
+  drawRectPx(ctx, 19, 18 + bobY, 3, 4, "#f8fafc", p, ox, oy);
   drawRectPx(ctx, 13, 18 + bobY, 6, 4, "#e2e8f0", p, ox, oy); // Lab coat chest
   // Eccentric Yellow Bowtie
   drawPx(ctx, 15, 17 + bobY, "#facc15", p, ox, oy);
   drawPx(ctx, 16, 17 + bobY, "#eab308", p, ox, oy);
   // Pocket with Bubbling Potion Flask
-  drawRectPx(ctx, 12, 19 + bobY, 2, 2, "#cbd5e1", p, ox, oy); // Pocket
+  drawRectPx(ctx, 12, 19 + bobY, 2, 2, "#cbd5e1", p, ox, oy);
   drawPx(ctx, 12, 18 + bobY, "#22c55e", p, ox, oy); // Green potion neck
+
+  // 3. Grey Slacks & Leather Oxford Shoes
+  drawRectPx(ctx, 11, 21 + bobY, 10, 2, "#475569", p, ox, oy);
+  drawPx(ctx, 16, 21 + bobY, "#1e293b", p, ox, oy);
+  drawPx(ctx, 16, 22 + bobY, "#1e293b", p, ox, oy);
+  drawRectPx(ctx, 13, 23 + bobY, 3, 1, "#78350f", p, ox, oy);
+  drawPx(ctx, 14, 23 + bobY, "#92400e", p, ox, oy);
+  drawRectPx(ctx, 17, 23 + bobY, 3, 1, "#78350f", p, ox, oy);
+  drawPx(ctx, 18, 23 + bobY, "#92400e", p, ox, oy);
 }
 
 // -------------------------------------------------------------------------
@@ -369,6 +426,8 @@ function renderTopHoodie(c: AccessoryRenderContext) {
   drawPx(ctx, 17, 19 + bobY, "#38bdf8", p, ox, oy);
   // Kangaroo pouch
   drawRectPx(ctx, 14, 20 + bobY, 4, 1, "#1e293b", p, ox, oy);
+  // Waist hem rib
+  drawRectPx(ctx, 11, 21 + bobY, 10, 1, "#1e293b", p, ox, oy);
 }
 
 function renderTopSuitShirt(c: AccessoryRenderContext) {
@@ -384,6 +443,8 @@ function renderTopSuitShirt(c: AccessoryRenderContext) {
   // Buttons
   drawPx(ctx, 16, 19 + bobY, "#facc15", p, ox, oy);
   drawPx(ctx, 16, 20 + bobY, "#facc15", p, ox, oy);
+  // Hem
+  drawRectPx(ctx, 11, 21 + bobY, 10, 1, "#0f172a", p, ox, oy);
 }
 
 function renderTopHawaiian(c: AccessoryRenderContext) {
@@ -401,6 +462,8 @@ function renderTopHawaiian(c: AccessoryRenderContext) {
   drawPx(ctx, 14, 19 + bobY, "#f87171", p, ox, oy);
   drawPx(ctx, 17, 20 + bobY, "#facc15", p, ox, oy);
   drawPx(ctx, 20, 19 + bobY, "#f87171", p, ox, oy);
+  // Hem
+  drawRectPx(ctx, 11, 21 + bobY, 10, 1, "#0f766e", p, ox, oy);
 }
 
 function renderTopCyberJacket(c: AccessoryRenderContext) {
@@ -416,6 +479,8 @@ function renderTopCyberJacket(c: AccessoryRenderContext) {
   drawPx(ctx, 20, 19 + bobY, "#06b6d4", p, ox, oy);
   drawPx(ctx, 16, 18 + bobY, "#facc15", p, ox, oy);
   drawPx(ctx, 16, 19 + bobY, "#facc15", p, ox, oy);
+  // Hem
+  drawRectPx(ctx, 11, 21 + bobY, 10, 1, "#020617", p, ox, oy);
 }
 
 function renderTopSweater(c: AccessoryRenderContext) {
@@ -430,6 +495,8 @@ function renderTopSweater(c: AccessoryRenderContext) {
   drawPx(ctx, 16, 19 + bobY, "#fef3c7", p, ox, oy);
   drawPx(ctx, 15, 20 + bobY, "#fef3c7", p, ox, oy);
   drawPx(ctx, 16, 21 + bobY, "#fef3c7", p, ox, oy);
+  // Waist rib hem
+  drawRectPx(ctx, 11, 21 + bobY, 10, 1, "#b45309", p, ox, oy);
 }
 
 function renderTopLeatherJacket(c: AccessoryRenderContext) {
@@ -445,6 +512,8 @@ function renderTopLeatherJacket(c: AccessoryRenderContext) {
   // Silver collar snaps
   drawPx(ctx, 11, 18 + bobY, "#f8fafc", p, ox, oy);
   drawPx(ctx, 20, 18 + bobY, "#f8fafc", p, ox, oy);
+  // Hem
+  drawRectPx(ctx, 11, 21 + bobY, 10, 1, "#09090b", p, ox, oy);
 }
 
 function renderTopKnitCardigan(c: AccessoryRenderContext) {
@@ -461,6 +530,8 @@ function renderTopKnitCardigan(c: AccessoryRenderContext) {
   drawPx(ctx, 16, 19 + bobY, "#ffffff", p, ox, oy);
   // Gold buttons
   drawPx(ctx, 16, 20 + bobY, "#facc15", p, ox, oy);
+  // Hem
+  drawRectPx(ctx, 11, 21 + bobY, 10, 1, "#172554", p, ox, oy);
 }
 
 function renderTopSportsJersey(c: AccessoryRenderContext) {
@@ -478,6 +549,8 @@ function renderTopSportsJersey(c: AccessoryRenderContext) {
   drawRectPx(ctx, 15, 18 + bobY, 3, 1, "#facc15", p, ox, oy);
   drawPx(ctx, 17, 19 + bobY, "#facc15", p, ox, oy);
   drawPx(ctx, 16, 20 + bobY, "#facc15", p, ox, oy);
+  // Hem
+  drawRectPx(ctx, 11, 21 + bobY, 10, 1, "#991b1b", p, ox, oy);
 }
 
 // -------------------------------------------------------------------------
@@ -486,88 +559,128 @@ function renderTopSportsJersey(c: AccessoryRenderContext) {
 function renderBottomJeans(c: AccessoryRenderContext) {
   const { ctx, p, ox, oy, bobY } = c;
   // Brown leather belt at waist
-  drawRectPx(ctx, 11, 20 + bobY, 10, 1, "#78350f", p, ox, oy);
-  drawPx(ctx, 16, 20 + bobY, "#facc15", p, ox, oy); // Brass buckle
-  // Denim trousers along the outer flanks/legs
-  drawRectPx(ctx, 10, 21 + bobY, 3, 3, "#1d4ed8", p, ox, oy);
-  drawRectPx(ctx, 19, 21 + bobY, 3, 3, "#1d4ed8", p, ox, oy);
-  // Rolled cuffs at bottom
-  drawRectPx(ctx, 10, 23 + bobY, 3, 1, "#93c5fd", p, ox, oy);
-  drawRectPx(ctx, 19, 23 + bobY, 3, 1, "#93c5fd", p, ox, oy);
+  drawRectPx(ctx, 11, 19 + bobY, 10, 1, "#78350f", p, ox, oy);
+  drawPx(ctx, 16, 19 + bobY, "#facc15", p, ox, oy); // Brass buckle
+  // Classic indigo denim covering pelvis and legs
+  drawRectPx(ctx, 11, 20 + bobY, 10, 2, "#1d4ed8", p, ox, oy);
+  // Inseam divider
+  drawPx(ctx, 16, 20 + bobY, "#1e3a8a", p, ox, oy);
+  drawPx(ctx, 16, 21 + bobY, "#1e3a8a", p, ox, oy);
+  // Pocket rivet accents
+  drawPx(ctx, 12, 20 + bobY, "#f59e0b", p, ox, oy);
+  drawPx(ctx, 20, 20 + bobY, "#f59e0b", p, ox, oy);
+  // Rolled lighter cuffs
+  drawRectPx(ctx, 12, 22 + bobY, 3, 1, "#93c5fd", p, ox, oy);
+  drawRectPx(ctx, 17, 22 + bobY, 3, 1, "#93c5fd", p, ox, oy);
+  // Paws naturally step out below cuffs at Y = 23..24!
 }
 
 function renderBottomSwimShorts(c: AccessoryRenderContext) {
   const { ctx, p, ox, oy, bobY } = c;
+  // White elastic waistband with coral drawstring tie
+  drawRectPx(ctx, 11, 19 + bobY, 10, 1, "#f8fafc", p, ox, oy);
+  drawPx(ctx, 16, 19 + bobY, "#f97316", p, ox, oy);
   // Coral-orange beach shorts
-  drawRectPx(ctx, 11, 20 + bobY, 10, 1, "#ffffff", p, ox, oy); // White waistband
-  drawPx(ctx, 16, 20 + bobY, "#fb923c", p, ox, oy); // Drawstring tie
-  drawRectPx(ctx, 10, 21 + bobY, 3, 2, "#f97316", p, ox, oy);
-  drawRectPx(ctx, 19, 21 + bobY, 3, 2, "#f97316", p, ox, oy);
-  drawPx(ctx, 11, 22 + bobY, "#38bdf8", p, ox, oy); // Wave print
-  drawPx(ctx, 20, 22 + bobY, "#38bdf8", p, ox, oy);
+  drawRectPx(ctx, 11, 20 + bobY, 10, 2, "#fb923c", p, ox, oy);
+  drawPx(ctx, 16, 20 + bobY, "#ea580c", p, ox, oy);
+  drawPx(ctx, 16, 21 + bobY, "#ea580c", p, ox, oy);
+  // Tropical wave print
+  drawPx(ctx, 13, 21 + bobY, "#38bdf8", p, ox, oy);
+  drawPx(ctx, 14, 20 + bobY, "#38bdf8", p, ox, oy);
+  drawPx(ctx, 18, 21 + bobY, "#38bdf8", p, ox, oy);
 }
 
 function renderBottomCargo(c: AccessoryRenderContext) {
   const { ctx, p, ox, oy, bobY } = c;
-  drawRectPx(ctx, 11, 20 + bobY, 10, 1, "#1e293b", p, ox, oy); // Tactical belt
-  drawRectPx(ctx, 10, 21 + bobY, 3, 3, "#4d7c0f", p, ox, oy); // Olive pant legs
-  drawRectPx(ctx, 19, 21 + bobY, 3, 3, "#4d7c0f", p, ox, oy);
-  // Cargo utility side pockets
-  drawRectPx(ctx, 9, 21 + bobY, 1, 2, "#65a30d", p, ox, oy);
-  drawRectPx(ctx, 22, 21 + bobY, 1, 2, "#65a30d", p, ox, oy);
+  // Tactical black webbing belt
+  drawRectPx(ctx, 11, 19 + bobY, 10, 1, "#1e293b", p, ox, oy);
+  drawPx(ctx, 16, 19 + bobY, "#475569", p, ox, oy);
+  // Olive drab cargo pants
+  drawRectPx(ctx, 11, 20 + bobY, 10, 2, "#4d7c0f", p, ox, oy);
+  drawPx(ctx, 16, 20 + bobY, "#365314", p, ox, oy);
+  drawPx(ctx, 16, 21 + bobY, "#365314", p, ox, oy);
+  // Flap utility side pockets with silver snaps
+  drawRectPx(ctx, 10, 20 + bobY, 1, 2, "#65a30d", p, ox, oy);
+  drawPx(ctx, 10, 20 + bobY, "#cbd5e1", p, ox, oy);
+  drawRectPx(ctx, 21, 20 + bobY, 1, 2, "#65a30d", p, ox, oy);
+  drawPx(ctx, 21, 20 + bobY, "#cbd5e1", p, ox, oy);
+  // Cuffed hems
+  drawRectPx(ctx, 12, 22 + bobY, 3, 1, "#365314", p, ox, oy);
+  drawRectPx(ctx, 17, 22 + bobY, 3, 1, "#365314", p, ox, oy);
 }
 
 function renderBottomSkirt(c: AccessoryRenderContext) {
   const { ctx, p, ox, oy, bobY } = c;
-  // Pleated Navy Japanese School Skirt
-  drawRectPx(ctx, 11, 20 + bobY, 10, 1, "#172554", p, ox, oy); // Waistband
-  drawRectPx(ctx, 10, 21 + bobY, 12, 2, "#1e3a8a", p, ox, oy); // Flared skirt
-  // Alternating crisp pleat shadows
-  drawPx(ctx, 11, 21 + bobY, "#2563eb", p, ox, oy);
-  drawPx(ctx, 13, 21 + bobY, "#2563eb", p, ox, oy);
-  drawPx(ctx, 15, 21 + bobY, "#2563eb", p, ox, oy);
-  drawPx(ctx, 17, 21 + bobY, "#2563eb", p, ox, oy);
-  drawPx(ctx, 19, 21 + bobY, "#2563eb", p, ox, oy);
-  // White sailor hem stripe
-  drawRectPx(ctx, 10, 23 + bobY, 12, 1, "#ffffff", p, ox, oy);
+  // High-waist navy school skirt waistband
+  drawRectPx(ctx, 11, 19 + bobY, 10, 1, "#172554", p, ox, oy);
+  // Flared pleated skirt
+  drawRectPx(ctx, 10, 20 + bobY, 12, 2, "#1e3a8a", p, ox, oy);
+  // Crisp box pleats
+  drawPx(ctx, 11, 20 + bobY, "#2563eb", p, ox, oy);
+  drawPx(ctx, 13, 20 + bobY, "#2563eb", p, ox, oy);
+  drawPx(ctx, 15, 20 + bobY, "#2563eb", p, ox, oy);
+  drawPx(ctx, 17, 20 + bobY, "#2563eb", p, ox, oy);
+  drawPx(ctx, 19, 20 + bobY, "#2563eb", p, ox, oy);
+  // White sailor stripe hem (ends at Y=21, cute paws step out below)
+  drawRectPx(ctx, 10, 21 + bobY, 12, 1, "#ffffff", p, ox, oy);
 }
 
 function renderBottomOveralls(c: AccessoryRenderContext) {
   const { ctx, p, ox, oy, bobY } = c;
-  // Denim Suspender Straps going over shoulders
+  // Denim shoulder suspender straps
   drawPx(ctx, 13, 17 + bobY, "#2563eb", p, ox, oy);
   drawPx(ctx, 13, 18 + bobY, "#2563eb", p, ox, oy);
   drawPx(ctx, 18, 17 + bobY, "#2563eb", p, ox, oy);
   drawPx(ctx, 18, 18 + bobY, "#2563eb", p, ox, oy);
-  // Brass Clasps
-  drawPx(ctx, 13, 19 + bobY, "#facc15", p, ox, oy);
-  drawPx(ctx, 18, 19 + bobY, "#facc15", p, ox, oy);
-  // Denim Chest Bib
+  // Brass clasps
+  drawPx(ctx, 13, 18 + bobY, "#facc15", p, ox, oy);
+  drawPx(ctx, 18, 18 + bobY, "#facc15", p, ox, oy);
+  // Denim chest bib with yellow stitch pocket
   drawRectPx(ctx, 13, 19 + bobY, 6, 2, "#1d4ed8", p, ox, oy);
-  // Trousers
-  drawRectPx(ctx, 10, 21 + bobY, 3, 3, "#1d4ed8", p, ox, oy);
-  drawRectPx(ctx, 19, 21 + bobY, 3, 3, "#1d4ed8", p, ox, oy);
+  drawPx(ctx, 15, 19 + bobY, "#facc15", p, ox, oy);
+  drawPx(ctx, 16, 19 + bobY, "#facc15", p, ox, oy);
+  // Trousers covering pelvis and legs
+  drawRectPx(ctx, 11, 20 + bobY, 10, 2, "#1d4ed8", p, ox, oy);
+  drawPx(ctx, 16, 20 + bobY, "#1e3a8a", p, ox, oy);
+  drawPx(ctx, 16, 21 + bobY, "#1e3a8a", p, ox, oy);
+  // Rolled cuffs
+  drawRectPx(ctx, 12, 22 + bobY, 3, 1, "#93c5fd", p, ox, oy);
+  drawRectPx(ctx, 17, 22 + bobY, 3, 1, "#93c5fd", p, ox, oy);
 }
 
 function renderBottomCyberJoggers(c: AccessoryRenderContext) {
   const { ctx, p, ox, oy, bobY } = c;
-  drawRectPx(ctx, 11, 20 + bobY, 10, 1, "#020617", p, ox, oy);
-  drawRectPx(ctx, 10, 21 + bobY, 3, 3, "#0f172a", p, ox, oy);
-  drawRectPx(ctx, 19, 21 + bobY, 3, 3, "#0f172a", p, ox, oy);
-  // Neon cyan ankle straps & tech buckle
-  drawRectPx(ctx, 10, 23 + bobY, 3, 1, "#06b6d4", p, ox, oy);
-  drawRectPx(ctx, 19, 23 + bobY, 3, 1, "#06b6d4", p, ox, oy);
+  // Obsidian techwear waistband
+  drawRectPx(ctx, 11, 19 + bobY, 10, 1, "#020617", p, ox, oy);
+  drawPx(ctx, 16, 19 + bobY, "#06b6d4", p, ox, oy);
+  // Drop-crotch joggers
+  drawRectPx(ctx, 11, 20 + bobY, 10, 2, "#0f172a", p, ox, oy);
+  drawPx(ctx, 16, 20 + bobY, "#020617", p, ox, oy);
+  drawPx(ctx, 16, 21 + bobY, "#020617", p, ox, oy);
+  // Glowing cyan tech stripes
+  drawPx(ctx, 11, 20 + bobY, "#06b6d4", p, ox, oy);
+  drawPx(ctx, 11, 21 + bobY, "#06b6d4", p, ox, oy);
+  drawPx(ctx, 20, 20 + bobY, "#06b6d4", p, ox, oy);
+  drawPx(ctx, 20, 21 + bobY, "#06b6d4", p, ox, oy);
+  // Elastic ankle cuffs with buckle
+  drawRectPx(ctx, 12, 22 + bobY, 3, 1, "#06b6d4", p, ox, oy);
+  drawRectPx(ctx, 17, 22 + bobY, 3, 1, "#06b6d4", p, ox, oy);
 }
 
 function renderBottomMartialPants(c: AccessoryRenderContext) {
   const { ctx, p, ox, oy, bobY } = c;
-  // White Karate Gi Trousers
-  drawRectPx(ctx, 10, 21 + bobY, 3, 3, "#f8fafc", p, ox, oy);
-  drawRectPx(ctx, 19, 21 + bobY, 3, 3, "#f8fafc", p, ox, oy);
-  // Black Belt with tied knot
-  drawRectPx(ctx, 11, 20 + bobY, 10, 1, "#0f172a", p, ox, oy);
-  drawPx(ctx, 16, 21 + bobY, "#0f172a", p, ox, oy); // Knot
-  drawPx(ctx, 16, 22 + bobY, "#0f172a", p, ox, oy); // Hanging belt tail
+  // Traditional black karate belt (Kuro-obi)
+  drawRectPx(ctx, 11, 19 + bobY, 10, 1, "#0f172a", p, ox, oy);
+  drawPx(ctx, 16, 19 + bobY, "#334155", p, ox, oy); // Knot
+  drawPx(ctx, 16, 20 + bobY, "#0f172a", p, ox, oy); // Hanging belt tail
+  drawPx(ctx, 16, 21 + bobY, "#0f172a", p, ox, oy);
+  // Pure white gi trousers
+  drawRectPx(ctx, 11, 20 + bobY, 10, 2, "#f8fafc", p, ox, oy);
+  drawPx(ctx, 15, 20 + bobY, "#e2e8f0", p, ox, oy);
+  drawPx(ctx, 15, 21 + bobY, "#e2e8f0", p, ox, oy);
+  // Leg cuffs
+  drawRectPx(ctx, 12, 22 + bobY, 3, 1, "#cbd5e1", p, ox, oy);
+  drawRectPx(ctx, 17, 22 + bobY, 3, 1, "#cbd5e1", p, ox, oy);
 }
 
 // -------------------------------------------------------------------------
@@ -596,27 +709,27 @@ function renderAstronautHelmet(c: AccessoryRenderContext) {
 
 function renderHalo(c: AccessoryRenderContext) {
   const { ctx, p, ox, oy, bobY } = c;
-  // Golden Halo floating gracefully above head
-  drawRectPx(ctx, 11, 2 + bobY, 10, 1, "#facc15", p, ox, oy);
-  drawRectPx(ctx, 10, 3 + bobY, 12, 1, "#fde047", p, ox, oy);
-  drawRectPx(ctx, 12, 3 + bobY, 8, 1, "transparent", p, ox, oy); // Hollow inner
-  drawRectPx(ctx, 11, 4 + bobY, 10, 1, "#eab308", p, ox, oy);
+  // Golden Halo floating gracefully above head (hollow inner ring)
+  drawRectPx(ctx, 12, 2 + bobY, 8, 1, "#facc15", p, ox, oy); // Top arc
+  drawRectPx(ctx, 10, 3 + bobY, 2, 1, "#fde047", p, ox, oy); // Left edge
+  drawRectPx(ctx, 20, 3 + bobY, 2, 1, "#fde047", p, ox, oy); // Right edge
+  drawRectPx(ctx, 12, 4 + bobY, 8, 1, "#eab308", p, ox, oy); // Bottom arc
   // Sparkling holy light
   drawPx(ctx, 9, 2 + bobY, "#ffffff", p, ox, oy);
-  drawPx(ctx, 23, 3 + bobY, "#ffffff", p, ox, oy);
+  drawPx(ctx, 22, 3 + bobY, "#ffffff", p, ox, oy);
 }
 
 function renderShades(c: AccessoryRenderContext) {
   const { ctx, p, ox, oy, bobY } = c;
-  // Sleek Pixel Sunglasses over eyes (12..14 and 18..20)
-  drawRectPx(ctx, 11, 12 + bobY, 5, 3, "#0f172a", p, ox, oy); // Left lens
-  drawRectPx(ctx, 16, 12 + bobY, 5, 3, "#0f172a", p, ox, oy); // Right lens
-  drawRectPx(ctx, 15, 12 + bobY, 2, 1, "#0f172a", p, ox, oy); // Nose bridge
-  // Gloss glare
+  // Symmetrical pixel sunglasses leaving nose at X=16 unobstructed
+  drawRectPx(ctx, 11, 12 + bobY, 4, 3, "#0f172a", p, ox, oy); // Left lens
+  drawRectPx(ctx, 17, 12 + bobY, 4, 3, "#0f172a", p, ox, oy); // Right lens
+  drawRectPx(ctx, 15, 12 + bobY, 2, 1, "#0f172a", p, ox, oy); // Bridge above nose
+  // Gloss glares
   drawPx(ctx, 12, 12 + bobY, "#ffffff", p, ox, oy);
   drawPx(ctx, 13, 13 + bobY, "#38bdf8", p, ox, oy);
-  drawPx(ctx, 17, 12 + bobY, "#ffffff", p, ox, oy);
-  drawPx(ctx, 18, 13 + bobY, "#38bdf8", p, ox, oy);
+  drawPx(ctx, 18, 12 + bobY, "#ffffff", p, ox, oy);
+  drawPx(ctx, 19, 13 + bobY, "#38bdf8", p, ox, oy);
 }
 
 function renderCrown(c: AccessoryRenderContext) {
@@ -667,7 +780,7 @@ function renderWizardHat(c: AccessoryRenderContext) {
 
 function renderBow(c: AccessoryRenderContext) {
   const { ctx, p, ox, oy, bobY } = c;
-  // Dainty Pink Collar Ribbon Bow
+  // Dainty Pink Collar Ribbon Bow at neck Y=17
   drawRectPx(ctx, 12, 17 + bobY, 8, 1, "#fda4af", p, ox, oy);
   // Left wing
   drawPx(ctx, 13, 16 + bobY, "#fb7185", p, ox, oy);
@@ -687,40 +800,48 @@ function renderBow(c: AccessoryRenderContext) {
 
 function renderCap(c: AccessoryRenderContext) {
   const { ctx, p, ox, oy, bobY } = c;
-  // Streetwear Snapback Baseball Cap
+  // Streetwear Snapback Baseball Cap on top of head
   drawRectPx(ctx, 12, 6 + bobY, 8, 3, "#dc2626", p, ox, oy); // Red crown
-  drawPx(ctx, 16, 7 + bobY, "#ffffff", p, ox, oy); // White star logo
-  // Forward-projecting curved brim
-  drawRectPx(ctx, 11, 9 + bobY, 10, 1, "#991b1b", p, ox, oy);
-  drawRectPx(ctx, 10, 10 + bobY, 10, 1, "#7f1d1d", p, ox, oy);
+  drawPx(ctx, 16, 6 + bobY, "#f8fafc", p, ox, oy); // Eyelet
+  drawPx(ctx, 16, 7 + bobY, "#ffffff", p, ox, oy); // Star logo
+  // Forward-projecting curved brim at Y=8..9
+  drawRectPx(ctx, 11, 8 + bobY, 10, 1, "#991b1b", p, ox, oy);
+  drawRectPx(ctx, 12, 9 + bobY, 8, 1, "#7f1d1d", p, ox, oy);
 }
 
 function renderNinjaHeadband(c: AccessoryRenderContext) {
   const { ctx, p, ox, oy, bobY } = c;
-  drawRectPx(ctx, 10, 9 + bobY, 12, 1, "#0f172a", p, ox, oy);
-  drawRectPx(ctx, 14, 9 + bobY, 4, 1, "#e2e8f0", p, ox, oy); // Silver plate
-  drawPx(ctx, 15, 9 + bobY, "#475569", p, ox, oy);
+  drawRectPx(ctx, 10, 8 + bobY, 12, 1, "#0f172a", p, ox, oy);
+  drawRectPx(ctx, 14, 8 + bobY, 4, 1, "#e2e8f0", p, ox, oy); // Silver plate
+  drawPx(ctx, 15, 8 + bobY, "#475569", p, ox, oy);
   // Red ribbons on left
-  drawPx(ctx, 9, 9 + bobY, "#ef4444", p, ox, oy);
-  drawPx(ctx, 8, 10 + bobY, "#ef4444", p, ox, oy);
-  drawPx(ctx, 8, 11 + bobY, "#dc2626", p, ox, oy);
+  drawPx(ctx, 9, 8 + bobY, "#ef4444", p, ox, oy);
+  drawPx(ctx, 8, 9 + bobY, "#ef4444", p, ox, oy);
+  drawPx(ctx, 8, 10 + bobY, "#dc2626", p, ox, oy);
 }
 
 function renderTophat(c: AccessoryRenderContext) {
   const { ctx, p, ox, oy, bobY } = c;
-  drawRectPx(ctx, 12, 7 + bobY, 8, 1, "#020617", p, ox, oy); // Brim
-  drawRectPx(ctx, 13, 3 + bobY, 6, 4, "#0f172a", p, ox, oy); // Crown
-  drawRectPx(ctx, 13, 6 + bobY, 6, 1, "#ef4444", p, ox, oy); // Red ribbon
-  drawPx(ctx, 14, 4 + bobY, "#64748b", p, ox, oy); // Silk sheen
+  drawRectPx(ctx, 12, 6 + bobY, 8, 1, "#020617", p, ox, oy); // Brim
+  drawRectPx(ctx, 13, 2 + bobY, 6, 4, "#0f172a", p, ox, oy); // Crown
+  drawRectPx(ctx, 13, 5 + bobY, 6, 1, "#ef4444", p, ox, oy); // Red ribbon
+  drawPx(ctx, 14, 3 + bobY, "#64748b", p, ox, oy); // Silk sheen
 }
 
 function renderCyberGoggles(c: AccessoryRenderContext) {
   const { ctx, p, ox, oy, bobY } = c;
-  drawRectPx(ctx, 10, 12 + bobY, 12, 2, "#064e3b", p, ox, oy);
-  drawRectPx(ctx, 11, 12 + bobY, 4, 2, "#10b981", p, ox, oy);
-  drawRectPx(ctx, 17, 12 + bobY, 4, 2, "#10b981", p, ox, oy);
-  drawPx(ctx, 12, 12 + bobY, "#6ee7b7", p, ox, oy);
-  drawPx(ctx, 18, 12 + bobY, "#6ee7b7", p, ox, oy);
+  // Tactical Forehead Goggles pushed up at Y=8..10 so eyes are unobstructed
+  drawRectPx(ctx, 10, 8 + bobY, 12, 1, "#78350f", p, ox, oy); // Leather strap
+  // Left brass/emerald lens
+  drawRectPx(ctx, 11, 8 + bobY, 4, 3, "#047857", p, ox, oy);
+  drawRectPx(ctx, 12, 9 + bobY, 2, 1, "#34d399", p, ox, oy);
+  drawPx(ctx, 12, 8 + bobY, "#a7f3d0", p, ox, oy);
+  // Right brass/emerald lens
+  drawRectPx(ctx, 17, 8 + bobY, 4, 3, "#047857", p, ox, oy);
+  drawRectPx(ctx, 18, 9 + bobY, 2, 1, "#34d399", p, ox, oy);
+  drawPx(ctx, 18, 8 + bobY, "#a7f3d0", p, ox, oy);
+  // Center bridge
+  drawRectPx(ctx, 15, 9 + bobY, 2, 1, "#b45309", p, ox, oy);
 }
 
 function renderSakura(c: AccessoryRenderContext) {
@@ -794,7 +915,7 @@ function renderViking(c: AccessoryRenderContext) {
 }
 
 // =========================================================================
-// Main Dispatcher: 100% Complete Mapping for all 37 Accessories
+// Main Dispatcher: 100% Complete Mapping for all 43 Accessories
 // =========================================================================
 export function renderKawaiiAccessory(
   ctx: CanvasRenderingContext2D,
@@ -802,9 +923,23 @@ export function renderKawaiiAccessory(
   p: number,
   ox: number,
   oy: number,
-  bobY: number
+  bobYOrOptions: number | any = 0
 ) {
   if (!accessory || accessory === "none") return;
+
+  // Extract numeric bobY safely whether a number or options object was passed!
+  let bobY = 0;
+  if (typeof bobYOrOptions === "number") {
+    bobY = isNaN(bobYOrOptions) ? 0 : bobYOrOptions;
+  } else if (bobYOrOptions && typeof bobYOrOptions === "object") {
+    const isSleeping = Boolean(bobYOrOptions.isSleeping);
+    const isWalking = Boolean(bobYOrOptions.isWalking);
+    const walkStep = Number(bobYOrOptions.walkStep || 0);
+    const frame = String(bobYOrOptions.frame || "idle1");
+    const isFrameOdd = frame === "idle2" || frame === "walk2";
+    bobY = isSleeping ? 1 : isWalking ? (walkStep % 2 === 0 ? 0 : 1) : (isFrameOdd ? 1 : 0);
+  }
+
   const context: AccessoryRenderContext = { ctx, p, ox, oy, bobY };
 
   switch (accessory) {

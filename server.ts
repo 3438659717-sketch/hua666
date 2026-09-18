@@ -4,6 +4,7 @@ import { createServer as createViteServer } from "vite";
 import { GoogleGenAI, Type } from "@google/genai";
 import dotenv from "dotenv";
 import { generateOfflineKnowledgeReply } from "./server/offlineKnowledge";
+import { getHolidayById } from "./src/data/holidays";
 
 dotenv.config();
 
@@ -28,8 +29,8 @@ const T40_SPANISH_HASHTAGS = "#FOSMET #T40 #españa #Niños #relojinteligente";
 const T40_GERMAN_HASHTAGS = "#FOSMET #T40 #Kinder #Smartwatch #Kindersicherheit";
 
 // Google Search Grounding tool quota circuit breaker to prevent repeated 429 errors
-let isGoogleSearchToolQuotaExceeded = false;
-let googleSearchToolCooldownUntil = 0;
+let isGoogleSearchToolQuotaExceeded = true;
+let googleSearchToolCooldownUntil = Date.now() + 3600000;
 
 interface LiveSearchCitation {
   title: string;
@@ -47,11 +48,14 @@ async function performLiveWebSearch(query: string, maxResults = 5): Promise<Live
           "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,ja;q=0.7,de;q=0.6,es;q=0.5",
         },
       }),
-      5000,
+      2000,
       "Live web search timed out"
     );
     if (!res.ok) return [];
     const html = await res.text();
+    if (html.includes("anomaly-modal") || html.includes("challenge-form")) {
+      return [];
+    }
     const results: LiveSearchCitation[] = [];
     const linkRegex = /<a[^>]*class="result__a"[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/gi;
     const snippetRegex = /<a[^>]*class="result__snippet"[^>]*>([\s\S]*?)<\/a>/gi;
@@ -119,6 +123,7 @@ async function startServer() {
         customKeyword = "",
         customTags = "",
         language = "ja",
+        holiday = "none",
         excludeList = [],
       } = req.body;
 
@@ -931,6 +936,23 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
 各タイトルは必ず「FOSMET」と「REC10」を含み、末尾は必ず「${targetHashtags}」で終わること。`;
       }
 
+      const currentLang = (isKt80 || isG58 || isT40 || isV18pro || isV17max) ? (isGerman ? "de" : "es") : isI228 ? "es" : "ja";
+      const holidayInfo = getHolidayById(holiday, currentLang);
+
+      if (holidayInfo) {
+        const holidayPromptInjection = `
+
+【🎉 节日专属定制核心指令 (Festive Holiday Special Directive)】:
+- 当前限定节日/节点: ${holidayInfo.nameLocal} (${holidayInfo.nameZh})
+- 节日核心营销心理与痛点/诉求: ${holidayInfo.marketingAngle}
+- 严格要求: 生成的所有 50 组标题必须深度结合「${holidayInfo.nameLocal}」节日消费场景！
+  包含节日送礼、年末犒赏自己、限时节日折扣狂欢、节日必备黑科技、亲朋好友赞赏等节日心理诱因。
+  适度融入节日专属表情符号 (${holidayInfo.icon}) 与节日专属前缀或关键词（如：${holidayInfo.prefixes.join("、")} 等），让每一条标题都散发浓郁真实的节日促单吸引力！`;
+
+        systemInstruction += holidayPromptInjection;
+        userPrompt += `\n\n【重要：节日限定】本批文案必须全部围绕「${holidayInfo.nameLocal} (${holidayInfo.nameZh})」节日专属场景创作！充分体现：${holidayInfo.marketingAngle}！`;
+      }
+
       const generateConfig: any = {
         systemInstruction,
         temperature: 0.85,
@@ -975,8 +997,8 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
 
       // Multi-model candidate list for generation (aligned with official Gemini 3 models)
       const candidateModels = [
-        "gemini-3.6-flash",
-        "gemini-3.7-flash",
+        "gemini-3.8-flash",
+        "gemini-flash-latest",
         "gemini-3.1-flash-lite",
         "gemini-flash-lite-latest",
       ];
@@ -1042,6 +1064,7 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
           translationZh: item.translationZh || "",
           charCount: fullTitle.length,
           language: (isKt80 || isG58 || isT40 || isV18pro || isV17max) ? (isGerman ? "de" : "es") : isI228 ? "es" : "ja",
+          holiday: holidayInfo ? holidayInfo.badgeText : undefined,
           createdAt: new Date().toISOString(),
         };
       });
@@ -1069,14 +1092,104 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
       const {
         messages = [],
         persona = "tiktok_strategist",
-        model = "gemini-3.1-flash-lite",
+        model = "gemini-3.8-flash",
         enableSearchGrounding = true,
         productContext = {},
       } = req.body;
 
       // Extract last user question for fallback analysis
       const userQuestions = messages.filter((m: any) => m && m.role !== "model" && m.content);
-      const lastUserQuestion = userQuestions.length > 0 ? userQuestions[userQuestions.length - 1].content : "你好！请为当前产品提供出海营销策略。";
+      const lastUserQuestion = userQuestions.length > 0 ? userQuestions[userQuestions.length - 1].content : "你好！请问有什么我可以帮你的？";
+
+      // Context-aware subject extraction from conversation history:
+      // Resolves follow-up pronouns ("它", "这款", "这台", "刚才说的", "续航呢", "吸力呢", "上一个")
+      const productMatchers = [
+        { brand: "DyMona", model: "V17 MAX", name: "DyMona V17 MAX 吸尘器", regex: /v17(\s*max)?|58\s*kpa/i },
+        { brand: "DyMona", model: "V18 PRO", name: "DyMona V18 PRO 吸尘器", regex: /v18(\s*pro)?|绿光显尘|免弯腰|折叠臂/i },
+        { brand: "FOSMET", model: "REC10", name: "FOSMET REC10 录音卡", regex: /rec10|录音卡|录音笔|名片录音/i },
+        { brand: "FOSMET", model: "T40", name: "FOSMET T40 儿童手表", regex: /t40|儿童手表|儿童安全|课堂模式|爱的奖励/i },
+        { brand: "FOSMET", model: "QS40", name: "FOSMET QS40 手表", regex: /qs40|对腕|chatgpt手表|洗练银色/i },
+        { brand: "FOSMET", model: "T20", name: "FOSMET T20 户外手表", regex: /t20|c32\s*pro|高频排水|gnss/i },
+        { brand: "FOSMET", model: "KT80", name: "FOSMET KT80 战术手表", regex: /kt80|800mah|手电筒手表/i },
+        { brand: "FOSMET", model: "E12", name: "FOSMET E12 摄像头耳机", regex: /e12|pov耳机|拍照耳机/i },
+        { brand: "FOSMET", model: "E05", name: "FOSMET E05 电致变色眼镜", regex: /e05|变色眼镜|音频眼镜/i },
+        { brand: "FOSMET", model: "E09", name: "FOSMET E09 拍摄眼镜", regex: /e09|40g眼镜|拍摄眼镜/i },
+        { brand: "FOSMET", model: "G58", name: "FOSMET G58 女性手表", regex: /g58|女性时尚表/i },
+        { brand: "FOSMET", model: "G2", name: "FOSMET G2 手表", regex: /\bg2\b/i },
+        { brand: "FOSMET", model: "FOS10", name: "FOSMET FOS10 手环", regex: /fos10/i },
+        { brand: "FOSMET", model: "I228", name: "FOSMET I228 腕表", regex: /i228/i },
+      ];
+
+      let activeBrand = "";
+      let activeModelName = "";
+      let activePName = "";
+      let entityMatched = false;
+      let isContextInherited = false;
+
+      // Check if user is asking to reset, complain, or clear topic
+      const isResetOrComplaint = /答非所问|重来|清空|换个话题|不对|错了|别扯了|不是这个|不要吸尘器|别说吸尘器|跟这个没关系/i.test(lastUserQuestion);
+
+      // 1. Check current user question first for an explicit product match
+      for (const p of productMatchers) {
+        if (p.regex.test(lastUserQuestion)) {
+          activeBrand = p.brand;
+          activeModelName = p.model;
+          activePName = p.name;
+          entityMatched = true;
+          break;
+        }
+      }
+
+      // 2. In a multi-turn conversation, if user didn't mention a new product and didn't request a reset,
+      // INHERIT the active product being discussed from recent conversation history!
+      if (!entityMatched && !isResetOrComplaint && messages && messages.length > 1) {
+        // First check prior user messages from most recent to oldest
+        const userOnlyMessages = messages.filter((m: any) => m && m.role === "user");
+        const priorUserMessages = userOnlyMessages.slice(0, -1);
+        for (let i = priorUserMessages.length - 1; i >= 0; i--) {
+          const histContent = String(priorUserMessages[i]?.content || "");
+          for (const p of productMatchers) {
+            if (p.regex.test(histContent)) {
+              activeBrand = p.brand;
+              activeModelName = p.model;
+              activePName = p.name;
+              entityMatched = true;
+              isContextInherited = true;
+              break;
+            }
+          }
+          if (entityMatched) break;
+        }
+
+        // Second, check prior model messages if user messages didn't have explicit product name
+        if (!entityMatched) {
+          const modelMessages = messages.filter((m: any) => m && m.role === "model");
+          for (let i = modelMessages.length - 1; i >= 0; i--) {
+            const histContent = String(modelMessages[i]?.content || "");
+            for (const p of productMatchers) {
+              if (p.regex.test(histContent)) {
+                activeBrand = p.brand;
+                activeModelName = p.model;
+                activePName = p.name;
+                entityMatched = true;
+                isContextInherited = true;
+                break;
+              }
+            }
+            if (entityMatched) break;
+          }
+        }
+      }
+
+      // 3. Fallback to productContext if user is in a specific product context and not requesting universal reset
+      const hasFollowUpPronoun = /它|这款|这台|这个|该机|续航|吸力|参数|多少钱|价格|对比|怎么样|好用吗|分镜|脚本|标题|卖点|痛点|展开|细化|翻译/i.test(lastUserQuestion);
+      if (!entityMatched && !isResetOrComplaint && (hasFollowUpPronoun || !productContext.isUniversalMode) && productContext.name) {
+        activeBrand = productContext.brand || "FOSMET";
+        activeModelName = productContext.model || "";
+        activePName = productContext.name || "";
+        entityMatched = true;
+        isContextInherited = true;
+      }
 
       // Execute Real-time Web Search Grounding to align with 2025-2026 reality
       let liveWebGroundingSnippets: LiveSearchCitation[] = [];
@@ -1084,12 +1197,8 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
       let groundingSources: { title: string; uri: string }[] = [];
       let isFactualOrMarketInquiry = false;
 
-      // Always execute live search grounding to ensure reality alignment
       try {
         const rawQ = String(lastUserQuestion).replace(/[\n\r\t]/g, " ").trim();
-        const brand = productContext.brand || "FOSMET";
-        const modelName = productContext.model || "";
-        const pName = productContext.name || "";
 
         // Check if query is asking for external trends, competitors, or factual inquiries
         isFactualOrMarketInquiry =
@@ -1097,13 +1206,14 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
           rawQ.includes("竞品") || rawQ.includes("对比") || rawQ.includes("戴森") ||
           rawQ.includes("dyson") || rawQ.includes("shark") || rawQ.includes("apple") ||
           rawQ.includes("苹果") || rawQ.includes("调研") || rawQ.includes("大盘") ||
-          rawQ.includes("外部");
+          rawQ.includes("外部") || rawQ.includes("行情") || rawQ.includes("售价");
 
         let searchKeywords = "";
-        if (isFactualOrMarketInquiry) {
-          searchKeywords = `${brand} ${modelName} ${rawQ.slice(0, 30)} 2025 2026`.trim();
+        if (entityMatched) {
+          searchKeywords = `${activeBrand} ${activeModelName} ${rawQ.slice(0, 30)} 2025 2026`.trim();
         } else {
-          searchKeywords = `${brand} ${modelName} ${pName} review TikTok shop specs`.trim();
+          // General / competitor query: DO NOT prepend random vacuum cleaner names!
+          searchKeywords = `${rawQ.slice(0, 40)} 2025 2026`.trim();
         }
 
         if (isFactualOrMarketInquiry) {
@@ -1198,16 +1308,33 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
    - 经典圆形高透表镜 / 蓝牙通话与健康运动。
 `;
 
-      const systemInstruction = `${personaRoleInstruction}
+      const relevanceDirectives = entityMatched
+        ? `\n【🎯 当前多轮对话聚焦产品: ${activePName || prodName}】:
+- 当前讨论产品: ${activePName || prodName} (${activeBrand || prodBrand} ${activeModelName || prodModel})
+- 核心定位: ${prodDesc}
+- TikTok 爆款公式参考: ${prodFormula}
+- 核心卖点亮点: ${prodHighlights}
+- 核心技术参数: ${prodSpecs}
+${isContextInherited ? `\n【🧠 上下文连续追问与长程记忆指令 (Strict Context Continuity)】:
+- 当前用户的提问（如“${lastUserQuestion}”）直接承接上文针对【${activePName || prodName}】的讨论！
+- 你必须严格结合前文对话脉络、上一轮助手的输出与该产品进行深度回应（如针对前文展开、改写分镜脚本、翻译、润色、回答细节追问等）。
+- 绝不可遗忘前文正在讨论的产品，绝不可当作全新孤立问题处理！\n` : ""}`
+        : `\n【🚨 核心指令：当前提问为通用出海/社媒/营销/市场/竞品/自由咨询】:
+- 用户的提问与特定单一硬件无关。你必须直接、深入、全面、专业地解答用户提出的具体问题！
+- 绝对禁止强行将话题转移到吸尘器或某款具体硬件上，绝对禁止答非所问！
+- 【🧠 多轮上下文记忆准则】：如果用户此轮提问是在对前文内容进行追问、展开、修改、翻译、继续或细化（如“第2点展开”、“翻译成德语”、“换个风格”、“继续”），你必须严格继承上一轮助手的输出与前文对话脉络，给出无缝连贯的深入解答，绝不可遗忘上文！
+- 若用户表达批评、纠偏或指责（如“又答非所问”、“不对”、“你在说什么”、“别扯产品”），请诚恳道歉，并简明扼要地询问用户的具体需求或直接切中要点重构答案，切勿搬出任何硬件规格参数！\n`;
 
-【全品类通用搜索与当前默认关联产品】:
+      const systemInstruction = `${personaRoleInstruction}
+${relevanceDirectives}
+${entityMatched ? `【全品类通用搜索与当前默认关联产品】:
 - 当前模块默认关联产品: ${prodName} (${prodBrand} ${prodModel})
 - 核心定位: ${prodDesc}
 - TikTok 爆款公式参考: ${prodFormula}
 - 核心卖点亮点: ${prodHighlights}
 - 核心技术参数: ${prodSpecs}
 
-${ALL_PRODUCTS_CATALOG_SUMMARY}
+${ALL_PRODUCTS_CATALOG_SUMMARY}` : ""}
 
 【🌐 AI 智能搜索 · 实时全网检索客观事实（常驻开启 · 现实对齐）】:
 ${liveWebContext || "已成功连接全球实时检索网络，严密对照海外客观大盘动态。"}
@@ -1239,25 +1366,21 @@ ${liveWebContext || "已成功连接全球实时检索网络，严密对照海�
    - 当用户询问“你们有哪些产品”、“全品类矩阵”时，全面介绍 FOSMET & DyMona 旗下的硬件生态。
 6. 【社媒爆款生态现实对齐】：
    - 紧密贴合 TikTok 2025-2026 真实爆款热词（#cleantok, #amazonsaves, #tiktokmademebuyit, #techfinds 等）及真实海外消费心理（德国看重严谨参数测试、西班牙看重实用免弯腰与大空间清洁、日本看重轻薄极简与高质感）。
-7. 【回答结构与专业度】：
-   - 结构清晰严谨，多用 Markdown 格式（标题、加粗、对比表格、无序列表）。若涉及外语文案，务必提供清晰的地道原声对照与中文释义。`;
+8. 【🧠 深度上下文连贯记忆准则（极其重要 · 严禁遗忘上下文）】：
+   - 你具备卓越的长程多轮对话记忆与代词指代解析能力。在连续对话中，用户后续提问经常使用隐性代词或简短追问（如：“它”、“这款”、“这台”、“刚才说的那个”、“那吸力呢”、“续航多少”、“第二点展开细化”、“翻译成德语”、“按这个风格给另一个产品也写一套”、“继续”）。
+   - 你必须无缝承接前文正在讨论的产品实体与对话历史进行针对性解答，绝不可强行重置或遗忘前文讨论的产品！
+   - 如果用户针对上一轮助手的输出提出了进一步修改、翻译、改写、扩写或对比要求，必须直接继承上一轮的内容进行深化，给出完美连贯的响应。
+   - 只有在全新对话、或用户显式引入与前文无关的全新产品时，才切换讨论主体。`;
 
       // Sanitize and format messages strictly for Gemini multi-turn conversation
       const validMessages = (messages || []).filter((m: any) => m && m.content && String(m.content).trim());
       
-      // Find the first user message: Gemini multi-turn API MUST start with role: "user"
-      const firstUserIdx = validMessages.findIndex((m: any) => m.role === "user");
-      const trimmedMessages = firstUserIdx !== -1 ? validMessages.slice(firstUserIdx) : validMessages;
-
-      // Keep recent turns to prevent ballooning tokens & TPM quota exhaustion
-      const recentMessages = trimmedMessages.slice(-10);
-
       const formattedContents: any[] = [];
-      for (const msg of recentMessages) {
+      for (const msg of validMessages) {
         const role = msg.role === "model" ? "model" : "user";
         if (formattedContents.length > 0 && formattedContents[formattedContents.length - 1].role === role) {
           // Merge consecutive identical roles
-          formattedContents[formattedContents.length - 1].parts[0].text += "\n\n" + msg.content;
+          formattedContents[formattedContents.length - 1].parts[0].text += "\n\n" + String(msg.content);
         } else {
           formattedContents.push({
             role,
@@ -1266,25 +1389,31 @@ ${liveWebContext || "已成功连接全球实时检索网络，严密对照海�
         }
       }
 
-      // Ensure multi-turn conversation always ends with a user turn
+      // Gemini multi-turn API strictly requires the first turn to be 'user'
+      while (formattedContents.length > 0 && formattedContents[0].role === "model") {
+        formattedContents.shift();
+      }
+
+      // Gemini multi-turn API strictly requires the last turn to be 'user' (the current prompt)
       if (formattedContents.length > 0 && formattedContents[formattedContents.length - 1].role === "model") {
         formattedContents.pop();
       }
 
-      // Anchor the final question firmly to avoid off-topic answers
-      const mentionsOtherProduct = /(v17|v18|rec10|qs40|t20|kt80|e12|e05|e09|g58|g2|fos10|i228|t40)/i.test(lastUserQuestion);
-      const targetFocusProduct = mentionsOtherProduct ? "用户提问中所指具体产品" : `${prodBrand} ${prodModel} (${prodName})`;
+      // Retain a generous conversational context window (up to 24 turns = 12 complete user/assistant cycles)
+      if (formattedContents.length > 24) {
+        let trimmed = formattedContents.slice(-24);
+        while (trimmed.length > 0 && trimmed[0].role === "model") {
+          trimmed.shift();
+        }
+        formattedContents.length = 0;
+        formattedContents.push(...trimmed);
+      }
 
       if (formattedContents.length === 0) {
         formattedContents.push({
           role: "user",
-          parts: [{ text: `[目标产品: ${targetFocusProduct}]\n用户指令: ${lastUserQuestion || "你好！请为当前产品提供出海营销策略。"}\n\n【回答要求】: 100%针对上述指令直接精准回答，绝不答非所问，严禁跑题。` }],
+          parts: [{ text: lastUserQuestion || "你好！请为当前产品提供出海营销策略。" }],
         });
-      } else {
-        const lastUserIdx = formattedContents.length - 1;
-        if (formattedContents[lastUserIdx].role === "user") {
-          formattedContents[lastUserIdx].parts[0].text = `[目标产品: ${targetFocusProduct}]\n用户提问: ${formattedContents[lastUserIdx].parts[0].text}\n\n【回答要求】: 务必直接针对用户提问作答，严格契合 ${targetFocusProduct} 的真实规格与场景，绝不顾左右而言他，严禁答非所问。`;
-        }
       }
 
       const apiKey = process.env.GEMINI_API_KEY;
@@ -1302,22 +1431,20 @@ ${liveWebContext || "已成功连接全球实时检索网络，严密对照海�
           },
         });
 
-        // Determine candidate models list with robust fallback hierarchy
-        let requestedModel = model;
-        // Map any legacy or exhausted pro models to Google's flagship reasoning model gemini-3.7-flash
-        if (!requestedModel || requestedModel === "gemini-3.1-pro-preview" || requestedModel === "gemini-3.7-flash" || requestedModel.includes("pro")) {
-          requestedModel = "gemini-3.7-flash";
-        } else if (requestedModel === "gemini-3.8-flash" || requestedModel === "gemini-flash-latest") {
-          requestedModel = "gemini-3.6-flash";
+        // Determine candidate models list strictly with official fast and reliable Gemini models
+        let requestedModel = model || "gemini-3.8-flash";
+        if (requestedModel.includes("2.5") || requestedModel.includes("1.5") || requestedModel.includes("2.0") || requestedModel.includes("3.6") || requestedModel.includes("latest")) {
+          requestedModel = "gemini-3.8-flash";
         }
 
         const candidateModels = Array.from(new Set([
           requestedModel,
-          "gemini-3.7-flash",
-          "gemini-3.6-flash",
+          "gemini-3.8-flash",
           "gemini-3.1-flash-lite",
-          "gemini-flash-lite-latest",
         ]));
+
+        const SEARCH_TIMEOUT_MS = 6000;
+        const MODEL_TIMEOUT_MS = 14000;
 
         // Multi-tier attempt loop
         for (const cand of candidateModels) {
@@ -1329,6 +1456,7 @@ ${liveWebContext || "已成功连接全球实时检索网络，严密对照海�
                 systemInstruction,
                 temperature: 0.35,
                 topP: 0.9,
+                thinkingConfig: { thinkingBudget: 0 },
                 tools: [{ googleSearch: {} }],
               };
               const response = await withTimeout(
@@ -1337,7 +1465,7 @@ ${liveWebContext || "已成功连接全球实时检索网络，严密对照海�
                   contents: formattedContents,
                   config: chatConfigWithSearch,
                 }),
-                25000,
+                SEARCH_TIMEOUT_MS,
                 `Search grounding timed out on model ${cand}`
               );
               if (response && response.text) {
@@ -1362,7 +1490,7 @@ ${liveWebContext || "已成功连接全球实时检索网络，严密对照海�
               const is429 = errStr.includes("429") || errStr.includes("RESOURCE_EXHAUSTED") || searchErr?.status === 429;
               if (is429) {
                 isGoogleSearchToolQuotaExceeded = true;
-                googleSearchToolCooldownUntil = Date.now() + 15 * 60 * 1000;
+                googleSearchToolCooldownUntil = Date.now() + 60 * 60 * 1000;
                 console.log(`[AI 搜索] Google Search API 工具配额已达限 (429)，已自动切换为全网实时事实注入引擎继续执行 (${cand})`);
               }
             }
@@ -1374,6 +1502,7 @@ ${liveWebContext || "已成功连接全球实时检索网络，严密对照海�
               systemInstruction,
               temperature: 0.35,
               topP: 0.9,
+              thinkingConfig: { thinkingBudget: 0 },
             };
             const response = await withTimeout(
               ai.models.generateContent({
@@ -1381,7 +1510,7 @@ ${liveWebContext || "已成功连接全球实时检索网络，严密对照海�
                 contents: formattedContents,
                 config: chatConfigStandard,
               }),
-              25000,
+              MODEL_TIMEOUT_MS,
               `Standard chat timed out on model ${cand}`
             );
             if (response && response.text) {
@@ -1404,6 +1533,7 @@ ${liveWebContext || "已成功连接全球实时检索网络，严密对照海�
           persona,
           productContext,
           enableSearchGrounding: true,
+          conversationHistory: messages,
         });
         responseText = offlineResult.text;
         if (groundingSources.length === 0) {
@@ -1441,6 +1571,7 @@ ${liveWebContext || "已成功连接全球实时检索网络，严密对照海�
           persona: req.body.persona || "tiktok_strategist",
           productContext: req.body.productContext || {},
           enableSearchGrounding: true,
+          conversationHistory: req.body.messages || [],
         });
         return res.json({
           success: true,

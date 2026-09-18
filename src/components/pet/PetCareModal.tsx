@@ -54,6 +54,8 @@ interface PetCareModalProps {
   onOpenWardrobe?: () => void;
   onOpenTools?: () => void;
   onOpenMiniGame?: () => void;
+  onOpenExpedition?: () => void;
+  onOpenInspiration?: () => void;
   petDisplaySize?: number;
   onCyclePetSize?: () => void;
   behaviorMode?: "wander" | "follow" | "stay" | "sleep";
@@ -73,6 +75,8 @@ export const PetCareModal: React.FC<PetCareModalProps> = ({
   onOpenWardrobe,
   onOpenTools,
   onOpenMiniGame,
+  onOpenExpedition,
+  onOpenInspiration,
   petDisplaySize,
   onCyclePetSize,
   behaviorMode = "wander",
@@ -654,6 +658,42 @@ export const PetCareModal: React.FC<PetCareModalProps> = ({
 
                 {/* Grid of Main Feature Modals */}
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                  {onOpenExpedition && (
+                    <button
+                      onClick={() => {
+                        onClose();
+                        onOpenExpedition();
+                      }}
+                      className="p-3 rounded-xl bg-cyan-950/40 hover:bg-cyan-900/50 border border-cyan-500/30 hover:border-cyan-400/60 text-left transition-all active:scale-95 group shadow-sm flex items-center gap-2.5"
+                    >
+                      <div className="w-8 h-8 rounded-lg bg-cyan-500/20 flex items-center justify-center text-cyan-300 group-hover:scale-110 transition-transform shrink-0">
+                        <Compass className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-white">全球出海远征</div>
+                        <div className="text-[10px] text-cyan-300/80">探寻出海高转化宝箱</div>
+                      </div>
+                    </button>
+                  )}
+
+                  {onOpenInspiration && (
+                    <button
+                      onClick={() => {
+                        onClose();
+                        onOpenInspiration();
+                      }}
+                      className="p-3 rounded-xl bg-amber-950/40 hover:bg-amber-900/50 border border-amber-500/30 hover:border-amber-400/60 text-left transition-all active:scale-95 group shadow-sm flex items-center gap-2.5"
+                    >
+                      <div className="w-8 h-8 rounded-lg bg-amber-500/20 flex items-center justify-center text-amber-300 group-hover:scale-110 transition-transform shrink-0">
+                        <Lightbulb className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-white">爆款灵感锦囊</div>
+                        <div className="text-[10px] text-amber-300/80">AI 钩子台词与分镜</div>
+                      </div>
+                    </button>
+                  )}
+
                   {onOpenWardrobe && (
                     <button
                       onClick={() => {

@@ -58,7 +58,7 @@ export const GeminiChatModal: React.FC<GeminiChatModalProps> = ({
   onApplyKeyword,
 }) => {
   const [persona, setPersona] = useState<ChatbotPersona>("tiktok_strategist");
-  const [model, setModel] = useState<GeminiModelId>("gemini-3.7-flash");
+  const [model, setModel] = useState<GeminiModelId>("gemini-3.8-flash");
   const [enableSearchGrounding, setEnableSearchGrounding] = useState<boolean>(true);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
@@ -119,7 +119,7 @@ export const GeminiChatModal: React.FC<GeminiChatModalProps> = ({
           : `👋 **你好！我是 FOSMET & DyMona「AI 智能搜索」出海智库**。\n\n🌐 **全网实时检索与现实对齐已常驻就绪**：每次回答均与海外真实大盘和客观规格严密对齐。\n\n当前已自动关联：**${activeProduct.name}**（${activeProduct.japaneseType}）。\n- 🏷️ **核心定位**：${activeProduct.shortDesc}\n- ⚡ **主打卖点**：${(activeProduct.highlights || []).join(" ； ")}\n\n💡 **通用搜索已就绪**：即使当前在【${activeProduct.name}】模块，你也可以直接向我提问或对比**旗下其他任意产品**（如吸尘器、录音卡、儿童手表、拍摄眼镜）或**外部竞品大盘**，AI 将全方位深度解答！`,
         timestamp: new Date().toISOString(),
         persona: "tiktok_strategist",
-        modelUsed: "gemini-3.7-flash",
+        modelUsed: "gemini-3.8-flash",
         searchGroundingUsed: true,
       };
       setMessages([initialGreeting]);

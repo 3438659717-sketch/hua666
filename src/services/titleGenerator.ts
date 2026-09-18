@@ -30,6 +30,7 @@ export async function generateTitles(params: GenerationParams): Promise<{
           customKeyword: params.customKeyword || "",
           customTags: activeTags,
           language: lang,
+          holiday: params.holiday || "none",
         }),
       });
 
@@ -56,6 +57,7 @@ export async function generateTitles(params: GenerationParams): Promise<{
               charCount: fullTitle.length,
               hookCharCount: hook.length,
               language: lang,
+              holiday: (params.holiday && params.holiday !== "none") ? params.holiday : undefined,
               isFavorite: false,
               createdAt: new Date().toISOString(),
             };
@@ -64,7 +66,7 @@ export async function generateTitles(params: GenerationParams): Promise<{
 
         // Fill up to 50 if AI returned slightly fewer
         if (mappedTitles.length < 50) {
-          const fallback = generateAlgorithmicTitles(prodId, params.category, params.customKeyword, activeTags, Date.now(), lang);
+          const fallback = generateAlgorithmicTitles(prodId, params.category, params.customKeyword, activeTags, Date.now(), lang, params.holiday);
           while (mappedTitles.length < 50 && fallback.length > 0) {
             const item = fallback.pop();
             if (item) mappedTitles.push(item);
@@ -76,7 +78,7 @@ export async function generateTitles(params: GenerationParams): Promise<{
     } catch (err: any) {
       console.warn("AI generation failed, smoothly falling back to fast algorithmic matrix:", err);
       // Fallback to algorithmic generator
-      const titles = generateAlgorithmicTitles(prodId, params.category, params.customKeyword, activeTags, Date.now(), lang);
+      const titles = generateAlgorithmicTitles(prodId, params.category, params.customKeyword, activeTags, Date.now(), lang, params.holiday);
       return {
         titles,
         source: "algorithm",
@@ -86,7 +88,7 @@ export async function generateTitles(params: GenerationParams): Promise<{
   }
 
   // Instant algorithmic generation
-  const titles = generateAlgorithmicTitles(prodId, params.category, params.customKeyword, activeTags, Date.now(), lang);
+  const titles = generateAlgorithmicTitles(prodId, params.category, params.customKeyword, activeTags, Date.now(), lang, params.holiday);
   return { titles, source: "algorithm" };
 }
 

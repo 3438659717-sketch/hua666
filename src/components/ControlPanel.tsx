@@ -31,12 +31,16 @@ import {
   X,
   Trash2,
   Wind,
+  Calendar,
+  Gift,
 } from "lucide-react";
 import { PRODUCTS_CONFIG } from "../data/templates";
 import { parseTagsToArray, formatArrayToTagString, normalizeTagString, getDefaultTagsForProduct } from "../utils/tagUtils";
 import { KT80_SPANISH_TAGS, KT80_GERMAN_TAGS } from "../data/kt80Templates";
 import { G58_SPANISH_TAGS, G58_GERMAN_TAGS } from "../data/g58Templates";
+import { getHolidaysForLanguage, getHolidayById, getCountryInfoForLanguage } from "../data/holidays";
 import { MagneticButton } from "./MagneticButton";
+import { playPetSound } from "../utils/petSound";
 
 interface ControlPanelProps {
   params: GenerationParams;
@@ -347,6 +351,22 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   const prevProdIdRef = useRef<string>(currentProductId);
   const prevLangRef = useRef<string>(currentLang);
 
+  const availableHolidays = getHolidaysForLanguage(currentLang);
+  const activeHolidayId = params.holiday || "none";
+  const activeHoliday = getHolidayById(activeHolidayId, currentLang);
+  const countryInfo = getCountryInfoForLanguage(currentLang);
+
+  // Re-verify holiday compatibility whenever language/country changes
+  useEffect(() => {
+    if (params.holiday && params.holiday !== "none") {
+      const list = getHolidaysForLanguage(currentLang);
+      const exists = list.some((h) => h.id === params.holiday);
+      if (!exists) {
+        onChangeParams({ holiday: "none" });
+      }
+    }
+  }, [currentLang, params.holiday, onChangeParams]);
+
   // Synchronize when product/language changes or when customTags is changed externally
   useEffect(() => {
     const prodChanged = currentProductId !== prevProdIdRef.current;
@@ -560,6 +580,39 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           { label: "ON-WRIST CHATGPT", val: "AI", unit: "对话", desc: "手腕直接说出问题 · 语音实时应答", color: "liquid-metal-cyan", icon: <Bot className="w-4 h-4 text-cyan-400" /> },
           { label: "HD TOUCH DISPLAY", val: "1.85", unit: "寸", desc: "视网膜全彩大屏 · 蓝牙高清双向通话", color: "liquid-metal-gold", icon: <Radio className="w-4 h-4 text-amber-400" /> },
         ];
+    }
+  };
+
+  const getProductHotKeywords = () => {
+    switch (currentProductId) {
+      case "t40":
+        return ["防走丢GPS双频", "亲子高清视讯", "上课防沉迷禁用", "一键SOS报警", "班级朋友圈交友"];
+      case "v18pro":
+        return ["折叠免弯腰打扫", "28000Pa飓风吸力", "深层除螨99%", "单手极轻握持", "毛发零缠绕"];
+      case "v17max":
+        return ["200平大户型续航", "智能灰尘感应", "绿光显尘黑科技", "干湿全地形清洁"];
+      case "rec10":
+        return ["老板画饼取证", "1小时会议3秒出纪要", "思维导图双AI", "薄如银行卡", "1536k无损双麦"];
+      case "qs40":
+        return ["手腕ChatGPT秒回", "9.8mm超薄洗练银", "千元级质感百元入手", "高颜值表盘DIY"];
+      case "t20":
+        return ["脱机多星GNSS", "物理高频震动排水", "气压海拔指南针", "防刮军规耐操"];
+      case "kt80":
+        return ["800mAh电量怪兽", "机身侧置强光手电", "5ATM真潜水级", "防摔战术硬汉"];
+      case "e12":
+        return ["免掏手机视角开黑", "16mm震撼双扬声器", "40g无感佩戴", "第一人称POV实拍"];
+      case "e05":
+        return ["镜片轻触瞬时变色", "AI实时同声传译", "变色太阳镜+耳机二合一", "出差防眩光"];
+      case "e09":
+        return ["SONY 800万微型相机", "防抖POV日常Vlog", "防蓝光变色智能镜", "极轻40g黑科技"];
+      case "g58":
+        return ["1.27\"通透高清屏", "女生专属生理期追踪", "米兰尼斯轻奢双表带", "高颜值穿搭神器"];
+      case "g2":
+        return ["女性生理期守护", "睡眠深度精准监测", "100+时尚表盘", "轻盈百搭高颜值"];
+      case "fos10":
+        return ["14.9g极限羽量", "10.66mm纤薄流线", "无感睡眠监测", "超长续航"];
+      default:
+        return ["出海爆款", "痛点反转", "高转化", "神机实测"];
     }
   };
 
@@ -822,6 +875,195 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
         </div>
       </div>
 
+      {/* 节日专属标题定制 (Holiday Title Special Customization) */}
+      <div className="mt-6 p-4 sm:p-5 rounded-[24px] bg-gradient-to-r from-amber-500/[0.08] via-purple-500/[0.05] to-blue-500/[0.08] border border-amber-400/30 shadow-xl relative overflow-hidden">
+        {/* Subtle decorative festive glow */}
+        <div className="absolute top-0 right-0 w-48 h-48 bg-amber-400/[0.06] rounded-full blur-2xl pointer-events-none" />
+
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3.5 border-b border-white/[0.09] relative z-10">
+          <div className="flex items-center gap-2.5">
+            <div className="p-2 rounded-[14px] bg-amber-400/20 text-amber-300 border border-amber-400/30 shadow-xs">
+              <Gift className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-xs font-black text-white tracking-tight flex items-center gap-1.5">
+                  <span>节日专属标题定制</span>
+                  <span className="text-[10.5px] font-normal text-amber-300/80 font-mono">
+                    (Holiday Title Edition)
+                  </span>
+                </span>
+                <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-white/10 text-zinc-200 border border-white/15 flex items-center gap-1">
+                  <span>{countryInfo.flag}</span>
+                  <span>{countryInfo.countryZh}专属节庆 ({countryInfo.count}个)</span>
+                </span>
+                {activeHoliday ? (
+                  <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-gradient-to-r from-amber-500/30 to-orange-500/30 text-amber-300 border border-amber-400/50 shadow-[0_0_12px_rgba(251,191,36,0.3)] flex items-center gap-1">
+                    <span>🎉</span> 已激活：{activeHoliday.nameLocal}
+                  </span>
+                ) : (
+                  <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-white/[0.06] text-white/50 border border-white/[0.1]">
+                    平时日常模式 (无节日限定)
+                  </span>
+                )}
+              </div>
+              <p className="text-[11px] text-white/60 mt-0.5">
+                可自由选择产品目标国家的全年节日生成专属限定标题；选择「无」即为平时日常标题生成。
+              </p>
+            </div>
+          </div>
+
+          {activeHoliday && (
+            <button
+              type="button"
+              id="btn-reset-holiday"
+              onClick={() => {
+                onChangeParams({ holiday: "none" });
+                playPetSound("click");
+              }}
+              className="self-start sm:self-center px-3 py-1.5 rounded-[12px] text-[11px] font-medium text-white/70 hover:text-white bg-white/[0.08] hover:bg-white/[0.15] border border-white/15 transition-all cursor-pointer flex items-center gap-1"
+              title="切换回平时日常模式"
+            >
+              <RotateCcw className="w-3 h-3" />
+              <span>恢复平时模式</span>
+            </button>
+          )}
+        </div>
+
+        {/* Holiday Dropdown Selector & Status Card */}
+        <div className="mt-4 relative z-10">
+          <div className="flex flex-col md:flex-row md:items-center gap-3">
+            <div className="flex-1">
+              <label htmlFor="select-holiday-option" className="block text-[11px] font-semibold text-white/70 mb-1.5 flex items-center gap-1.5">
+                <Calendar className="w-3.5 h-3.5 text-amber-400" />
+                <span>选择目标节日 (包含{countryInfo.countryZh}所有官方与热门节庆)：</span>
+              </label>
+              <div className="relative">
+                <select
+                  id="select-holiday-option"
+                  value={activeHolidayId}
+                  onChange={(e) => {
+                    const newHId = e.target.value;
+                    onChangeParams({ holiday: newHId });
+                    if (newHId === "none") {
+                      playPetSound("click");
+                    } else {
+                      playPetSound("sparkle");
+                    }
+                  }}
+                  className="w-full pl-3.5 pr-10 py-2.5 text-xs bg-black/75 border border-white/[0.18] rounded-[16px] text-white font-medium focus:border-amber-400 focus:ring-2 focus:ring-amber-400/25 outline-hidden transition-all cursor-pointer appearance-none hover:bg-black/90 shadow-inner"
+                >
+                  <option value="none" className="bg-zinc-900 text-white py-1">
+                    ⚡ 无 (日常平时模式) —— 平常标准的日常爆款短视频标题生成
+                  </option>
+                  <optgroup label={`── ${countryInfo.countryZh} 全年所有节日专属选项 (${countryInfo.count}个) ──`} className="bg-zinc-900 text-amber-400 font-bold">
+                    {availableHolidays.filter((h) => h.id !== "none").map((h) => (
+                      <option key={h.id} value={h.id} className="bg-zinc-900 text-white font-normal py-1">
+                        {h.icon} {h.nameZh} ｜ {h.nameLocal} ({h.dateDesc})
+                      </option>
+                    ))}
+                  </optgroup>
+                </select>
+                <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-white/50">
+                  <span className="text-xs">▼</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Current Active Mode Status Card */}
+            <div className="md:w-72 p-3 rounded-[16px] bg-black/50 border border-white/10 flex items-center gap-2.5 text-xs">
+              <span className="text-2xl">{activeHoliday ? activeHoliday.icon : "⚡"}</span>
+              <div className="truncate">
+                <span className="text-[10px] text-white/40 block font-mono">当前生成模式</span>
+                <span className="font-bold text-white truncate block">
+                  {activeHoliday ? `${activeHoliday.nameLocal} 专属` : "日常平时模式 (全季标准)"}
+                </span>
+                <span className="text-[10px] text-amber-300/80 truncate block">
+                  {activeHoliday ? activeHoliday.dateDesc : "50 组通用爆款短视频标题"}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Quick Selection Chips for Fast 1-Click Switching */}
+          <div className="mt-3.5 pt-3 border-t border-white/[0.08] flex items-center gap-1.5 flex-wrap">
+            <span className="text-[10px] text-white/50 font-medium mr-1 flex items-center gap-1">
+              <span>⚡ 快捷选择:</span>
+            </span>
+
+            {/* "None" Chip */}
+            <button
+              type="button"
+              id="chip-holiday-none"
+              onClick={() => {
+                onChangeParams({ holiday: "none" });
+                playPetSound("click");
+              }}
+              className={`px-2.5 py-1 rounded-[10px] text-[11px] font-medium transition-all cursor-pointer border ${
+                activeHolidayId === "none"
+                  ? "bg-white text-black font-bold border-white shadow-xs"
+                  : "bg-white/[0.05] hover:bg-white/[0.1] text-white/70 border-white/[0.08]"
+              }`}
+            >
+              无 (平时日常)
+            </button>
+
+            {/* Available Holiday Chips */}
+            {availableHolidays.filter((h) => h.id !== "none").map((h) => {
+              const isSelected = activeHolidayId === h.id;
+              return (
+                <button
+                  key={h.id}
+                  id={`chip-holiday-${h.id}`}
+                  type="button"
+                  onClick={() => {
+                    onChangeParams({ holiday: h.id });
+                    playPetSound("sparkle");
+                  }}
+                  className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-[10px] text-[11px] font-medium transition-all cursor-pointer border ${
+                    isSelected
+                      ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold border-amber-300 shadow-[0_0_12px_rgba(251,146,60,0.4)]"
+                      : "bg-white/[0.04] hover:bg-white/[0.1] text-zinc-300 hover:text-white border-white/[0.08]"
+                  }`}
+                >
+                  <span>{h.icon}</span>
+                  <span>{h.nameLocal.split("・")[0]}</span>
+                  {isSelected && <span className="text-[10px] font-bold">✓</span>}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Active Holiday Marketing Insight Window */}
+          {activeHoliday && (
+            <div className="mt-3 p-3 rounded-[16px] bg-black/60 border border-amber-400/30 text-xs space-y-1.5 shadow-inner">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <span className="font-bold text-amber-300 flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
+                  <span>节日营销心智与痛点场景 ({activeHoliday.nameZh}):</span>
+                </span>
+                <span className="text-[10px] text-white/50 font-mono">
+                  档期节点: {activeHoliday.dateDesc}
+                </span>
+              </div>
+              <p className="text-white/80 leading-relaxed text-[11.5px]">
+                {activeHoliday.marketingAngle}
+              </p>
+              {activeHoliday.prefixes && activeHoliday.prefixes.length > 0 && (
+                <div className="pt-1.5 flex items-center gap-1.5 flex-wrap text-[10.5px]">
+                  <span className="text-white/50">已配置专属前缀:</span>
+                  {activeHoliday.prefixes.map((p, pIdx) => (
+                    <span key={pIdx} className="px-2 py-0.5 rounded-[6px] bg-amber-500/20 border border-amber-400/30 text-amber-200 font-mono">
+                      {p}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+
       {/* 5-Tag Management Suite */}
       <div className="mt-6 p-4 sm:p-5 rounded-[24px] bg-black/40 border border-white/[0.09] shadow-inner">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3.5 border-b border-white/[0.08]">
@@ -1006,8 +1248,50 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
         </div>
       </div>
 
+      {/* 2026 出海爆款灵感突触矩阵 (Viral Hot Keyword Synapses) */}
+      <div className="mt-5 pt-4 border-t border-white/[0.08]">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-[11px] font-bold text-white/70 flex items-center gap-1.5 font-mono">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
+            <span>爆款突触词矩阵（点击直通词条注入）:</span>
+          </span>
+          <span className="text-[10px] text-white/40 font-mono">
+            {currentProduct.model} 专属词库
+          </span>
+        </div>
+
+        <div className="flex items-center gap-1.5 flex-wrap">
+          {getProductHotKeywords().map((kw, kIdx) => {
+            const isSelected = params.customKeyword === kw;
+            return (
+              <button
+                key={kIdx}
+                type="button"
+                onClick={() => {
+                  if (isSelected) {
+                    onChangeParams({ customKeyword: "" });
+                    playPetSound("click");
+                  } else {
+                    onChangeParams({ customKeyword: kw });
+                    playPetSound("sparkle");
+                  }
+                }}
+                className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-[10px] text-[11px] font-medium transition-all cursor-pointer border ${
+                  isSelected
+                    ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold border-amber-400 shadow-[0_0_12px_rgba(251,146,60,0.4)]"
+                    : "bg-white/[0.04] hover:bg-white/[0.1] text-zinc-300 hover:text-white border-white/[0.08]"
+                }`}
+              >
+                <span>{kw}</span>
+                {isSelected && <span className="text-[10px] font-bold">✓</span>}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Keyword Modifier & Xiaomi Vitality Generate Action */}
-      <div className="mt-6 pt-5 border-t border-white/[0.08] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+      <div className="mt-4 pt-4 border-t border-white/[0.08] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
         <div className="flex-1">
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-white/40">

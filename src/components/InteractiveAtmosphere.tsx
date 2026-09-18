@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState, useMemo, useCallback } from "react";
+import { playPetSound, isPetSoundMuted, togglePetSoundMute } from "../utils/petSound";
 
 interface Particle {
   id: number;
@@ -73,6 +74,7 @@ interface ConstellationLink {
 }
 
 export type AtmospherePerfMode = "ultra" | "balanced" | "eco";
+export type CosmicScenePreset = "auto" | "aurora" | "supernova" | "cyberpunk" | "obsidian";
 
 interface InteractiveAtmosphereProps {
   theme?: string; // "cyan" | "amber" | "emerald" | "purple" | "blue" | "rose" | "sky" | "pink" | "teal"
@@ -92,6 +94,8 @@ const InteractiveAtmosphereComponent: React.FC<InteractiveAtmosphereProps> = ({
   });
 
   const [meteorShowerActive, setMeteorShowerActive] = useState<boolean>(false);
+  const [cosmicScene, setCosmicScene] = useState<CosmicScenePreset>("auto");
+  const [isMuted, setIsMuted] = useState<boolean>(() => isPetSoundMuted());
 
   const mousePos = useRef({
     x: typeof window !== "undefined" ? window.innerWidth / 2 : 500,
@@ -120,8 +124,65 @@ const InteractiveAtmosphereComponent: React.FC<InteractiveAtmosphereProps> = ({
   const animationFrameId = useRef<number | null>(null);
   const isPageVisibleRef = useRef<boolean>(true);
 
-  // Harmonious, soft, luxury cosmic palette based on product theme
+  // Harmonious, soft, luxury cosmic palette based on product theme or active cosmic scene
   const palette = useMemo(() => {
+    if (cosmicScene === "aurora") {
+      return {
+        primarySpot: "rgba(45, 212, 191, 0.22)",
+        secondarySpot: "rgba(168, 85, 247, 0.18)",
+        ringCore: "rgba(45, 212, 191, 0.60)",
+        ringOuter: "rgba(192, 132, 252, 0.35)",
+        particles: ["#2dd4bf", "#c084fc", "#38bdf8", "#ffffff", "#a7f3d0"],
+        nebula1: "rgba(20, 184, 166, 0.12)",
+        nebula2: "rgba(147, 51, 234, 0.10)",
+        stream1: "linear-gradient(120deg, rgba(45, 212, 191, 0.16) 0%, rgba(168, 85, 247, 0.12) 50%, transparent 80%)",
+        stream2: "linear-gradient(240deg, rgba(56, 189, 248, 0.14) 0%, rgba(192, 132, 252, 0.10) 60%, transparent 85%)",
+        glowGlow: "#2dd4bf",
+      };
+    }
+    if (cosmicScene === "supernova") {
+      return {
+        primarySpot: "rgba(245, 158, 11, 0.24)",
+        secondarySpot: "rgba(244, 63, 94, 0.18)",
+        ringCore: "rgba(245, 158, 11, 0.65)",
+        ringOuter: "rgba(244, 63, 94, 0.35)",
+        particles: ["#fbbf24", "#f43f5e", "#fde68a", "#ffffff", "#fed7aa"],
+        nebula1: "rgba(245, 158, 11, 0.12)",
+        nebula2: "rgba(244, 63, 94, 0.10)",
+        stream1: "linear-gradient(120deg, rgba(245, 158, 11, 0.16) 0%, rgba(244, 63, 94, 0.12) 50%, transparent 80%)",
+        stream2: "linear-gradient(240deg, rgba(251, 146, 60, 0.14) 0%, rgba(217, 70, 239, 0.10) 60%, transparent 85%)",
+        glowGlow: "#f59e0b",
+      };
+    }
+    if (cosmicScene === "cyberpunk") {
+      return {
+        primarySpot: "rgba(6, 182, 212, 0.24)",
+        secondarySpot: "rgba(236, 72, 153, 0.20)",
+        ringCore: "rgba(6, 182, 212, 0.65)",
+        ringOuter: "rgba(236, 72, 153, 0.35)",
+        particles: ["#22d3ee", "#f472b6", "#818cf8", "#ffffff", "#67e8f9"],
+        nebula1: "rgba(6, 182, 212, 0.12)",
+        nebula2: "rgba(236, 72, 153, 0.10)",
+        stream1: "linear-gradient(120deg, rgba(6, 182, 212, 0.18) 0%, rgba(236, 72, 153, 0.14) 50%, transparent 80%)",
+        stream2: "linear-gradient(240deg, rgba(129, 140, 248, 0.14) 0%, rgba(244, 63, 94, 0.10) 60%, transparent 85%)",
+        glowGlow: "#06b6d4",
+      };
+    }
+    if (cosmicScene === "obsidian") {
+      return {
+        primarySpot: "rgba(255, 255, 255, 0.14)",
+        secondarySpot: "rgba(148, 163, 184, 0.10)",
+        ringCore: "rgba(255, 255, 255, 0.45)",
+        ringOuter: "rgba(203, 213, 225, 0.25)",
+        particles: ["#ffffff", "#e2e8f0", "#cbd5e1", "#f8fafc", "#94a3b8"],
+        nebula1: "rgba(255, 255, 255, 0.05)",
+        nebula2: "rgba(148, 163, 184, 0.04)",
+        stream1: "linear-gradient(120deg, rgba(255, 255, 255, 0.10) 0%, rgba(148, 163, 184, 0.06) 50%, transparent 80%)",
+        stream2: "linear-gradient(240deg, rgba(203, 213, 225, 0.08) 0%, rgba(71, 85, 105, 0.06) 60%, transparent 85%)",
+        glowGlow: "#ffffff",
+      };
+    }
+
     switch (theme) {
       case "cyan": // E12
         return {
@@ -241,7 +302,7 @@ const InteractiveAtmosphereComponent: React.FC<InteractiveAtmosphereProps> = ({
           glowGlow: "#3b82f6",
         };
     }
-  }, [theme]);
+  }, [theme, cosmicScene]);
 
   // Dynamic particle budget based on device perfMode
   useEffect(() => {
@@ -336,16 +397,17 @@ const InteractiveAtmosphereComponent: React.FC<InteractiveAtmosphereProps> = ({
   }, [palette.particles, perfMode]);
 
   const triggerMeteorShower = () => {
+    playPetSound("meteor");
     setMeteorShowerActive(true);
-    const count = perfMode === "eco" ? 6 : 12;
+    const count = perfMode === "eco" ? 6 : 14;
     for (let i = 0; i < count; i++) {
       setTimeout(() => {
         spawnMeteor(undefined, undefined, i % 3 === 0);
-      }, i * 220);
+      }, i * 200);
     }
     setTimeout(() => {
       setMeteorShowerActive(false);
-    }, 3200);
+    }, 3400);
   };
 
   // Page visibility listener to stop animation loop when tab is hidden (saves 100% CPU on mobile)
@@ -815,8 +877,9 @@ const InteractiveAtmosphereComponent: React.FC<InteractiveAtmosphereProps> = ({
         className="fixed inset-0 w-full h-full pointer-events-none z-0 opacity-85"
       />
 
-      {/* 4. Performance & Cosmic Quick Switcher Widget */}
-      <div className="fixed bottom-3 left-3 z-30 pointer-events-auto flex items-center gap-1.5">
+      {/* 4. Performance, Scene & Sound Cosmic Control Hub */}
+      <div className="fixed bottom-3 left-3 sm:left-4 z-30 pointer-events-auto flex items-center gap-1.5 flex-wrap max-w-[90vw]">
+        {/* Meteor Shower Trigger */}
         <button
           type="button"
           onClick={triggerMeteorShower}
@@ -826,26 +889,70 @@ const InteractiveAtmosphereComponent: React.FC<InteractiveAtmosphereProps> = ({
               ? "bg-amber-500/30 text-amber-200 border-amber-400/60 shadow-[0_0_12px_rgba(245,158,11,0.5)] animate-pulse"
               : "bg-slate-900/80 text-slate-300 hover:text-white border-white/15 hover:border-cyan-400/50 hover:bg-slate-800 shadow-[0_2px_12px_rgba(0,0,0,0.4)]"
           }`}
-          title="召唤流星雨"
+          title="召唤流星雨并奏响星空音效"
         >
           <span className="text-xs">🌠</span>
           <span className="hidden sm:inline">{meteorShowerActive ? "流星雨降临中" : "召唤流星雨"}</span>
         </button>
 
+        {/* Cosmic Scene Switcher */}
         <button
           type="button"
-          onClick={() =>
+          onClick={() => {
+            playPetSound("sparkle");
+            const sceneOrder: CosmicScenePreset[] = ["auto", "aurora", "supernova", "cyberpunk", "obsidian"];
+            const nextIdx = (sceneOrder.indexOf(cosmicScene) + 1) % sceneOrder.length;
+            setCosmicScene(sceneOrder[nextIdx]);
+          }}
+          className="flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-medium border border-white/15 bg-slate-900/80 text-slate-300 hover:text-cyan-300 hover:border-cyan-400/40 backdrop-blur-md transition-all cursor-pointer shadow-[0_2px_12px_rgba(0,0,0,0.4)]"
+          title="切换宇宙天象奇景（契合产品 / 极光漫舞 / 超新星 / 赛博霓虹 / 黑曜钻芒）"
+        >
+          <span className="text-xs">🌌</span>
+          <span>
+            {cosmicScene === "auto" && "天象: 契合产品"}
+            {cosmicScene === "aurora" && "天象: 极光漫舞"}
+            {cosmicScene === "supernova" && "天象: 超新星星尘"}
+            {cosmicScene === "cyberpunk" && "天象: 赛博霓虹"}
+            {cosmicScene === "obsidian" && "天象: 黑曜钻芒"}
+          </span>
+        </button>
+
+        {/* Performance Mode Switcher */}
+        <button
+          type="button"
+          onClick={() => {
+            playPetSound("click");
             setPerfMode((prev) =>
               prev === "ultra" ? "balanced" : prev === "balanced" ? "eco" : "ultra"
-            )
-          }
-          className="flex items-center gap-1 px-2 py-1.5 rounded-full text-xs font-medium border border-white/15 bg-slate-900/80 text-slate-300 hover:text-cyan-300 hover:border-cyan-400/40 backdrop-blur-md transition-all cursor-pointer shadow-[0_2px_12px_rgba(0,0,0,0.4)]"
+            );
+          }}
+          className="hidden xs:flex items-center gap-1 px-2 py-1.5 rounded-full text-xs font-medium border border-white/15 bg-slate-900/80 text-slate-300 hover:text-cyan-300 hover:border-cyan-400/40 backdrop-blur-md transition-all cursor-pointer shadow-[0_2px_12px_rgba(0,0,0,0.4)]"
           title="切换渲染性能模式（极速/流畅/华丽）"
         >
           <span className="text-xs">⚡</span>
           <span>
             {perfMode === "ultra" ? "华丽模式" : perfMode === "balanced" ? "流畅模式" : "极速省电"}
           </span>
+        </button>
+
+        {/* Web Audio Synthesizer Mute/Unmute */}
+        <button
+          type="button"
+          onClick={() => {
+            const next = togglePetSoundMute();
+            setIsMuted(next);
+            if (!next) {
+              playPetSound("coin");
+            }
+          }}
+          className={`flex items-center justify-center w-7 h-7 rounded-full text-xs border backdrop-blur-md transition-all cursor-pointer shadow-[0_2px_12px_rgba(0,0,0,0.4)] ${
+            isMuted
+              ? "bg-slate-900/80 text-slate-500 border-white/10 hover:text-white"
+              : "bg-cyan-500/20 text-cyan-300 border-cyan-400/40 hover:bg-cyan-500/30"
+          }`}
+          title={isMuted ? "开启星空与交互音效" : "静音所有音效"}
+        >
+          <span>{isMuted ? "🔇" : "🔊"}</span>
         </button>
       </div>
 

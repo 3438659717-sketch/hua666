@@ -24,6 +24,7 @@ import {
 import { ProductId, TargetLanguage } from "../types";
 import { PRODUCTS_CONFIG } from "../data/templates";
 import { MagneticButton } from "./MagneticButton";
+import { playPetSound } from "../utils/petSound";
 
 interface HeaderProps {
   currentProductId: ProductId;
@@ -288,7 +289,10 @@ export const Header: React.FC<HeaderProps> = ({
                   key={p.id}
                   type="button"
                   id={`header-switch-${p.id}`}
-                  onClick={() => onSelectProduct(p.id)}
+                  onClick={() => {
+                    playPetSound("click");
+                    onSelectProduct(p.id);
+                  }}
                   className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-[16px] text-xs font-semibold transition-all duration-200 cursor-pointer flex-shrink-0 physic-spring-tap ${
                     isSelected
                       ? `${p.activeClass} border ring-1 ring-white/30`

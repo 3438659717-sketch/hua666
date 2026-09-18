@@ -302,6 +302,7 @@ function renderKawaiiCat(
 ) {
   const {
     frame = "idle1",
+    accessory = "none",
     isBlinking = false,
     isHappy = false,
     activityStep = 0,
@@ -479,12 +480,22 @@ function renderKawaiiCat(
   }
 
   // 7. CYAN COLLAR (Reference Image 1 Iconic Feature!)
-  const collarY = 17 + bobY;
-  drawRectPx(ctx, 10, collarY, 13, 1, palette.accent || "#06b6d4", p, ox, oy);
-  drawRectPx(ctx, 11, collarY + 1, 11, 1, palette.accent || "#06b6d4", p, ox, oy);
-  // Gold Bell / Tag in center
-  drawPx(ctx, 16, collarY + 1, "#facc15", p, ox, oy);
-  drawPx(ctx, 16, collarY + 2, "#eab308", p, ox, oy);
+  // If wearing top, suit, scarf, or overalls, skip default cyan collar so clothing fits naturally
+  const hasNeckCovering =
+    accessory.startsWith("suit_") ||
+    accessory.startsWith("top_") ||
+    accessory === "scarf" ||
+    accessory === "bottom_overalls" ||
+    accessory === "bow";
+
+  if (!hasNeckCovering) {
+    const collarY = 17 + bobY;
+    drawRectPx(ctx, 10, collarY, 13, 1, palette.accent || "#06b6d4", p, ox, oy);
+    drawRectPx(ctx, 11, collarY + 1, 11, 1, palette.accent || "#06b6d4", p, ox, oy);
+    // Gold Bell / Tag in center
+    drawPx(ctx, 16, collarY + 1, "#facc15", p, ox, oy);
+    drawPx(ctx, 16, collarY + 2, "#eab308", p, ox, oy);
+  }
 
   // 8. BODY, CHEST & PAWS (Sitting posture with white bib & paws - Ref Image 2)
   const bodyY = 18 + bobY;
@@ -534,7 +545,7 @@ function renderKawaiiSpecies(
     return;
   }
 
-  const { frame = "idle1", isBlinking = false, isHappy = false, time = 0 } = options;
+  const { frame = "idle1", accessory = "none", isBlinking = false, isHappy = false, time = 0 } = options;
   const isWalking = frame === "walk1" || frame === "walk2";
   const walkStep = frame === "walk2" ? 1 : 0;
   const isSleeping = frame === "sleep";
@@ -653,10 +664,19 @@ function renderKawaiiSpecies(
     drawPx(ctx, 16, 15 + bobY, palette.outline, p, ox, oy);
   }
 
-  // Collar / Scarf / Neck Ornament
-  const collarY = 17 + bobY;
-  drawRectPx(ctx, 11, collarY, 11, 1, palette.accent || "#06b6d4", p, ox, oy);
-  drawPx(ctx, 16, collarY + 1, "#facc15", p, ox, oy);
+  // Collar / Scarf / Neck Ornament (skip if wearing top/suit/scarf/overalls/bow)
+  const hasNeckCovering =
+    accessory.startsWith("suit_") ||
+    accessory.startsWith("top_") ||
+    accessory === "scarf" ||
+    accessory === "bottom_overalls" ||
+    accessory === "bow";
+
+  if (!hasNeckCovering) {
+    const collarY = 17 + bobY;
+    drawRectPx(ctx, 11, collarY, 11, 1, palette.accent || "#06b6d4", p, ox, oy);
+    drawPx(ctx, 16, collarY + 1, "#facc15", p, ox, oy);
+  }
 
   // Body & White Chest
   const bodyY = 18 + bobY;

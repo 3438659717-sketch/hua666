@@ -27,7 +27,10 @@ export type PetSoundType =
   | "click"
   | "gacha"
   | "quest"
-  | "error";
+  | "error"
+  | "meteor"
+  | "sparkle"
+  | "copy_sparkle";
 
 export function setPetSoundMuted(muted: boolean) {
   isMuted = muted;
@@ -220,6 +223,58 @@ export function playPetSound(type: PetSoundType) {
           gain.connect(ctx.destination);
           osc.start(now + delay);
           osc.stop(now + delay + 0.1);
+        });
+        break;
+      }
+      case "meteor": {
+        // Ethereal crystal glockenspiel cascade (F#6, A#6, C#7, F#7)
+        const notes = [1479.98, 1864.66, 2217.46, 2959.96];
+        notes.forEach((freq, idx) => {
+          const delay = idx * 0.05;
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(freq, now + delay);
+          gain.gain.setValueAtTime(0.08, now + delay);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + delay + 0.3);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now + delay);
+          osc.stop(now + delay + 0.32);
+        });
+        break;
+      }
+      case "sparkle": {
+        // Crisp dual chime sparkle (E6 -> G#6)
+        [1318.51, 1661.22].forEach((freq, idx) => {
+          const delay = idx * 0.07;
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "triangle";
+          osc.frequency.setValueAtTime(freq, now + delay);
+          gain.gain.setValueAtTime(0.09, now + delay);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + delay + 0.22);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now + delay);
+          osc.stop(now + delay + 0.24);
+        });
+        break;
+      }
+      case "copy_sparkle": {
+        // Satisfying high-register coin-sparkle chime for one-click copy
+        [1046.5, 1318.51, 2093.0].forEach((freq, idx) => {
+          const delay = idx * 0.05;
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(freq, now + delay);
+          gain.gain.setValueAtTime(0.08, now + delay);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + delay + 0.2);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now + delay);
+          osc.stop(now + delay + 0.22);
         });
         break;
       }

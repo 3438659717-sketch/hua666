@@ -13,6 +13,7 @@ import { generateV18proAlgorithmicTitles, V18PRO_FIXED_TAGS } from "./v18proTemp
 import { generateV17maxAlgorithmicTitles, V17MAX_FIXED_TAGS } from "./v17maxTemplates";
 import { generateT40AlgorithmicTitles, T40_SPANISH_TAGS, T40_GERMAN_TAGS } from "./t40Templates";
 import { getChineseTranslation } from "../utils/translator";
+import { getHolidayById } from "./holidays";
 
 export const FIXED_TAGS = "#FOSMET #REC10 #AIレコーダー #ChatGPT #プロモーションの仕事";
 export const REC10_FIXED_TAGS = FIXED_TAGS;
@@ -897,7 +898,8 @@ export function generateAlgorithmicTitles(
   customKeyword = "",
   customTags?: string,
   batchSeed = Date.now(),
-  language: TargetLanguage = "es"
+  language: TargetLanguage = "es",
+  holiday?: string
 ): GeneratedTitle[] {
   let rawResults: GeneratedTitle[] = [];
 
@@ -1037,9 +1039,58 @@ export function generateAlgorithmicTitles(
     rawResults = generatedList;
   }
 
-  // Ensure 100% of generated titles have accurate, fluent Chinese translation
-  return rawResults.map((t) => ({
-    ...t,
-    translationZh: t.translationZh || getChineseTranslation(t),
-  }));
+  const isJapaneseProduct = ["rec10", "qs40", "t20", "e12", "e05", "e09", "g2", "fos10"].includes(productId);
+  const effectiveLang: TargetLanguage = isJapaneseProduct ? "ja" : (language || "es");
+  const holidayItem = getHolidayById(holiday, effectiveLang);
+
+  // Ensure 100% of generated titles have accurate, fluent Chinese translation and festive decorators when selected
+  return rawResults.map((t, index) => {
+    let finalHook = t.hook;
+    let finalZh = t.translationZh || getChineseTranslation(t);
+    let finalTags = t.tags;
+    const finalHoliday = holidayItem ? holidayItem.badgeText : undefined;
+
+    if (holidayItem && holidayItem.prefixes && holidayItem.prefixes.length > 0) {
+      const prefix = holidayItem.prefixes[index % holidayItem.prefixes.length];
+      const zhPrefix = holidayItem.zhPrefixes[index % holidayItem.zhPrefixes.length] || prefix;
+
+      if (!finalHook.startsWith("【")) {
+        finalHook = `${prefix}${finalHook}`;
+      } else {
+        if (index % 2 === 0) {
+          finalHook = finalHook.replace(/^【[^】]+】/, prefix);
+        } else {
+          finalHook = `${prefix} ${finalHook}`;
+        }
+      }
+
+      if (!finalZh.startsWith("【")) {
+        finalZh = `${zhPrefix}${finalZh}`;
+      } else {
+        if (index % 2 === 0) {
+          finalZh = finalZh.replace(/^【[^】]+】/, zhPrefix);
+        } else {
+          finalZh = `${zhPrefix} ${finalZh}`;
+        }
+      }
+
+      if (holidayItem.extraTags && index % 3 === 0 && !finalTags.includes(holidayItem.extraTags.split(" ")[0])) {
+        finalTags = `${finalTags} ${holidayItem.extraTags}`;
+      }
+    }
+
+    const fullTitle = `${finalHook} ${finalTags}`;
+
+    return {
+      ...t,
+      title: fullTitle,
+      hook: finalHook,
+      tags: finalTags,
+      charCount: fullTitle.length,
+      hookCharCount: finalHook.length,
+      translationZh: finalZh,
+      language: t.language || effectiveLang,
+      holiday: finalHoliday,
+    };
+  });
 }

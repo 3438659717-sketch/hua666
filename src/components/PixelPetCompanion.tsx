@@ -44,7 +44,10 @@ import { PetToolsModal } from "./pet/PetToolsModal";
 import { PetMiniGameModal } from "./pet/PetMiniGameModal";
 import { PetQuizModal } from "./pet/PetQuizModal";
 import { PetKnowledgeCardModal } from "./pet/PetKnowledgeCardModal";
-import { BrainCircuit, BookOpen } from "lucide-react";
+import { PetExpeditionModal } from "./pet/PetExpeditionModal";
+import { PetInspirationCoPilot } from "./pet/PetInspirationCoPilot";
+import { PetEvolutionAura } from "./pet/PetEvolutionAura";
+import { BrainCircuit, BookOpen, Lightbulb, Timer } from "lucide-react";
 
 export type PetBehaviorMode = "wander" | "stay" | "sleep" | "follow";
 
@@ -99,6 +102,9 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
   const [isMiniGameModalOpen, setIsMiniGameModalOpen] = useState<boolean>(false);
   const [isQuizModalOpen, setIsQuizModalOpen] = useState<boolean>(false);
   const [isKnowledgeModalOpen, setIsKnowledgeModalOpen] = useState<boolean>(false);
+  const [isExpeditionModalOpen, setIsExpeditionModalOpen] = useState<boolean>(false);
+  const [isInspirationCoPilotOpen, setIsInspirationCoPilotOpen] = useState<boolean>(false);
+  const [isAuraEnabled, setIsAuraEnabled] = useState<boolean>(true);
 
   // Behavioral & Visual State
   const [behaviorMode, setBehaviorMode] = useState<PetBehaviorMode>("wander");
@@ -272,7 +278,14 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
   const petConfig = PIXEL_SPRITES[selectedPet] || PIXEL_SPRITES.cat;
   const currentProd = PRODUCTS_CONFIG[currentProductId] || PRODUCTS_CONFIG.rec10;
 
-  // Speech Bubble Trigger
+  // Cancel any speech synthesis on mount to keep pet quiet
+  useEffect(() => {
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+    }
+  }, []);
+
+  // Speech Bubble Trigger (Visual text only, strictly silent)
   const showBubble = useCallback((text: string, durationMs: number = 3500) => {
     if (bubbleTimerRef.current) clearTimeout(bubbleTimerRef.current);
     setBubbleText(text);
@@ -281,6 +294,29 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
       setIsBubbleVisible(false);
     }, durationMs);
   }, []);
+
+  // Direct 1-Click Bento Quick Feeding (Instant Hunger & Energy Recharge)
+  const handleQuickFeedBento = useCallback((e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    playPetSound("feed");
+    updateGrowthState((prev) => ({
+      ...prev,
+      hunger: Math.min(100, prev.hunger + 35),
+      energy: Math.min(100, prev.energy + 30),
+      happiness: Math.min(100, prev.happiness + 15),
+      affinity: Math.min(1000, prev.affinity + 12),
+      exp: prev.exp + 25,
+    }));
+    const sparkId = getUniquePetId("spark_bento");
+    setClickSparks((prev) => [
+      ...prev.slice(-3),
+      { id: sparkId, x: 28, y: -5, text: "🍱 元气便当饱食+35！", color: "#10b981" },
+    ]);
+    setTimeout(() => {
+      setClickSparks((prev) => prev.filter((s) => s.id !== sparkId));
+    }, 1200);
+    showBubble("🍱 哇！美味的元气便当！体力与灵感满满充能完毕~", 2800);
+  }, [updateGrowthState, showBubble]);
 
   // Direct DOM position updater for ultra-smooth 60fps movement without React re-render overhead
   const updateDomPosition = useCallback((x: number, y: number) => {
@@ -1413,6 +1449,14 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
           setIsCareModalOpen(false);
           setIsMiniGameModalOpen(true);
         }}
+        onOpenExpedition={() => {
+          setIsCareModalOpen(false);
+          setIsExpeditionModalOpen(true);
+        }}
+        onOpenInspiration={() => {
+          setIsCareModalOpen(false);
+          setIsInspirationCoPilotOpen(true);
+        }}
         petDisplaySize={petDisplaySize}
         onCyclePetSize={cyclePetSize}
         behaviorMode={behaviorMode}
@@ -1471,6 +1515,26 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
         onClose={() => setIsKnowledgeModalOpen(false)}
         state={growthState}
         onUpdateState={updateGrowthState}
+        onShowToast={showPetToast}
+      />
+
+      {/* Global Expedition Treasure Hunt Modal */}
+      <PetExpeditionModal
+        isOpen={isExpeditionModalOpen}
+        onClose={() => setIsExpeditionModalOpen(false)}
+        currentProductId={currentProductId}
+        state={growthState}
+        onUpdateState={updateGrowthState}
+        onShowToast={showPetToast}
+        onApplyInspiration={onApplyInspiration}
+      />
+
+      {/* Real-time AI Inspiration Co-Pilot Card */}
+      <PetInspirationCoPilot
+        isOpen={isInspirationCoPilotOpen}
+        onClose={() => setIsInspirationCoPilotOpen(false)}
+        currentProductId={currentProductId}
+        onApplyInspiration={onApplyInspiration}
         onShowToast={showPetToast}
       />
 
@@ -1762,9 +1826,181 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
             />
           </div>
 
-          {/* D. Unified Compact Top Status Capsule Bar (Only Level/Coins + Quick Behavior Mode) */}
+          {/* Evolution Cosmic Aura (Tier 1~4 based on Level & Affinity) */}
+          <PetEvolutionAura
+            level={growthState.level}
+            affinity={growthState.affinity}
+            size={petDisplaySize}
+            isEnabled={isAuraEnabled}
+          />
+
+          {/* Quick Pet Command Radial / Floating Hub */}
+          <AnimatePresence>
+            {isQuickMenuOpen && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: 8 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 8 }}
+                className="absolute bottom-[calc(100%+36px)] left-1/2 -translate-x-1/2 w-64 p-3 rounded-[22px] bg-slate-950/95 border border-cyan-400/40 shadow-[0_12px_45px_rgba(0,0,0,0.85)] backdrop-blur-xl z-50 text-white space-y-2 pointer-events-auto select-none"
+              >
+                {/* Header */}
+                <div className="flex items-center justify-between border-b border-white/10 pb-1.5 px-0.5">
+                  <div className="text-[11px] font-black text-white flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+                    <span>桌宠全维控制中枢</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setIsQuickMenuOpen(false)}
+                    className="text-white/40 hover:text-white transition-colors cursor-pointer"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+
+                {/* Actions Grid */}
+                <div className="grid grid-cols-3 gap-1.5 text-[10px]">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsQuickMenuOpen(false);
+                      setIsInspirationCoPilotOpen(true);
+                    }}
+                    className="p-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/30 text-center flex flex-col items-center gap-1 transition-all cursor-pointer"
+                  >
+                    <Lightbulb className="w-4 h-4 text-amber-300" />
+                    <span className="font-bold text-amber-200">爆款军师</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsQuickMenuOpen(false);
+                      setIsExpeditionModalOpen(true);
+                    }}
+                    className="p-2 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-400/30 text-center flex flex-col items-center gap-1 transition-all cursor-pointer"
+                  >
+                    <Compass className="w-4 h-4 text-cyan-300" />
+                    <span className="font-bold text-cyan-200">出海远征</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      handleQuickFeedBento(e);
+                    }}
+                    className="p-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-400/30 text-center flex flex-col items-center gap-1 transition-all cursor-pointer"
+                  >
+                    <span className="text-sm">🍱</span>
+                    <span className="font-bold text-emerald-200">一键便当</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      handlePetDoubleClick(e);
+                    }}
+                    className="p-2 rounded-xl bg-purple-500/15 hover:bg-purple-500/25 border border-purple-400/30 text-center flex flex-col items-center gap-1 transition-all cursor-pointer"
+                  >
+                    <span className="text-sm">🤸</span>
+                    <span className="font-bold text-purple-200">特技空翻</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsQuickMenuOpen(false);
+                      setIsWardrobeModalOpen(true);
+                    }}
+                    className="p-2 rounded-xl bg-pink-500/15 hover:bg-pink-500/25 border border-pink-400/30 text-center flex flex-col items-center gap-1 transition-all cursor-pointer"
+                  >
+                    <Shirt className="w-4 h-4 text-pink-300" />
+                    <span className="font-bold text-pink-200">换装衣橱</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsQuickMenuOpen(false);
+                      setIsMiniGameModalOpen(true);
+                    }}
+                    className="p-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-400/30 text-center flex flex-col items-center gap-1 transition-all cursor-pointer"
+                  >
+                    <Gamepad2 className="w-4 h-4 text-emerald-300" />
+                    <span className="font-bold text-emerald-200">接球游戏</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsQuickMenuOpen(false);
+                      setIsToolsModalOpen(true);
+                    }}
+                    className="p-2 rounded-xl bg-blue-500/15 hover:bg-blue-500/25 border border-blue-400/30 text-center flex flex-col items-center gap-1 transition-all cursor-pointer"
+                  >
+                    <Timer className="w-4 h-4 text-blue-300" />
+                    <span className="font-bold text-blue-200">专注时钟</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsQuickMenuOpen(false);
+                      setIsQuizModalOpen(true);
+                    }}
+                    className="p-2 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-400/30 text-center flex flex-col items-center gap-1 transition-all cursor-pointer"
+                  >
+                    <BrainCircuit className="w-4 h-4 text-cyan-300" />
+                    <span className="font-bold text-cyan-200">带货问答</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      cyclePetSize();
+                      playPetSound("click");
+                    }}
+                    className="p-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 text-center flex flex-col items-center gap-1 transition-all cursor-pointer"
+                  >
+                    <Maximize2 className="w-4 h-4 text-white/80" />
+                    <span className="font-bold text-white/90">调节尺寸</span>
+                  </button>
+                </div>
+
+                {/* Secondary Toggles Row */}
+                <div className="flex items-center justify-between pt-1 border-t border-white/10 text-[10px]">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsAuraEnabled(!isAuraEnabled);
+                      playPetSound("click");
+                    }}
+                    className={`px-2 py-1 rounded-lg transition-all cursor-pointer flex items-center gap-1 ${
+                      isAuraEnabled ? "bg-amber-500/20 text-amber-300 border border-amber-400/30" : "bg-white/5 text-white/40"
+                    }`}
+                  >
+                    <Sparkles className="w-3 h-3" />
+                    <span>进化光环: {isAuraEnabled ? "开" : "关"}</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleToggleSound}
+                    className={`px-2 py-1 rounded-lg transition-all cursor-pointer flex items-center gap-1 ${
+                      !isMuted ? "bg-cyan-500/20 text-cyan-300 border border-cyan-400/30" : "bg-white/5 text-white/40"
+                    }`}
+                  >
+                    {!isMuted ? <Volume2 className="w-3 h-3" /> : <VolumeX className="w-3 h-3" />}
+                    <span>8-bit音效: {!isMuted ? "开启" : "静音"}</span>
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* D. Unified Compact Top Status Capsule Bar (Expanded with Direct Quick Buttons) */}
           <div
-            className="absolute -top-7 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-slate-950/90 border border-white/25 text-[9px] font-mono text-cyan-300 flex items-center gap-1.5 shadow-xl whitespace-nowrap backdrop-blur-md select-none pointer-events-auto z-40"
+            className="absolute -top-7 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full bg-slate-950/90 border border-white/25 text-[9px] font-mono text-cyan-300 flex items-center gap-1 shadow-xl whitespace-nowrap backdrop-blur-md select-none pointer-events-auto z-40"
           >
             {/* 1. Level & Coins (Clickable to open Care & Status Panel with all sub-features) */}
             <button
@@ -1785,7 +2021,69 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
 
             <span className="w-px h-3 bg-white/20" />
 
-            {/* 2. Quick AI Search Trigger */}
+            {/* 2. Direct AI Inspiration Co-Pilot Button */}
+            <button
+              type="button"
+              onPointerDown={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsInspirationCoPilotOpen((prev) => !prev);
+                playPetSound("sparkle");
+              }}
+              className="p-0.5 text-[10px] rounded-full bg-amber-500/30 hover:bg-amber-500/50 text-amber-200 ring-1 ring-amber-400/40 hover:scale-110 active:scale-95 transition-all cursor-pointer"
+              title="💡 爆款军师锦囊 (黄金前3秒钩子与分镜)"
+            >
+              💡
+            </button>
+
+            {/* 3. Direct Global Expedition Button */}
+            <button
+              type="button"
+              onPointerDown={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsExpeditionModalOpen(true);
+                playPetSound("quest");
+              }}
+              className="p-0.5 text-[10px] rounded-full bg-cyan-500/30 hover:bg-cyan-500/50 text-cyan-200 ring-1 ring-cyan-400/40 hover:scale-110 active:scale-95 transition-all cursor-pointer"
+              title="🗺️ 全球出海远征 (东京/柏林/马德里/硅谷寻宝)"
+            >
+              🗺️
+            </button>
+
+            {/* 4. Direct 1-Click Bento Feed Button */}
+            <button
+              type="button"
+              onPointerDown={(e) => e.stopPropagation()}
+              onClick={handleQuickFeedBento}
+              className="p-0.5 text-[10px] rounded-full bg-emerald-500/30 hover:bg-emerald-500/50 text-emerald-200 ring-1 ring-emerald-400/40 hover:scale-110 active:scale-95 transition-all cursor-pointer"
+              title="🍱 快捷投喂元气便当 (体力与精力即刻充能)"
+            >
+              🍱
+            </button>
+
+            {/* 5. Quick Command Hub Toggle */}
+            <button
+              type="button"
+              onPointerDown={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsQuickMenuOpen((prev) => !prev);
+                playPetSound("click");
+              }}
+              className={`p-0.5 text-[10px] rounded-full transition-all cursor-pointer hover:scale-110 active:scale-95 ${
+                isQuickMenuOpen
+                  ? "bg-purple-500/50 text-white ring-2 ring-purple-400 shadow-[0_0_8px_#c084fc]"
+                  : "bg-purple-500/30 text-purple-200 ring-1 ring-purple-400/40"
+              }`}
+              title="⚡ 打开桌宠全维控制中枢 (10大功能快捷触达)"
+            >
+              ⚡
+            </button>
+
+            <span className="w-px h-3 bg-white/20" />
+
+            {/* 6. Quick AI Search Trigger */}
             {onOpenChat && (
               <button
                 type="button"
@@ -1804,7 +2102,7 @@ const PixelPetCompanionComponent: React.FC<PixelPetCompanionProps> = ({
 
             {onOpenChat && <span className="w-px h-3 bg-white/20" />}
 
-            {/* 3. Behavior Mode Switcher */}
+            {/* 7. Behavior Mode Switcher */}
             <button
               type="button"
               onPointerDown={(e) => e.stopPropagation()}

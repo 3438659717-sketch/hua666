@@ -16,6 +16,8 @@ import { TikTokPreviewModal } from "./components/TikTokPreviewModal";
 import { FavoritesDrawer } from "./components/FavoritesDrawer";
 import { ProductCheatsheetModal } from "./components/ProductCheatsheetModal";
 import { GeminiChatModal } from "./components/GeminiChatModal";
+import { MultiPlatformExportModal } from "./components/MultiPlatformExportModal";
+import { ABTestingModal } from "./components/ABTestingModal";
 import { ToastContainer, ToastMessage } from "./components/Toast";
 import { PRODUCTS_CONFIG } from "./data/templates";
 import { getDefaultTagsForProduct } from "./utils/tagUtils";
@@ -45,6 +47,11 @@ export default function App() {
   const [isFavoritesOpen, setIsFavoritesOpen] = useState<boolean>(false);
   const [isCheatsheetOpen, setIsCheatsheetOpen] = useState<boolean>(false);
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
+  const [multiPlatformItem, setMultiPlatformItem] = useState<GeneratedTitle | null>(null);
+  const [isMultiPlatformOpen, setIsMultiPlatformOpen] = useState<boolean>(false);
+  const [isABTestingOpen, setIsABTestingOpen] = useState<boolean>(false);
+  const [abTitleA, setAbTitleA] = useState<GeneratedTitle | null>(null);
+  const [abTitleB, setAbTitleB] = useState<GeneratedTitle | null>(null);
 
   // Toasts
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
@@ -378,6 +385,15 @@ export default function App() {
           onCopyMultiple={handleCopyMultiple}
           onToggleFavorite={handleToggleFavorite}
           onOpenPreview={handleOpenPreview}
+          onOpenMultiPlatform={(item) => {
+            setMultiPlatformItem(item);
+            setIsMultiPlatformOpen(true);
+          }}
+          onOpenABTesting={(item) => {
+            setAbTitleA(item || titles[0] || null);
+            setAbTitleB(titles.find((t) => t.id !== (item?.id || titles[0]?.id)) || titles[1] || null);
+            setIsABTestingOpen(true);
+          }}
           favoritesSet={favoritesSet}
           onExportTxt={(titles) =>
             exportTitlesAsTxt(titles, `FOSMET_${currentProduct.model}_TikTok_Titles.txt`)
@@ -479,8 +495,33 @@ export default function App() {
         }}
       />
 
-      {/* Floating AI Assistant Quick Trigger (Bottom-Left) */}
-      <div className="fixed bottom-5 left-5 z-40">
+      {/* Multi-Platform Matrix Publisher Modal */}
+      <MultiPlatformExportModal
+        isOpen={isMultiPlatformOpen}
+        onClose={() => setIsMultiPlatformOpen(false)}
+        titleItem={multiPlatformItem}
+        product={currentProduct}
+        onCopyText={(text) => {
+          copyToClipboard(text);
+          addToast("📋 已复制矩阵出海发布排版文案！", "success");
+        }}
+      />
+
+      {/* A/B Testing Comparator Modal */}
+      <ABTestingModal
+        isOpen={isABTestingOpen}
+        onClose={() => setIsABTestingOpen(false)}
+        titles={titles}
+        initialTitleA={abTitleA}
+        initialTitleB={abTitleB}
+        onCopyText={(text) => {
+          copyToClipboard(text);
+          addToast("📋 已复制对比文案！", "success");
+        }}
+      />
+
+      {/* Floating AI Assistant Quick Trigger (Bottom-Left, positioned cleanly above cosmic atmosphere buttons) */}
+      <div className="fixed bottom-14 left-3 sm:left-4 z-40">
         <button
           id="floating-open-gemini-chat-button"
           type="button"

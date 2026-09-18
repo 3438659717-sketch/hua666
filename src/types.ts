@@ -25,6 +25,7 @@ export interface GeneratedTitle {
   hookCharCount: number;
   translationZh?: string;
   language?: TargetLanguage;
+  holiday?: string;
   isFavorite?: boolean;
   createdAt: string;
 }
@@ -36,6 +37,7 @@ export interface GenerationParams {
   customKeyword?: string;
   customTags?: string;
   language?: TargetLanguage;
+  holiday?: string;
   useAiApi: boolean;
 }
 

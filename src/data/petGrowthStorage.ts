@@ -277,20 +277,32 @@ export interface PetGrowthState {
 
 const STORAGE_KEY = "fosmet_pixel_pet_growth_v2";
 
+export const ALL_PET_ACCESSORIES: PetAccessory[] = [
+  "none",
+  "astronaut", "halo", "shades", "crown", "headphones", "wizard", "bow", "cap", "ninja",
+  "tophat", "cyber_goggles", "sakura", "scarf", "santa", "sprout", "devil_horns", "viking",
+  "suit_astronaut", "suit_wizard", "suit_ninja", "suit_kimono", "suit_tuxedo", "suit_santa",
+  "suit_emperor", "suit_dev", "suit_rockstar", "suit_cyber_mecha", "suit_scientist",
+  "top_hoodie", "top_suit_shirt", "top_hawaiian", "top_cyber_jacket", "top_sweater",
+  "top_leather_jacket", "top_knit_cardigan", "top_sports_jersey",
+  "bottom_jeans", "bottom_swim_shorts", "bottom_cargo", "bottom_skirt", "bottom_overalls",
+  "bottom_cyber_joggers", "bottom_martial_pants"
+];
+
 export function getInitialPetState(): PetGrowthState {
   return {
     version: 2,
-    level: 1,
-    exp: 0,
-    coins: 200, // Initial welcome coins
-    hunger: 85,
-    happiness: 90,
-    energy: 95,
-    inspiration: 80,
-    affinity: 60,
+    level: 10,
+    exp: 250,
+    coins: 999, // Generous coins
+    hunger: 95,
+    happiness: 95,
+    energy: 100,
+    inspiration: 90,
+    affinity: 80,
     selectedPet: "cat",
     currentAccessory: "none",
-    unlockedAccessories: ["none", "sprout"],
+    unlockedAccessories: [...ALL_PET_ACCESSORIES],
     inventory: {
       free_energy_bento: 99, // unlimited free daily bento
       creator_espresso: 3,
@@ -339,6 +351,11 @@ export function loadPetGrowthState(): PetGrowthState {
       ...data,
       hunger: Math.max(10, (data.hunger ?? 85) - hungerDecay),
       energy: Math.max(20, (data.energy ?? 90) - energyDecay),
+      unlockedAccessories: Array.from(
+        new Set([...ALL_PET_ACCESSORIES, ...(data.unlockedAccessories || [])])
+      ),
+      coins: Math.max(500, data.coins ?? 500),
+      level: Math.max(10, data.level ?? 10),
       inventory: {
         ...initial.inventory,
         ...(data.inventory || {}),

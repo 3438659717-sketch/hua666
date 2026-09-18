@@ -17,10 +17,13 @@ import {
   ListFilter,
   ArrowDownUp,
   X,
+  Share2,
+  Scale,
 } from "lucide-react";
 import { MagneticButton } from "./MagneticButton";
 import { motion, AnimatePresence } from "motion/react";
 import { getChineseTranslation } from "../utils/translator";
+import { playPetSound } from "../utils/petSound";
 
 interface TitleListProps {
   titles: GeneratedTitle[];
@@ -28,6 +31,8 @@ interface TitleListProps {
   onCopyMultiple: (titles: GeneratedTitle[]) => void;
   onToggleFavorite: (item: GeneratedTitle) => void;
   onOpenPreview: (item: GeneratedTitle) => void;
+  onOpenMultiPlatform?: (item: GeneratedTitle) => void;
+  onOpenABTesting?: (item?: GeneratedTitle) => void;
   favoritesSet: Set<string>;
   onExportTxt: (titles: GeneratedTitle[]) => void;
   onExportCsv: (titles: GeneratedTitle[]) => void;
@@ -41,6 +46,8 @@ const TitleListComponent: React.FC<TitleListProps> = ({
   onCopyMultiple,
   onToggleFavorite,
   onOpenPreview,
+  onOpenMultiPlatform,
+  onOpenABTesting,
   favoritesSet,
   onExportTxt,
   onExportCsv,
@@ -215,6 +222,36 @@ const TitleListComponent: React.FC<TitleListProps> = ({
                   </>
                 )}
               </MagneticButton>
+            )}
+
+            {onOpenABTesting && titles.length >= 2 && (
+              <button
+                type="button"
+                onClick={() => {
+                  playPetSound("click");
+                  onOpenABTesting(titles[0]);
+                }}
+                className="hidden md:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-[16px] text-xs font-semibold bg-amber-500/15 text-amber-200 hover:bg-amber-500/25 border border-amber-500/30 cursor-pointer transition-all physic-spring-tap"
+                title="开启 A/B 标题推流胜率PK对比"
+              >
+                <Scale className="w-3.5 h-3.5 text-amber-400" />
+                <span>A/B PK</span>
+              </button>
+            )}
+
+            {onOpenMultiPlatform && titles.length > 0 && (
+              <button
+                type="button"
+                onClick={() => {
+                  playPetSound("click");
+                  onOpenMultiPlatform(titles[0]);
+                }}
+                className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-[16px] text-xs font-semibold bg-cyan-500/15 text-cyan-200 hover:bg-cyan-500/25 border border-cyan-500/30 cursor-pointer transition-all physic-spring-tap"
+                title="一键将标题转换为 TikTok / IG / Shorts / Amazon 矩阵包"
+              >
+                <Share2 className="w-3.5 h-3.5 text-cyan-400" />
+                <span>矩阵发布</span>
+              </button>
             )}
 
             {/* Export Dropdown Menu */}
@@ -417,6 +454,8 @@ const TitleListComponent: React.FC<TitleListProps> = ({
                   onCopy={onCopySingle}
                   onToggleFavorite={onToggleFavorite}
                   onOpenPreview={onOpenPreview}
+                  onOpenMultiPlatform={onOpenMultiPlatform}
+                  onOpenABTesting={onOpenABTesting}
                   isFavorite={favoritesSet.has(item.title)}
                 />
               </motion.div>
