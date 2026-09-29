@@ -395,10 +395,13 @@ export function getProductSuggestedPrompts(
   if (pId.includes("e05") || pId.includes("e09") || pId.includes("e12")) {
     const isE12 = pId.includes("e12");
     const isE05 = pId.includes("e05");
+    const isE09B = pId.includes("e09b");
     const highlight = isE12
       ? "内置 SONY 800万摄像头第一视角 POV 与 OpenAI 拍照识物"
       : isE05
       ? "4 档指尖电致变色调光与 ENC 双麦通话"
+      : isE09B
+      ? "半框轻奢设计、45g超轻、AI看图识物与多语种实时同传翻译"
       : "40g 极轻机身与 SONY 800万 POV 录像";
 
     if (persona === "tiktok_strategist") {

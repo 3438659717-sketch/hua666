@@ -328,6 +328,11 @@ const CORE_HOOK_TRANSLATIONS: [RegExp, string][] = [
   [/重いスマートグラスで鼻や耳が痛くなった経験ある？(?:FOSMET )?E05はTR90超軽量素材で1日中羽のような軽さ/i, "智能眼镜压得鼻梁耳朵生疼？FOSMET E05 采用 TR90 超轻韧性材质，轻如羽毛无感佩戴"],
   [/海外旅行や外国人との会話で緊張する人へ！(?:FOSMET )?E05の内蔵AIリアルタイム翻訳が言葉の壁を完全粉砕/i, "跨国商务交流与出境游紧张？FOSMET E05 内置 AI 实时翻译彻底打破跨语言交流壁垒"],
   [/【衝撃】まだスマホ片手に動画撮ってるの？(?:FOSMET )?E09なら目線そのまま完全手ぶらで1080P撮影/i, "【震撼】还在单手举着手机录像？戴上 FOSMET E09 视线所及即可解放双手完成 1080P 录制"],
+  [/【衝撃】まだスマホ片手に動画撮ってるの？(?:半枠の)?(?:FOSMET )?E09Bなら目線そのまま完全手ぶらで1080P撮影/i, "【震撼】还在单手举着手机录像？半框商务设计的 FOSMET E09B 视线所及即可解放双手完成 1080P 录制"],
+  [/「黒縁メガネは重苦しくて服装に合わない…」洗練された半枠の(?:FOSMET )?E09Bなら45gで知的な抜け感を演出/i, "“传统全黑框眼镜太沉闷死板不好搭衣服…” 洗练半框设计的 FOSMET E09B 仅重45g，轻松打造斯文知性格调"],
+  [/海外旅行やビジネスで言葉が通じず焦った経験ある？(?:FOSMET )?E09Bの内蔵AIリアルタイム翻訳が言葉の壁を粉砕/i, "出国旅游或跨国商务时因语言不通手足无措？FOSMET E09B 内置 AI 实时同传翻译，轻松化解沟通障碍"],
+  [/「これ何？」って道端の看板や植物をスマホで検索するの面倒！(?:FOSMET )?E09BのAI識物機能なら見るだけで即回答/i, "看到未知植物、艺术品或异国路牌还要掏手机手动搜索？FOSMET E09B 具备强大 AI 拍照识物能力，眼前所见秒获解答"],
+  [/重いアクションカメラで首や頭が疲れる人へ！半枠スマートグラス(?:FOSMET )?E09Bはわずか45gで1日中快適/i, "受够了沉重运动相机压得头颈酸痛？半框设计的 FOSMET E09B 仅重45g羽量级构造，全天佩戴零压迫无负担"],
   [/重いアクションカメラで首や頭が疲れる人へ！(?:FOSMET )?E09はわずか40gで1日中かけてもノンストレス/i, "头戴运动相机太沉脖子酸痛？FOSMET E09 裸机仅 40g 超轻设计，全天佩戴毫无负担"],
   [/長時間のPC作業で目がシパシパする？(?:FOSMET )?E09は透明ブルーライトカットレンズ標準搭載で仕事用にも最適/i, "长时间盯电脑屏幕眼睛酸涩？FOSMET E09 标配透明防蓝光护眼镜片，办公出街两相宜"],
 
@@ -515,7 +520,7 @@ export function getChineseTranslation(item: GeneratedTitle): string {
 
   // Final check: if text still has heavy untranslated Spanish / German / Japanese words, format by product archetype
   const hasUntranslatedForeign = /[a-zA-Z]{4,}/.test(
-    transformed.replace(/(FOSMET|KT80|G58|I228|REC10|QS40|T20|E12|E05|E09|G2|FOS10|ChatGPT|Gemini|Bluetooth|800mAh|5ATM|IP68|AMOLED|LED|SpO2|GNSS|GPS|HD|Sony|IMX219|TR90)/gi, "")
+    transformed.replace(/(FOSMET|KT80|G58|I228|REC10|QS40|T20|E12|E05|E09B|E09|G2|FOS10|ChatGPT|Gemini|Bluetooth|800mAh|5ATM|IP68|AMOLED|LED|SpO2|GNSS|GPS|HD|Sony|IMX219|TR90)/gi, "")
   ) || /[\u3040-\u30ff\u3400-\u4dbf]/.test(transformed.replace(/(スマート|ウォッチ|レコーダー|グラス|イヤホン)/g, ""));
 
   if (hasUntranslatedForeign || transformed.length < 5) {
@@ -544,6 +549,9 @@ export function getChineseTranslation(item: GeneratedTitle): string {
     }
     if (prod === "e09") {
       return `【FOSMET E09 AI摄影录像眼镜】40g极轻机身、透明防蓝光护眼、SONY 800万像素1080P拍摄与免提通话`;
+    }
+    if (prod === "e09b") {
+      return `【FOSMET E09B 半框AI摄影翻译眼镜】45g极轻半框机身、AI看图识物与多语种实时翻译、SONY 800万像素1080P拍摄与开放式双扬声器`;
     }
     if (prod === "g2" || prod === "fos10") {
       return `【FOSMET ${model} 女性健康轻薄手表】14.9g羽量化无感佩戴、生理周期管理与120+种专业运动模式监测`;

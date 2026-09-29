@@ -112,7 +112,7 @@ export function getDefaultTagsForProduct(productId: string = "rec10", language: 
   if (productId === "g2") {
     return "#FOSMET #G2 #スマートウォッチ #レディース時計 #女性の健康";
   }
-  if (productId === "e09") {
+  if (productId === "e09" || productId === "e09b") {
     return "#FOSMET #E09 #スマートグラス #メガネ型カメラ #POV動画";
   }
   if (productId === "e05") {

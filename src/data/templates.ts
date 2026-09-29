@@ -5,6 +5,7 @@ import { generateKt80AlgorithmicTitles, KT80_SPANISH_TAGS, KT80_GERMAN_TAGS } fr
 import { generateE12AlgorithmicTitles, E12_FIXED_TAGS } from "./e12Templates";
 import { generateE05AlgorithmicTitles, E05_FIXED_TAGS } from "./e05Templates";
 import { generateE09AlgorithmicTitles, E09_FIXED_TAGS } from "./e09Templates";
+import { generateE09BAlgorithmicTitles, E09B_FIXED_TAGS } from "./e09bTemplates";
 import { generateG58AlgorithmicTitles, G58_SPANISH_TAGS, G58_GERMAN_TAGS } from "./g58Templates";
 import { generateG2AlgorithmicTitles, G2_FIXED_TAGS } from "./g2Templates";
 import { generateFos10AlgorithmicTitles, FOS10_FIXED_TAGS } from "./fos10Templates";
@@ -226,6 +227,39 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
       "40g 极轻机身 ✕ PC+ABS 高耐久材质：透明防蓝光镜片，羽量级护眼舒适佩戴，告别沉重压鼻梁",
       "SONY IMX219 800万画素 POV 摄像头：1080P 30fps 软件防抖，专属物理按键一键拍摄与最高10分钟录像",
       "开放式双喇叭 ✕ 阵列麦克风 ✕ 4击唤醒AI助手：免入耳听歌通话，解放双手的次世代随身设备",
+    ],
+  },
+  e09b: {
+    id: "e09b",
+    brand: "FOSMET",
+    model: "E09B",
+    name: "FOSMET E09B",
+    japaneseType: "カメラ搭載半枠スマートグラス / AI録画・翻訳・画像認識メガネ",
+    shortDesc: "45g極軽量 ✕ 商务轻奢半框 ✕ SONY 800万画素POV ✕ AI看图识物 ✕ 实时多语种翻译 ✕ 专属物理按键10分录像",
+    fixedTags: "#FOSMET #E09 #スマートグラス #服装 #デイリーレコード",
+    defaultLanguage: "ja",
+    supportedLanguages: ["ja"],
+    badge: "半框AI摄影翻译镜",
+    accentColor: "#0EA5E9",
+    tiktokFormula: "半框知性高颜值 + 45g超轻无感/SONY 800万画素 + AI看图识物/实时同传翻译 + 物理按键10分POV录像",
+    specs: [
+      { label: "机身重量与材质", value: "裸机仅 45g 超轻设计 / 经典半框轻奢设计 (半枠ハーフリム) / 高耐久PC+轻质合金 / 极致舒适无感佩戴" },
+      { label: "镜片光学设计", value: "半框透明防蓝光护眼镜片 (半枠透明ブルーライトカットレンズ) / 日常商务办公与出街百搭知性外观" },
+      { label: "摄像头与影像", value: "SONY IMX219 800万像素高清摄像头 / 1080P 30fps 视频录制 / 软件电子防抖" },
+      { label: "AI识物与视觉感知", value: "搭载 AI 视觉感知大模型 (AI画像認識・物体認識)，拍摄画面瞬间识别百科、地标、动植物、卡路里与文字" },
+      { label: "实时同传多语翻译", value: "内置多语种实时翻译系统 (リアルタイム多言語翻訳・通訳)，出境旅游与跨国商务无障碍语音互译" },
+      { label: "专属物理操控键", value: "单击拍照/AI识物、双击开始/停止录像 (单次最长10分钟)、三击录音、长按开/关机" },
+      { label: "音频与通话", value: "开放式双喇叭 (デュアルスピーカー) ＆ 阵列麦克风 (アレイマイク / 指向性降噪)" },
+      { label: "镜腿触控手势", value: "单击播放/暂停/接挂电话、前后滑动调节音量、双击/三击切歌、4击唤醒手机AI助手" },
+      { label: "AI智能与互联", value: "Hi Luma APP / 手机端 AI 语音对话助手 (ChatGPT/AI会話) 快速唤醒问答" },
+      { label: "状态指示与安全", value: "配备工作指示灯与摄影补光灯，录制与AI识别状态一目了然" },
+      { label: "使用场景", value: "解放双手的 POV 第一人称日常 Vlog、商务出差同传翻译、旅游看图识物、骑行、烹饪、带娃、日常办公护眼" },
+      { label: "固定标签", value: "#FOSMET #E09 #スマートグラス #服装 #デイリーレコード" },
+    ],
+    highlights: [
+      "45g 极轻机身 ✕ 商务轻奢半框设计：透明防蓝光镜片，知性优雅高颜值，羽量级护眼舒适佩戴",
+      "AI 看图识物 ✕ 实时多语同传翻译：所见即所得百科解析，打破跨语言沟通壁垒，随身AI视听助理",
+      "SONY IMX219 800万画素 POV 镜头 ✕ 物理按键10分录像：1080P 30fps 软件防抖，开放式双喇叭免入耳听音",
     ],
   },
   g58: {
@@ -915,6 +949,8 @@ export function generateAlgorithmicTitles(
     rawResults = generateE05AlgorithmicTitles(category, customKeyword, customTags, batchSeed);
   } else if (productId === "e09") {
     rawResults = generateE09AlgorithmicTitles(category, customKeyword, customTags, String(batchSeed));
+  } else if (productId === "e09b") {
+    rawResults = generateE09BAlgorithmicTitles(category, customKeyword, customTags, String(batchSeed));
   } else if (productId === "g58") {
     rawResults = generateG58AlgorithmicTitles("FOSMET", "G58", category, customKeyword, customTags, language);
   } else if (productId === "g2") {
@@ -1039,7 +1075,7 @@ export function generateAlgorithmicTitles(
     rawResults = generatedList;
   }
 
-  const isJapaneseProduct = ["rec10", "qs40", "t20", "e12", "e05", "e09", "g2", "fos10"].includes(productId);
+  const isJapaneseProduct = ["rec10", "qs40", "t20", "e12", "e05", "e09", "e09b", "g2", "fos10"].includes(productId);
   const effectiveLang: TargetLanguage = isJapaneseProduct ? "ja" : (language || "es");
   const holidayItem = getHolidayById(holiday, effectiveLang);
 

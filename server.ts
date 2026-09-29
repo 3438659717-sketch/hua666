@@ -5,6 +5,7 @@ import { GoogleGenAI, Type } from "@google/genai";
 import dotenv from "dotenv";
 import { generateOfflineKnowledgeReply } from "./server/offlineKnowledge";
 import { getHolidayById } from "./src/data/holidays";
+import { generateAlgorithmicTitles } from "./src/data/templates";
 
 dotenv.config();
 
@@ -156,10 +157,11 @@ async function startServer() {
       const isE12 = productId === "e12";
       const isE05 = productId === "e05";
       const isE09 = productId === "e09";
+      const isE09B = productId === "e09b";
       const isGerman = (isKt80 || isG58 || isV18pro || isV17max || isT40) && (language === "de" || (isV17max && language !== "es"));
 
       const targetBrand = isV18pro || isV17max ? "DyMona" : "FOSMET";
-      const targetModel = isT40 ? "T40" : isV18pro ? "V18 PRO" : isV17max ? "V17 MAX" : isFos10 ? "FOS10" : isG2 ? "G2" : isG58 ? "G58" : isI228 ? "I228" : isE09 ? "E09" : isE05 ? "E05" : isE12 ? "E12" : isKt80 ? "KT80" : isT20 ? "T20" : isQs40 ? "QS40" : "REC10";
+      const targetModel = isT40 ? "T40" : isV18pro ? "V18 PRO" : isV17max ? "V17 MAX" : isFos10 ? "FOS10" : isG2 ? "G2" : isG58 ? "G58" : isI228 ? "I228" : isE09B ? "E09B" : isE09 ? "E09" : isE05 ? "E05" : isE12 ? "E12" : isKt80 ? "KT80" : isT20 ? "T20" : isQs40 ? "QS40" : "REC10";
 
       let defaultHashtags = REC10_HASHTAGS;
       if (isT40) {
@@ -176,7 +178,7 @@ async function startServer() {
         defaultHashtags = I228_HASHTAGS;
       } else if (isG58) {
         defaultHashtags = isGerman ? G58_GERMAN_HASHTAGS : G58_SPANISH_HASHTAGS;
-      } else if (isE09) {
+      } else if (isE09 || isE09B) {
         defaultHashtags = E09_HASHTAGS;
       } else if (isE05) {
         defaultHashtags = E05_HASHTAGS;
@@ -820,6 +822,49 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
 トーン指定: ${tone}
 依頼: TikTok日区で今すぐバズるFOSMET E09の日本語タイトルを【必ず50個】作成してください。
 各タイトルは必ず「FOSMET」と「E09」を含み、末尾は必ず「${targetHashtags}」で終わること。`;
+      } else if (isE09B) {
+        categoryPromptMap = {
+          all_mixed: "SONY 800万画素POVカメラ、知的な半枠45g極軽量＆透明ブルーライトカット、AI看図識物・物体認識、リアルタイム多言語通訳、専用物理ボタン10分動画録画、デュアルスピーカー＆アレイマイクの黄金比率ミックス",
+          pain_point: "【痛点反転・重苦しい黒縁から洗練半枠へ＆言葉の壁解消】「全黒縁は重くてコーデに合わない」「海外旅行やビジネスで言葉が通じない」「スマホ手持ち撮影の不便」「道端の未知の物体を調べる手間」など悩み解消型",
+          ai_power: "【AI看図識物 ＆ リアルタイム多言語通訳】「目の前の花やアートをAIが即解説」「海外旅行で外国人とスラスラ会話できるリアルタイム通訳」「外文メニューや看板を瞬時に理解」「4タップでAI音声アシスタント起動」などAIスマート機能特化型",
+          efficiency: "【タイパ・物理ボタン1発操作・手ぶら翻訳生活】「物理ボタン1押しで0.5秒即撮影・AI識物」「最大10分連続ビデオ録画」「テンプル前後スワイプで秒速音量調整」「耳元で即座に同時通訳」など効率・スマートライフ型",
+          gadget: "【SONY 800万画素 ✕ 半枠45g極軽量 ✕ PC+合金ボディ】「わずか45gの知的な半枠メガネにSONY製800万画素カメラ＆AIチップ内蔵」「透明ブルーライトカットレンズ標準搭載」「ソフトウェア電子手ブレ補正」などハードウェア魅力直球型",
+          secret_hack: "【半枠知性コーデ・日常Vlog＆海外出張神ギア】「お洒落な人がこっそりかけてる半枠メガネ、実はAIカメラ＆翻訳機」「旅行の思い出を見たままの景色で残すチート技」「スーツや大人カジュアルに映える極上の抜け感」など好奇心刺激型",
+          question: "【疑問・コメント欄巻き込み】「見たものをAIが教えてくれて翻訳もできる半枠メガネ、正直欲しくない？」「目線そのまま動画が撮れる半枠メガネがあったら何撮りたい？」「45gでカメラと通訳機搭載ってヤバくない？」など視聴者巻き込み型",
+          spec_power: "【SONY IMX219・1080P 30fps・45g半枠・AI画像認識・リアルタイム通訳】「SONY IMX219 800万画素」「1080P 30fps防振」「AI物体認識」「多言語同時通訳」「開放型デュアルスピーカー」などハイスペック信頼型",
+        };
+
+        const selectedCategoryDesc = categoryPromptMap[category] || categoryPromptMap.all_mixed;
+
+        systemInstruction = `あなたはTikTok日区（日本市場）のトップECマーケター兼ショート動画クリエイティブディレクターです。
+現在、洗練された半枠（ハーフリム）デザインとAI識物・多言語翻訳・硬核映像テクノロジーが融合した最新スマートグラス「FOSMET E09B」のTikTok動画タイトルを作成します。
+
+【商品「FOSMET E09B」の核心情報】
+- ブランド名：FOSMET（フォスメット）
+- モデル名：E09B（イーゼロキュウビー / E-Zero-Nine-B）
+- 商品カテゴリ：カメラ搭載半枠スマートグラス / AI録画・翻訳・画像認識メガネ / ウェアラブルスマートグラス
+- デザイン・重量・材質：クラシック知性派の洗練された「半枠（ハーフリム）」デザイン。裸機わずか45gの超軽量設計、PC+軽量合金ハイブリッドフレーム＆テンプル、透明ブルーライトカットレンズ標準装備（極めて快適な無感装着＆知的な抜け感）
+- AI核心機能（E09からの重大進化）：
+  1. AI看図識物（画像認識・物体認識）：見つめてワンタップするだけで目の前の植物、観光スポット、アート作品、看板、文字をAIが瞬時に認識・音声解説
+  2. リアルタイム多言語通訳・翻訳：海外旅行、国際ビジネス、英会話学習において、耳元でリアルタイムに双方向翻訳・同声通訳
+- カメラ＆映像：SONY IMX219 800万画素高清カメラ内蔵、1080P 30fps動画撮影、ソフトウェア電子手ブレ補正、目線そのまま第一人称POV撮影
+- 物理操作ボタン：専用物理ボタン（1回押し: 写真撮影・AI識物 / 2回押し: 動画録画 最大10分連続 / 3回押し: ボイス録音 / 長押し: 電源オンオフ）
+- 音声・通話・AI：開放型デュアルスピーカー（耳を塞がず快適リスニング）＆ 指向性アレイマイク（クリアな通話＆録音）、テンプル4回タップでスマホAI対話アシスタント即時起動
+- 触控操作：テンプルタッチ操作（タップで再生/一時停止/通話、前後スワイプで音量調整、ダブル/トリプルタップで曲送り・曲戻し）
+- 用途：両手を完全に解放し、ビジネス商談、海外旅行、日常Vlog、散歩、サイクリング、料理、DIY、育児、仕事と生活をシームレスに記録・サポート
+
+【生成ルール（厳格順守）】
+1. 生成する各タイトルのテキスト本体には、必ずブランド名「FOSMET」と型番「E09B」の両方を自然かつキャッチーに含めること。
+2. タイトルはTikTok視聴者の目を一瞬で惹きつける強力なフック（日本語で25〜45文字程度）にすること。
+3. すべてのタイトルには必ず、末尾に以下の固定5大タグをこの順番で厳格に付与すること（※E09と共通タグ仕様）：
+   ${targetHashtags}
+4. 出力は合計${count}個のタイトル配列（JSON形式）として出力してください。
+${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一部のタイトルに取り入れてください。` : ""}`;
+
+        userPrompt = `カテゴリ指定: ${selectedCategoryDesc}
+トーン指定: ${tone}
+依頼: TikTok日区で今すぐバズるFOSMET E09Bの日本語タイトルを【必ず50個】作成してください。
+各タイトルは必ず「FOSMET」と「E09B」を含み、末尾は必ず「${targetHashtags}」で終わること。`;
       } else if (isG2) {
         categoryPromptMap = {
           all_mixed: "女性の健康・月経周期管理、120+種運動モード、Bluetooth 5.3クリア通話、心拍・血中酸素・睡眠モニタリング、IP68防水・ファッション服装コーデの黄金比率ミックス",
@@ -995,12 +1040,10 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
         },
       };
 
-      // Multi-model candidate list for generation (aligned with official Gemini 3 models)
+      // Multi-model candidate list for generation: prioritize official fast gemini-3.1-flash-lite
       const candidateModels = [
-        "gemini-3.8-flash",
-        "gemini-flash-latest",
         "gemini-3.1-flash-lite",
-        "gemini-flash-lite-latest",
+        "gemini-3.8-flash",
       ];
 
       let response: any = null;
@@ -1008,17 +1051,21 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
 
       for (const cand of candidateModels) {
         try {
-          response = await ai.models.generateContent({
-            model: cand,
-            contents: userPrompt,
-            config: generateConfig,
-          });
+          response = await withTimeout(
+            ai.models.generateContent({
+              model: cand,
+              contents: userPrompt,
+              config: generateConfig,
+            }),
+            16000,
+            `Title generation timed out on model ${cand}`
+          );
           if (response && response.text) {
             modelUsed = cand;
             break;
           }
         } catch (err: any) {
-          console.log(`[标题生成] 模型 ${cand} 响应繁忙，自动轮询备选模型...`);
+          console.log(`[标题生成] 模型 ${cand} 响应繁忙或超时，自动尝试备选模型...`);
         }
       }
 
@@ -1030,6 +1077,27 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
         } catch (parseErr) {
           console.error("Failed to parse Gemini response JSON:", parseErr);
         }
+      }
+
+      // If AI model returned empty or errored, smoothly fallback to high-quality algorithmic titles
+      if (!titles || titles.length === 0) {
+        console.log("[标题生成] Gemini 接口限流或未就绪，自动启用高速矩阵算法生成 50 条节日/爆款标题保障体验");
+        const algorithmicList = generateAlgorithmicTitles(
+          productId,
+          category || "all",
+          customKeyword || "",
+          targetHashtags,
+          Date.now(),
+          currentLang,
+          holiday
+        );
+        titles = algorithmicList.map((item: any) => ({
+          title: item.title,
+          hook: item.hook,
+          angle: item.angle,
+          targetAudience: item.targetAudience,
+          translationZh: item.translationZh,
+        }));
       }
 
       // Validate and enforce formatting
@@ -1055,7 +1123,7 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
         }
 
         return {
-          id: `ai-${productId}-${language}-${Date.now()}-${idx + 1}`,
+          id: `ai-${productId}-${currentLang}-${Date.now()}-${idx + 1}`,
           productId,
           title: fullTitle,
           hook: hook || fullTitle.replace(targetHashtags, "").trim(),
@@ -1063,7 +1131,7 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
           targetAudience: item.targetAudience || (isGerman ? (isT40 ? "Eltern & Familie" : "Zielgruppe") : (isKt80 || isG58 || isI228 || isT40 || isV18pro || isV17max) ? (isT40 ? "Padres & Niños" : "Comunidad") : "ターゲット層"),
           translationZh: item.translationZh || "",
           charCount: fullTitle.length,
-          language: (isKt80 || isG58 || isT40 || isV18pro || isV17max) ? (isGerman ? "de" : "es") : isI228 ? "es" : "ja",
+          language: currentLang,
           holiday: holidayInfo ? holidayInfo.badgeText : undefined,
           createdAt: new Date().toISOString(),
         };
@@ -1113,7 +1181,8 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
         { brand: "FOSMET", model: "KT80", name: "FOSMET KT80 战术手表", regex: /kt80|800mah|手电筒手表/i },
         { brand: "FOSMET", model: "E12", name: "FOSMET E12 摄像头耳机", regex: /e12|pov耳机|拍照耳机/i },
         { brand: "FOSMET", model: "E05", name: "FOSMET E05 电致变色眼镜", regex: /e05|变色眼镜|音频眼镜/i },
-        { brand: "FOSMET", model: "E09", name: "FOSMET E09 拍摄眼镜", regex: /e09|40g眼镜|拍摄眼镜/i },
+        { brand: "FOSMET", model: "E09", name: "FOSMET E09 拍摄眼镜", regex: /e09(?!b)|40g眼镜|拍摄眼镜/i },
+        { brand: "FOSMET", model: "E09B", name: "FOSMET E09B 半框AI识物翻译眼镜", regex: /e09b|半框(眼镜)?|45g眼镜/i },
         { brand: "FOSMET", model: "G58", name: "FOSMET G58 女性手表", regex: /g58|女性时尚表/i },
         { brand: "FOSMET", model: "G2", name: "FOSMET G2 手表", regex: /\bg2\b/i },
         { brand: "FOSMET", model: "FOS10", name: "FOSMET FOS10 手环", regex: /fos10/i },
@@ -1127,45 +1196,41 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
       let isContextInherited = false;
 
       // Check if user is asking to reset, complain, or clear topic
-      const isResetOrComplaint = /答非所问|重来|清空|换个话题|不对|错了|别扯了|不是这个|不要吸尘器|别说吸尘器|跟这个没关系/i.test(lastUserQuestion);
+      const isResetOrComplaint = /答非所问|不能用|不好用|坏了|重来|清空|换个话题|不对|错了|别扯|不是这个|不要吸尘器|别说吸尘器|跟这个没关系|听不懂|在说什么|没问这个|瞎说|胡说/i.test(lastUserQuestion);
 
-      // 1. Check current user question first for an explicit product match
-      for (const p of productMatchers) {
-        if (p.regex.test(lastUserQuestion)) {
-          activeBrand = p.brand;
-          activeModelName = p.model;
-          activePName = p.name;
-          entityMatched = true;
-          break;
-        }
-      }
-
-      // 2. In a multi-turn conversation, if user didn't mention a new product and didn't request a reset,
-      // INHERIT the active product being discussed from recent conversation history!
-      if (!entityMatched && !isResetOrComplaint && messages && messages.length > 1) {
-        // First check prior user messages from most recent to oldest
-        const userOnlyMessages = messages.filter((m: any) => m && m.role === "user");
-        const priorUserMessages = userOnlyMessages.slice(0, -1);
-        for (let i = priorUserMessages.length - 1; i >= 0; i--) {
-          const histContent = String(priorUserMessages[i]?.content || "");
-          for (const p of productMatchers) {
-            if (p.regex.test(histContent)) {
-              activeBrand = p.brand;
-              activeModelName = p.model;
-              activePName = p.name;
-              entityMatched = true;
-              isContextInherited = true;
-              break;
-            }
+      if (!isResetOrComplaint) {
+        // 1. Check current user question first for an explicit product match
+        for (const p of productMatchers) {
+          if (p.regex.test(lastUserQuestion)) {
+            activeBrand = p.brand;
+            activeModelName = p.model;
+            activePName = p.name;
+            entityMatched = true;
+            break;
           }
-          if (entityMatched) break;
         }
 
-        // Second, check prior model messages if user messages didn't have explicit product name
-        if (!entityMatched) {
-          const modelMessages = messages.filter((m: any) => m && m.role === "model");
-          for (let i = modelMessages.length - 1; i >= 0; i--) {
-            const histContent = String(modelMessages[i]?.content || "");
+        // 2. Check if user question explicitly references the current screen product with demonstrative pronouns
+        const hasExplicitScreenProductRef =
+          /这款|这台|这个产品|当前产品|该产品|当前设备|它有什么|它的吸力|它的续航|它的参数|这只表|这块表|这台机|这个耳机|这款眼镜|为它写|帮它做|帮这款|给它写|介绍它/i.test(lastUserQuestion);
+
+        if (!entityMatched && hasExplicitScreenProductRef && productContext.name && !productContext.isUniversalMode) {
+          activeBrand = productContext.brand || "FOSMET";
+          activeModelName = productContext.model || "";
+          activePName = productContext.name || "";
+          entityMatched = true;
+          isContextInherited = true;
+        }
+
+        // 3. Multi-turn continuation: ONLY inherit if user's question is a short continuation/follow-up
+        // AND a PRIOR USER MESSAGE (not model welcome message) explicitly discussed a product!
+        const isFollowUpContinuation =
+          /^(继续|展开|细化|第[1-9一二三四五]|上一[条点个]|翻译成|换成|变成|精简|太长了|多写几[个条]|改写|换个风格|再来)/i.test(lastUserQuestion.trim());
+
+        if (!entityMatched && isFollowUpContinuation && messages && messages.length > 1) {
+          const priorUserMessages = messages.filter((m: any) => m && m.role === "user").slice(0, -1);
+          for (let i = priorUserMessages.length - 1; i >= 0; i--) {
+            const histContent = String(priorUserMessages[i]?.content || "");
             for (const p of productMatchers) {
               if (p.regex.test(histContent)) {
                 activeBrand = p.brand;
@@ -1179,16 +1244,6 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
             if (entityMatched) break;
           }
         }
-      }
-
-      // 3. Fallback to productContext if user is in a specific product context and not requesting universal reset
-      const hasFollowUpPronoun = /它|这款|这台|这个|该机|续航|吸力|参数|多少钱|价格|对比|怎么样|好用吗|分镜|脚本|标题|卖点|痛点|展开|细化|翻译/i.test(lastUserQuestion);
-      if (!entityMatched && !isResetOrComplaint && (hasFollowUpPronoun || !productContext.isUniversalMode) && productContext.name) {
-        activeBrand = productContext.brand || "FOSMET";
-        activeModelName = productContext.model || "";
-        activePName = productContext.name || "";
-        entityMatched = true;
-        isContextInherited = true;
       }
 
       // Execute Real-time Web Search Grounding to align with 2025-2026 reality
@@ -1298,13 +1353,15 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
    - 4档指尖触控电致变色镜片(室内透明/室外遮阳1秒切换) / TR90超轻高韧性镜架 / ENC双麦降噪通话 / 开放式指向扬声器 / 8小时听歌续航 / IP65防水。
 10. FOSMET E09（日本 40g极轻透明防蓝光POV拍摄眼镜）:
    - 裸机仅40g超轻 / SONY 800万摄像头1080P 30fps录像 / 透明防蓝光镜片 / 专属物理按键一键拍摄与最高10分钟录像 / 开放式双喇叭。
-11. FOSMET G58（西语/德语 女性时尚优雅智能手表）:
+11. FOSMET E09B（日本 45g半框极轻AI识物与多语翻译拍摄眼镜）:
+   - 经典半框轻奢设计 / 仅重45g超轻 / SONY 800万摄像头1080P录像 / AI拍照识物 / 实时多语同传翻译 / 开放式双扬声器。
+12. FOSMET G58（西语/德语 女性时尚优雅智能手表）:
    - 1.27" 390x390高清屏(98%高屏占比) / 米兰尼斯金属+亲肤硅胶双表带 / 女性生理周期与排卵预测管理 / 24/7心率血氧睡眠 / 蓝牙5.3通话。
-12. FOSMET G2（日本 女性健康全能智能手表）:
+13. FOSMET G2（日本 女性健康全能智能手表）:
    - 优雅轻奢曲面 / 女性生理周期追踪 / 120+运动模式 / 蓝牙5.3通话 / FitCloudPro App / IP68防尘防水。
-13. FOSMET FOS10（日本 10.66mm极薄14.9g轻量手环表）:
+14. FOSMET FOS10（日本 10.66mm极薄14.9g轻量手环表）:
    - 10.66mm超薄 / 14.9g极轻 / 100+表盘DIY / 女性健康与全天生命体征监测 / 100+运动。
-14. FOSMET I228（日本 商务经典腕表）:
+15. FOSMET I228（日本 商务经典腕表）:
    - 经典圆形高透表镜 / 蓝牙通话与健康运动。
 `;
 
@@ -1352,7 +1409,7 @@ ${liveWebContext || "已成功连接全球实时检索网络，严密对照海�
    - 你是「AI 智能搜索」出海洞察与爆款智库，每一次回答都必须基于客观现实世界（包括 2025-2026 年最新海外市场竞争格局、真实社媒趋势、真实消费者偏好、真实竞品官方售价与规格参数）。
    - 严禁闭门造车或给出脱离物理现实、脱离行业常识的虚假推论。
 2. 【全品类通用与开放搜索（极其重要）】：
-   - 无论用户当前处于哪个产品模块（哪怕正在看吸尘器、录音笔或手表），用户都可以自由询问、对比、搜索【全矩阵其他任何产品】（包括 REC10、QS40、T20、KT80、E12、E05、E09、G58、G2、FOS10、I228、V17 MAX、V18 PRO）或【全球外部竞品与实时行业大盘】！
+   - 无论用户当前处于哪个产品模块（哪怕正在看吸尘器、录音笔或手表），用户都可以自由询问、对比、搜索【全矩阵其他任何产品】（包括 REC10、QS40、T20、KT80、E12、E05、E09、E09B、G58、G2、FOS10、I228、V17 MAX、V18 PRO）或【全球外部竞品与实时行业大盘】！
    - 只要用户的提问提到了其他具体产品（例如在吸尘器模块询问 REC10 录音卡，或者在手表模块询问吸尘器/智能眼镜，或者对比两款产品），你必须【完全放开限制，准确调取对应产品的真实参数、卖点、分镜与营销方案】！
    - 绝对严禁拒绝回答！绝对严禁回复“我只能回答当前产品”！
    - 绝对严禁将用户询问的另一个产品强行套用到当前模块的产品中！例如用户在吸尘器模块问“REC10的续航是多久？”，必须准确回答“REC10 具备 35 小时连续录音与 400mAh 电池”，绝不能回答成吸尘器！
@@ -1431,20 +1488,20 @@ ${liveWebContext || "已成功连接全球实时检索网络，严密对照海�
           },
         });
 
-        // Determine candidate models list strictly with official fast and reliable Gemini models
-        let requestedModel = model || "gemini-3.8-flash";
+        // Determine candidate models list: prioritize official fast & resilient Gemini models
+        let requestedModel = model || "gemini-3.1-flash-lite";
         if (requestedModel.includes("2.5") || requestedModel.includes("1.5") || requestedModel.includes("2.0") || requestedModel.includes("3.6") || requestedModel.includes("latest")) {
-          requestedModel = "gemini-3.8-flash";
+          requestedModel = "gemini-3.1-flash-lite";
         }
 
         const candidateModels = Array.from(new Set([
           requestedModel,
-          "gemini-3.8-flash",
           "gemini-3.1-flash-lite",
+          "gemini-3.8-flash",
         ]));
 
-        const SEARCH_TIMEOUT_MS = 6000;
-        const MODEL_TIMEOUT_MS = 14000;
+        const SEARCH_TIMEOUT_MS = 5000;
+        const MODEL_TIMEOUT_MS = 8000;
 
         // Multi-tier attempt loop
         for (const cand of candidateModels) {

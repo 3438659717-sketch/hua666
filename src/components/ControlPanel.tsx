@@ -171,6 +171,17 @@ const E09_CATEGORIES: { id: AngleCategory; label: string; desc: string; icon: st
   { id: "question", label: "インタラクティブ・共感喚起", desc: "「目線そのまま動画が撮れるメガネがあったら何撮りたい？」TikTok視聴者のコメント欄を熱狂させるフック", icon: "💬" },
 ];
 
+const E09B_CATEGORIES: { id: AngleCategory; label: string; desc: string; icon: string }[] = [
+  { id: "all_mixed", label: "全维黄金配比 (推荐)", desc: "SONY 800万POV / 半枠45g極軽量 / AI画像認識・リアルタイム翻訳 / 物理ボタン10分録画 / デュアル音響 均衡出力", icon: "✨" },
+  { id: "pain_point", label: "痛点反转・半框知性手ぶら", desc: "重苦しい全黒縁から脱却。知的な半枠45gで手ぶらPOV撮影＆海外・ビジネスでの言葉の壁を完全解消", icon: "🎯" },
+  { id: "ai_power", label: "AI看図識物 ＆ リアルタイム翻訳", desc: "目の前の看板・植物・作品をAIが即解説。耳元リアルタイム多言語通訳で世界中どこでもスムーズ対話", icon: "🤖" },
+  { id: "gadget", label: "SONY 800万画素 ✕ 半枠45g極軽量", desc: "わずか45gのスタイリッシュな半枠メガネにSONY IMX219カメラ内蔵。透明防ブルーライトレンズ標準装備", icon: "📷" },
+  { id: "efficiency", label: "専用物理ボタン ✕ 10分動画録画", desc: "1押しで撮影・2押しで最大10分連続ビデオ・3押しでボイス録音。テンプルスワイプで秒速音量調整", icon: "⚡" },
+  { id: "secret_hack", label: "知性半枠コーデ ✕ 日常・海外Vlog神ギア", desc: "お洒落な人がこっそり愛用するハーフリム知性派メガネ。旅行・散歩・ビジネスのデイリーレコード秘密兵器", icon: "🤫" },
+  { id: "spec_power", label: "45gハーフリム ✕ 1080P防振 ✕ デュアル音響", desc: "SONY IMX219センサー・ソフトウェア手ブレ補正・指向性アレイマイク・開放型デュアルスピーカー", icon: "🔋" },
+  { id: "question", label: "インタラクティブ・共感喚起", desc: "「AIが识物して翻訳までしてくれる半枠メガネ、正直欲しくない？」TikTok視聴者のコメント欄を熱狂させるフック", icon: "💬" },
+];
+
 const G2_CATEGORIES: { id: AngleCategory; label: string; desc: string; icon: string }[] = [
   { id: "all_mixed", label: "全维黄金配比 (推荐)", desc: "全天健康监测 / 女性生理周期 / 120+运动模式 / 蓝牙5.3通话 / IP68防水 / 服装百搭 均衡输出", icon: "✨" },
   { id: "pain_point", label: "痛点反转・生理周期＆体调管理", desc: "手帳やアプリの手入力の面倒さや毎日の体調不安を解消。手首で生理周期・心拍・血中酸素・睡眠を自動可视化", icon: "🎯" },
@@ -272,6 +283,7 @@ const TAG_SUGGESTIONS: Record<string, string[]> = {
   e12: ["スマートグラス", "POV動画", "AIカメラ", "ガジェット紹介", "耳を塞がない", "サイクリング", "FOSMET"],
   e05: ["スマートグラス", "調光サングラス", "AI同時通訳", "ガジェット紹介", "耳を塞がない", "運転用メガネ", "FOSMET"],
   e09: ["スマートグラス", "Vlog撮影", "POV動画", "SONYセンサー", "ガジェット紹介", "旅行用カメラ", "FOSMET"],
+  e09b: ["スマートグラス", "半枠メガネ", "AI翻訳", "AI画像認識", "Vlog撮影", "POV動画", "FOSMET"],
   g2: ["スマートウォッチ", "女性用スマートウォッチ", "生理周期管理", "健康管理", "大人女子コーデ", "プレゼントにおすすめ", "FOSMET"],
   fos10: ["スマートウォッチ", "スマートバンド", "超軽量", "健康管理", "睡眠トラッキング", "ミニマリスト", "FOSMET"],
 };
@@ -306,6 +318,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   const isE12 = currentProductId === "e12";
   const isE05 = currentProductId === "e05";
   const isE09 = currentProductId === "e09";
+  const isE09B = currentProductId === "e09b";
   const isG2 = currentProductId === "g2";
   const isFos10 = currentProductId === "fos10";
   const isT20 = currentProductId === "t20";
@@ -323,6 +336,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   } else if (isFos10) categories = FOS10_CATEGORIES;
   else if (isG2) categories = G2_CATEGORIES;
   else if (isE09) categories = E09_CATEGORIES;
+  else if (isE09B) categories = E09B_CATEGORIES;
   else if (isE05) categories = E05_CATEGORIES;
   else if (isE12) categories = E12_CATEGORIES;
   else if (isG58) {
@@ -473,6 +487,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
     if (isG2) return "text-purple-400";
     if (isG58) return "text-pink-400";
     if (isE09) return "text-sky-400";
+    if (isE09B) return "text-cyan-400";
     if (isE05) return "text-rose-400";
     if (isE12) return "text-cyan-400";
     if (isKt80) return "text-amber-400";
@@ -550,6 +565,12 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           { label: "BODY WEIGHT", val: "40", unit: "g", desc: "PC+ABS极致轻量 · 防蓝光平光镜", color: "liquid-metal-silver", icon: <Sparkles className="w-4 h-4 text-white" /> },
           { label: "PHYSICAL BUTTON", val: "10", unit: "分", desc: "双击连续视频录制 · 4-Tap AI语音", color: "liquid-metal-gold", icon: <Zap className="w-4 h-4 text-amber-400" /> },
         ];
+      case "e09b":
+        return [
+          { label: "IMAGE SENSOR", val: "SONY", unit: "800W", desc: "IMX219高清传感器 · 1080P 30fps防抖", color: "liquid-metal-cyan", icon: <Camera className="w-4 h-4 text-cyan-400" /> },
+          { label: "HALF-FRAME BODY", val: "45", unit: "g", desc: "轻奢半框轻量 · 防蓝光护眼", color: "liquid-metal-silver", icon: <Glasses className="w-4 h-4 text-white" /> },
+          { label: "AI VISION & TRANS", val: "AI", unit: "识物", desc: "看图识物+多语实时同传 · 物理键10分录像", color: "liquid-metal-gold", icon: <Bot className="w-4 h-4 text-amber-400" /> },
+        ];
       case "g58":
         return [
           { label: "DISPLAY RESOLUTION", val: "390", unit: "px", desc: "1.27\"全彩高清触控 · 98%极窄屏占比", color: "liquid-metal-rose", icon: <Sparkles className="w-4 h-4 text-pink-400" /> },
@@ -605,6 +626,8 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
         return ["镜片轻触瞬时变色", "AI实时同声传译", "变色太阳镜+耳机二合一", "出差防眩光"];
       case "e09":
         return ["SONY 800万微型相机", "防抖POV日常Vlog", "防蓝光变色智能镜", "极轻40g黑科技"];
+      case "e09b":
+        return ["半框轻奢智能镜", "AI看图识物", "多语实时翻译", "极轻45g佩戴", "SONY 800万POV录像"];
       case "g58":
         return ["1.27\"通透高清屏", "女生专属生理期追踪", "米兰尼斯轻奢双表带", "高颜值穿搭神器"];
       case "g2":
@@ -632,7 +655,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
               <span>硬件矩阵 (Product Matrix)</span>
             </span>
             <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-white/[0.08] text-white border border-white/[0.12] shadow-xs">
-              14款旗舰设备
+              15款旗舰设备
             </span>
           </div>
           <span className="text-[11.5px] text-white/50">
@@ -640,7 +663,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           </span>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 2xl:grid-cols-14 gap-2.5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-8 2xl:grid-cols-15 gap-2.5">
           {[
             { id: "t40" as ProductId, label: "T40", desc: "4G儿童安全表", icon: <ShieldCheck className="w-3.5 h-3.5" />, tag: "#Niños", lang: "es" as TargetLanguage },
             { id: "v18pro" as ProductId, label: "V18 PRO", desc: "折叠绿光吸尘", icon: <Wind className="w-3.5 h-3.5" />, tag: "#V18PRO", lang: "es" as TargetLanguage },
@@ -654,6 +677,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             { id: "e12" as ProductId, label: "E12", desc: "POV相机耳机", icon: <Headphones className="w-3.5 h-3.5" />, tag: "#POV動画", lang: "ja" as TargetLanguage },
             { id: "e05" as ProductId, label: "E05", desc: "4档调光镜", icon: <Glasses className="w-3.5 h-3.5" />, tag: "#スマートグラス", lang: "ja" as TargetLanguage },
             { id: "e09" as ProductId, label: "E09", desc: "SONY高清镜", icon: <Camera className="w-3.5 h-3.5" />, tag: "#Vlog撮影", lang: "ja" as TargetLanguage },
+            { id: "e09b" as ProductId, label: "E09B", desc: "半框AI摄影", icon: <Glasses className="w-3.5 h-3.5" />, tag: "#Vlog撮影", lang: "ja" as TargetLanguage },
             { id: "g2" as ProductId, label: "G2", desc: "女性健康表", icon: <Heart className="w-3.5 h-3.5" />, tag: "#女性健康", lang: "ja" as TargetLanguage },
             { id: "fos10" as ProductId, label: "FOS10", desc: "14.9g极轻", icon: <Sparkles className="w-3.5 h-3.5" />, tag: "#ポータブル", lang: "ja" as TargetLanguage },
           ].map((prod) => {

@@ -87,6 +87,18 @@ export const INSPIRATION_CARDS_POOL: InspirationCard[] = [
     keywords: "SONY 8MP POV撮影 手ぶら撮影 ツーリング",
   },
   {
+    id: "gacha_e09b_1",
+    productId: "e09b",
+    productName: "E09B 半框AI识物翻译眼镜",
+    category: "ai_power",
+    theme: "半框知性高颜值 ✕ AI看图识物 ✕ 实时翻译",
+    hookIdea: "【知的な半枠メガネにAIカメラと翻訳機が入ってるって本当？】",
+    targetPainPoint: "全黑框太死板不好搭衣服，出境或跨国会议语言沟通有门槛，看到未知物打字搜索太麻烦",
+    sceneDescription: "佩戴斯文知性的 45g 半框 E09B，看到异国路牌或展品即刻获得 AI 语音讲解，海外实时同传翻译，一键录制 1080P POV 视频",
+    sampleCopy: "【知的な半枠に未来のAI搭載】重さわずか45g！FOSMET E09BならSONY 800万画素POV動画はもちろん、AI画像認識で『これ何？』に即答＆海外旅行のリアルタイム通訳まで完結。 #FOSMET #E09 #スマートグラス #服装 #デイリーレコード",
+    keywords: "半枠スマートグラス AI画像認識 リアルタイム翻訳 45g極軽量 SONYカメラ",
+  },
+  {
     id: "gacha_t20_1",
     productId: "t20",
     productName: "T20 独立GPS硬核跑表",

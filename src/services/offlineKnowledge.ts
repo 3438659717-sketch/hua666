@@ -59,11 +59,11 @@ export type UserIntent =
 
 export function detectQueryCategory(
   query: string,
-  ctx: OfflineReplyOptions["productContext"],
+  ctx?: OfflineReplyOptions["productContext"],
   conversationHistory?: Array<{ role: string; content: string }>
 ): TargetCategory {
   const q = (query || "").toLowerCase().trim();
-  const c = `${ctx.id || ""} ${ctx.model || ""} ${ctx.name || ""} ${ctx.japaneseType || ""} ${ctx.shortDesc || ""}`.toLowerCase();
+  const c = ctx ? `${ctx.id || ""} ${ctx.model || ""} ${ctx.name || ""} ${ctx.japaneseType || ""} ${ctx.shortDesc || ""}`.toLowerCase() : "";
 
   // 0. User feedback, complaints, resets, or corrections
   if (
@@ -112,7 +112,7 @@ export function detectQueryCategory(
   const hasT20 = q.includes("t20") || q.includes("c32 pro") || q.includes("物理排水") || q.includes("gnss");
   const hasKt80 = q.includes("kt80") || q.includes("800mah") || q.includes("手电筒手表") || q.includes("战术手表");
   const hasE12 = q.includes("e12") || q.includes("pov耳机") || q.includes("拍照耳机") || q.includes("hi luma");
-  const hasGlasses = q.includes("e05") || q.includes("e09") || q.includes("电致变色") || q.includes("变色眼镜") || q.includes("拍摄眼镜");
+  const hasGlasses = q.includes("e05") || q.includes("e09") || q.includes("e09b") || q.includes("半框") || q.includes("半框眼镜") || q.includes("电致变色") || q.includes("变色眼镜") || q.includes("拍摄眼镜");
   const hasFashion = q.includes("g58") || q.includes("g2") || q.includes("fos10") || q.includes("i228") || q.includes("女表") || q.includes("女性手表");
 
   // 3. Competitor inquiries
@@ -222,7 +222,7 @@ export function detectQueryCategory(
       if (histText.includes("t20") || histText.includes("物理排水") || histText.includes("gnss")) return "smartwatch_t20";
       if (histText.includes("kt80") || histText.includes("800mah") || histText.includes("手电筒")) return "smartwatch_kt80";
       if (histText.includes("e12") || histText.includes("pov耳机") || histText.includes("拍照耳机")) return "camera_earphone";
-      if (histText.includes("e05") || histText.includes("e09") || histText.includes("变色眼镜") || histText.includes("拍摄眼镜")) return "smart_glasses";
+      if (histText.includes("e05") || histText.includes("e09") || histText.includes("e09b") || histText.includes("半框") || histText.includes("变色眼镜") || histText.includes("拍摄眼镜")) return "smart_glasses";
       if (histText.includes("g58") || histText.includes("g2") || histText.includes("女表")) return "smartwatch_fashion";
     }
   }
@@ -237,7 +237,7 @@ export function detectQueryCategory(
     if (c.includes("t20")) return "smartwatch_t20";
     if (c.includes("kt80")) return "smartwatch_kt80";
     if (c.includes("e12")) return "camera_earphone";
-    if (c.includes("e05") || c.includes("e09")) return "smart_glasses";
+    if (c.includes("e05") || c.includes("e09") || c.includes("e09b")) return "smart_glasses";
     if (c.includes("g58") || c.includes("g2") || c.includes("fos10") || c.includes("i228")) return "smartwatch_fashion";
   }
 
@@ -469,7 +469,8 @@ TikTok 算法的核心生命线在于**前 3 秒留存率与完播率**。针对
 #### 👓 四、FOSMET 智能音频与 POV 拍摄视界
 10. **FOSMET E12（AI 摄像头运动蓝牙耳机）**：开放式零压佩戴 / 16mm 大动圈 / SONY 800万摄像头 1080P 录像 / OpenAI 助手「Hi Luma」拍照识物。
 11. **FOSMET E05（4 档指尖电致变色智能音频眼镜）**：4 档指尖滑动电致变色镜片（室内透明/室外墨镜 1 秒切换） / ENC 双麦降噪 / 8 小时听歌续航。
-12. **FOSMET E09（40g 极轻防蓝光 POV 拍摄眼镜）**：仅重 40g / SONY 800万摄像头 1080P 录像 / 一键拍摄日常 Vlog。`;
+12. **FOSMET E09（40g 极轻防蓝光 POV 拍摄眼镜）**：仅重 40g / SONY 800万摄像头 1080P 录像 / 一键拍摄日常 Vlog。
+13. **FOSMET E09B（45g 半框极轻 AI 识物与多语翻译拍摄眼镜）**：经典半框轻奢设计 / 仅重 45g / SONY 800万摄像头 1080P 录像 / AI 拍照识物 / 实时多语同传翻译 / 开放式双扬声器。`;
     return { text, groundingSources };
   }
 
@@ -609,18 +610,23 @@ TikTok 算法的核心生命线在于**前 3 秒留存率与完播率**。针对
     return { text, groundingSources };
   }
 
-  // 14. SPECIFIC PRODUCT: FOSMET E05 / E09
+  // 14. SPECIFIC PRODUCT: FOSMET E05 / E09 / E09B
   if (targetCategory === "smart_glasses") {
-    const text = `### 👓 FOSMET 智能眼镜系列（E05 电致变色 / E09 拍摄眼镜）方案
+    const text = `### 👓 FOSMET 智能眼镜系列（E05 电致变色 / E09 极轻拍摄 / E09B 半框AI识物翻译）方案
 
 针对你的问题：**「${userQuery}」**：
 
+- **FOSMET E09B（45g 半框极轻 AI 识物与多语翻译拍摄眼镜）**：
+  - 经典斯文半框（半枠ハーフリム）轻奢高颜值设计，裸机仅重 45g，透明防蓝光护眼镜片；
+  - 搭载 **AI 拍照识物**（眼前所见即刻解析百科）与 **实时多语种同传翻译**（出境旅游与商务沟通无障碍）；
+  - SONY 800万像素 IMX219 摄像头，1080P 30fps 软件防抖，专属物理按键 10 分钟连续录像；
+  - 开放式双喇叭免入耳听音通话，镜腿触控手势滑动调音量。
+- **FOSMET E09（40g 极轻防蓝光 POV 拍摄眼镜）**：
+  - 裸机仅 40g 超轻，简约黑框，透明防蓝光镜片；
+  - SONY 800万摄像头支持 1080P 录像与物理按键一键 Vlog 抓拍，开放式双扬声器。
 - **FOSMET E05（4档电致变色智能音频眼镜）**：
   - 4 档指尖滑动触控电致变色镜片，室内透明/室外遮阳 1 秒切换；
-  - ENC 双麦降噪开放式扬声器，8 小时听歌续航，TR90 超轻镜架。
-- **FOSMET E09（40g 极轻防蓝光 POV 拍摄眼镜）**：
-  - 裸机仅 40g 超轻，透明防蓝光镜片；
-  - SONY 800万摄像头支持 1080P 录像与一键 Vlog 抓拍。`;
+  - ENC 双麦降噪开放式扬声器，8 小时听歌续航，TR90 超轻镜架。`;
     return { text, groundingSources };
   }
 

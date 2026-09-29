@@ -98,6 +98,7 @@ export default function App() {
       case "i228":
         return "pink";
       case "e09":
+      case "e09b":
         return "sky";
       case "e05":
         return "rose";
@@ -130,6 +131,7 @@ export default function App() {
       case "i228":
         return "text-pink-300";
       case "e09":
+      case "e09b":
         return "text-sky-300";
       case "e05":
         return "text-rose-300";
@@ -311,6 +313,8 @@ export default function App() {
         hookText = "【FOSMET G58】¡El reloj inteligente femenino con pantalla 1.27\" HD, salud de la mujer y doble correa que revoluciona tu estilo!";
       } else if (currentProductId === "e09") {
         hookText = "【SONY 800万画素】目線そのままPOV動画撮影！FOSMET E09の40g極軽量ブルーライトカットメガネが神";
+      } else if (currentProductId === "e09b") {
+        hookText = "【半枠×AI識物】45g極軽量でリアルタイム翻訳＆SONY 800万画素POV動画！FOSMET E09Bが神すぎる";
       } else if (currentProductId === "e05") {
         hookText = "【4段階調光】タップで濃度が瞬时変化！FOSMET E05のAIリアルタイム同時通訳スマートメガネが神すぎる";
       } else if (currentProductId === "e12") {
