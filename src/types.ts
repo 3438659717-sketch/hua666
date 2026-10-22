@@ -27,6 +27,8 @@ export interface GeneratedTitle {
   language?: TargetLanguage;
   holiday?: string;
   isFavorite?: boolean;
+  ctrScore?: number; // Estimated viral CTR score (e.g. 96%)
+  modelUsed?: string; // e.g. "gemini-3.8-flash"
   createdAt: string;
 }
 
@@ -47,6 +49,8 @@ export interface GenerationBatch {
   timestamp: string;
   category: AngleCategory;
   source: "algorithm" | "gemini_ai";
+  modelUsed?: string;
+  latencyMs?: number;
   titles: GeneratedTitle[];
 }
 
@@ -74,11 +78,11 @@ export type ChatbotPersona =
   | "specs_engineer";
 
 export type GeminiModelId =
+  | "gemini-3.8-flash"
   | "gemini-3.7-flash"
   | "gemini-3.6-flash"
   | "gemini-3.1-flash-lite"
   | "gemini-flash-lite-latest"
-  | "gemini-3.8-flash"
   | "gemini-3.1-pro-preview"
   | "gemini-flash-latest";
 
@@ -109,4 +113,69 @@ export interface ChatSessionHistory {
   createdAt: string;
   updatedAt: string;
 }
+
+// -------------------------------------------------------------
+// Competitor Radar & Social Hashtag Deep Analytics
+// -------------------------------------------------------------
+export interface TrendingHotword {
+  word: string;
+  category: "hook" | "pain_point" | "scene" | "spec" | "viral_buzz" | "ai_power" | "efficiency" | "gadget";
+  growthRate: string; // e.g. "+342%"
+  heatScore: number; // 0-100
+  sampleHook: string;
+  suggestedPrompt: string;
+}
+
+export interface HashtagMetric {
+  tag: string;
+  postsCount: string; // e.g. "12.8M"
+  growth: string; // e.g. "+24.5%"
+  relevance: number; // 0-100
+  isCore: boolean;
+}
+
+export interface CompetitorAngle {
+  competitor: string;
+  hookPattern: string;
+  viewBenchmark: string;
+  ourCounterHook: string;
+}
+
+export interface CompetitorRadarData {
+  productId: ProductId;
+  language: TargetLanguage;
+  productName: string;
+  updatedAt: string;
+  hotwords: TrendingHotword[];
+  hashtags: HashtagMetric[];
+  topCompetitorAngles: CompetitorAngle[];
+}
+
+// -------------------------------------------------------------
+// TikTok Short Video Storyboard Studio
+// -------------------------------------------------------------
+export interface StoryboardScene {
+  sceneNumber: number;
+  timeRange: string; // "0-3s" | "3-10s" | "10-25s" | "25-30s"
+  stage: "hook" | "pain" | "feature" | "cta";
+  stageTitle: string; // "黄金前3秒抓眼球" | "痛点切入共鸣" | "硬核功能展示" | "转评赞与进店CTA"
+  visualPrompt: string; // 拍摄镜头机位与画面设计
+  scriptSpoken: string; // 口播台词 (目标语言 + 中文释义)
+  audioBgm: string; // BGM配乐与音效重点
+  textOverlay: string; // 屏幕花字文案
+}
+
+export interface StoryboardScript {
+  id: string;
+  titleId: string;
+  titleText: string;
+  productId: ProductId;
+  language: TargetLanguage;
+  totalDuration: string; // "30s"
+  bgmStyle: string;
+  targetAudience: string;
+  scenes: StoryboardScene[];
+  createdAt: string;
+}
+
 

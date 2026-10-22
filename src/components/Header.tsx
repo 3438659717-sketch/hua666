@@ -20,6 +20,7 @@ import {
   Globe,
   Wind,
   ShieldCheck,
+  Radar,
 } from "lucide-react";
 import { ProductId, TargetLanguage } from "../types";
 import { PRODUCTS_CONFIG } from "../data/templates";
@@ -35,6 +36,7 @@ interface HeaderProps {
   onOpenCheatsheet: () => void;
   onOpenPreviewDemo: () => void;
   onOpenChat: () => void;
+  onOpenRadar?: () => void;
 }
 
 interface ProductNavMeta {
@@ -55,6 +57,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenCheatsheet,
   onOpenPreviewDemo,
   onOpenChat,
+  onOpenRadar,
 }) => {
   const currentProduct = PRODUCTS_CONFIG[currentProductId] || PRODUCTS_CONFIG.rec10;
   const navScrollRef = useRef<HTMLDivElement | null>(null);
@@ -240,8 +243,21 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
           </div>
 
-          {/* Mobile Favorites & Chat Trigger */}
+          {/* Mobile Favorites & Chat & Radar Trigger */}
           <div className="flex md:hidden items-center gap-1.5">
+            {onOpenRadar && (
+              <button
+                id="mobile-btn-open-radar"
+                type="button"
+                onClick={onOpenRadar}
+                className="p-2 rounded-[16px] bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 text-purple-300 physic-spring-tap flex items-center gap-1 text-xs"
+                title="竞品爆款雷达 (社媒热词洞察与反制钩子)"
+              >
+                <Radar className="w-4 h-4 text-purple-400" />
+                <span className="text-[11px] font-bold">雷达</span>
+              </button>
+            )}
+
             <button
               id="mobile-btn-open-chat"
               type="button"
@@ -333,6 +349,22 @@ export const Header: React.FC<HeaderProps> = ({
                 实时对齐
               </span>
             </MagneticButton>
+
+            {/* 竞品爆款雷达 Trigger Button */}
+            {onOpenRadar && (
+              <MagneticButton
+                id="btn-open-radar"
+                onClick={onOpenRadar}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-purple-200 hover:text-white bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-indigo-500/20 hover:from-purple-500/30 hover:to-pink-500/30 rounded-[16px] border border-purple-500/40 shadow-sm shadow-purple-500/20 transition-all physic-spring-tap group"
+                title="打开竞品爆款雷达 (实时社媒热词洞察 · 标签追踪 · 竞品反制钩子)"
+              >
+                <Radar className="w-3.5 h-3.5 text-purple-400 group-hover:rotate-45 transition-transform" />
+                <span>爆款雷达</span>
+                <span className="px-1.5 py-0.2 rounded-full text-[9px] font-mono bg-purple-400/20 text-purple-300 border border-purple-400/30 hidden xl:inline">
+                  热词/竞品
+                </span>
+              </MagneticButton>
+            )}
 
             <MagneticButton
               id="btn-open-cheatsheet"

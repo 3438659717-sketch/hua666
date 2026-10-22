@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { GeneratedTitle } from "../types";
-import { Copy, Check, Bookmark, Smartphone, Hash, Sparkles, Zap, Flame, ShieldAlert, Trophy, Star, TrendingUp, Languages, Share2, Scale, ChevronDown, ChevronUp, Volume2, VolumeX } from "lucide-react";
+import { Copy, Check, Bookmark, Smartphone, Hash, Sparkles, Zap, Flame, ShieldAlert, Trophy, Star, TrendingUp, Languages, Share2, Scale, ChevronDown, ChevronUp, Volume2, VolumeX, Clapperboard } from "lucide-react";
 import { TiltGlassCard, CardThemeColor } from "./TiltGlassCard";
 import { MagneticButton } from "./MagneticButton";
 import { getChineseTranslation } from "../utils/translator";
@@ -16,6 +16,7 @@ interface TitleCardProps {
   onOpenPreview: (item: GeneratedTitle) => void;
   onOpenMultiPlatform?: (item: GeneratedTitle) => void;
   onOpenABTesting?: (item: GeneratedTitle) => void;
+  onOpenStoryboard?: (item: GeneratedTitle) => void;
   isFavorite: boolean;
 }
 
@@ -31,6 +32,7 @@ const TitleCardComponent: React.FC<TitleCardProps> = ({
   onOpenPreview,
   onOpenMultiPlatform,
   onOpenABTesting,
+  onOpenStoryboard,
   isFavorite,
 }) => {
   const [copied, setCopied] = useState(false);
@@ -271,6 +273,14 @@ const TitleCardComponent: React.FC<TitleCardProps> = ({
               </span>
             )}
 
+            {/* CTR Viral Prediction Badge */}
+            {item.ctrScore && (
+              <span className="inline-flex items-center gap-1 text-[10.5px] font-mono font-bold px-2 py-0.5 rounded-[8px] bg-rose-500/15 text-rose-300 border border-rose-500/30">
+                <Flame className="w-3 h-3 text-rose-400" />
+                <span>CTR {item.ctrScore}%</span>
+              </span>
+            )}
+
             {item.targetAudience && (
               <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-medium text-zinc-300 bg-white/[0.05] px-2.5 py-0.5 rounded-[8px] border border-white/10 max-w-[170px] truncate">
                 <span className="text-zinc-400">🎯</span>
@@ -479,6 +489,22 @@ const TitleCardComponent: React.FC<TitleCardProps> = ({
             >
               <Scale className="w-3 h-3 text-amber-400" />
               <span>A/B PK</span>
+            </button>
+          )}
+
+          {onOpenStoryboard && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                playPetSound("click");
+                onOpenStoryboard(item);
+              }}
+              className="inline-flex items-center gap-1 text-[11px] font-medium text-purple-300 hover:text-white transition-all cursor-pointer py-1 px-2 rounded-[8px] bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/20 shadow-sm shadow-purple-500/20"
+              title="一键生成 TikTok 4 幕爆款视频分镜脚本 (0-3s钩子 / 痛点 / 惊喜 / CTA)"
+            >
+              <Clapperboard className="w-3 h-3 text-purple-400" />
+              <span>分镜</span>
             </button>
           )}
         </div>

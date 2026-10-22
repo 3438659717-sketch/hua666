@@ -499,9 +499,9 @@ export async function sendChatMessage(options: SendChatOptions): Promise<ChatRes
       },
       signal: controller.signal,
       body: JSON.stringify({
-        messages: options.messages.map((m) => ({
+        messages: options.messages.slice(-30).map((m) => ({
           role: m.role === "model" ? "model" : "user",
-          content: m.content,
+          content: m.content || "",
         })),
         persona: options.persona,
         model: options.model,

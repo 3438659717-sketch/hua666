@@ -86,6 +86,7 @@ export const ProductCheatsheetModal: React.FC<ProductCheatsheetModalProps> = ({
         return <Heart className="w-4 h-4" />;
       case "g58":
         return <Sparkles className="w-4 h-4" />;
+      case "e09b":
       case "e09":
         return <Camera className="w-4 h-4" />;
       case "e05":
@@ -104,20 +105,21 @@ export const ProductCheatsheetModal: React.FC<ProductCheatsheetModalProps> = ({
   };
 
   const productList: ProductId[] = [
-    "t40",
-    "v18pro",
-    "v17max",
+    "e09b",
+    "e09",
+    "e05",
+    "e12",
     "rec10",
     "qs40",
+    "t40",
     "t20",
     "kt80",
     "g58",
     "i228",
-    "e12",
-    "e05",
-    "e09",
     "g2",
     "fos10",
+    "v18pro",
+    "v17max",
   ];
 
   // Dynamic Storyboards per product

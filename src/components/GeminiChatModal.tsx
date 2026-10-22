@@ -82,14 +82,14 @@ export const GeminiChatModal: React.FC<GeminiChatModalProps> = ({
     model: "全矩阵通用",
     name: "全矩阵通用搜索模式",
     japaneseType: "FOSMET ＆ DyMona 全矩阵跨品类生态",
-    shortDesc: "支持随时检索/对比旗下 14 款智能硬件（吸尘器/录音卡/儿童与成人手表/拍摄眼镜）及海外竞品",
+    shortDesc: "支持随时检索/对比旗下 15 款智能硬件（吸尘器/录音卡/儿童与成人手表/半框与拍摄眼镜）及海外竞品",
     fixedTags: "#FOSMET #DyMona #AI #TikTokShop #跨境出海",
     badge: "全品类通用",
     accentColor: "#06B6D4",
     tiktokFormula: "跨品类痛点反转 + 硬件差异化对比 + 全球出海高转化",
     specs: [],
     highlights: [
-      "支持跨模块任意提问 DyMona 吸尘器 (V17/V18)、REC10 录音卡、T40/QS40/T20/KT80 手表、E12/E05/E09 眼镜",
+      "支持跨模块任意提问 DyMona 吸尘器 (V17/V18)、REC10 录音卡、T40/QS40/T20/KT80 手表、E09B/E09/E05/E12 智能视听",
       "无论当前在哪个页面，均可自由对比多款产品参数与选品策略",
       "可启用 Google 实时搜索调研戴森、Shark、Apple Watch、Garmin 等竞品差评与市场痛点",
     ],
@@ -115,7 +115,7 @@ export const GeminiChatModal: React.FC<GeminiChatModalProps> = ({
         id: `msg-welcome-${Date.now()}`,
         role: "model",
         content: isUniversal
-          ? `👋 **你好！我是 FOSMET & DyMona「AI 智能搜索」全品类出海智库（全网实时检索与现实对齐常驻已开启）**。\n\n🌐 **每次回答均与现实深度对齐**：已自动连接全球检索大盘，实时对照 2025-2026 年最新海外市场竞争格局、真实社媒趋势、真实消费者偏好与真实竞品数据！\n\n🌟 **全品类畅搜与跨模块对比已就绪**：无论你在哪个页面，你都可以向我自由提问、对比或检索：\n- 🌪️ **DyMona 无线吸尘器**：V17 MAX（德国大户型 58kPa）与 V18 PRO（西语折叠显尘 50kPa）；\n- 🎙️ **FOSMET AI 录音卡**：REC10（35h 连续录音 / 64GB / 双 AI 会议纪要与思维导图）；\n- ⌚ **FOSMET 智能手表**：T40（4G 儿童安全手表 / GPS+WiFi定位 / 课堂模式 / 爱的奖励）、QS40（9.8mm 对腕 ChatGPT）、T20（GNSS 越野物理排水）、KT80（800mAh+LED 手电）、G58/G2（女性生理健康）；\n- 👓 **FOSMET 智能视听**：E12（SONY 800万 POV 拍照识物耳机）、E05（4档电致变色眼镜）、E09（40g 极轻录像眼镜）；\n- 🌍 **全球竞品与大盘**：戴森、Shark、Apple Watch、Garmin 等海外竞品口碑、真实参数与选品策略随时横向对比！\n\n直接在下方输入任何问题，或点击灵感胶囊开启！`
+          ? `👋 **你好！我是 FOSMET & DyMona「AI 智能搜索」全品类出海智库（全网实时检索与现实对齐常驻已开启）**。\n\n🌐 **每次回答均与现实深度对齐**：已自动连接全球检索大盘，实时对照 2025-2026 年最新海外市场竞争格局、真实社媒趋势、真实消费者偏好与真实竞品数据！\n\n🌟 **全品类畅搜与跨模块对比已就绪**：无论你在哪个页面，你都可以向我自由提问、对比或检索：\n- 🌪️ **DyMona 无线吸尘器**：V17 MAX（德国大户型 58kPa）与 V18 PRO（西语折叠显尘 50kPa）；\n- 🎙️ **FOSMET AI 录音卡**：REC10（35h 连续录音 / 64GB / 双 AI 会议纪要与思维导图）；\n- ⌚ **FOSMET 智能手表**：T40（4G 儿童安全手表 / GPS+WiFi定位 / 课堂模式 / 爱的奖励）、QS40（9.8mm 对腕 ChatGPT）、T20（GNSS 越野物理排水）、KT80（800mAh+LED 手电）、G58/G2（女性生理健康）；\n- 👓 **FOSMET 智能视听**：E09B（45g 半框极轻 AI 识物与多语翻译眼镜）、E09（40g 极轻录像眼镜）、E05（4档电致变色眼镜）、E12（SONY 800万 POV 拍照识物耳机）；\n- 🌍 **全球竞品与大盘**：戴森、Shark、Apple Watch、Garmin 等海外竞品口碑、真实参数与选品策略随时横向对比！\n\n直接在下方输入任何问题，或点击灵感胶囊开启！`
           : `👋 **你好！我是 FOSMET & DyMona「AI 智能搜索」出海智库**。\n\n🌐 **全网实时检索与现实对齐已常驻就绪**：每次回答均与海外真实大盘和客观规格严密对齐。\n\n当前已自动关联：**${activeProduct.name}**（${activeProduct.japaneseType}）。\n- 🏷️ **核心定位**：${activeProduct.shortDesc}\n- ⚡ **主打卖点**：${(activeProduct.highlights || []).join(" ； ")}\n\n💡 **通用搜索已就绪**：即使当前在【${activeProduct.name}】模块，你也可以直接向我提问或对比**旗下其他任意产品**（如吸尘器、录音卡、儿童手表、拍摄眼镜）或**外部竞品大盘**，AI 将全方位深度解答！`,
         timestamp: new Date().toISOString(),
         persona: "tiktok_strategist",
@@ -240,7 +240,7 @@ export const GeminiChatModal: React.FC<GeminiChatModalProps> = ({
       id: `msg-welcome-${Date.now()}`,
       role: "model",
       content: isUniversal
-        ? `👋 **已清空全矩阵通用搜索记录**。\n\n已重新就绪，随时为你检索或对比旗下 13 款智能硬件与全球市场趋势！`
+        ? `👋 **已清空全矩阵通用搜索记录**。\n\n已重新就绪，随时为你检索或对比旗下 15 款智能硬件与全球市场趋势！`
         : `👋 **已清空当前产品【${activeProduct.name}】的对话历史**。\n\n已重新就绪，随时为你提供关于 **${activeProduct.name}** 的定制化出海营销与爆款策略，亦支持直接提问其他产品！`,
       timestamp: new Date().toISOString(),
       persona,

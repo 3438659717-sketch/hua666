@@ -18,10 +18,13 @@ import { ProductCheatsheetModal } from "./components/ProductCheatsheetModal";
 import { GeminiChatModal } from "./components/GeminiChatModal";
 import { MultiPlatformExportModal } from "./components/MultiPlatformExportModal";
 import { ABTestingModal } from "./components/ABTestingModal";
+import { TrendingRadarModal } from "./components/TrendingRadarModal";
+import { StoryboardModal } from "./components/StoryboardModal";
+import { ModelStatusBadge } from "./components/ModelStatusBadge";
 import { ToastContainer, ToastMessage } from "./components/Toast";
 import { PRODUCTS_CONFIG } from "./data/templates";
 import { getDefaultTagsForProduct } from "./utils/tagUtils";
-import { Sparkles, Layers, ShieldCheck, Zap, Bot, Globe } from "lucide-react";
+import { Sparkles, Layers, ShieldCheck, Zap, Bot, Globe, Radar, Clapperboard } from "lucide-react";
 import { InteractiveAtmosphere } from "./components/InteractiveAtmosphere";
 import { TiltGlassCard, CardThemeColor } from "./components/TiltGlassCard";
 import { PixelPetCompanion } from "./components/PixelPetCompanion";
@@ -38,6 +41,8 @@ export default function App() {
 
   const [titles, setTitles] = useState<GeneratedTitle[]>([]);
   const [generationSource, setGenerationSource] = useState<"algorithm" | "gemini_ai">("algorithm");
+  const [modelUsed, setModelUsed] = useState<string>("gemini-3.8-flash");
+  const [latencyMs, setLatencyMs] = useState<number | undefined>(undefined);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [favorites, setFavorites] = useState<GeneratedTitle[]>([]);
 
@@ -47,6 +52,8 @@ export default function App() {
   const [isFavoritesOpen, setIsFavoritesOpen] = useState<boolean>(false);
   const [isCheatsheetOpen, setIsCheatsheetOpen] = useState<boolean>(false);
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
+  const [isRadarOpen, setIsRadarOpen] = useState<boolean>(false);
+  const [storyboardTitle, setStoryboardTitle] = useState<GeneratedTitle | null>(null);
   const [multiPlatformItem, setMultiPlatformItem] = useState<GeneratedTitle | null>(null);
   const [isMultiPlatformOpen, setIsMultiPlatformOpen] = useState<boolean>(false);
   const [isABTestingOpen, setIsABTestingOpen] = useState<boolean>(false);
@@ -160,6 +167,8 @@ export default function App() {
         const result = await generateTitles(activeParams);
         setTitles(result.titles);
         setGenerationSource(result.source);
+        if (result.modelUsed) setModelUsed(result.modelUsed);
+        if (result.latencyMs !== undefined) setLatencyMs(result.latencyMs);
 
         if (result.error) {
           addToast(result.error, "info");
@@ -173,9 +182,17 @@ export default function App() {
               : targetProd === "i228"
               ? "西语"
               : "日语";
+          const activeEngineLabel =
+            result.source === "gemini_ai"
+              ? result.modelUsed?.includes("3.8")
+                ? "Gemini 3.8 Flash 旗舰"
+                : result.modelUsed?.includes("3.7")
+                ? "Gemini 3.7 Flash"
+                : "Gemini Flash AI"
+              : "高速矩阵算法";
           addToast(
-            `已为 ${targetProdConfig.name} 生成 50 组精选 ${langLabel} 文案 (${
-              result.source === "gemini_ai" ? "Gemini 3.7 AI" : "高速矩阵算法"
+            `已为 ${targetProdConfig.name} 生成 50 组精选 ${langLabel} 爆款文案 (${activeEngineLabel}${
+              result.latencyMs ? ` · ${result.latencyMs}ms` : ""
             })`,
             "success"
           );
@@ -368,6 +385,7 @@ export default function App() {
           onOpenCheatsheet={() => setIsCheatsheetOpen(true)}
           onOpenPreviewDemo={handleOpenPreviewDemo}
           onOpenChat={() => setIsChatOpen(true)}
+          onOpenRadar={() => setIsRadarOpen(true)}
         />
       </div>
 
@@ -381,6 +399,36 @@ export default function App() {
           isLoading={isLoading}
           totalCount={titles.length}
         />
+
+        {/* Real-time Telemetry & High-Impact Quick Ribbon */}
+        <div className="my-5 flex flex-wrap items-center justify-between gap-3 p-3.5 sm:px-5 rounded-[22px] bg-white/[0.03] backdrop-blur-xl border border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+          <div className="flex items-center gap-3 flex-wrap">
+            <ModelStatusBadge
+              modelUsed={modelUsed}
+              latencyMs={latencyMs}
+              source={generationSource}
+              isGenerating={isLoading}
+            />
+            <div className="hidden lg:flex items-center gap-2 text-xs text-white/50 font-mono">
+              <span>5-秒完播率预估模型:</span>
+              <span className="text-emerald-400 font-bold font-sans flex items-center gap-1">
+                <Sparkles className="w-3.5 h-3.5 text-emerald-400" /> +38.6% 破圈率
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 flex-wrap">
+            <button
+              type="button"
+              onClick={() => setIsRadarOpen(true)}
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-[14px] bg-purple-500/15 hover:bg-purple-500/25 border border-purple-500/30 text-purple-200 hover:text-white text-xs font-bold transition-all cursor-pointer shadow-sm shadow-purple-500/20 physic-spring-tap"
+              title="打开竞品爆款雷达洞察 (社媒热词 + 标签指标 + 竞品反制)"
+            >
+              <Radar className="w-3.5 h-3.5 text-purple-400" />
+              <span>竞品爆款雷达</span>
+            </button>
+          </div>
+        </div>
 
         {/* Generated Titles Gallery */}
         <TitleList
@@ -397,6 +445,9 @@ export default function App() {
             setAbTitleA(item || titles[0] || null);
             setAbTitleB(titles.find((t) => t.id !== (item?.id || titles[0]?.id)) || titles[1] || null);
             setIsABTestingOpen(true);
+          }}
+          onOpenStoryboard={(item) => {
+            setStoryboardTitle(item);
           }}
           favoritesSet={favoritesSet}
           onExportTxt={(titles) =>
@@ -522,6 +573,30 @@ export default function App() {
           copyToClipboard(text);
           addToast("📋 已复制对比文案！", "success");
         }}
+      />
+
+      {/* 竞品爆款雷达 Modal */}
+      <TrendingRadarModal
+        isOpen={isRadarOpen}
+        onClose={() => setIsRadarOpen(false)}
+        productId={currentProductId}
+        productName={currentProduct.name}
+        language={params.language}
+        onApplyKeyword={(keyword) => {
+          handleChangeParams({ customKeyword: keyword });
+        }}
+        onAddToast={addToast}
+      />
+
+      {/* TikTok 4 幕爆款分镜脚本 Studio Modal */}
+      <StoryboardModal
+        isOpen={!!storyboardTitle}
+        onClose={() => setStoryboardTitle(null)}
+        titleItem={storyboardTitle}
+        productId={currentProductId}
+        productName={currentProduct.name}
+        language={params.language}
+        onAddToast={addToast}
       />
 
       {/* Floating AI Assistant Quick Trigger (Bottom-Left, positioned cleanly above cosmic atmosphere buttons) */}

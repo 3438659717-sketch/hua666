@@ -793,12 +793,12 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
               onClick={() => onChangeParams({ useAiApi: true })}
               className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-[14px] text-xs font-bold transition-all cursor-pointer ${
                 params.useAiApi
-                  ? "bg-white text-black shadow-md"
+                  ? "bg-gradient-to-r from-cyan-400 to-blue-400 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]"
                   : "text-white/60 hover:text-white"
               }`}
             >
               <Bot className="w-3.5 h-3.5" />
-              <span>Gemini 3.7 AI 深度创意</span>
+              <span>Gemini 3.8 Flash (智能降级兜底)</span>
             </button>
           </div>
         </div>

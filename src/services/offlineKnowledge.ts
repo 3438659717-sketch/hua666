@@ -51,6 +51,7 @@ export type UserIntent =
   | "battery"
   | "suction_power"
   | "tiktok_script"
+  | "marketing_strategy"
   | "localization"
   | "specs_detail"
   | "comparison"
@@ -167,6 +168,23 @@ export function detectQueryCategory(
   if (hasGlasses) return "smart_glasses";
   if (hasFashion) return "smartwatch_fashion";
 
+  // 6.5. Active screen product context anchoring:
+  // If user didn't mention another product, all follow-up inquiries (scripts, hooks, pain points, marketing, specs)
+  // strictly anchor to the active product to prevent off-topic vacuum cleaner replies!
+  if (ctx && ctx.id && ctx.id !== "all" && !ctx.isUniversalMode) {
+    const cid = (ctx.id || "").toLowerCase();
+    if (cid.includes("e09b") || cid.includes("e09") || cid.includes("e05")) return "smart_glasses";
+    if (cid.includes("rec10")) return "recorder";
+    if (cid.includes("t40")) return "smartwatch_t40";
+    if (cid.includes("qs40")) return "smartwatch_qs40";
+    if (cid.includes("t20")) return "smartwatch_t20";
+    if (cid.includes("kt80")) return "smartwatch_kt80";
+    if (cid.includes("e12")) return "camera_earphone";
+    if (cid.includes("v18")) return "vacuum_v18";
+    if (cid.includes("v17")) return "vacuum_v17";
+    if (cid.includes("g58") || cid.includes("g2") || cid.includes("fos10") || cid.includes("i228")) return "smartwatch_fashion";
+  }
+
   // 7. General Marketing / TikTok Content / Operation strategy (no specific product named)
   if (
     q.includes("完播率") ||
@@ -259,6 +277,9 @@ export function detectUserIntent(query: string): UserIntent {
   if (q.includes("脚本") || q.includes("分镜") || q.includes("视频") || q.includes("短视频") || q.includes("文案") || q.includes("镜头") || q.includes("口播") || q.includes("台词") || q.includes("cta") || q.includes("tiktok") || q.includes("拍摄")) {
     return "tiktok_script";
   }
+  if (q.includes("标题") || q.includes("钩子") || q.includes("卖点") || q.includes("痛点") || q.includes("营销") || q.includes("带货")) {
+    return "marketing_strategy";
+  }
   if (q.includes("日语") || q.includes("西语") || q.includes("德语") || q.includes("英语") || q.includes("本土化") || q.includes("翻译") || q.includes("俚语") || q.includes("母语") || q.includes("标题")) {
     return "localization";
   }
@@ -295,6 +316,60 @@ export function generateOfflineKnowledgeReply(options: OfflineReplyOptions): {
 
   // 0. DISSATISFACTION / RESET / CLARIFICATION NEEDED
   if (targetCategory === "clarification_needed") {
+    const isE09B = Boolean(
+      (productContext && (productContext.id === "e09b" || productContext.model?.includes("E09B"))) ||
+      (conversationHistory && conversationHistory.some(m => m.content?.toLowerCase().includes("e09b") || m.content?.includes("半框") || m.content?.includes("45g")))
+    );
+
+    if (isE09B) {
+      const text = `### 🎯 深度纠偏直答：FOSMET E09B 半框AI识物翻译拍摄眼镜
+
+非常抱歉刚才的回答偏离了您的核心诉求！现已为您 **100% 严密对齐当前产品【FOSMET E09B】**，绝不掺杂任何无关硬件或吸尘器内容，直接为您提供最高转化价值的核心方案：
+
+---
+
+#### 👓 1. 核心定位与差异化杀手锏（为什么是 E09B）
+- **斯文半框轻奢设计（45g 羽量级）**：彻底打破传统智能眼镜笨重、全黑死板、像“黑客特工”的刻板印象。经典半框（半枠ハーフリム）知性斯文高颜值，透明高透防蓝光护眼镜片，日常商务通勤、穿搭出街全天佩戴无压迫感。
+- **AI 拍照看图识物**：眼前所见即刻解析！内置 SONY 800万像素 IMX219 高清摄像头轻触抓拍，通过 AI 大模型即刻识别海外路标、动植物、外文菜单、艺术展品并在耳畔语音解答。
+- **实时多语种同传翻译**：出境旅游、外贸商务谈判利器。外语对话即时在耳边转化为母语听音播报，彻底摆脱频繁掏手机翻译的尴尬与笨拙。
+- **第一人称 POV 极速录像**：镜腿专属物理按键一键开启 1080P 30fps 软件防抖录像（最长10分钟），骑行、做手工、逛展双手彻底解放。
+- **开放式双喇叭与镜腿触控**：不入耳保护听力，镜腿支持指尖滑动调节音量、触控切歌与通话。
+- **官方统一标签**：严格与 E09 矩阵保持一致（\`#FOSMET #E09 #スマートグラス #服装 #デイリーレコード\`）。
+
+---
+
+#### 🎬 2. 15 秒 TikTok 爆款 5 阶段分镜脚本
+| 阶段 | 画面动作与镜头 | 口播核心台词 | 心理暗示 |
+| :--- | :--- | :--- | :--- |
+| **0~3s Hook** | 主角佩戴斯文半框眼镜看着外文菜单/文物，轻点镜腿，AI 实时同传在耳畔响起 | “千万别买那种又傻又重、还不能翻译的粗黑框智能眼镜了！” | 阻断划走 / 认知颠覆 |
+| **3~8s Pain** | 闪回传统笨重眼镜压鼻梁红印、路口掏手机翻译手忙脚乱的尴尬瞬间 | “压鼻梁还像特工道具，开会旅游还要掏手机查单词，累不累？” | 唤醒痛点共鸣 |
+| **8~20s Solution** | 45g 半框特写，指尖滑动镜腿调音量，第一视角 POV 瞬间抓拍眼前画面并 AI 识物播报 | “FOSMET E09B 仅 45g 斯文半框，眼前所见 AI 瞬间识物同传，还能 1080P 第一视角抓拍！” | 科技爽感 |
+| **20~27s Relief** | 主角轻松逛街喝咖啡，知性斯文穿搭毫无电子感，防蓝光护眼 | “平时当高颜值防蓝光镜戴，出境旅游办公宛如随身带了个私人同传翻译官！” | 情绪释放与心动 |
+| **27~32s CTA** | 手指指向左下角小黄车，出现现货速发角标 | “日本/海外现货速发，本周限量赠专属收纳包，点击左下角手慢无！” | 促单转化 |
+
+---
+
+#### 🚀 3. 5 组母语级爆款日文标题
+1. 「半枠ハーフリムで知的に盛れる！わずか45gのAI翻訳＆撮影グラスが神コスパ #FOSMET #E09 #スマートグラス #服装 #デイリーレコード」
+2. 「スマホを出さずに目の前をAI認識！海外旅行や仕事が激変する次世代メガネ #FOSMET #E09 #スマートグラス #服装 #デイリーレコード」
+3. 「黒縁メガネのダサさから完全解放。スリムな半フレーム×SONY製カメラ搭載！ #FOSMET #E09 #スマートグラス #服装 #デイリーレコード」
+4. 「英語も看板もこれ1台で即時翻訳！手ぶらPOV撮影までこなす45gの最適解 #FOSMET #E09 #スマートグラス #服装 #デイリーレコード」
+5. 「PC作業のブルーライトカットから街歩きAI翻訳まで。1日中外せない知的相棒 #FOSMET #E09 #スマートグラス #服装 #デイリーレコード」`;
+      return { text, groundingSources };
+    }
+
+    if (productContext && productContext.name && productContext.id !== "all" && !productContext.isUniversalMode) {
+      const pName = productContext.name;
+      const text = `### 🎯 深度纠偏直答：${pName}
+
+非常抱歉刚才的回答偏离了您的核心诉求！现已为您 **100% 严密对齐当前产品【${pName}】**，绝不掺杂任何无关硬件或吸尘器内容！
+
+- **核心定位**：${productContext.shortDesc || "旗舰出海消费电子"}
+- **主打卖点**：${(productContext.highlights || []).join(" ； ")}
+- **爆款建议**：围绕真实痛点与使用场景制作 0~3 秒黄金完播钩子，请随时告诉我您想深入了解分镜脚本、爆款标题还是硬核参数对比！`;
+      return { text, groundingSources };
+    }
+
     const text = `非常抱歉刚才的回答偏离了您的核心诉求！
 
 请直接告诉我您当前最关注的具体内容或想探讨的话题，我将 **100% 严格针对您的目标进行精准解答，绝不再生搬硬套任何无关硬件**：
@@ -302,7 +377,7 @@ export function generateOfflineKnowledgeReply(options: OfflineReplyOptions): {
 1. 🎯 **TikTok 爆款操盘与内容策略**（黄金 3 秒完播钩子、5 阶段分镜脚本、母语级挂车标题）
 2. 🌍 **海外市场大盘与用户洞察**（西班牙、德国、日本消费心理、热卖趋势与选品风向）
 3. ⚔️ **全球竞品深度对比**（戴森 Dyson、Shark、Apple Watch、Garmin、追觅等真实客观横评）
-4. ⚙️ **特定产品核心硬件参数**（如 REC10 双AI录音卡、T40 儿童手表、QS40 智能表、DyMona 吸尘器等）
+4. ⚙️ **特定产品核心硬件参数**（如 E09B 半框眼镜、REC10 双AI录音卡、T40 儿童手表、QS40 智能表等）
 5. 💬 **其他任何自由咨询**（海外营销、本地化翻译、社媒投流机制或自由问答）
 
 请随时告诉我您的具体问题！`;
@@ -313,7 +388,7 @@ export function generateOfflineKnowledgeReply(options: OfflineReplyOptions): {
   if (targetCategory === "greeting" || intent === "greeting") {
     const text = `### 👋 你好！我是 FOSMET & DyMona「AI 智能搜索」全品类出海智库
 
-很高兴为你服务！我已深度连接全网实时动态与旗下 14 款智能硬件的真实知识库，专注于为出海操盘团队提供精准、落地的实操支持。
+很高兴为你服务！我已深度连接全网实时动态与旗下 15 款智能硬件的真实知识库，专注于为出海操盘团队提供精准、落地的实操支持。
 
 #### 💡 我能为你解决的核心问题：
 1. **🎬 TikTok 爆款分镜脚本与内容策划**：
@@ -323,18 +398,67 @@ export function generateOfflineKnowledgeReply(options: OfflineReplyOptions): {
 2. **🌐 全球市场与消费者心理深度调研**：
    - **西班牙/拉美**：性价比驱动、高情绪价值西语幽默、日常免弯腰痛点。
    - **德国/欧洲**：硬核数据严谨测试、大户型深层清洁、医疗级 HEPA 过滤标准。
-   - **日本**：极简超薄（9.8mm）、神コスパ、商务高效（ChatGPT+Gemini 双 AI 会议纪要）。
+   - **日本**：极简超薄、神コスパ、商务高效（ChatGPT+Gemini 双 AI 会议纪要、45g 半框识物翻译眼镜）。
 3. **⚖️ 戴森 / Shark / Apple Watch 竞品客观横向对比**：
    - 深入拆解真实售价差距、吸力衰减、电池续航、尘桶容量与售后痛点降维打击。
-4. **⚙️ 旗下 14 款硬件硬核参数精准调取**：
-   - 无论是 **DyMona 吸尘器 (V17/V18)**、**FOSMET 儿童安全手表 (T40)**、**AI 录音卡 (REC10)**、**智能眼镜 (E05/E09)** 还是 **战术/户外腕表 (T20/KT80)**，随时调取真实参数！
+4. **⚙️ 旗下 15 款硬件硬核参数精准调取**：
+   - 无论是 **FOSMET 半框AI识物拍摄眼镜 (E09B)**、**AI 录音卡 (REC10)**、**儿童安全手表 (T40)**、**DyMona 吸尘器 (V17/V18)** 还是 **户外腕表 (T20/KT80)**，随时调取真实参数！
 
-你可以直接向我提问具体的出海策略（如 *“如何提升西班牙市场的视频完播率”*），或者直接输入想了解的产品与竞品！`;
+你可以直接向我提问具体的出海策略，或者直接输入想了解的产品与竞品！`;
     return { text, groundingSources };
   }
 
   // 2. MARKETING STRATEGY & TIKTOK FORMULA
   if (targetCategory === "marketing_strategy") {
+    const activePid = (productContext?.id || "").toLowerCase();
+    if (activePid.includes("e09b")) {
+      const text = `### 🚀 FOSMET E09B 半框AI识物翻译拍摄眼镜 · 爆款操盘与内容策略
+
+针对你咨询的营销问题：**「${userQuery}」**，为你定制最高转化率的 E09B 实战落地策略：
+
+---
+
+#### 1. ⏱️ 黄金前 3 秒留存完播钩子（Pattern Interrupt 颠覆认知）
+- **斯文反转钩子**：“大家都以为我戴的是普通的斯文半框防蓝光眼镜，其实它帮我翻译了整个世界！”
+- **信息差暴击钩子**：“出国旅游/逛展还在手忙脚乱掏手机查单词？看一眼轻敲镜腿，AI 已经在耳边翻译完了！”
+- **轻量质感钩子**：“裸机仅 45g！彻底告别沉重死板的传统黑框智能眼镜，真正能全天佩戴的高颜值神物！”
+
+---
+
+#### 2. 🎬 15 秒 TikTok 爆款分镜脚本
+- **【0-3s 钩子】**：近距离推特写主角戴着斯文半框眼镜，手不掏手机，看着外文指示牌轻触镜腿，耳畔响起翻译语音。
+- **【3-8s 痛点】**：反差展示传统粗黑框沉重压鼻梁、旅游掏手机被小偷盯上的狼狈瞬间。
+- **【8-20s 黑科技】**：45g 羽量镜身特写，展示指尖滑动调音量、一键 POV 抓拍、AI 拍照识物播报。
+- **【20-27s 爽点】**：日常办公防蓝光护眼，出街穿搭知性斯文，完全无电子玩具感。
+- **【27-32s CTA】**：点击左下角小黄车直邮到手，现货限量！
+
+---
+
+#### 3. 🏷️ 矩阵官方标签
+\`#FOSMET #E09 #スマートグラス #服装 #デイリーレコード\``;
+      return { text, groundingSources };
+    }
+
+    if (activePid.includes("rec10")) {
+      const text = `### 🚀 FOSMET REC10 名片级双AI录音卡 · 爆款操盘策略
+
+针对你的咨询：**「${userQuery}」**：
+- **前 3 秒钩子**：“还在傻傻打字记会议纪要？名片厚度贴在手机背部，开完会 1 秒自动导出 ChatGPT 思维导图！”
+- **痛点反差**：传统录音笔又笨又大导出麻烦，REC10 航空铝合金 MagSafe 磁吸，35h 连续录音，彻底终结职场加班！
+- **标签**：\`#FOSMET #REC10 #AIレコーダー #ChatGPT #プロモーションの仕事\``;
+      return { text, groundingSources };
+    }
+
+    if (activePid.includes("t40")) {
+      const text = `### 🚀 FOSMET T40 4G儿童安全手表 · 亲子爆款策略
+
+针对你的咨询：**「${userQuery}」**：
+- **前 3 秒钩子**：“给孩子买手机怕游戏成瘾？4G 高清双向视频通话 + GPS 三重精准定位，这才是聪明的家长之选！”
+- **痛点反差**：课堂免打扰模式杜绝分心，「爱的奖励」激励自主完成作业，IP68 防水防泼溅！
+- **标签**：\`#FOSMET #T40 #españa #Niños #relojinteligente\``;
+      return { text, groundingSources };
+    }
+
     const text = `### 🚀 TikTok 海外消费电子爆款内容操盘核心策略与落地方法论
 
 针对你咨询的营销问题：**「${userQuery}」**，为你系统梳理 TikTok 消费电子类目当下最高转化的实操策略：
@@ -342,28 +466,21 @@ export function generateOfflineKnowledgeReply(options: OfflineReplyOptions): {
 ---
 
 #### 1. ⏱️ 黄金前 3 秒完播法则（Pattern Interrupt 钩子体系）
-TikTok 算法的核心生命线在于**前 3 秒留存率与完播率**。针对科技与家居硬件，最有效的 3 大黄金钩子类型：
-- **痛点反差钩子**：直接展示生活中最狼狈的瞬间（如地毯积满猫毛反复吸不净、弯腰钻床底导致腰酸背痛、开会疯狂记笔记漏听重点）。
-  - *台词示例*：“Por favor, no cometas el mismo error que yo...” / “Stop wasting 800€ on branded vacuums!”
-- **极限暴力测试钩子**：反常识实验（如 58 kPa 隔空拔起地毯深层陈年积尘、独立 GNSS 手表直接浸入水底高频强震排水）。
-- **极简对比钩子**：左边传统旧产品（臃肿笨重、3小时断电），右边轻薄次世代（名片尺寸、35小时长续航）。
+TikTok 算法的核心生命线在于**前 3 秒留存率与完播率**。针对科技与数码硬件，最有效的 3 大黄金钩子类型：
+- **痛点反差钩子**：直接展示生活中最狼狈或效率低下的瞬间（如开会疯狂记笔记漏听重点、出国语言不通手忙脚乱、传统硬件笨重死板）。
+- **极限暴力测试钩子**：反常识实验（如独立 GNSS 手表直接浸入水底高频强震排水、45g 半框眼镜极轻抗弯折）。
+- **极简对比钩子**：左边传统旧产品（臃肿笨重、功能单一），右边轻薄次世代（名片尺寸/半框轻奢、AI 大模型赋能）。
 
 ---
 
 #### 2. 🎬 高转化 5 阶段爆款短视频分镜脚本模型
 | 阶段 | 时间轴 | 画面视觉动作 (Visual) | 口播台词核心 (Voiceover) | 心理暗示 |
 | :--- | :--- | :--- | :--- | :--- |
-| **Hook 悬念** | 0~3s | 极限特写/视觉反常识瞬间（一推即净/水下震动） | “为什么千万别买老牌高价智商税？” | 阻断划走 |
-| **Pain 放大** | 3~8s | 传统产品卡顿、断电、倒灰扬尘的恼人瞬间 | 放大用户日常深恶痛绝的使用痛点 | 唤醒共鸣 |
-| **Solution 演示** | 8~20s | 独家黑科技登场（折叠臂直入/绿光显尘/双AI思维导图） | 用极通俗的大白话解释为什么它能秒杀同级 | 建立专业信赖 |
-| **Relief 爽点** | 20~27s | 清洁后的光洁地面/一键导出的专业会议纪要/孩子安全到家 | “再也不用牺牲休息时间，生活彻底轻松！” | 情绪释放 |
-| **CTA 促单** | 27~32s | 点击左下角小黄车手势指引 + 本周限时专属特惠提示 | “库存仅限本周，点击左下角链接即可直接到手！” | 临门一脚 |
-
----
-
-#### 3. 💬 评论区置顶神评与互动引流闭环
-- **争议互动置顶**：“有人说大吸力一定很重很吵，你们觉得 1.4kg 算轻吗？评论区告诉我！”
-- **官方答疑置顶**：“很多人问是否包邮与保修：官方现货直邮 3~5 天送达，支持 30 天无理由退换与 2 年质保！”`;
+| **Hook 悬念** | 0~3s | 极限特写/视觉反常识瞬间（一触即翻译/水下震动） | “为什么千万别买老牌高价智商税？” | 阻断划走 |
+| **Pain 放大** | 3~8s | 传统产品卡顿、断电、死板笨重的恼人瞬间 | 放大用户日常深恶痛绝的使用痛点 | 唤醒共鸣 |
+| **Solution 演示** | 8~20s | 独家黑科技登场（AI 识物同传/超薄金属/双AI思维导图） | 用极通俗的大白话解释为什么它能秒杀同级 | 建立专业信赖 |
+| **Relief 爽点** | 20~27s | 轻松搞定工作/一键导出的专业会议纪要/斯文穿搭 | “再也不用牺牲休息时间，生活彻底轻松！” | 情绪释放 |
+| **CTA 促单** | 27~32s | 点击左下角小黄车手势指引 + 本周限时专属特惠提示 | “库存仅限本周，点击左下角链接即可直接到手！” | 临门一脚 |`;
     return { text, groundingSources };
   }
 
@@ -612,18 +729,88 @@ TikTok 算法的核心生命线在于**前 3 秒留存率与完播率**。针对
 
   // 14. SPECIFIC PRODUCT: FOSMET E05 / E09 / E09B
   if (targetCategory === "smart_glasses") {
-    const text = `### 👓 FOSMET 智能眼镜系列（E05 电致变色 / E09 极轻拍摄 / E09B 半框AI识物翻译）方案
+    const q = (userQuery || "").toLowerCase();
+    const isE09B = Boolean(
+      (productContext && productContext.id === "e09b") ||
+      q.includes("e09b") || q.includes("半框") || q.includes("45g") || q.includes("识物") || q.includes("翻译")
+    );
+
+    if (isE09B) {
+      if (intent === "tiktok_script" || q.includes("脚本") || q.includes("分镜") || q.includes("怎么拍") || q.includes("视频") || q.includes("镜头")) {
+        const text = `### 🎬 FOSMET E09B 半框AI识物翻译拍摄眼镜 · 15秒 TikTok 爆款分镜脚本
+
+针对你的提问：**「${userQuery}」**，为你定制直击海外消费痛点的高转化分镜：
+
+---
+
+| 阶段 | 时间轴 | 画面视觉动作 (Visual) | 口播台词核心 (Voiceover) | 心理暗示 |
+| :--- | :--- | :--- | :--- | :--- |
+| **Hook 悬念** | 0~3s | 主角佩戴斯文半框眼镜看着外文菜单/外语路牌，轻点镜腿，AI 实时同传在耳畔响起 | “为什么千万别买那种又傻又重、还不能翻译的粗黑框智能眼镜了？” | 阻断划走 / 认知颠覆 |
+| **Pain 放大** | 3~8s | 闪回传统笨重眼镜压鼻梁红印、路口掏手机翻译手忙脚乱的尴尬瞬间 | “压鼻梁还像特工道具，开会旅游还要频繁掏手机查单词，累不累？” | 唤醒痛点共鸣 |
+| **Solution 演示** | 8~20s | 45g 斯文半框微距特写，指尖滑动镜腿调音量，第一视角 POV 瞬间抓拍眼前画面并 AI 识物播报 | “FOSMET E09B 仅 45g 斯文半框，眼前所见 AI 瞬间识物同传，还能 1080P 第一视角抓拍！” | 建立高科技信赖 |
+| **Relief 爽点** | 20~27s | 主角轻松逛街喝咖啡，知性斯文穿搭毫无电子感，透明防蓝光护眼 | “日常当高颜值护眼镜戴，出境旅游办公宛如随身带了个私人同传翻译官！” | 情绪释放与心动 |
+| **CTA 促单** | 27~32s | 手指指向左下角小黄车手势指引，画面浮现官方现货直发角标 | “日本/海外现货速发，本周限量赠专属收纳皮套，点击左下角手慢无！” | 促成最后转化 |
+
+---
+
+#### 💡 专属标签与置顶评论
+- **产品标签**：\`#FOSMET #E09 #スマートグラス #服装 #デイリーレコード\`
+- **置顶神评**：“戴上它出差和去日本旅游，再也不用傻傻拿着手机对准翻译了，真香！”`;
+        return { text, groundingSources };
+      }
+
+      if (intent === "marketing_strategy" || q.includes("标题") || q.includes("钩子") || q.includes("痛点") || q.includes("卖点") || q.includes("怎么卖") || q.includes("带货")) {
+        const text = `### 🚀 FOSMET E09B 半框AI识物翻译拍摄眼镜 · 爆款文案与卖点策略
+
+针对你的提问：**「${userQuery}」**：
+
+---
+
+#### 🎯 1. 核心痛点反转与 3 大黄金钩子
+- **【颜值穿搭痛点反转】**：“摆脱又粗又黑又笨重的直男电子仪器感！经典斯文半框（半枠ハーフリム），45g 羽量级，知性斯文高颜值，戴一整天毫无压迫感！”
+- **【跨语言沟通信息差】**：“眼前看到的菜单、路标、艺术品，无需掏手机，轻触镜腿，AI 拍照识物与多语种实时同传直接在耳畔播报！”
+- **【第一人称随身抓拍】**：“SONY 800万镜头 1080P POV 随时抓拍生活美好瞬间，双手彻底解放！”
+
+---
+
+#### 📝 2. 5 组母语级爆款日文标题
+1. 「半枠ハーフリムで知的に盛れる！わずか45gのAI翻訳＆撮影グラスが神コスパ #FOSMET #E09 #スマートグラス #服装 #デイリーレコード」
+2. 「スマホを出さずに目の前をAI認識！海外旅行や仕事が激変する次世代メガネ #FOSMET #E09 #スマートグラス #服装 #デイリーレコード」
+3. 「黒縁メガネのダサさから完全解放。スリムな半フレーム×SONY製カメラ搭載！ #FOSMET #E09 #スマートグラス #服装 #デイリーレコード」
+4. 「英語も看板もこれ1台で即時翻訳！手ぶらPOV撮影までこなす45gの最適解 #FOSMET #E09 #スマートグラス #服装 #デイリーレコード」
+5. 「PC作業のブルーライトカットから街歩きAI翻訳まで。1日中外せない知的相棒 #FOSMET #E09 #スマートグラス #服装 #デイリーレコード」`;
+        return { text, groundingSources };
+      }
+
+      // Default specs & overview for E09B
+      const text = `### 👓 FOSMET E09B 半框极轻 AI 识物与多语翻译拍摄眼镜权威方案
+
+针对你的提问：**「${userQuery}」**：
+
+---
+
+- ⚡ **核心硬核参数与配置**：
+  - **外观形态与重量**：经典斯文半框设计（半枠ハーフリム），裸机仅重 **45g** 羽量级设计，搭配透明高透防蓝光护眼镜片，日常商务通勤、穿搭出街全天佩戴无压迫感。
+  - **AI 看图识物**：内置 SONY IMX219 800万像素高清摄像头，轻按镜腿抓拍，AI 实时解析眼前物体、路标、外文菜单或植物，耳畔语音播报百科。
+  - **实时多语种同传翻译**：出境旅游与商务沟通利器，外语对话即时在耳边转化为母语听音播报。
+  - **1080P 第一人称录像**：支持 1080P 30fps 软件防抖，专属独立物理按键一键开启最长 10 分钟连续录像。
+  - **开放式双喇叭与触控手势**：开放式音频免入耳保护听力，镜腿支持指尖滑动调音量、触控切歌与通话。
+- 🏷️ **统一营销标签**：严格与 E09 保持一致（\`#FOSMET #E09 #スマートグラス #服装 #デイリーレコード\`）。`;
+      return { text, groundingSources };
+    }
+
+    // Fallback for E09 / E05
+    const text = `### 👓 FOSMET 智能眼镜系列（E09 极轻拍摄 / E05 电致变色 / E09B 半框AI识物翻译）方案
 
 针对你的问题：**「${userQuery}」**：
 
 - **FOSMET E09B（45g 半框极轻 AI 识物与多语翻译拍摄眼镜）**：
-  - 经典斯文半框（半枠ハーフリム）轻奢高颜值设计，裸机仅重 45g，透明防蓝光护眼镜片；
-  - 搭载 **AI 拍照识物**（眼前所见即刻解析百科）与 **实时多语种同传翻译**（出境旅游与商务沟通无障碍）；
-  - SONY 800万像素 IMX219 摄像头，1080P 30fps 软件防抖，专属物理按键 10 分钟连续录像；
-  - 开放式双喇叭免入耳听音通话，镜腿触控手势滑动调音量。
+  - 经典斯文半框轻奢设计，裸机仅重 45g，透明防蓝光护眼镜片；
+  - 搭载 **AI 拍照识物** 与 **实时多语种同传翻译**；
+  - SONY 800万像素摄像头，1080P 30fps 录像，专属物理按键抓拍，开放式双喇叭，指尖触控调音量。
 - **FOSMET E09（40g 极轻防蓝光 POV 拍摄眼镜）**：
   - 裸机仅 40g 超轻，简约黑框，透明防蓝光镜片；
-  - SONY 800万摄像头支持 1080P 录像与物理按键一键 Vlog 抓拍，开放式双扬声器。
+  - SONY 800万摄像头支持 1080P 录像与物理按键一键抓拍，开放式双扬声器。
 - **FOSMET E05（4档电致变色智能音频眼镜）**：
   - 4 档指尖滑动触控电致变色镜片，室内透明/室外遮阳 1 秒切换；
   - ENC 双麦降噪开放式扬声器，8 小时听歌续航，TR90 超轻镜架。`;

@@ -33,6 +33,7 @@ interface TitleListProps {
   onOpenPreview: (item: GeneratedTitle) => void;
   onOpenMultiPlatform?: (item: GeneratedTitle) => void;
   onOpenABTesting?: (item?: GeneratedTitle) => void;
+  onOpenStoryboard?: (item: GeneratedTitle) => void;
   favoritesSet: Set<string>;
   onExportTxt: (titles: GeneratedTitle[]) => void;
   onExportCsv: (titles: GeneratedTitle[]) => void;
@@ -48,6 +49,7 @@ const TitleListComponent: React.FC<TitleListProps> = ({
   onOpenPreview,
   onOpenMultiPlatform,
   onOpenABTesting,
+  onOpenStoryboard,
   favoritesSet,
   onExportTxt,
   onExportCsv,
@@ -456,6 +458,7 @@ const TitleListComponent: React.FC<TitleListProps> = ({
                   onOpenPreview={onOpenPreview}
                   onOpenMultiPlatform={onOpenMultiPlatform}
                   onOpenABTesting={onOpenABTesting}
+                  onOpenStoryboard={onOpenStoryboard}
                   isFavorite={favoritesSet.has(item.title)}
                 />
               </motion.div>
