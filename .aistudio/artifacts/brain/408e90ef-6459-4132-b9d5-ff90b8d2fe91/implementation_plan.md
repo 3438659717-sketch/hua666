@@ -1,113 +1,104 @@
-# FOSMET & DyMona 跨境短视频文案引擎与爆款洞察系统全景升级方案
+# Feature Plan: Add FOSMET C32PRO (Outdoor Sports Smartwatch)
 
-本方案基于您的核心偏好：**以 Gemini 3.8 Flash 为主力并具备智能降级兜底**、聚焦**竞品爆款热词实时洞察与社媒标签深度分析**，并将全站视觉升级为**赛博流光玻璃拟态配高刷新丝滑微动效**。
+Add the new **FOSMET C32PRO** smart watch to the multi-language TikTok matrix content workshop. C32PRO inherits all hardware specs and capabilities from T20 (Multi-GNSS offline satellite positioning, electronic compass, barometric altimeter, 5ATM high-frequency acoustic drainage, 100+ sports modes, 24/7 biometric monitoring), localized specifically for **Spanish (es)** and **German (de)** cross-border TikTok markets.
 
----
+***
 
-## 一、 整体架构与升级维度
+### User Review & Critical Decisions
+
+> [!IMPORTANT]
+> The user confirmed the following preferences:
+> 1. **Default Target Language**: **Spanish (`es`)** (with full German `de` support alongside).
+> 2. **Visual Theme & Accent**: **Hardcore Explorer Amber Orange (`amber`)** (`#F59E0B`, `liquid-metal-orange`, `text-amber-400`).
+> 3. **Branding & Model Name**: Brand: `FOSMET`, Model: `C32PRO`, Display Full Name: `FOSMET C32PRO`.
+> 4. **Hashtags**: Standardized with `#C32PRO` instead of `#T20`, localized in Spanish and German.
+
+- **Confirmed Decision 1**: Add `c32pro` to `ProductId` union across all client and backend layers.
+- **Confirmed Decision 2**: Provide both high-speed offline algorithmic templates (50 unique Spanish and 50 unique German viral hooks) and server-side Gemini 3.8 Flash prompts.
+- **Confirmed Decision 3**: Add C32PRO to top navigation carousel in `Header.tsx`, telemetry dashboard in `ControlPanel.tsx`, cheatsheet modal, and trending radar.
+
+***
+
+### 1. Overview & Core Concept
+
+- **What It Does**: Adds a dedicated product profile for **FOSMET C32PRO**, allowing cross-border e-commerce sellers and TikTok creators in Spain/Latin America and Germany/DACH to generate 50 unique high-converting short video titles, hooks, and hashtags in seconds.
+- **Target Audience**: TikTok cross-border marketing managers, outdoor lifestyle creators, tactical gear reviewers, and e-commerce affiliates targeting Spanish and German speaking regions.
+- **Key Value**: Direct 1-click batch generation with 0-3s hook lines tailored to outdoor survival, hiking, waterproof acoustic drainage, and military-grade durability.
+
+***
+
+### 2. User Experience & Visual Design
+
+- **Color Palette & Theme**:
+  - Accent Color: Amber Orange (`#F59E0B`).
+  - Active Nav Capsule: Amber gradient with warm tactical glow (`bg-amber-500 text-black font-extrabold shadow-[0_4px_20px_rgba(245,158,11,0.5)] border-amber-300/60`).
+  - Background Atmosphere: Warm dynamic solar flares and amber particle trails when C32PRO is active.
+- **Navigation Placement**:
+  - Positioned beside T20 in the top squircle carousel with an icon (Compass/Navigation) and subtitle: `C32PRO · 探险旗舰`.
+- **Hashtag Suites**:
+  - Spanish default: `#FOSMET #C32PRO #smartwatch #outdoor #táctico`
+  - German default: `#FOSMET #C32PRO #Smartwatch #Outdoor Smartwatch #Werkzeug`
+- **Telemetry Specs**:
+  - `SATELLITE POSITION`: `GNSS 多星` (Multi-satellite independent offline tracking)
+  - `WATERPROOF / DRAIN`: `5 ATM` (High-frequency sonic water drainage)
+  - `SPORTS TRACKING`: `100+ 模式` (Dedicated tactical physical sports button)
+
+***
+
+### 3. Key Product Decisions & Trade-Offs
+
+- **Decision 1: Native Algorithmic Templates vs Pure AI Prompting**
+  - *Chosen Approach*: Implement a dedicated `src/data/c32proTemplates.ts` containing 50+ hand-crafted Spanish and German hook templates, plus full integration into `server.ts` Gemini 3.8 Flash generator.
+  - *Why*: Ensures 100% instant sub-15ms generation even if offline or if AI API limits are encountered, with identical quality and structure.
+- **Decision 2: Language Switching Behavior**
+  - *Chosen Approach*: When switching to C32PRO, default to Spanish (`es`), and provide seamless 1-click toggle between 🇪🇸 Spanish and 🇩🇪 German in the control panel.
+  - *Why*: Directly fulfills user requirement while keeping cross-border operation frictionless.
+
+***
+
+### 4. Technical Architecture & Data Strategy
 
 ```
-┌────────────────────────────────────────────────────────────────────────┐
-│                   赛博流光玻璃拟态 UI (Cyber-Fluorescent Glass)         │
-│  - 动态呼吸霓虹边框  - 物理倾斜 3D 拟态卡片  - 高刷新微动效 (Motion Springs)   │
-└────────────────────────────────────┬───────────────────────────────────┘
-                                     │
-┌────────────────────────────────────┴───────────────────────────────────┐
-│                           核心功能矩阵与提效中枢                        │
-├──────────────────────────┬─────────────────────────┬───────────────────┤
-│ 1. 标题与多语言脚本矩阵  │ 2. 竞品热词与标签雷达   │ 3. 增强型 AI 搜索 │
-│  - 黄金3秒 Hook 深度调优  │  - 实时 TikTok/社媒热度  │  - Google Grounding│
-│  - 日/西/德本地化爆款语系 │  - 竞品话术拓词与透视   │  - 引用源卡片化   │
-│  - 分镜脚本与 A/B 预测   │  - 标签热度计 & 一键置入│  - 趋势热点提炼   │
-└──────────────────────────┴─────────────────────────┴───────────────────┘
-                                     │
-┌────────────────────────────────────┴───────────────────────────────────┐
-│                    Gemini 3.8 Flash 智能双模引擎与高可用网关            │
-│  - 主力：models/gemini-3.8-flash（极速响应、深度语境理解）             │
-│  - 智能自愈降级链路：gemini-3.8-flash ➔ gemini-3.7-flash ➔ 算法库兜底 │
-│  - 实时状态遥测：延迟 (ms)、命中模型徽章、Token 消耗与链路探活          │
-└────────────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│                       App State (App.tsx)                   │
+│   currentProductId: 'c32pro'  |  language: 'es' | 'de'      │
+│   themeColor: 'amber'         |  tags: #FOSMET #C32PRO ...  │
+└──────────────┬──────────────────────────────┬───────────────┘
+               │                              │
+       ┌───────▼────────┐             ┌───────▼────────┐
+       │   Client UI    │             │  Data Sources  │
+       │  Header.tsx    │             │ templates.ts   │
+       │ ControlPanel   │             │ c32proTemplates│
+       │ Cheatsheet     │             │ tagUtils.ts    │
+       │ TrendingRadar  │             │ trendingData.ts│
+       └────────────────┘             └───────┬────────┘
+                                              │
+                                      ┌───────▼────────┐
+                                      │   server.ts    │
+                                      │ Gemini 3.8 AI  │
+                                      │ /api/generate  │
+                                      │  /api/trends   │
+                                      └────────────────┘
 ```
 
----
+#### Files to Update:
+1. `src/types.ts`: Add `"c32pro"` to `ProductId`.
+2. `src/data/c32proTemplates.ts`: Create dedicated template file with 50+ Spanish and German hooks based on T20 specs, referencing `#C32PRO`.
+3. `src/data/templates.ts`:
+   - Add `c32pro` entry in `PRODUCTS_CONFIG`.
+   - Wire `generateC32proAlgorithmicTitles` into `generateAlgorithmicTitles`.
+4. `src/utils/tagUtils.ts`: Add `c32pro` case in `getDefaultTagsForProduct` for Spanish and German.
+5. `src/components/Header.tsx`: Add `c32pro` to `productNavList` carousel.
+6. `src/components/ControlPanel.tsx`: Add `c32pro` theme colors, telemetry specs, and hot keywords.
+7. `src/App.tsx`: Add `c32pro` theme mapping (`amber`) and language auto-switch.
+8. `src/data/trendingData.ts`: Add `c32pro` radar entries for `es` and `de`.
+9. `server.ts`: Add `isC32pro` handling in `/api/generate-titles` with prompt tuning for C32PRO outdoor GNSS capabilities.
 
-## 二、 关键模块详细改造方案
+***
 
-### 1. AI 核心引擎升级：Gemini 3.8 Flash 主力 + 智能瀑布降级
-- **模型路由升级 (`server.ts` & `src/services/geminiService.ts`)**：
-  - 将默认主力模型升级为 `gemini-3.8-flash`，充分利用其更长上下文理解与更精细的多语言语感。
-  - 构建三级容灾网关（Cascade Fallback）：
-    1. 首选请求 `gemini-3.8-flash`；
-    2. 若触发频率配额 (429) 或临时不可用，自动无缝切换到 `gemini-3.7-flash` 或 `gemini-3.6-flash`；
-    3. 全离线/极端断网状态下，自动触发预置的高质量算法模版引擎（120+ 爆款母版），保障 100% 可用性。
-  - 界面实时展示当前驱动模型状态徽章（如 `⚡ Gemini 3.8 Flash • 240ms`），并支持在设置中手动切换调试。
+### 5. Verification Plan
 
-### 2. 重磅新增模块：竞品爆款热词实时洞察与社媒标签深度分析
-- **新组件 `TrendingRadarModal.tsx` / `CompetitorInsightPanel.tsx`**：
-  - **爆款热词雷达 (Viral Hotword Radar)**：
-    - 针对 FOSMET 智能手表（REC10、QS40、T40 等）及 DyMona 无线吸尘器（V18 PRO 西语、V17 MAX 德语），深度提取跨境 TikTok、Reels、X 当前热度飙升关键词（如“バッテリー持ち（超长续航）”、“コスパ最強”、“Aspiradora sin cable potencia”等）。
-  - **标签深度透析仪 (Hashtag Heat Index)**：
-    - 展示标签热度指数、预估播放量区间、互动转化倍率（CTR Multiplier）。
-    - 标签分类：产品核心词、流量引流词（#TikTokMadeMeBuyIt, #AmazonFinds）、场景痛点词、节日促销词。
-  - **一键注入与协同**：
-    - 点击任意热词或高分标签，直接一键注入当前文案生成参数中，实时生成针对该热词的定制化 Hook。
-
-### 3. 生成文案与脚本质量大幅度升级 (Quality Optimization)
-- **黄金 3 秒 Hook 结构化重构**：
-  - 引入 5 大爆款心理学公式：**反直觉反常识**（“誰も教えてくれない…”）、**损失厌恶**（“これ買わないと損…”）、**极客硬核降维打击**（军规级三防、双重强力无刷电机参数对比）、**沉浸式体验**、**高转化行动呼吁 (CTA)**。
-  - 支持**日语 (JA)**、**西班牙语 (ES)**、**德语 (DE)** 正宗本地化俚语与文化适配，消除生硬翻译腔。
-- **TikTok 分镜脚本智能生成器 (Storyboard & Caption Studio)**：
-  - 每条生成的爆款标题可一键拓展为包含【0-3s 开场镜头】、【3-10s 痛点演示】、【10-25s 核心卖点轰炸】、【25-30s 诱饵引导】的标准 TikTok 分镜脚本。
-- **CTR 爆款指数预测与 A/B 测试**：
-  - 自动打分（0-100分），评估标题的吸引力、完播率潜力、转化率等级，并提供改进建议。
-
-### 4. 增强型 AI 搜索功能 (AI Search Grounding 2.0)
-- **实时联网搜索体验重构**：
-  - 启用 Google Search Grounding，实时抓取 2026 最新行业竞品动态、亚马逊热销趋势与跨境测评。
-  - **结构化引用源卡片**：展示网页来源 Favicon、权威网站名称、来源摘要，点击可直接展开证据链。
-  - **智能追问与话题提炼**：自动生成 3 个相关延伸热点建议，点击即可一键发起深度追踪或转为爆款标题。
-
-### 5. 赛博流光玻璃拟态 (Cyber-Fluorescent Glassmorphism) 视觉与动效体系
-- **色彩与材质体系**：
-  - 深邃黑曜石背景 (`#07090e` ~ `#0b101b`) 配合径向流光光晕（Cyber Cyan `#00f2fe`、Neon Violet `#7928ca`、Hyper Green `#10b981`）。
-  - 多层毛玻璃材质 (`backdrop-blur-2xl`，超细半透明高光边框 `border-white/10`，流光外发光 `shadow-[0_0_30px_rgba(...)]`)。
-- **高刷新丝滑微动效 (Motion & Tactile Interaction)**：
-  - 物理倾斜 3D 卡片效果优化：平滑跟随光标反光（Specular Reflection），告别生硬突兀。
-  - 复制、收藏、切换产品时的触感级弹性反馈（Spring Dynamics, damping 15, stiffness 200）。
-  - 批量生成时的光波流转与文字打字流光动画，极大提升等待与操作的愉悦度。
-  - 优化移动端与桌面端自适应布局，确保任何屏幕比例下均沉浸舒适。
-
----
-
-## 三、 实施步骤与文件变更清单
-
-1. **后端模型服务 (`server.ts`)**：
-   - 更新 Gemini 模型优先级配置为 `gemini-3.8-flash`，实现智能降级链路与健康检查。
-   - 增加 `/api/trends` 竞品爆款热词与社媒标签接口（结合 Search Grounding 与产品库数据）。
-   - 强化 `/api/chat` 与 `/api/generate` 的系统 Prompt，融入高转化 TikTok 黄金 3 秒框架。
-2. **类型与配置扩展 (`src/types.ts`, `src/data/productData.ts`)**：
-   - 扩展热词热度数据结构、标签分析模型、分镜脚本数据类型。
-3. **新增功能组件**：
-   - `src/components/TrendingRadarModal.tsx`（竞品爆款热词与标签深度雷达）。
-   - `src/components/StoryboardModal.tsx`（TikTok 分镜脚本一键生成面板）。
-   - `src/components/ModelStatusBadge.tsx`（实时模型状态与降级指示器）。
-4. **视觉与交互升级**：
-   - 重构 `src/components/Header.tsx`, `ControlPanel.tsx`, `TitleCard.tsx`, `GeminiChatModal.tsx`。
-   - 注入赛博流光边框、玻璃反光、标签热度色阶与丝滑微动效。
-5. **系统构建验证**：
-   - 运行 TypeScript 类型检查与全量编译测试 (`compile_applet`)，确保 0 报错、构建正常并流畅运行。
-
----
-
-## 四、 验证与确认计划
-
-### 1. 自动化校验
-- `npm run lint` / `tsc --noEmit`：保证新增类型和组件无语法与类型错误。
-- `compile_applet`：验证全栈打包（Vite + Express Bundle）成功。
-
-### 2. 功能交互与业务效果验证
-- **模型升级与降级验证**：测试 Gemini 3.8 Flash 请求及异常自动降级机制，观察 ModelBadge 显示状态。
-- **爆款热词与标签分析**：打开热词雷达，验证 FOSMET / DyMona 各型号的热词热度展示及“一键填入参数”流程。
-- **文案质量验证**：抽测日语（REC10、QS40）、西语（V18 PRO）、德语（V17 MAX）文案生成质量，确认黄金 3 秒 Hook、痛点反转与高转化标签生效。
-- **AI 搜索增强**：在 AI 智能助手中开启 Google Search Grounding，验证搜索引用源、摘要卡片和延伸提问是否顺畅。
-- **动效体验验证**：检查流光玻璃质感、卡片倾斜、弹窗过渡动画在高帧率下的丝滑表现。
+1. **Compilation**: Run `compile_applet` and `lint_applet` together to verify strict TypeScript adherence and zero missing symbols.
+2. **Product Navigation**: Select `C32PRO` from Header carousel; verify Amber theme activates, tags display `#FOSMET #C32PRO ...`, and language defaults to Spanish.
+3. **50-Title Generation**: Click "生成 50 组文案"; verify 50 unique Spanish and German titles generate with `#C32PRO` tags and high-converting outdoor hooks.
+4. **Modals & Cheatsheet**: Open Cheatsheet, TikTok Preview, and Storyboard to ensure C32PRO specs and 4-scene video scripts load accurately.

@@ -1,6 +1,6 @@
 {
-  "summary":  "Comprehensive implementation plan for the FOSMET & DyMona TikTok Viral Copy & Intelligence Engine overhaul. Includes upgrading to Gemini 3.8 Flash with smart cascade fallback, introducing real-time competitor hotword insights and social media hashtag deep analytics, supercharging AI Search Grounding, elevating copy quality with viral hook frameworks, and transforming the UI into a cyber-fluorescent glassmorphism design with ultra-smooth 120Hz-feel micro-interactions.",
-  "updatedAt":  "2026-10-21T10:31:25.163247154Z",
-  "requestFeedback":  true,
-  "userFacing":  true
+  "summary": "Plan for adding the new FOSMET C32PRO product to the TikTok matrix copy generator.\n- Clone all parameters and specifications from T20, renamed to 'FOSMET C32PRO'.\n- Target languages: Spanish (es) and German (de), with Spanish as the default.\n- Custom visual theme: Hardcore Explorer Amber Orange (amber).\n- Updated hashtag suites: Spanish (#FOSMET #C32PRO #smartwatch #outdoor #táctico) and German (#FOSMET #C32PRO #Smartwatch #Outdoor Smartwatch #Werkzeug).\n- Native algorithmic templates, Gemini 3.8 Flash AI prompts, telemetry, and cheatsheet updates.",
+  "updatedAt": "2026-11-06T01:29:04.122021963Z",
+  "requestFeedback": true,
+  "userFacing": true
 }

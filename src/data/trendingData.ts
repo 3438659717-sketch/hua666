@@ -699,6 +699,7 @@ export const PRODUCT_RADAR_DATA: Record<ProductId, Record<TargetLanguage, Compet
   fos10: generateGenericRadar("fos10", "FOSMET FOS10 14.9g超軽量スマートウォッチ"),
   i228: generateGenericRadar("i228", "FOSMET I228 ファッションスマートウォッチ"),
   t40: generateGenericRadar("t40", "FOSMET T40 キッズスマートウォッチ"),
+  c32pro: generateGenericRadar("c32pro", "FOSMET C32PRO アウトドアスマートウォッチ"),
 };
 
 function generateGenericRadar(productId: ProductId, productName: string): Record<TargetLanguage, CompetitorRadarData> {

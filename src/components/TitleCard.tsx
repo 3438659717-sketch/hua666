@@ -20,7 +20,7 @@ interface TitleCardProps {
   isFavorite: boolean;
 }
 
-const HIGHLIGHT_REGEX = /(FOSMET|REC10|QS40|T20|KT80|E12|E05|E09B|E09|G58|G2|FOS10|800mAh|5ATM|1080P|SONY|45g|40g|14\.9g|10\.66mm|390×390|120\+|FitCloudPro|AI搭載|AI識物|AI翻訳|神コスパ|神機能|ヤバい|爆売れ|限定|話題|圧倒的|衝撃|必須|プロ級|禁断|驚愕|linterna LED|supervivencia|4K|16mm|TR90|64GB|30h|GNSS|GPS|1\.85インチ|1\.27インチ)/g;
+const HIGHLIGHT_REGEX = /(FOSMET|REC10|QS40|T20|C32PRO|KT80|E12|E05|E09B|E09|G58|G2|FOS10|800mAh|5ATM|1080P|SONY|45g|40g|14\.9g|10\.66mm|390×390|120\+|FitCloudPro|AI搭載|AI識物|AI翻訳|神コスパ|神機能|ヤバい|爆売れ|限定|話題|圧倒的|衝撃|必須|プロ級|禁断|驚愕|linterna LED|supervivencia|4K|16mm|TR90|64GB|30h|GNSS|GPS|1\.85インチ|1\.27インチ)/g;
 
 const TitleCardComponent: React.FC<TitleCardProps> = ({
   item,

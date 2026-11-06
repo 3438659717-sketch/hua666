@@ -96,6 +96,7 @@ export const ProductCheatsheetModal: React.FC<ProductCheatsheetModalProps> = ({
       case "kt80":
         return <Flashlight className="w-4 h-4" />;
       case "t20":
+      case "c32pro":
         return <Compass className="w-4 h-4" />;
       case "qs40":
         return <Watch className="w-4 h-4" />;
@@ -113,6 +114,7 @@ export const ProductCheatsheetModal: React.FC<ProductCheatsheetModalProps> = ({
     "qs40",
     "t40",
     "t20",
+    "c32pro",
     "kt80",
     "g58",
     "i228",

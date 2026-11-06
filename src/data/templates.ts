@@ -13,6 +13,7 @@ import { generateI228AlgorithmicTitles, I228_FIXED_TAGS } from "./i228Templates"
 import { generateV18proAlgorithmicTitles, V18PRO_FIXED_TAGS } from "./v18proTemplates";
 import { generateV17maxAlgorithmicTitles, V17MAX_FIXED_TAGS } from "./v17maxTemplates";
 import { generateT40AlgorithmicTitles, T40_SPANISH_TAGS, T40_GERMAN_TAGS } from "./t40Templates";
+import { generateC32proAlgorithmicTitles, C32PRO_SPANISH_TAGS, C32PRO_GERMAN_TAGS } from "./c32proTemplates";
 import { getChineseTranslation } from "../utils/translator";
 import { getHolidayById } from "./holidays";
 
@@ -103,6 +104,37 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
       "多星GNSS脱机独立定位 + 高精度电子指南针与气压高度传感器，户外探索不迷路",
       "强力智能物理排水功能：涉水游泳暴汗后瞬间震动排水，极限抗造军规级品质",
       "100+种运动模式一键直达 + Bluetooth蓝牙高清通话 + 24小时心率血氧睡眠全天守护",
+    ],
+  },
+  c32pro: {
+    id: "c32pro",
+    brand: "FOSMET",
+    model: "C32PRO",
+    name: "FOSMET C32PRO",
+    japaneseType: "Reloj Inteligente Outdoor / Outdoor-Sportuhr",
+    shortDesc: "户外探索＆硬核运动专业级仪表盘・多星GNSS脱机轨迹・电子指南针/气压高度计・智能声波排水",
+    fixedTags: "#FOSMET #C32PRO #smartwatch #outdoor #táctico",
+    defaultLanguage: "es",
+    supportedLanguages: ["es", "de"],
+    badge: "专业户外运动手表",
+    accentColor: "#F59E0B",
+    tiktokFormula: "高额户外表/水没痛点反转 + 独立多星GNSS/物理智能排水硬核展示 + 100+运动/腕上本格计器直给",
+    specs: [
+      { label: "户外环境感知", value: "内置高精度电子指南针(方位角) ＆ 气压传感器(过去24h记录) ＆ 高度计" },
+      { label: "独立卫星定位", value: "多星GNSS (Multi-GNSS) 独立脱机路线定位与轨迹记录，无需携带手机" },
+      { label: "黑科技排水", value: "智能物理声波排水功能（高频震动瞬间从麦克风/扬声器孔排出内部积水）" },
+      { label: "运动模式", value: "100+种专业运动模式（跑步、骑行、游泳、登山、徒步、跳绳等）" },
+      { label: "专属操作按键", value: "三组物理按键：电源键、自定义功能键（长按语音助手）、一键运动专属按键" },
+      { label: "24h健康管家", value: "全天候心率连续监测、血氧饱和度监测、压力测量、呼吸训练、女性生理周期" },
+      { label: "科学睡眠追踪", value: "深睡/浅睡/清醒阶段精确分析、睡眠品质评分" },
+      { label: "全能互联与通话", value: "Bluetooth 5.3蓝牙通话（手表直接拨号接听）、AI智能语音助手、SNS通知" },
+      { label: "日常工具生态", value: "音乐控制、实时天气、遥控拍照、手机查找、计算器、闹钟/秒表/计时器" },
+      { label: "固定标签", value: "#FOSMET #C32PRO #smartwatch #outdoor #táctico" },
+    ],
+    highlights: [
+      "多星GNSS脱机独立定位 + 高精度电子指南针与气压高度传感器，荒野探险不迷路",
+      "强力智能物理声波排水功能：涉水游泳暴汗后瞬间高频排水，极限抗造军规级品质",
+      "100+种运动模式一键直达 + Bluetooth 5.3高清通话 + 24小时心率血氧全天守护",
     ],
   },
   kt80: {
@@ -965,6 +997,8 @@ export function generateAlgorithmicTitles(
     rawResults = generateV17maxAlgorithmicTitles(category, customKeyword, customTags, batchSeed, language);
   } else if (productId === "t40") {
     rawResults = generateT40AlgorithmicTitles(category, customKeyword, customTags, batchSeed, language);
+  } else if (productId === "c32pro") {
+    rawResults = generateC32proAlgorithmicTitles(category, customKeyword, customTags, language);
   } else {
     const brand = "FOSMET";
     const model = "REC10";

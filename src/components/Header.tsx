@@ -112,6 +112,14 @@ export const Header: React.FC<HeaderProps> = ({
       themeColor: "text-emerald-400",
     },
     {
+      id: "c32pro",
+      label: "C32PRO",
+      subLabel: "户外探险",
+      icon: <Compass className="w-3.5 h-3.5" />,
+      activeClass: "bg-amber-500 text-black font-extrabold shadow-[0_4px_20px_rgba(245,158,11,0.5)] border-amber-300/60",
+      themeColor: "text-amber-400",
+    },
+    {
       id: "kt80",
       label: "KT80",
       subLabel: "800mAh潜水",

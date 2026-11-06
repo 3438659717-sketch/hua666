@@ -29,6 +29,8 @@ const V17MAX_GERMAN_HASHTAGS = "#DyMona #V17MAX #staubsauger #putztipps #haushal
 const V17MAX_SPANISH_HASHTAGS = "#DyMona #V17MAX #aspiradora #hogargrande #limpiezahogar #tiktokshop #mascotas";
 const T40_SPANISH_HASHTAGS = "#FOSMET #T40 #españa #Niños #relojinteligente";
 const T40_GERMAN_HASHTAGS = "#FOSMET #T40 #Kinder #Smartwatch #Kindersicherheit";
+const C32PRO_SPANISH_HASHTAGS = "#FOSMET #C32PRO #smartwatch #outdoor #táctico";
+const C32PRO_GERMAN_HASHTAGS = "#FOSMET #C32PRO #Smartwatch #Outdoor Smartwatch #Werkzeug";
 
 // Google Search Grounding tool quota circuit breaker to prevent repeated 429 errors
 let isGoogleSearchToolQuotaExceeded = true;
@@ -175,6 +177,7 @@ async function startServer() {
       });
 
       const isT40 = productId === "t40";
+      const isC32pro = productId === "c32pro";
       const isV18pro = productId === "v18pro";
       const isV17max = productId === "v17max";
       const isG2 = productId === "g2";
@@ -188,13 +191,15 @@ async function startServer() {
       const isE05 = productId === "e05";
       const isE09 = productId === "e09";
       const isE09B = productId === "e09b";
-      const isGerman = (isKt80 || isG58 || isV18pro || isV17max || isT40) && (language === "de" || (isV17max && language !== "es"));
+      const isGerman = (isKt80 || isG58 || isV18pro || isV17max || isT40 || isC32pro) && (language === "de" || (isV17max && language !== "es"));
 
       const targetBrand = isV18pro || isV17max ? "DyMona" : "FOSMET";
-      const targetModel = isT40 ? "T40" : isV18pro ? "V18 PRO" : isV17max ? "V17 MAX" : isFos10 ? "FOS10" : isG2 ? "G2" : isG58 ? "G58" : isI228 ? "I228" : isE09B ? "E09B" : isE09 ? "E09" : isE05 ? "E05" : isE12 ? "E12" : isKt80 ? "KT80" : isT20 ? "T20" : isQs40 ? "QS40" : "REC10";
+      const targetModel = isT40 ? "T40" : isC32pro ? "C32PRO" : isV18pro ? "V18 PRO" : isV17max ? "V17 MAX" : isFos10 ? "FOS10" : isG2 ? "G2" : isG58 ? "G58" : isI228 ? "I228" : isE09B ? "E09B" : isE09 ? "E09" : isE05 ? "E05" : isE12 ? "E12" : isKt80 ? "KT80" : isT20 ? "T20" : isQs40 ? "QS40" : "REC10";
 
       let defaultHashtags = REC10_HASHTAGS;
-      if (isT40) {
+      if (isC32pro) {
+        defaultHashtags = isGerman ? C32PRO_GERMAN_HASHTAGS : C32PRO_SPANISH_HASHTAGS;
+      } else if (isT40) {
         defaultHashtags = isGerman ? T40_GERMAN_HASHTAGS : T40_SPANISH_HASHTAGS;
       } else if (isV18pro) {
         defaultHashtags = isGerman ? V18PRO_GERMAN_HASHTAGS : V18PRO_SPANISH_HASHTAGS;
@@ -658,6 +663,82 @@ ${customKeyword ? `※ Palabra clave a destacar: "${customKeyword}"` : ""}`;
           userPrompt = `Categoría: ${selectedCategoryDesc}
 Tono: ${tone}
 Petición: Genera 50 títulos virales en español para FOSMET KT80 en TikTok que terminen en: ${targetHashtags}`;
+        }
+      } else if (isC32pro) {
+        if (isGerman) {
+          categoryPromptMap = {
+            all_mixed: "Multi-GNSS autarkes Tracking ohne Smartphone, innovative Schallwellen-Entwässerung, digitaler Kompass & Barometer Höhenmesser, über 100 Profi-Sportmodi und robustes Panzergehäuse im perfekten Mix",
+            pain_point: "【Schmerzpunkte & Kostenfalle】400€ für Outdoor-Uhren verschwendet, Angst vor Wasserschaden beim Schwimmen, Handy beim Laufen mitschleppen. C32PRO löst alles",
+            efficiency: "【Multi-GNSS & Bluetooth-Anrufe】Präzise autarke Routenaufzeichnung, HD-Telefonie direkt am Handgelenk, 100+ Sportmodi, 24/7 Vitaldaten-Tracking",
+            gadget: "【Schall-Drainage & Tactical-Design】Hochfrequenz-Schwingung drückt Wasser aus dem Gehäuse, griffige physische Knöpfe für Handschuh-Bedienung",
+            ai_power: "【Sensor-Cockpit】Barometer mit Unwetterwarnung, digitaler Kompass für Navigation in der Wildnis, KI-Sprachassistent",
+            secret_hack: "【Geheimtipp Outdoor-Community】Profi-Funktionen ohne Markenaufpreis, Akku-Sparmodus für Tagestouren",
+            question: "【Fragen & Community】Schallwellen-Entwässerung im Extremtest? Würdest du mit dieser Uhr im Gebirge wandern?",
+            spec_power: "【Outdoor-Specs】Multi-GNSS, 5ATM wasserdicht, Kompass, Barometer, Höhenmesser, Bluetooth 5.3, 100+ Sportarten",
+          };
+
+          const selectedCategoryDesc = categoryPromptMap[category] || categoryPromptMap.all_mixed;
+
+          systemInstruction = `Du bist ein erfahrener deutscher TikTok- und E-Commerce Marketing-Direktor für Outdoor- und Sport-Smartwatches.
+Erstelle hochkonvertierende deutsche TikTok-Videotitel / Hooks für die robuste Outdoor-Smartwatch "FOSMET C32PRO".
+
+【Produktdaten FOSMET C32PRO】:
+- Marke: FOSMET | Modell: C32PRO
+- Positionierung: Hardcore Outdoor- und Sport-Smartwatch für Bergsport, Running, Trekking und Extremsport
+- Autarkes Multi-GNSS: Eigenständige Satelliten-Routenaufzeichnung ohne Smartphone
+- Smarte Schallwellen-Entwässerung: Hochfrequente physische Schwingung befreit Lautsprecher & Mikrofon blitzschnell von Wasser
+- Sensor-Trifecta: Digitaler Kompass (Azimut), Barometer & Höhenmesser (Luftdruckhistorie & Wettertrend)
+- Sport & Steuerung: Über 100 Sportmodi, dedizierter physischer Schnellstart-Sportknopf
+- Kommunikation & Vitaldaten: Bluetooth 5.3 Freisprechen, 24/7 Puls-, SpO2- und Schlafüberwachung
+
+【Regeln】:
+1. Jeder Titel MUSS zwingend "FOSMET" und "C32PRO" natürlich und ansprechend enthalten.
+2. Formuliere packende deutsche Hooks (ca. 40-75 Zeichen) mit Fokus auf Outdoor-Freiheit, Schall-Drainage und GNSS.
+3. Jeder Titel MUSS am Ende EXAKT die folgenden Hashtags enthalten:
+   ${targetHashtags}
+4. Gib genau ${count} individuelle Titel als JSON-Array aus. Keine Duplikate!
+${customKeyword ? `※ Besonderes Keyword zum Einbauen: "${customKeyword}"` : ""}`;
+
+          userPrompt = `Kategorie: ${selectedCategoryDesc}
+Tonalität: ${tone}
+Aufgabe: Erstelle 50 packende deutsche TikTok-Titel für FOSMET C32PRO mit den Hashtags: ${targetHashtags}`;
+        } else {
+          categoryPromptMap = {
+            all_mixed: "Posicionamiento GNSS multi-satélite sin móvil, drenaje acústico por vibración inteligente, brújula digital y barómetro altímetro, más de 100 modos deportivos y resistencia militar en la mezcla perfecta",
+            pain_point: "【Puntos de dolor y desmitificación】¿Pagar 400€ por relojes de outdoor? ¿Miedo a que entre agua o perderte en la montaña? C32PRO te libera del smartphone y resiste todo",
+            efficiency: "【GNSS Multi-satelital & Llamadas Bluetooth】Graba tus rutas sin llevar el móvil, responde llamadas en HD en plena montaña, 100+ deportes y batería duradera",
+            gadget: "【Drenaje Sónico & Estética Táctica】Vibración de alta frecuencia que expulsa el agua acumulada en segundos, 3 botones físicos para usar con guantes",
+            ai_power: "【Panel Táctico y Sensores】Presión atmosférica con alerta de tormentas, brújula de alta precisión y altímetro en tiempo real",
+            secret_hack: "【Secreto de Montañeros】La joya oculta de calidad militar sin pagar sobreprecios de marcas caras, drenaje oculto",
+            question: "【Preguntas y Debate】¿Reloj caro de 500€ o este C32PRO con GNSS y brújula? ¿Te atreves al test de agua helada?",
+            spec_power: "【Parámetros Pro】Multi-GNSS, 5ATM sumergible, altímetro barométrico, brújula digital, Bluetooth 5.3, 100+ deportes",
+          };
+
+          const selectedCategoryDesc = categoryPromptMap[category] || categoryPromptMap.all_mixed;
+
+          systemInstruction = `Eres un estratega de marketing de contenidos y creador de ganchos virales para TikTok en español (España y Latinoamérica) especializado en aventuras outdoor, deportes extremos y tecnología táctica.
+Crea títulos y ganchos de alta conversión para el reloj inteligente táctico para exteriores "FOSMET C32PRO".
+
+【Información del producto FOSMET C32PRO】:
+- Marca: FOSMET | Modelo: C32PRO
+- Posicionamiento: Smartwatch deportivo y táctico para montañismo, senderismo, running y deportes acuáticos
+- Posicionamiento GNSS autónomo: Localización y registro de rutas satelitales sin necesidad de llevar el smartphone
+- Drenaje acústico inteligente: Expulsa el agua de los orificios del micrófono y altavoz mediante vibración sónica de alta frecuencia tras nadar o lluvias intensas
+- Sensores tácticos: Brújula digital de alta precisión, barómetro con registro de 24h y altímetro en tiempo real
+- Deportes y Botones: Más de 100 modos deportivos con botón físico de acceso rápido directo
+- Comunicación y Salud: Bluetooth 5.3 llamadas HD en muñeca, monitoreo 24/7 de ritmo cardíaco, SpO2 y sueño profundo
+
+【Reglas de Generación】:
+1. Cada título DEBE incluir de forma natural la marca "FOSMET" y el modelo "C32PRO".
+2. Redacta ganchos virales atractivos en español (entre 40 y 85 caracteres) que enganchen en los primeros 3 segundos.
+3. Cada título DEBE terminar OBLIGATORIAMENTE con estos hashtags:
+   ${targetHashtags}
+4. Genera exactamente ${count} títulos únicos en formato de arreglo JSON. ¡Sin duplicados!
+${customKeyword ? `※ Palabra clave especial para incluir en algunos títulos: "${customKeyword}"` : ""}`;
+
+          userPrompt = `Categoría: ${selectedCategoryDesc}
+Tono: ${tone}
+Solicitud: Crea ${count} títulos virales en español para TikTok para FOSMET C32PRO con los hashtags: ${targetHashtags}`;
         }
       } else if (isT20) {
         categoryPromptMap = {

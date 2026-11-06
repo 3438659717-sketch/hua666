@@ -113,6 +113,8 @@ export default function App() {
         return "cyan";
       case "kt80":
         return "amber";
+      case "c32pro":
+        return "amber";
       case "t20":
         return "emerald";
       case "qs40":
@@ -146,6 +148,8 @@ export default function App() {
         return "text-cyan-300";
       case "kt80":
         return "text-amber-300";
+      case "c32pro":
+        return "text-amber-300";
       case "t20":
         return "text-emerald-300";
       case "qs40":
@@ -175,7 +179,7 @@ export default function App() {
         } else {
           setLastAction({ type: "generate", timestamp: Date.now(), data: { count: result.titles.length } });
           const langLabel =
-            targetProd === "kt80" || targetProd === "g58" || targetProd === "t40" || targetProd === "v18pro" || targetProd === "v17max"
+            targetProd === "kt80" || targetProd === "g58" || targetProd === "t40" || targetProd === "v18pro" || targetProd === "v17max" || targetProd === "c32pro"
               ? activeParams.language === "de"
                 ? "德语"
                 : "西语"
@@ -261,7 +265,7 @@ export default function App() {
         ...prev,
         productId,
         category: "all_mixed",
-        language: productId === "kt80" || productId === "g58" ? "es" : "ja",
+        language: productId === "kt80" || productId === "g58" || productId === "i228" || productId === "c32pro" ? "es" : "ja",
         customTags: undefined,
       };
       handleGenerate(next);

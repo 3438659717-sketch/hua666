@@ -311,7 +311,8 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   const isV18pro = currentProductId === "v18pro";
   const isV17max = currentProductId === "v17max";
   const isT40 = currentProductId === "t40";
-  const isMultilingual = isKt80 || isG58 || isV18pro || isV17max || isT40;
+  const isC32pro = currentProductId === "c32pro";
+  const isMultilingual = isKt80 || isG58 || isV18pro || isV17max || isT40 || isC32pro;
   const isGerman = currentLang === "de";
   const isSpanish = currentLang === "es";
 
@@ -327,6 +328,8 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   let categories = REC10_CATEGORIES;
   if (isT40) {
     categories = isGerman ? T40_CATEGORIES_DE : T40_CATEGORIES_ES;
+  } else if (isC32pro) {
+    categories = isGerman ? KT80_CATEGORIES_DE : KT80_CATEGORIES_ES;
   } else if (isV18pro) {
     categories = isGerman ? V18PRO_CATEGORIES_DE : V18PRO_CATEGORIES_ES;
   } else if (isV17max) {
@@ -491,6 +494,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
     if (isE05) return "text-rose-400";
     if (isE12) return "text-cyan-400";
     if (isKt80) return "text-amber-400";
+    if (isC32pro) return "text-amber-400";
     if (isT20) return "text-emerald-400";
     if (isQs40) return "text-purple-400";
     return "text-blue-400";
@@ -538,6 +542,12 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
       case "t20":
         return [
           { label: "SATELLITE POSITION", val: "GNSS", unit: "多星", desc: "独立高精度脱机轨迹 · 海拔气压", color: "liquid-metal-emerald", icon: <Compass className="w-4 h-4 text-emerald-400" /> },
+          { label: "WATERPROOF / DRAIN", val: "5", unit: "ATM", desc: "高频物理震动智能排水 · 军规耐用", color: "liquid-metal-cyan", icon: <ShieldCheck className="w-4 h-4 text-cyan-400" /> },
+          { label: "SPORTS TRACKING", val: "100+", unit: "模式", desc: "定制物理按键直达 · 24h血氧心率", color: "liquid-metal-gold", icon: <Activity className="w-4 h-4 text-amber-400" /> },
+        ];
+      case "c32pro":
+        return [
+          { label: "SATELLITE POSITION", val: "GNSS", unit: "多星", desc: "独立高精度脱机轨迹 · 海拔气压", color: "liquid-metal-orange", icon: <Compass className="w-4 h-4 text-amber-400" /> },
           { label: "WATERPROOF / DRAIN", val: "5", unit: "ATM", desc: "高频物理震动智能排水 · 军规耐用", color: "liquid-metal-cyan", icon: <ShieldCheck className="w-4 h-4 text-cyan-400" /> },
           { label: "SPORTS TRACKING", val: "100+", unit: "模式", desc: "定制物理按键直达 · 24h血氧心率", color: "liquid-metal-gold", icon: <Activity className="w-4 h-4 text-amber-400" /> },
         ];
@@ -618,6 +628,10 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
         return ["手腕ChatGPT秒回", "9.8mm超薄洗练银", "千元级质感百元入手", "高颜值表盘DIY"];
       case "t20":
         return ["脱机多星GNSS", "物理高频震动排水", "气压海拔指南针", "防刮军规耐操"];
+      case "c32pro":
+        return isGerman
+          ? ["Multi-GNSS Autark", "Schall-Entwässerung", "Kompass & Barometer", "100+ Sportmodi", "Extremwetter-Alarm"]
+          : ["GNSS multi-satelital", "Drenaje sónico", "Brújula y altímetro", "100+ deportes PRO", "Llamadas Bluetooth"];
       case "kt80":
         return ["800mAh电量怪兽", "机身侧置强光手电", "5ATM真潜水级", "防摔战术硬汉"];
       case "e12":
@@ -655,7 +669,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
               <span>硬件矩阵 (Product Matrix)</span>
             </span>
             <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-white/[0.08] text-white border border-white/[0.12] shadow-xs">
-              15款旗舰设备
+              16款旗舰设备
             </span>
           </div>
           <span className="text-[11.5px] text-white/50">
@@ -663,7 +677,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           </span>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-8 2xl:grid-cols-15 gap-2.5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-8 2xl:grid-cols-16 gap-2.5">
           {[
             { id: "t40" as ProductId, label: "T40", desc: "4G儿童安全表", icon: <ShieldCheck className="w-3.5 h-3.5" />, tag: "#Niños", lang: "es" as TargetLanguage },
             { id: "v18pro" as ProductId, label: "V18 PRO", desc: "折叠绿光吸尘", icon: <Wind className="w-3.5 h-3.5" />, tag: "#V18PRO", lang: "es" as TargetLanguage },
@@ -671,6 +685,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             { id: "rec10" as ProductId, label: "REC10", desc: "名片AI录音", icon: <Mic className="w-3.5 h-3.5" />, tag: "#AIレコーダー", lang: "ja" as TargetLanguage },
             { id: "qs40" as ProductId, label: "QS40", desc: "对腕ChatGPT", icon: <Watch className="w-3.5 h-3.5" />, tag: "#スマートウォッチ", lang: "ja" as TargetLanguage },
             { id: "t20" as ProductId, label: "T20", desc: "多星GNSS", icon: <Compass className="w-3.5 h-3.5" />, tag: "#アウトドア", lang: "ja" as TargetLanguage },
+            { id: "c32pro" as ProductId, label: "C32PRO", desc: "硬核户外探险", icon: <Compass className="w-3.5 h-3.5" />, tag: "#C32PRO", lang: "es" as TargetLanguage },
             { id: "kt80" as ProductId, label: "KT80", desc: "800mAh战术", icon: <Flashlight className="w-3.5 h-3.5" />, tag: "#smartwatch", lang: "es" as TargetLanguage },
             { id: "g58" as ProductId, label: "G58", desc: "女性时尚表", icon: <Sparkles className="w-3.5 h-3.5" />, tag: "#SaludMujer", lang: "es" as TargetLanguage },
             { id: "i228" as ProductId, label: "I228", desc: "女性便携表", icon: <Heart className="w-3.5 h-3.5" />, tag: "#I228", lang: "es" as TargetLanguage },
