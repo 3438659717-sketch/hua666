@@ -520,7 +520,7 @@ export function getChineseTranslation(item: GeneratedTitle): string {
 
   // Final check: if text still has heavy untranslated Spanish / German / Japanese words, format by product archetype
   const hasUntranslatedForeign = /[a-zA-Z]{4,}/.test(
-    transformed.replace(/(FOSMET|KT80|G58|I228|REC10|QS40|T20|E12|E05|E09B|E09|G2|FOS10|ChatGPT|Gemini|Bluetooth|800mAh|5ATM|IP68|AMOLED|LED|SpO2|GNSS|GPS|HD|Sony|IMX219|TR90)/gi, "")
+    transformed.replace(/(FOSMET|KT80|G58|I228|REC10|QS40|T20|C32PRO|R21|E12|E05|E09B|E09|G2|FOS10|ChatGPT|Gemini|Bluetooth|800mAh|5ATM|IP68|AMOLED|LED|SpO2|GNSS|GPS|HD|Sony|IMX219|TR90)/gi, "")
   ) || /[\u3040-\u30ff\u3400-\u4dbf]/.test(transformed.replace(/(スマート|ウォッチ|レコーダー|グラス|イヤホン)/g, ""));
 
   if (hasUntranslatedForeign || transformed.length < 5) {
@@ -555,6 +555,9 @@ export function getChineseTranslation(item: GeneratedTitle): string {
     }
     if (prod === "g2" || prod === "fos10") {
       return `【FOSMET ${model} 女性健康轻薄手表】14.9g羽量化无感佩戴、生理周期管理与120+种专业运动模式监测`;
+    }
+    if (prod === "r21") {
+      return `【FOSMET R21 零月费超轻薄智能戒指】终身100%免费App无订阅费，24/7健身游泳睡眠无感佩戴，精准解码心率/血氧/睡眠/压力/体温与女性生理排卵周期，完全防水+5天+强劲续航`;
     }
   }
 

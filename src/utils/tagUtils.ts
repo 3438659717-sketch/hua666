@@ -78,6 +78,9 @@ export function normalizeTagString(input: string): string {
 
 // Get official default tags based on product and language
 export function getDefaultTagsForProduct(productId: string = "rec10", language: string = "ja"): string {
+  if (productId === "r21") {
+    return "#FOSMET #R21 #Smart Ring #Health Management #Smart Wearables";
+  }
   if (productId === "c32pro") {
     return language === "de"
       ? "#FOSMET #C32PRO #Smartwatch #Outdoor Smartwatch #Werkzeug"

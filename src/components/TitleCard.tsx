@@ -20,7 +20,7 @@ interface TitleCardProps {
   isFavorite: boolean;
 }
 
-const HIGHLIGHT_REGEX = /(FOSMET|REC10|QS40|T20|C32PRO|KT80|E12|E05|E09B|E09|G58|G2|FOS10|800mAh|5ATM|1080P|SONY|45g|40g|14\.9g|10\.66mm|390×390|120\+|FitCloudPro|AI搭載|AI識物|AI翻訳|神コスパ|神機能|ヤバい|爆売れ|限定|話題|圧倒的|衝撃|必須|プロ級|禁断|驚愕|linterna LED|supervivencia|4K|16mm|TR90|64GB|30h|GNSS|GPS|1\.85インチ|1\.27インチ)/g;
+const HIGHLIGHT_REGEX = /(FOSMET|REC10|QS40|T20|C32PRO|KT80|R21|E12|E05|E09B|E09|G58|G2|FOS10|800mAh|5ATM|1080P|SONY|45g|40g|14\.9g|10\.66mm|390×390|120\+|FitCloudPro|Smart Ring|Zero Subscription|\$0\/mo|\$0|5\+ Days|SpO₂|AI搭載|AI識物|AI翻訳|神コスパ|神機能|ヤバい|爆売れ|限定|話題|圧倒的|衝撃|必須|プロ級|禁断|驚愕|linterna LED|supervivencia|4K|16mm|TR90|64GB|30h|GNSS|GPS|1\.85インチ|1\.27インチ)/g;
 
 const TitleCardComponent: React.FC<TitleCardProps> = ({
   item,
@@ -51,7 +51,9 @@ const TitleCardComponent: React.FC<TitleCardProps> = ({
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(item.hook);
     const langCode =
-      item.language === "es"
+      item.language === "en"
+        ? "en-US"
+        : item.language === "es"
         ? "es-ES"
         : item.language === "de"
         ? "de-DE"
@@ -113,6 +115,8 @@ const TitleCardComponent: React.FC<TitleCardProps> = ({
         return "purple";
       case "fos10":
         return "teal";
+      case "r21":
+        return "rose";
       default:
         return "blue";
     }
@@ -171,7 +175,7 @@ const TitleCardComponent: React.FC<TitleCardProps> = ({
           </span>
         );
       }
-      if (["E12", "E09", "E09B", "E05", "KT80", "REC10", "QS40", "G58", "G2", "T20", "FOS10"].includes(part)) {
+      if (["E12", "E09", "E09B", "E05", "KT80", "REC10", "QS40", "G58", "G2", "T20", "C32PRO", "FOS10", "R21"].includes(part)) {
         return (
           <span
             key={i}
@@ -182,7 +186,7 @@ const TitleCardComponent: React.FC<TitleCardProps> = ({
         );
       }
       // Core hard specs: 800mAh, 5ATM, 1080P, SONY, 14.9g, 45g, etc.
-      if (["800mAh", "5ATM", "45g", "40g", "14.9g", "10.66mm", "390×390", "120+", "1080P", "4K", "16mm", "64GB", "30h", "GNSS", "GPS", "1.85インチ", "1.27インチ"].includes(part)) {
+      if (["800mAh", "5ATM", "45g", "40g", "14.9g", "10.66mm", "390×390", "120+", "1080P", "4K", "16mm", "64GB", "30h", "GNSS", "GPS", "1.85インチ", "1.27インチ", "Smart Ring", "Zero Subscription", "$0/mo", "$0", "5+ Days", "SpO₂"].includes(part)) {
         return (
           <span
             key={i}

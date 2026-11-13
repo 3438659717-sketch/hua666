@@ -44,6 +44,7 @@ export type TargetCategory =
   | "smartwatch_general"
   | "smart_glasses"
   | "camera_earphone"
+  | "smart_ring_r21"
   | "general_help";
 
 export type UserIntent =
@@ -113,6 +114,7 @@ export function detectQueryCategory(
   const hasT20 = q.includes("t20") || q.includes("c32 pro") || q.includes("物理排水") || q.includes("gnss");
   const hasKt80 = q.includes("kt80") || q.includes("800mah") || q.includes("手电筒手表") || q.includes("战术手表");
   const hasE12 = q.includes("e12") || q.includes("pov耳机") || q.includes("拍照耳机") || q.includes("hi luma");
+  const hasR21 = q.includes("r21") || q.includes("智能戒指") || q.includes("smart ring") || q.includes("零月费");
   const hasGlasses = q.includes("e05") || q.includes("e09") || q.includes("e09b") || q.includes("半框") || q.includes("半框眼镜") || q.includes("电致变色") || q.includes("变色眼镜") || q.includes("拍摄眼镜");
   const hasFashion = q.includes("g58") || q.includes("g2") || q.includes("fos10") || q.includes("i228") || q.includes("女表") || q.includes("女性手表");
 
@@ -165,6 +167,7 @@ export function detectQueryCategory(
   if (hasT20) return "smartwatch_t20";
   if (hasKt80) return "smartwatch_kt80";
   if (hasE12) return "camera_earphone";
+  if (hasR21) return "smart_ring_r21";
   if (hasGlasses) return "smart_glasses";
   if (hasFashion) return "smartwatch_fashion";
 
@@ -173,11 +176,12 @@ export function detectQueryCategory(
   // strictly anchor to the active product to prevent off-topic vacuum cleaner replies!
   if (ctx && ctx.id && ctx.id !== "all" && !ctx.isUniversalMode) {
     const cid = (ctx.id || "").toLowerCase();
+    if (cid.includes("r21")) return "smart_ring_r21";
     if (cid.includes("e09b") || cid.includes("e09") || cid.includes("e05")) return "smart_glasses";
     if (cid.includes("rec10")) return "recorder";
     if (cid.includes("t40")) return "smartwatch_t40";
     if (cid.includes("qs40")) return "smartwatch_qs40";
-    if (cid.includes("t20")) return "smartwatch_t20";
+    if (cid.includes("t20") || cid.includes("c32pro")) return "smartwatch_t20";
     if (cid.includes("kt80")) return "smartwatch_kt80";
     if (cid.includes("e12")) return "camera_earphone";
     if (cid.includes("v18")) return "vacuum_v18";
@@ -241,18 +245,20 @@ export function detectQueryCategory(
       if (histText.includes("kt80") || histText.includes("800mah") || histText.includes("手电筒")) return "smartwatch_kt80";
       if (histText.includes("e12") || histText.includes("pov耳机") || histText.includes("拍照耳机")) return "camera_earphone";
       if (histText.includes("e05") || histText.includes("e09") || histText.includes("e09b") || histText.includes("半框") || histText.includes("变色眼镜") || histText.includes("拍摄眼镜")) return "smart_glasses";
+      if (histText.includes("r21") || histText.includes("智能戒指") || histText.includes("smart ring")) return "smart_ring_r21";
       if (histText.includes("g58") || histText.includes("g2") || histText.includes("女表")) return "smartwatch_fashion";
     }
   }
 
   // 10. If the user explicitly asks about hardware specs / battery / suction without naming a product, bind to current screen context ONLY if query explicitly asks for specs
   if (q.includes("吸力") || q.includes("续航") || q.includes("电池") || q.includes("防水") || q.includes("参数") || q.includes("尺寸") || q.includes("重量")) {
+    if (c.includes("r21")) return "smart_ring_r21";
     if (c.includes("t40")) return "smartwatch_t40";
     if (c.includes("v18")) return "vacuum_v18";
     if (c.includes("v17")) return "vacuum_v17";
     if (c.includes("rec10") || c.includes("录音")) return "recorder";
     if (c.includes("qs40")) return "smartwatch_qs40";
-    if (c.includes("t20")) return "smartwatch_t20";
+    if (c.includes("t20") || c.includes("c32pro")) return "smartwatch_t20";
     if (c.includes("kt80")) return "smartwatch_kt80";
     if (c.includes("e12")) return "camera_earphone";
     if (c.includes("e05") || c.includes("e09") || c.includes("e09b")) return "smart_glasses";
@@ -446,6 +452,16 @@ export function generateOfflineKnowledgeReply(options: OfflineReplyOptions): {
 - **前 3 秒钩子**：“还在傻傻打字记会议纪要？名片厚度贴在手机背部，开完会 1 秒自动导出 ChatGPT 思维导图！”
 - **痛点反差**：传统录音笔又笨又大导出麻烦，REC10 航空铝合金 MagSafe 磁吸，35h 连续录音，彻底终结职场加班！
 - **标签**：\`#FOSMET #REC10 #AIレコーダー #ChatGPT #プロモーションの仕事\``;
+      return { text, groundingSources };
+    }
+
+    if (activePid.includes("r21")) {
+      const text = `### 💍 FOSMET R21 超轻薄零月费智能戒指 · 美区 TikTok 爆款策略
+
+针对你的咨询：**「${userQuery}」**：
+- **前 3 秒钩子**：“Stop paying $6/month just to read your own sleep data! Ditch the bulky watch for this $0/mo jewelry-grade smart ring.”
+- **核心反差痛点**：告别笨重压腕且破坏穿搭的智能手表，以及海外大牌智能戒指每月高昂订阅费；24/7 无感佩戴适配健身房、游泳、夜间深度睡眠与日常通勤，终身 100% 免费专属 App 实时解码心率、SpO₂、睡眠阶段、压力、体温与女性生理排卵周期，完全防水 + 5天+ 强劲续航。
+- **固定标签**：\`#FOSMET #R21 #Smart Ring #Health Management #Smart Wearables\``;
       return { text, groundingSources };
     }
 
@@ -655,6 +671,22 @@ TikTok 算法的核心生命线在于**前 3 秒留存率与完播率**。针对
   - **双 AI 大模型驱动**：配套 DOWAY App，集成 **ChatGPT × Gemini 双 AI 引擎**，实时高精语音转写、1秒精炼生成结构化会议纪要、一键导出思维导图。
   - **续航与存储**：400mAh 电池提供 **35 小时连续录音与 66 天超长待机**；内置 64GB 闪存，支持海量录音安全存储。
 - 🎯 **出海定位**：日本商务白领、大学生与跨国商务人士，直击“做会议纪要加班”的职场巨大痛点。`;
+    return { text, groundingSources };
+  }
+
+  // 9a. SPECIFIC PRODUCT: FOSMET R21
+  if (targetCategory === "smart_ring_r21") {
+    const text = `### 💍 FOSMET R21 零月费超轻薄智能戒指权威方案
+
+针对你的问题：**「${userQuery}」**：
+
+- ⚡ **核心硬核卖点**：
+  - **终身 100% 免费专属 App（零月费）**：彻底摆脱高昂月度订阅费，以极具性价比的「零月费」方式随时随地接管自身健康数据。
+  - **24/7 无感首饰级佩戴**：超轻薄完全防水的精美首饰级机身，兼顾健身房挥汗、水中游泳、夜间沉浸式睡眠与日常通勤穿搭。
+  - **6 维健康实时解码**：精准追踪并解码心率、血氧 (SpO₂)、睡眠阶段、压力水平、体温趋势以及女性生理排卵周期。
+  - **续航保障**：长达 **5 天以上** 强劲续航。
+- 🎯 **出海定位（美式英语）**：厌倦笨重智能手表、反感高昂订阅费用的健身爱好者、极简主义者及注重深度健康管理的女性群体。
+- 🏷️ **固定标签**：\`#FOSMET #R21 #Smart Ring #Health Management #Smart Wearables\``;
     return { text, groundingSources };
   }
 

@@ -31,6 +31,7 @@ const T40_SPANISH_HASHTAGS = "#FOSMET #T40 #españa #Niños #relojinteligente";
 const T40_GERMAN_HASHTAGS = "#FOSMET #T40 #Kinder #Smartwatch #Kindersicherheit";
 const C32PRO_SPANISH_HASHTAGS = "#FOSMET #C32PRO #smartwatch #outdoor #táctico";
 const C32PRO_GERMAN_HASHTAGS = "#FOSMET #C32PRO #Smartwatch #Outdoor Smartwatch #Werkzeug";
+const R21_HASHTAGS = "#FOSMET #R21 #Smart Ring #Health Management #Smart Wearables";
 
 // Google Search Grounding tool quota circuit breaker to prevent repeated 429 errors
 let isGoogleSearchToolQuotaExceeded = true;
@@ -178,6 +179,7 @@ async function startServer() {
 
       const isT40 = productId === "t40";
       const isC32pro = productId === "c32pro";
+      const isR21 = productId === "r21";
       const isV18pro = productId === "v18pro";
       const isV17max = productId === "v17max";
       const isG2 = productId === "g2";
@@ -194,10 +196,12 @@ async function startServer() {
       const isGerman = (isKt80 || isG58 || isV18pro || isV17max || isT40 || isC32pro) && (language === "de" || (isV17max && language !== "es"));
 
       const targetBrand = isV18pro || isV17max ? "DyMona" : "FOSMET";
-      const targetModel = isT40 ? "T40" : isC32pro ? "C32PRO" : isV18pro ? "V18 PRO" : isV17max ? "V17 MAX" : isFos10 ? "FOS10" : isG2 ? "G2" : isG58 ? "G58" : isI228 ? "I228" : isE09B ? "E09B" : isE09 ? "E09" : isE05 ? "E05" : isE12 ? "E12" : isKt80 ? "KT80" : isT20 ? "T20" : isQs40 ? "QS40" : "REC10";
+      const targetModel = isR21 ? "R21" : isT40 ? "T40" : isC32pro ? "C32PRO" : isV18pro ? "V18 PRO" : isV17max ? "V17 MAX" : isFos10 ? "FOS10" : isG2 ? "G2" : isG58 ? "G58" : isI228 ? "I228" : isE09B ? "E09B" : isE09 ? "E09" : isE05 ? "E05" : isE12 ? "E12" : isKt80 ? "KT80" : isT20 ? "T20" : isQs40 ? "QS40" : "REC10";
 
       let defaultHashtags = REC10_HASHTAGS;
-      if (isC32pro) {
+      if (isR21) {
+        defaultHashtags = R21_HASHTAGS;
+      } else if (isC32pro) {
         defaultHashtags = isGerman ? C32PRO_GERMAN_HASHTAGS : C32PRO_SPANISH_HASHTAGS;
       } else if (isT40) {
         defaultHashtags = isGerman ? T40_GERMAN_HASHTAGS : T40_SPANISH_HASHTAGS;
@@ -233,7 +237,43 @@ async function startServer() {
       let systemInstruction: string;
       let userPrompt: string;
 
-      if (isT40) {
+      if (isR21) {
+        categoryPromptMap = {
+          all_mixed: "Golden mix of zero monthly subscription fees ($0/mo 100% lifetime free App), ditching bulky smartwatches, 24/7 weightless wear (gym, swimming, sleep, everyday outfits), biometric decoding (heart rate, SpO2, sleep stages, stress, body temperature, women's physiological & ovulation cycle), fully waterproof jewelry-grade chassis, and 5+ days battery life",
+          pain_point: "Calling out expensive smart ring monthly subscription fees and bulky wristwatches that hurt while sleeping or clash with daily outfits",
+          efficiency: "Effortless 24/7 health decoding in one 100% free lifetime App—heart rate, SpO2, sleep stages, stress & body temp tracked automatically",
+          gadget: "Ultra-thin jewelry-grade waterproof design worn weightlessly 24/7 at the gym, in the pool, asleep, and on daily commutes",
+          ai_power: "Deep women's health & biometric insights: physiological cycle, ovulation tracking, body temperature shifts, stress & sleep recovery",
+          secret_hack: "The $0/mo smart ring hack minimalists & fitness lovers swear by instead of paying $350+ plus monthly paywalls",
+          question: "High-engagement US TikTok questions sparking comments about ditching bulky watches, watch tans, and monthly subscription fees",
+          spec_power: "5+ days battery endurance, fully waterproof jewelry-grade chassis, 24/7 HR/SpO2/sleep/stress/temp/ovulation cycle tracking, 100% free App",
+        };
+
+        const selectedCategoryDesc = categoryPromptMap[category] || categoryPromptMap.all_mixed;
+
+        systemInstruction = `You are a top US TikTok Shop viral copywriter and direct-response consumer tech strategist.
+Create high-converting American English TikTok video titles/hooks for the ultra-thin smart ring "FOSMET R21".
+
+【FOSMET R21 Product Brief】:
+- Brand: FOSMET | Model: R21
+- Core Audience: Fitness enthusiasts tired of bulky smartwatches, buyers fed up with expensive monthly subscription fees, minimalists, and women focused on deep health management.
+- 24/7 Weightless Wear Scenarios: Seamless all-day comfort at the gym, swimming in the pool, deep overnight sleep, and daily commutes/outfits.
+- Pricing & App Advantage: 100% LIFETIME FREE dedicated App ($0/mo, zero monthly subscription fees) to take control of body data affordably.
+- Health & Biometrics: Real-time accurate tracking and decoding of Heart Rate, Blood Oxygen (SpO2), Sleep Stages, Stress Level, Body Temperature, and Women's Physiological & Ovulation Cycle.
+- Hardware & Battery: Completely waterproof jewelry-grade ultra-thin chassis + 5+ days battery life.
+
+【Strict Rules】:
+1. Every hook MUST naturally include both "FOSMET" and "R21" in punchy, native American English (approx. 55-115 characters before hashtags).
+2. Every full title MUST end with these exact hashtags in exact order:
+   ${targetHashtags}
+3. Return exactly ${count} unique titles in JSON format with zero duplicates.
+4. Provide fluent, accurate Simplified Chinese translations in translationZh.
+${customKeyword ? `※ Required keyword to weave naturally into hooks: "${customKeyword}"` : ""}`;
+
+        userPrompt = `Category: ${selectedCategoryDesc}
+Tone: ${tone}
+Task: Generate ${count} high-converting American English TikTok titles for FOSMET R21 ending with: ${targetHashtags}`;
+      } else if (isT40) {
         if (isGerman) {
           categoryPromptMap = {
             all_mixed: "4G HD-Videotelefonie & Sprachanrufe in Echtzeit, präzise GPS+LBS+WiFi Dreifach-Ortung mit sicherem Schulweg, Schulmodus für ungestörtes Lernen im Unterricht, Belohnungssystem für Hausaufgaben und Alltagspflichten, IP68 Wasserdichtigkeit, SOS-Notruftaste und Schrittzähler im perfekten Mix",
@@ -1092,7 +1132,7 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
 各タイトルは必ず「FOSMET」と「REC10」を含み、末尾は必ず「${targetHashtags}」で終わること。`;
       }
 
-      const currentLang = (isKt80 || isG58 || isT40 || isV18pro || isV17max) ? (isGerman ? "de" : "es") : isI228 ? "es" : "ja";
+      const currentLang: any = isR21 ? "en" : (isKt80 || isG58 || isT40 || isV18pro || isV17max || isC32pro) ? (isGerman ? "de" : "es") : isI228 ? "es" : "ja";
       const holidayInfo = getHolidayById(holiday, currentLang);
 
       if (holidayInfo) {
@@ -1224,7 +1264,7 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
         // Ensure brand and model in hook
         if (!hook.includes(targetBrand) || !hook.includes(targetModel)) {
           if (!hook.includes(targetBrand) && !hook.includes(targetModel)) {
-            hook = isKt80 ? `【${targetBrand} ${targetModel}】 ${hook}` : `【${targetBrand} ${targetModel}】${hook}`;
+            hook = (isKt80 || isR21) ? `【${targetBrand} ${targetModel}】 ${hook}` : `【${targetBrand} ${targetModel}】${hook}`;
           } else if (!hook.includes(targetBrand)) {
             hook = hook.replace(targetModel, `${targetBrand} ${targetModel}`);
           } else if (!hook.includes(targetModel)) {
@@ -1241,7 +1281,7 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
         // Calculate dynamic viral CTR estimate score (88% - 99%)
         const hasNumber = /\d+/.test(hook);
         const hasQuestion = /[?？!！¿¡]/.test(hook);
-        const hasStrongHook = /神|激変|ヤバい|暴露|裏技|絶対|チート|secret|hack|truco|brutal|unglaublich|nie wieder/i.test(hook);
+        const hasStrongHook = /神|激変|ヤバい|暴露|裏技|絶対|チート|secret|hack|truco|brutal|unglaublich|nie wieder|free|zero|\$0|ditch/i.test(hook);
         let baseCtr = 91 + (idx % 6);
         if (hasNumber) baseCtr += 2;
         if (hasQuestion) baseCtr += 1;
@@ -1253,8 +1293,8 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
           productId,
           title: fullTitle,
           hook: hook || fullTitle.replace(targetHashtags, "").trim(),
-          angle: item.angle || (isGerman ? "Highlight" : (isKt80 || isG58 || isI228 || isT40 || isV18pro || isV17max) ? "Destacado" : "AIおすすめ"),
-          targetAudience: item.targetAudience || (isGerman ? (isT40 ? "Eltern & Familie" : "Zielgruppe") : (isKt80 || isG58 || isI228 || isT40 || isV18pro || isV17max) ? (isT40 ? "Padres & Niños" : "Comunidad") : "ターゲット層"),
+          angle: item.angle || (isR21 ? "Viral Hook" : isGerman ? "Highlight" : (isKt80 || isG58 || isI228 || isT40 || isV18pro || isV17max || isC32pro) ? "Destacado" : "AIおすすめ"),
+          targetAudience: item.targetAudience || (isR21 ? "Fitness & Wellness Audience" : isGerman ? (isT40 ? "Eltern & Familie" : "Zielgruppe") : (isKt80 || isG58 || isI228 || isT40 || isV18pro || isV17max || isC32pro) ? (isT40 ? "Padres & Niños" : "Comunidad") : "ターゲット層"),
           translationZh: item.translationZh || "",
           charCount: fullTitle.length,
           language: currentLang,
@@ -1270,7 +1310,7 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
         productId,
         count: titles.length,
         category,
-        language: (isKt80 || isG58 || isT40 || isV18pro || isV17max) ? (isGerman ? "de" : "es") : isI228 ? "es" : "ja",
+        language: currentLang,
         modelUsed: modelUsed || "matrix_cascade",
         latencyMs,
         titles,
@@ -1332,6 +1372,8 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
           visualPrompt: "特写镜头：手部迅速展示产品并产生反差视觉冲击，画面配合微震动与光效",
           scriptSpoken: language === "ja"
             ? `「${hook || title}」まだこれ知らないの？今すぐ見て！`
+            : language === "en"
+            ? `Stop scrolling—have you seen this yet? "${hook || title}"`
             : language === "es"
             ? `¡Espera! ¿Todavía no conoces esto? Mira lo que hace: "${hook || title}"`
             : `Halt! Kennst du das schon? Schau dir das an: "${hook || title}"`,
@@ -1346,11 +1388,13 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
           visualPrompt: "中景切换：演示日常最令人头疼的现实尴尬场景，对比传统方案的笨重与费时",
           scriptSpoken: language === "ja"
             ? "「いつも会議の議事録や手作業で何時間も無駄にしてない？」「これまでのやり方はもう限界！」"
+            : language === "en"
+            ? "Tired of bulky smartwatches hurting your wrist at night—or paying monthly subscription fees just to read your own sleep data?"
             : language === "es"
             ? "¿Cansado de perder tiempo y gastar una fortuna en marcas que no cumplen?"
             : "Genervt von klobiger Technik und leerem Akku genau im falschen Moment?",
           audioBgm: "紧张悬念音效逐渐升温，引出解决欲望",
-          textOverlay: "❌ 传统方式太折磨了",
+          textOverlay: language === "en" ? "❌ Bulky Watches & Monthly Fees" : "❌ 传统方式太折磨了",
         },
         {
           sceneNumber: 3,
@@ -1360,11 +1404,13 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
           visualPrompt: "高清微距与功能演示：实机实操，一键触发核心黑科技，呈现不可思议的直观效果",
           scriptSpoken: language === "ja"
             ? "「ワンタップでAIが即要約！」「薄型軽量でどこでも持てる」「この圧倒的な手軽さは異次元」"
+            : language === "en"
+            ? "Ultra-thin jewelry-grade fit, fully waterproof for gym and swim, 5+ days battery, plus a 100% FREE lifetime App decoding heart rate, SpO₂, sleep, stress, body temp & cycle."
             : language === "es"
             ? "Mira cómo funciona con un solo toque: potencia extrema, calidad prémium y diseño brutal."
             : "Ein Knopfdruck genügt: Mega Power, deutsche Zuverlässigkeit und unzerstörbare Bauweise.",
           audioBgm: "节奏上扬欢快电音，增强科技爽感与获得感",
-          textOverlay: "⚡ 一键黑科技 真实实测",
+          textOverlay: language === "en" ? "⚡ $0/mo Free App · 24/7 Biometrics" : "⚡ 一键黑科技 真实实测",
         },
         {
           sceneNumber: 4,
@@ -1374,11 +1420,13 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
           visualPrompt: "手指指向左下角 TikTok 小黄车 / 评论区，展示限时惊喜福利弹窗",
           scriptSpoken: language === "ja"
             ? "「気になったら今すぐ左下の黄色いカゴをタップ！数量限定だから急いで！」"
+            : language === "en"
+            ? "Tap the orange cart in the bottom left before your ring size sells out!"
             : language === "es"
             ? "¡Toca la cesta amarilla abajo a la izquierda antes de que se agote el stock promocional!"
             : "Klick jetzt unten links auf den Warenkorb und sichere dir den TikTok-Rabatt!",
           audioBgm: "清脆叮铃提示音（Cash Register / Bell），催促点击",
-          textOverlay: "🛒 点击左下角小黄车 抢专属好礼",
+          textOverlay: language === "en" ? "🛒 Tap the cart before sizes sell out" : "🛒 点击左下角小黄车 抢专属好礼",
         },
       ];
 

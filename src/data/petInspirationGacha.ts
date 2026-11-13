@@ -146,6 +146,18 @@ export const INSPIRATION_CARDS_POOL: InspirationCard[] = [
     sampleCopy: "【Volle Konzentration im Unterricht】FOSMET T40 schaltet im Schulmodus automatisch stumm! Das liebevolle Belohnungssystem motiviert bei Hausaufgaben & Pflichten. #FOSMET #T40 #Kinder #Smartwatch #Kindersicherheit",
     keywords: "Schulmodus Belohnungssystem IP68 4G-Videoanruf Kinderuhr",
   },
+  {
+    id: "gacha_r21_1",
+    productId: "r21",
+    productName: "FOSMET R21 零月费超轻薄智能戒指",
+    category: "pain_point",
+    theme: "告别笨重手表与高额月费的 24/7 无感智能戒指",
+    hookIdea: "【Stop paying $6/month just to read your own sleep score】",
+    targetPainPoint: "健身与极简用户厌倦笨重智能手表压手腕、配不上日常穿搭，更反感大牌智能戒指每月高昂订阅费",
+    sceneDescription: "24/7 无感佩戴 FOSMET R21 首饰级防水戒指，健身游泳睡眠通勤全场景切换，手机打开终身100%免费 App 解码心率/血氧/睡眠/压力/体温与排卵周期",
+    sampleCopy: "Why pay monthly fees for your own sleep data? FOSMET R21 tracks heart rate, SpO₂, stress, body temp & ovulation cycle 24/7 with 5+ days battery and a 100% FREE lifetime App. #FOSMET #R21 #Smart Ring #Health Management #Smart Wearables",
+    keywords: "Zero Subscription Free App Sleep Ovulation Cycle Waterproof",
+  },
 ];
 
 export function getRandomInspiration(productId?: ProductId): InspirationCard {

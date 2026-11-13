@@ -22,6 +22,7 @@ import {
   Swords,
   MessageSquareQuote,
   Share2,
+  Gem,
 } from "lucide-react";
 import { PRODUCTS_CONFIG } from "../data/templates";
 import { ProductId } from "../types";
@@ -100,6 +101,8 @@ export const ProductCheatsheetModal: React.FC<ProductCheatsheetModalProps> = ({
         return <Compass className="w-4 h-4" />;
       case "qs40":
         return <Watch className="w-4 h-4" />;
+      case "r21":
+        return <Gem className="w-4 h-4" />;
       default:
         return <Mic className="w-4 h-4" />;
     }
@@ -122,6 +125,7 @@ export const ProductCheatsheetModal: React.FC<ProductCheatsheetModalProps> = ({
     "fos10",
     "v18pro",
     "v17max",
+    "r21",
   ];
 
   // Dynamic Storyboards per product
@@ -219,7 +223,9 @@ export const ProductCheatsheetModal: React.FC<ProductCheatsheetModalProps> = ({
                 </span>
               </div>
               <p className="text-xs text-white/50 mt-0.5">
-                {isG58 || isKt80
+                {selectedProductId === "r21"
+                  ? "TikTok 美区英语出海营销爆款全维武器库 (分镜/对比/规格/神评)"
+                  : isG58 || isKt80 || selectedProductId === "c32pro" || selectedProductId === "t40" || selectedProductId === "i228" || selectedProductId === "v18pro" || selectedProductId === "v17max"
                   ? "TikTok 欧美/拉美出海营销爆款全维武器库 (分镜/对比/规格/神评)"
                   : "TikTok 日本区出海营销爆款全维武器库 (分镜/对比/规格/神评)"}
               </p>

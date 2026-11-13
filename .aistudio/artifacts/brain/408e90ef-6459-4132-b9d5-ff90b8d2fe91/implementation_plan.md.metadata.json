@@ -1,6 +1,0 @@
-{
-  "summary": "Plan for adding the new FOSMET C32PRO product to the TikTok matrix copy generator.\n- Clone all parameters and specifications from T20, renamed to 'FOSMET C32PRO'.\n- Target languages: Spanish (es) and German (de), with Spanish as the default.\n- Custom visual theme: Hardcore Explorer Amber Orange (amber).\n- Updated hashtag suites: Spanish (#FOSMET #C32PRO #smartwatch #outdoor #táctico) and German (#FOSMET #C32PRO #Smartwatch #Outdoor Smartwatch #Werkzeug).\n- Native algorithmic templates, Gemini 3.8 Flash AI prompts, telemetry, and cheatsheet updates.",
-  "updatedAt": "2026-11-06T01:29:04.122021963Z",
-  "requestFeedback": true,
-  "userFacing": true
-}

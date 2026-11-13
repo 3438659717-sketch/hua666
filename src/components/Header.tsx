@@ -21,6 +21,7 @@ import {
   Wind,
   ShieldCheck,
   Radar,
+  Gem,
 } from "lucide-react";
 import { ProductId, TargetLanguage } from "../types";
 import { PRODUCTS_CONFIG } from "../data/templates";
@@ -183,15 +184,26 @@ export const Header: React.FC<HeaderProps> = ({
       activeClass: "bg-teal-500 text-white shadow-[0_4px_20px_rgba(20,184,166,0.5)] border-teal-300/50",
       themeColor: "text-teal-400",
     },
+    {
+      id: "r21",
+      label: "R21",
+      subLabel: "智能戒指",
+      icon: <Gem className="w-3.5 h-3.5" />,
+      activeClass: "bg-rose-500 text-white shadow-[0_4px_20px_rgba(244,63,94,0.5)] border-rose-300/50",
+      themeColor: "text-rose-400",
+    },
   ];
 
   const currentNav = productNavList.find((p) => p.id === currentProductId) || productNavList[0];
 
   const getMarketLabel = () => {
+    if (currentProductId === "r21" || currentLanguage === "en") {
+      return "TikTok 美区英文营销";
+    }
     if (currentProductId === "i228") {
       return "TikTok 西语区营销";
     }
-    if (currentProductId === "t40" || currentProductId === "v18pro" || currentProductId === "v17max" || currentProductId === "kt80" || currentProductId === "g58") {
+    if (currentProductId === "t40" || currentProductId === "v18pro" || currentProductId === "v17max" || currentProductId === "kt80" || currentProductId === "g58" || currentProductId === "c32pro") {
       return currentLanguage === "de" ? "TikTok 德语区营销" : "TikTok 西语区营销";
     }
     return "TikTok 日本区矩阵";

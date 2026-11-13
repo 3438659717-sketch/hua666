@@ -51,15 +51,16 @@ export const TikTokPreviewModal: React.FC<TikTokPreviewModalProps> = ({
   if (!isOpen || !item) return null;
 
   const pid = item.productId;
-  const isFos10 = pid === "fos10" || item.title.includes("FOS10");
-  const isG2 = !isFos10 && (pid === "g2" || item.title.includes("G2"));
-  const isG58 = !isFos10 && !isG2 && (pid === "g58" || item.title.includes("G58"));
-  const isE09 = !isFos10 && !isG2 && !isG58 && (pid === "e09" || item.title.includes("E09"));
-  const isE05 = !isFos10 && !isG2 && !isG58 && !isE09 && (pid === "e05" || item.title.includes("E05"));
-  const isE12 = !isFos10 && !isG2 && !isG58 && !isE09 && !isE05 && (pid === "e12" || item.title.includes("E12"));
-  const isKt80 = !isFos10 && !isG2 && !isG58 && !isE09 && !isE05 && !isE12 && (pid === "kt80" || item.title.includes("KT80"));
-  const isT20 = !isFos10 && !isG2 && !isG58 && !isE09 && !isE05 && !isE12 && !isKt80 && (pid === "t20" || item.title.includes("T20"));
-  const isQs40 = !isFos10 && !isG2 && !isG58 && !isE09 && !isE05 && !isE12 && !isKt80 && !isT20 && (pid === "qs40" || item.title.includes("QS40"));
+  const isR21 = pid === "r21" || item.title.includes("R21");
+  const isFos10 = !isR21 && (pid === "fos10" || item.title.includes("FOS10"));
+  const isG2 = !isR21 && !isFos10 && (pid === "g2" || item.title.includes("G2"));
+  const isG58 = !isR21 && !isFos10 && !isG2 && (pid === "g58" || item.title.includes("G58"));
+  const isE09 = !isR21 && !isFos10 && !isG2 && !isG58 && (pid === "e09" || item.title.includes("E09"));
+  const isE05 = !isR21 && !isFos10 && !isG2 && !isG58 && !isE09 && (pid === "e05" || item.title.includes("E05"));
+  const isE12 = !isR21 && !isFos10 && !isG2 && !isG58 && !isE09 && !isE05 && (pid === "e12" || item.title.includes("E12"));
+  const isKt80 = !isR21 && !isFos10 && !isG2 && !isG58 && !isE09 && !isE05 && !isE12 && (pid === "kt80" || item.title.includes("KT80"));
+  const isT20 = !isR21 && !isFos10 && !isG2 && !isG58 && !isE09 && !isE05 && !isE12 && !isKt80 && (pid === "t20" || item.title.includes("T20"));
+  const isQs40 = !isR21 && !isFos10 && !isG2 && !isG58 && !isE09 && !isE05 && !isE12 && !isKt80 && !isT20 && (pid === "qs40" || item.title.includes("QS40"));
 
   const handleCopy = () => {
     onCopy(item.title);
@@ -116,7 +117,9 @@ export const TikTokPreviewModal: React.FC<TikTokPreviewModalProps> = ({
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(item.hook);
     const langCode =
-      item.language === "es"
+      item.language === "en"
+        ? "en-US"
+        : item.language === "es"
         ? "es-ES"
         : item.language === "de"
         ? "de-DE"
@@ -131,6 +134,7 @@ export const TikTokPreviewModal: React.FC<TikTokPreviewModalProps> = ({
   };
 
   const getProductModelTitle = () => {
+    if (isR21) return "FOSMET R21 零月费超轻薄智能戒指";
     if (isFos10) return "FOSMET FOS10 14.9g超轻便携女性智能手表";
     if (isG2) return "FOSMET G2 多功能女性健康智能手表";
     if (isG58) return "FOSMET G58 女性时尚健康智能腕表";
@@ -349,7 +353,9 @@ export const TikTokPreviewModal: React.FC<TikTokPreviewModalProps> = ({
           <div className="relative z-10 text-white space-y-2 max-w-[80%] pb-1 mt-auto">
             <div className="flex items-center gap-2">
               <span className="text-xs font-bold text-white">
-                {isKt80
+                {isR21 || item.language === "en"
+                  ? "@fosmet.us"
+                  : isKt80
                   ? item.language === "de"
                     ? "@fosmet.germany"
                     : "@fosmet.spain"

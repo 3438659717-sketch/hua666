@@ -1,6 +1,6 @@
 import { CompetitorRadarData, ProductId, TargetLanguage } from "../types";
 
-export const PRODUCT_RADAR_DATA: Record<ProductId, Record<TargetLanguage, CompetitorRadarData>> = {
+export const PRODUCT_RADAR_DATA: Record<ProductId, Partial<Record<TargetLanguage, CompetitorRadarData>>> = {
   rec10: {
     ja: {
       productId: "rec10",
@@ -700,9 +700,82 @@ export const PRODUCT_RADAR_DATA: Record<ProductId, Record<TargetLanguage, Compet
   i228: generateGenericRadar("i228", "FOSMET I228 ファッションスマートウォッチ"),
   t40: generateGenericRadar("t40", "FOSMET T40 キッズスマートウォッチ"),
   c32pro: generateGenericRadar("c32pro", "FOSMET C32PRO アウトドアスマートウォッチ"),
+  r21: {
+    en: {
+      productId: "r21",
+      language: "en",
+      productName: "FOSMET R21 Ultra-Thin Smart Ring",
+      updatedAt: "2026-10-22T08:30:00Z",
+      hotwords: [
+        {
+          word: "Zero Monthly Subscription",
+          category: "pain_point",
+          growthRate: "+495%",
+          heatScore: 99,
+          sampleHook: "Stop paying $6/month just to read your own sleep data. Meet the $0/mo FOSMET R21 Smart Ring.",
+          suggestedPrompt: "Attack expensive smart ring subscription models; emphasize 100% lifetime free App",
+        },
+        {
+          word: "Ditch Bulky Smartwatches",
+          category: "viral_buzz",
+          growthRate: "+410%",
+          heatScore: 97,
+          sampleHook: "Why I finally ditched my clunky watch for this weightless jewelry-grade FOSMET R21 ring.",
+          suggestedPrompt: "Contrast bulky wristwatches during sleep, outfits, and gym workouts vs sleek smart ring",
+        },
+        {
+          word: "Cycle & Temp Insights",
+          category: "ai_power",
+          growthRate: "+340%",
+          heatScore: 94,
+          sampleHook: "Tracking my body temp, stress, and ovulation cycle 24/7 without a bulky screen on my wrist.",
+          suggestedPrompt: "Focus on women's physiological & ovulation cycle tracking + overnight body temperature",
+        },
+        {
+          word: "Swim-Proof 5+ Days Battery",
+          category: "spec",
+          growthRate: "+265%",
+          heatScore: 90,
+          sampleHook: "Shower, swim, lift, and sleep for 5+ days straight—completely waterproof with zero watch tan.",
+          suggestedPrompt: "Highlight 24/7 gym, swimming, sleep, commute wear and 5+ days battery endurance",
+        },
+        {
+          word: "24/7 Sleep & SpO₂ Decoding",
+          category: "efficiency",
+          growthRate: "+230%",
+          heatScore: 88,
+          sampleHook: "Heart rate, SpO₂, deep sleep stages, and stress decoded automatically in one free app.",
+          suggestedPrompt: "Showcase clean morning recovery insights with zero friction",
+        },
+      ],
+      hashtags: [
+        { tag: "#FOSMET", postsCount: "4.8M", growth: "+34.0%", relevance: 100, isCore: true },
+        { tag: "#R21", postsCount: "1.1M", growth: "+76.5%", relevance: 100, isCore: true },
+        { tag: "#SmartRing", postsCount: "64.2M", growth: "+58.0%", relevance: 100, isCore: true },
+        { tag: "#HealthManagement", postsCount: "28.9M", growth: "+31.4%", relevance: 96, isCore: true },
+        { tag: "#SmartWearables", postsCount: "19.5M", growth: "+27.8%", relevance: 95, isCore: true },
+        { tag: "#NoSubscription", postsCount: "12.4M", growth: "+84.2%", relevance: 94, isCore: false },
+        { tag: "#WomensWellness", postsCount: "41.8M", growth: "+36.1%", relevance: 91, isCore: false },
+      ],
+      topCompetitorAngles: [
+        {
+          competitor: "Oura Ring Gen 4 ($349+ plus monthly fee)",
+          hookPattern: "Paying monthly rent to unlock your own heart rate & sleep score",
+          viewBenchmark: "1.4M+",
+          ourCounterHook: "Same jewelry-grade 24/7 sleep, SpO₂, stress & cycle tracking—100% FREE lifetime App with FOSMET R21.",
+        },
+        {
+          competitor: "Apple Watch / Bulky Fitness Trackers",
+          hookPattern: "Uncomfortable wrist brick while sleeping & clashing with outfits",
+          viewBenchmark: "920K+",
+          ourCounterHook: "Ditch the bulky smartwatch: wear FOSMET R21 24/7 from gym and pool to dinner and deep sleep.",
+        },
+      ],
+    },
+  },
 };
 
-function generateGenericRadar(productId: ProductId, productName: string): Record<TargetLanguage, CompetitorRadarData> {
+function generateGenericRadar(productId: ProductId, productName: string): Partial<Record<TargetLanguage, CompetitorRadarData>> {
   const isSpanish = productId === "g58" || productId === "i228" || productId === "t40";
   const isGerman = productId === "t40";
 
@@ -847,10 +920,39 @@ function generateGenericRadar(productId: ProductId, productName: string): Record
         },
       ],
     },
+    en: {
+      productId,
+      language: "en",
+      productName,
+      updatedAt: "2026-10-22T08:30:00Z",
+      hotwords: [
+        {
+          word: "Zero Subscription Tech",
+          category: "viral_buzz",
+          growthRate: "+380%",
+          heatScore: 96,
+          sampleHook: `Why pay monthly fees when ${productName} unlocks everything for free?`,
+          suggestedPrompt: "Highlight zero subscription fees and high value for US TikTok Shop buyers",
+        },
+      ],
+      hashtags: [
+        { tag: "#FOSMET", postsCount: "4.8M", growth: "+31.2%", relevance: 100, isCore: true },
+        { tag: `#${productId.toUpperCase()}`, postsCount: "920K", growth: "+45.0%", relevance: 100, isCore: true },
+        { tag: "#SmartWearables", postsCount: "19.5M", growth: "+27.8%", relevance: 95, isCore: true },
+      ],
+      topCompetitorAngles: [
+        {
+          competitor: "Overpriced Legacy Wearables",
+          hookPattern: "Expose hidden monthly app paywalls",
+          viewBenchmark: "820K+",
+          ourCounterHook: `Stop paying $300+ and monthly fees—${productName} gives you the same insights effortlessly.`,
+        },
+      ],
+    },
   };
 }
 
 export function getCompetitorRadar(productId: ProductId, language: TargetLanguage = "ja"): CompetitorRadarData {
   const productRadars = PRODUCT_RADAR_DATA[productId] || PRODUCT_RADAR_DATA.rec10;
-  return productRadars[language] || productRadars.ja || productRadars.es || productRadars.de;
+  return productRadars[language] || productRadars.en || productRadars.ja || productRadars.es || productRadars.de!;
 }

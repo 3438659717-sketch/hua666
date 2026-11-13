@@ -631,7 +631,113 @@ export const GERMAN_HOLIDAYS: HolidayItem[] = [
   },
 ];
 
+export const US_ENGLISH_HOLIDAYS: HolidayItem[] = [
+  {
+    id: "none",
+    nameZh: "无 (日常平时模式)",
+    nameLocal: "No Holiday・Everyday Mode",
+    dateDesc: "Year-round",
+    icon: "⚡",
+    marketingAngle: "Evergreen US TikTok hooks focused on $0/mo free app, weightless 24/7 health tracking, sleep, cycle, and fitness",
+    badgeText: "Everyday",
+    prefixes: [],
+    zhPrefixes: [],
+  },
+  {
+    id: "new_year",
+    nameZh: "New Year Fitness & Wellness・新年健康重启 (1月)",
+    nameLocal: "New Year Reset・Fitness Goals",
+    dateDesc: "Jan 1 - Jan 31",
+    icon: "🎆",
+    marketingAngle: "New Year resolutions, gym comeback, better sleep habits, zero-subscription wellness upgrade",
+    badgeText: "New Year Reset",
+    prefixes: ["【🎆New Year Health Reset】", "【🎆2026 Fitness Upgrade】", "【🎆Ditch Watch Subscriptions in 2026】"],
+    zhPrefixes: ["【🎆新年健康重启计划】", "【🎆2026健身装备升级】", "【🎆2026彻底告别穿戴订阅月费】"],
+    festiveKeywords: ["New Year Reset", "Fitness Goals", "Healthy Habits"],
+    extraTags: "#NewYearGoals #FitnessReset",
+  },
+  {
+    id: "valentines",
+    nameZh: "Valentine's Day・情人节精致首饰级礼物 (2月14日)",
+    nameLocal: "Valentine's Day・Jewelry Tech Gift",
+    dateDesc: "Feb 14",
+    icon: "💝",
+    marketingAngle: "Looks like fine jewelry, tracks health 24/7—thoughtful gift for her or couples without monthly fees",
+    badgeText: "Valentine's",
+    prefixes: ["【💝Valentine's Gift Pick】", "【💝Better Than Flowers】", "【💝Jewelry That Tracks Health】"],
+    zhPrefixes: ["【💝情人节精致礼赞】", "【💝比鲜花更长久的贴心惊喜】", "【💝把健康戴在指尖的首饰】"],
+    festiveKeywords: ["Valentine's Day", "Gift for Her", "Couples Ring"],
+    extraTags: "#ValentinesDay #GiftForHer",
+  },
+  {
+    id: "mothers_day",
+    nameZh: "Mother's Day・美国母亲节贴心健康礼 (5月)",
+    nameLocal: "Mother's Day・Care & Wellness",
+    dateDesc: "2nd Sunday of May",
+    icon: "💐",
+    marketingAngle: "Give Mom 24/7 sleep, heart rate, stress & recovery insights with an ultra-lightweight ring and zero subscription fees",
+    badgeText: "Mother's Day",
+    prefixes: ["【💐Mother's Day Favorite】", "【💐Gift Mom Better Sleep】", "【💐Zero-Fee Health Gift】"],
+    zhPrefixes: ["【💐母亲节贴心健康礼】", "【💐送给妈妈更安稳的睡眠守护】", "【💐零月费无负担贴心好礼】"],
+    festiveKeywords: ["Mother's Day", "Wellness Gift", "For Mom"],
+    extraTags: "#MothersDay #WellnessGift",
+  },
+  {
+    id: "summer_swim",
+    nameZh: "Summer & Swim Season・夏日泳池度假季 (6-8月)",
+    nameLocal: "Summer Swim & Travel Ready",
+    dateDesc: "Jun - Aug",
+    icon: "🏊",
+    marketingAngle: "Fully waterproof for pool laps, beach trips, and 5+ days battery without hauling watch chargers or ruining tan lines",
+    badgeText: "Summer Swim",
+    prefixes: ["【🏊Summer Pool Ready】", "【🏊No Smartwatch Tan Lines】", "【🏊5+ Days Travel Battery】"],
+    zhPrefixes: ["【🏊夏日泳池畅游必备】", "【🏊告别手腕晒痕极简出行】", "【🏊5天+续航假期无忧】"],
+    festiveKeywords: ["Summer Fitness", "Pool Ready", "Travel Gear"],
+    extraTags: "#SummerFitness #Waterproof",
+  },
+  {
+    id: "prime_day",
+    nameZh: "Prime Day & Summer Deals・年中大促狂欢 (7月/10月)",
+    nameLocal: "Prime Deals・Smart Value Pick",
+    dateDesc: "Jul & Oct",
+    icon: "⚡",
+    marketingAngle: "Stop overpaying $300+ plus monthly fees—massive value comparison vs high-cost subscription rings",
+    badgeText: "Deal Alert",
+    prefixes: ["【⚡Deal Alert・$0 App Fee】", "【⚡Stop Overpaying】", "【⚡Top Smart Ring Value】"],
+    zhPrefixes: ["【⚡大促抄底・App零月费】", "【⚡拒绝大牌高额溢价】", "【⚡年度高性价比智能戒指】"],
+    festiveKeywords: ["Tech Deals", "Smart Value", "No Subscription"],
+    extraTags: "#TechDeals #TikTokShopFinds",
+  },
+  {
+    id: "black_friday",
+    nameZh: "Black Friday & Cyber Monday・黑五网一大促 (11月)",
+    nameLocal: "Black Friday & Cyber Monday",
+    dateDesc: "Late November",
+    icon: "🔥",
+    marketingAngle: "Biggest US shopping event of the year—upgrade your health tracking with zero ongoing subscription cost",
+    badgeText: "Black Friday",
+    prefixes: ["【🔥Black Friday Steal】", "【🔥Cyber Monday Tech Pick】", "【🔥$0/Mo Black Friday Upgrade】"],
+    zhPrefixes: ["【🔥黑五超级捡漏必入】", "【🔥网一数码好物首选】", "【🔥黑五零月费健康升级】"],
+    festiveKeywords: ["Black Friday", "Cyber Monday", "BFCM Deals"],
+    extraTags: "#BlackFriday #CyberMonday #TikTokShopBlackFriday",
+  },
+  {
+    id: "christmas",
+    nameZh: "Christmas & Holiday Gifting・圣诞节礼物季 (12月)",
+    nameLocal: "Christmas & Holiday Gifting",
+    dateDesc: "December",
+    icon: "🎄",
+    marketingAngle: "Sleek stocking stuffer & luxury jewelry-style health gift with a 100% free lifetime app",
+    badgeText: "Holiday Gift",
+    prefixes: ["【🎄Holiday Gift Guide】", "【🎄Best Stocking Stuffer 2026】", "【🎄Gift Health, Not Fees】"],
+    zhPrefixes: ["【🎄圣诞节送礼必看清单】", "【🎄2026圣诞袜里最惊喜的礼物】", "【🎄送健康不送月费负担】"],
+    festiveKeywords: ["Christmas Gift", "Holiday Guide", "Stocking Stuffer"],
+    extraTags: "#HolidayGiftGuide #ChristmasGift",
+  },
+];
+
 export function getHolidaysForLanguage(lang: TargetLanguage = "ja"): HolidayItem[] {
+  if (lang === "en") return US_ENGLISH_HOLIDAYS;
   if (lang === "de") return GERMAN_HOLIDAYS;
   if (lang === "es") return SPANISH_HOLIDAYS;
   return JAPANESE_HOLIDAYS;
@@ -649,6 +755,14 @@ export function getCountryInfoForLanguage(lang: TargetLanguage = "ja"): {
   countryLocal: string;
   count: number;
 } {
+  if (lang === "en") {
+    return {
+      flag: "🇺🇸",
+      countryZh: "美国及北美英语区 (US)",
+      countryLocal: "United States (American English)",
+      count: US_ENGLISH_HOLIDAYS.length - 1,
+    };
+  }
   if (lang === "de") {
     return {
       flag: "🇩🇪",

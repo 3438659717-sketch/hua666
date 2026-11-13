@@ -14,6 +14,7 @@ import { generateV18proAlgorithmicTitles, V18PRO_FIXED_TAGS } from "./v18proTemp
 import { generateV17maxAlgorithmicTitles, V17MAX_FIXED_TAGS } from "./v17maxTemplates";
 import { generateT40AlgorithmicTitles, T40_SPANISH_TAGS, T40_GERMAN_TAGS } from "./t40Templates";
 import { generateC32proAlgorithmicTitles, C32PRO_SPANISH_TAGS, C32PRO_GERMAN_TAGS } from "./c32proTemplates";
+import { generateR21AlgorithmicTitles, R21_ENGLISH_TAGS } from "./r21Templates";
 import { getChineseTranslation } from "../utils/translator";
 import { getHolidayById } from "./holidays";
 
@@ -503,6 +504,34 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
       "4G 双向高清视频通话与语音聊天 + 联系人白名单与一键 SOS 紧急联系人安全守护",
       "GPS + LBS + WiFi 多重精准定位实时掌握动态 + 课堂免打扰模式（上课关闭网络防分心）",
       "独家「爱的奖励」记录作业与家务 + IP68 级专业深度防水 + 高清拍照与计步睡眠健康监测",
+    ],
+  },
+  r21: {
+    id: "r21",
+    brand: "FOSMET",
+    model: "R21",
+    name: "FOSMET R21",
+    japaneseType: "Ultra-Thin Smart Ring / 超轻薄智能戒指",
+    shortDesc: "超轻薄无感智能戒指・24/7全天候佩戴（健身/游泳/睡眠/日常穿搭）・终身100%免费专属App零月费・心率/血氧/睡眠/压力/体温/生理排卵周期・完全防水精美首饰级机身 + 5天+续航",
+    fixedTags: R21_ENGLISH_TAGS,
+    defaultLanguage: "en",
+    supportedLanguages: ["en"],
+    badge: "零月费智能戒指",
+    accentColor: "#F43F5E",
+    tiktokFormula: "笨重手表/高额月费痛点反转 + 24/7无感首饰级戒指实机展示 + 心率/血氧/睡眠/体温/排卵周期零月费直给",
+    specs: [
+      { label: "产品定位与受众", value: "专为厌倦笨重智能手表、反感高昂订阅费用的健身爱好者、极简主义者与深度健康管理女性打造的超轻薄智能戒指" },
+      { label: "核心收费模式", value: "终身 100% 免费专属 App（Zero Monthly Subscription / 零月费），所有深度健康数据永久免费解锁" },
+      { label: "全天候佩戴场景", value: "24小时无感佩戴：健身房挥汗、水中游泳、夜间沉浸式睡眠与日常通勤穿搭优雅百搭" },
+      { label: "多维健康解码", value: "实时精准追踪并解码心率 (Heart Rate)、血氧 (SpO₂)、睡眠阶段 (Sleep Stages)、压力水平与体温趋势" },
+      { label: "女性生理管理", value: "精准追踪并预测女性生理周期与排卵周期 (Physiological & Ovulation Cycle)" },
+      { label: "工艺防水与续航", value: "完全防水的精美首饰级机身 (Waterproof Jewelry-Grade Chassis) ＆ 长达 5 天以上强劲续航" },
+      { label: "固定标签 (美式英语)", value: "#FOSMET #R21 #Smart Ring #Health Management #Smart Wearables" },
+    ],
+    highlights: [
+      "终身 100% 免费专属 App 零月费：告别动辄高昂的海外智能戒指按月订阅费，高性价比接管身体数据",
+      "超轻薄首饰级机身 24/7 无感佩戴：健身房、游泳、夜间深度睡眠与日常通勤穿搭全场景零存在感适配",
+      "全方位精准生命体征解码：实时追踪心率、血氧、睡眠阶段、压力、体温与女性生理排卵周期 + 5天以上强劲续航",
     ],
   },
 };
@@ -999,6 +1028,8 @@ export function generateAlgorithmicTitles(
     rawResults = generateT40AlgorithmicTitles(category, customKeyword, customTags, batchSeed, language);
   } else if (productId === "c32pro") {
     rawResults = generateC32proAlgorithmicTitles(category, customKeyword, customTags, language);
+  } else if (productId === "r21") {
+    rawResults = generateR21AlgorithmicTitles(category, customKeyword, customTags, batchSeed, language);
   } else {
     const brand = "FOSMET";
     const model = "REC10";
@@ -1110,7 +1141,7 @@ export function generateAlgorithmicTitles(
   }
 
   const isJapaneseProduct = ["rec10", "qs40", "t20", "e12", "e05", "e09", "e09b", "g2", "fos10"].includes(productId);
-  const effectiveLang: TargetLanguage = isJapaneseProduct ? "ja" : (language || "es");
+  const effectiveLang: TargetLanguage = productId === "r21" ? "en" : isJapaneseProduct ? "ja" : (language || "es");
   const holidayItem = getHolidayById(holiday, effectiveLang);
 
   // Ensure 100% of generated titles have accurate, fluent Chinese translation and festive decorators when selected

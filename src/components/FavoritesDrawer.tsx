@@ -82,7 +82,9 @@ export const FavoritesDrawer: React.FC<FavoritesDrawerProps> = ({
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(item.hook);
     const langCode =
-      item.language === "es"
+      item.language === "en"
+        ? "en-US"
+        : item.language === "es"
         ? "es-ES"
         : item.language === "de"
         ? "de-DE"

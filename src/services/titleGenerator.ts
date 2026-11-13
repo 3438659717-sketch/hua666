@@ -15,7 +15,7 @@ export async function generateTitles(params: GenerationParams): Promise<{
 }> {
   const prodId: ProductId = params.productId || "rec10";
   const productConfig = PRODUCTS_CONFIG[prodId];
-  const lang = params.language || (prodId === "v17max" ? "de" : prodId === "kt80" || prodId === "g58" || prodId === "i228" || prodId === "v18pro" || prodId === "t40" ? "es" : "ja");
+  const lang = params.language || (prodId === "r21" ? "en" : prodId === "v17max" ? "de" : prodId === "kt80" || prodId === "g58" || prodId === "i228" || prodId === "v18pro" || prodId === "t40" || prodId === "c32pro" ? "es" : "ja");
   const activeTags = (params.customTags && params.customTags.trim())
     ? params.customTags.trim()
     : getDefaultTagsForProduct(prodId, lang);
@@ -55,9 +55,9 @@ export async function generateTitles(params: GenerationParams): Promise<{
               title: fullTitle,
               hook,
               tags: activeTags,
-              angle: t.angle || (lang === "de" ? "Viraler Hook" : lang === "es" ? "Hook Viral" : "AI爆款フック"),
+              angle: t.angle || (lang === "en" ? "Viral Hook" : lang === "de" ? "Viraler Hook" : lang === "es" ? "Hook Viral" : "AI爆款フック"),
               angleCategory: params.category,
-              targetAudience: t.targetAudience || (lang === "de" ? "TikTok Community" : lang === "es" ? "Audiencia TikTok" : "TikTok視聴者"),
+              targetAudience: t.targetAudience || (lang === "en" ? "TikTok US Audience" : lang === "de" ? "TikTok Community" : lang === "es" ? "Audiencia TikTok" : "TikTok視聴者"),
               charCount: fullTitle.length,
               hookCharCount: hook.length,
               translationZh: t.translationZh,

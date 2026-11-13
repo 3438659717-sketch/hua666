@@ -223,6 +223,40 @@ export function getProductSuggestedPrompts(
     ];
   }
 
+  // 0a. R21 Smart Ring
+  if (pId.includes("r21") || model.includes("R21")) {
+    if (persona === "tiktok_strategist") {
+      return [
+        `为 ${name} 设计 3 套美区 TikTok 15 秒爆款分镜：对比「笨重手表 + 大牌月费订阅」痛点`,
+        `如何用「终身 100% 免费 App（零月费）」和「24/7 首饰级无感佩戴」做前 3 秒钩子？`,
+        `针对注重睡眠/压力/体温与排卵周期的女性人群，写 5 条高共鸣置顶神评与挂车话术`,
+        `健身房暴汗 + 游泳 + 夜间睡眠 + 通勤穿搭，如何用一镜到底展现 5天+ 超强续航？`,
+      ];
+    }
+    if (persona === "market_scout") {
+      return [
+        `调研美国 TikTok Shop 与海外智能戒指市场（对比 Oura Ring 等高价月费订阅模式）的机会点`,
+        `海外极简主义者与女性健康人群在选购智能戒指时最在意的 3 大痛点（月费/防水/续航）`,
+        `分析「Zero Monthly Subscription（零月费）」在北美 TikTok 评论区的转化率提升潜力`,
+        `智能戒指相比笨重智能手表在睡眠舒适度与 OOTD 穿搭适配上的核心差异化`,
+      ];
+    }
+    if (persona === "localization_master") {
+      return [
+        `把 ${name} 的「终身免费 App 零月费」与「24/7 无感佩戴」改写成 5 句地道美式英语 TikTok 钩子`,
+        `美式英语中关于「ditch bulky watches / zero subscription / ovulation & sleep decoding」的地道表达`,
+        `如何用自然、不推销的美国 UGC 博主口吻讲清楚心率/血氧/压力/体温/排卵周期追踪？`,
+        `优化 R21 的美区短视频屏幕花字（Text Overlay）与评论区互动提问文案`,
+      ];
+    }
+    return [
+      `用 FABE 模型深度拆解 ${name} 的 6 维生命体征解码与 5天+ 防水首饰级硬件`,
+      `对比传统智能手表与订阅制智能戒指，讲清 ${name}「零月费 + 全天无感」的技术与商业优势`,
+      `详细梳理 ${name} 在健身房、游泳、夜间睡眠与日常穿搭场景的防水与续航表现`,
+      `面向女性健康与极简健身博主，提供一份高精度生理周期与体温趋势科普问答`,
+    ];
+  }
+
   // 0. T40 Children's Smart Watch
   if (pId.includes("t40") || model.includes("T40")) {
     if (persona === "tiktok_strategist") {

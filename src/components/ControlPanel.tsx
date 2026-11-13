@@ -33,6 +33,7 @@ import {
   Wind,
   Calendar,
   Gift,
+  Gem,
 } from "lucide-react";
 import { PRODUCTS_CONFIG } from "../data/templates";
 import { parseTagsToArray, formatArrayToTagString, normalizeTagString, getDefaultTagsForProduct } from "../utils/tagUtils";
@@ -270,6 +271,17 @@ const T40_CATEGORIES_DE: { id: AngleCategory; label: string; desc: string; icon:
   { id: "question", label: "Community & Altersdiskussion", desc: "Smartphone oder Kinderuhr? Ab wann ist eine Kinder-Smartwatch sinnvoll? Diskutiert mit!", icon: "💬" },
 ];
 
+const R21_CATEGORIES_EN: { id: AngleCategory; label: string; desc: string; icon: string }[] = [
+  { id: "all_mixed", label: "All-Star Mix (Recommended)", desc: "Zero Monthly Fee / Ditch Bulky Watch / 24-7 Health & Cycle / 5+ Days Waterproof", icon: "✨" },
+  { id: "pain_point", label: "Zero Fee · Ditch Bulky Watch", desc: "Attack $6/mo smart ring paywalls & uncomfortable clunky wristwatches at night", icon: "🎯" },
+  { id: "efficiency", label: "24/7 Seamless Tracking", desc: "Effortless sleep stages, HR, SpO₂, stress & temperature decoded every morning", icon: "⚡" },
+  { id: "gadget", label: "Jewelry-Grade & Weightless", desc: "Ultra-thin waterproof ring that elevates gym sets, swimwear & everyday outfits", icon: "💍" },
+  { id: "ai_power", label: "Cycle & Ovulation Insights", desc: "Deep women's health decoding: physiological cycle, ovulation & body temp trends", icon: "🌸" },
+  { id: "secret_hack", label: "$0/mo App & Minimalist Hack", desc: "100% lifetime free App with zero subscription traps—smartest wearable value", icon: "🤫" },
+  { id: "spec_power", label: "Waterproof · 5+ Days Battery", desc: "Swim, shower, lift & travel with 5+ days battery and full biometric sensors", icon: "🔋" },
+  { id: "question", label: "US TikTok Viral Question", desc: "Spark comments: bulky watch vs zero-fee smart ring & watch tan debates", icon: "💬" },
+];
+
 const TAG_SUGGESTIONS: Record<string, string[]> = {
   rec10: ["AIボイスレコーダー", "ChatGPT活用", "議事録自動化", "社会人ハック", "便利グッズ", "仕事効率化", "FOSMET"],
   qs40: ["スマートウォッチ", "ChatGPT連携", "ガジェット紹介", "高见え", "便利アイテム", "QOL向上", "FOSMET"],
@@ -286,6 +298,7 @@ const TAG_SUGGESTIONS: Record<string, string[]> = {
   e09b: ["スマートグラス", "半枠メガネ", "AI翻訳", "AI画像認識", "Vlog撮影", "POV動画", "FOSMET"],
   g2: ["スマートウォッチ", "女性用スマートウォッチ", "生理周期管理", "健康管理", "大人女子コーデ", "プレゼントにおすすめ", "FOSMET"],
   fos10: ["スマートウォッチ", "スマートバンド", "超軽量", "健康管理", "睡眠トラッキング", "ミニマリスト", "FOSMET"],
+  r21: ["Smart Ring", "Health Management", "Smart Wearables", "ZeroSubscription", "SleepTracker", "WomensHealth", "FOSMET", "R21"],
 };
 
 const KT80_GERMAN_SUGGESTIONS = ["smartwatch", "outdooruhr", "überleben", "taschenlampe", "technik2025", "männergeschenke", "FOSMET"];
@@ -303,8 +316,9 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
 }) => {
   const currentProductId = params.productId || "rec10";
   const currentProduct = PRODUCTS_CONFIG[currentProductId] || PRODUCTS_CONFIG.rec10;
-  const currentLang = params.language || (currentProductId === "v17max" ? "de" : currentProductId === "i228" || currentProductId === "v18pro" || currentProductId === "t40" ? "es" : "ja");
+  const currentLang = params.language || (currentProductId === "r21" ? "en" : currentProductId === "v17max" ? "de" : currentProductId === "i228" || currentProductId === "v18pro" || currentProductId === "t40" || currentProductId === "c32pro" ? "es" : "ja");
 
+  const isR21 = currentProductId === "r21";
   const isKt80 = currentProductId === "kt80";
   const isG58 = currentProductId === "g58";
   const isI228 = currentProductId === "i228";
@@ -326,7 +340,9 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   const isQs40 = currentProductId === "qs40";
 
   let categories = REC10_CATEGORIES;
-  if (isT40) {
+  if (isR21) {
+    categories = R21_CATEGORIES_EN;
+  } else if (isT40) {
     categories = isGerman ? T40_CATEGORIES_DE : T40_CATEGORIES_ES;
   } else if (isC32pro) {
     categories = isGerman ? KT80_CATEGORIES_DE : KT80_CATEGORIES_ES;
@@ -483,6 +499,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   };
 
   const getProductColor = () => {
+    if (isR21) return "text-rose-400";
     if (isT40) return "text-cyan-400";
     if (isV18pro) return "text-emerald-400";
     if (isV17max) return "text-amber-400";
@@ -605,6 +622,12 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           { label: "ULTRA THIN CHASSIS", val: "10.66", unit: "mm", desc: "流线纤薄机身 · 腕部零压迫贴合", color: "liquid-metal-silver", icon: <Watch className="w-4 h-4 text-white" /> },
           { label: "BATTERY LIFE", val: "7", unit: "天", desc: "超长一周续航 · 100+种运动模式", color: "liquid-metal-emerald", icon: <Battery className="w-4 h-4 text-emerald-400" /> },
         ];
+      case "r21":
+        return [
+          { label: "LIFETIME FREE APP", val: "$0", unit: "/mo", desc: "终身100%免费App · 零月费解码健康数据", color: "liquid-metal-emerald", icon: <CheckCircle2 className="w-4 h-4 text-emerald-400" /> },
+          { label: "WATERPROOF & BATTERY", val: "5+", unit: "Days", desc: "完全防水首饰级机身 · 健身/游泳/睡眠无感", color: "liquid-metal-cyan", icon: <Battery className="w-4 h-4 text-cyan-400" /> },
+          { label: "24/7 BIOMETRICS", val: "6", unit: "维", desc: "心率 / SpO₂血氧 / 睡眠 / 压力 / 体温 / 排卵周期", color: "liquid-metal-rose", icon: <Heart className="w-4 h-4 text-rose-400" /> },
+        ];
       default: // qs40
         return [
           { label: "SLIM METALLIC BODY", val: "9.8", unit: "mm", desc: "洗练银翼金属质感 · 轻盈无感佩戴", color: "liquid-metal-silver", icon: <Watch className="w-4 h-4 text-white" /> },
@@ -648,6 +671,8 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
         return ["女性生理期守护", "睡眠深度精准监测", "100+时尚表盘", "轻盈百搭高颜值"];
       case "fos10":
         return ["14.9g极限羽量", "10.66mm纤薄流线", "无感睡眠监测", "超长续航"];
+      case "r21":
+        return ["Zero Monthly App Fee", "Ditch Bulky Smartwatch", "Sleep & Ovulation Cycle", "Swim-Proof 5+ Days", "24/7 Weightless Jewelry"];
       default:
         return ["出海爆款", "痛点反转", "高转化", "神机实测"];
     }
@@ -669,7 +694,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
               <span>硬件矩阵 (Product Matrix)</span>
             </span>
             <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-white/[0.08] text-white border border-white/[0.12] shadow-xs">
-              16款旗舰设备
+              17款旗舰设备
             </span>
           </div>
           <span className="text-[11.5px] text-white/50">
@@ -677,7 +702,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           </span>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-8 2xl:grid-cols-16 gap-2.5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-9 gap-2.5">
           {[
             { id: "t40" as ProductId, label: "T40", desc: "4G儿童安全表", icon: <ShieldCheck className="w-3.5 h-3.5" />, tag: "#Niños", lang: "es" as TargetLanguage },
             { id: "v18pro" as ProductId, label: "V18 PRO", desc: "折叠绿光吸尘", icon: <Wind className="w-3.5 h-3.5" />, tag: "#V18PRO", lang: "es" as TargetLanguage },
@@ -695,6 +720,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             { id: "e09b" as ProductId, label: "E09B", desc: "半框AI摄影", icon: <Glasses className="w-3.5 h-3.5" />, tag: "#Vlog撮影", lang: "ja" as TargetLanguage },
             { id: "g2" as ProductId, label: "G2", desc: "女性健康表", icon: <Heart className="w-3.5 h-3.5" />, tag: "#女性健康", lang: "ja" as TargetLanguage },
             { id: "fos10" as ProductId, label: "FOS10", desc: "14.9g极轻", icon: <Sparkles className="w-3.5 h-3.5" />, tag: "#ポータブル", lang: "ja" as TargetLanguage },
+            { id: "r21" as ProductId, label: "R21", desc: "零月费智能戒指", icon: <Gem className="w-3.5 h-3.5" />, tag: "#Smart Ring", lang: "en" as TargetLanguage },
           ].map((prod) => {
             const isSelected = currentProductId === prod.id;
             return (

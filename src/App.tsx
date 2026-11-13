@@ -108,6 +108,7 @@ export default function App() {
       case "e09b":
         return "sky";
       case "e05":
+      case "r21":
         return "rose";
       case "e12":
         return "cyan";
@@ -143,6 +144,7 @@ export default function App() {
       case "e09b":
         return "text-sky-300";
       case "e05":
+      case "r21":
         return "text-rose-300";
       case "e12":
         return "text-cyan-300";
@@ -179,7 +181,9 @@ export default function App() {
         } else {
           setLastAction({ type: "generate", timestamp: Date.now(), data: { count: result.titles.length } });
           const langLabel =
-            targetProd === "kt80" || targetProd === "g58" || targetProd === "t40" || targetProd === "v18pro" || targetProd === "v17max" || targetProd === "c32pro"
+            targetProd === "r21" || activeParams.language === "en"
+              ? "美式英语"
+              : targetProd === "kt80" || targetProd === "g58" || targetProd === "t40" || targetProd === "v18pro" || targetProd === "v17max" || targetProd === "c32pro"
               ? activeParams.language === "de"
                 ? "德语"
                 : "西语"
@@ -265,7 +269,14 @@ export default function App() {
         ...prev,
         productId,
         category: "all_mixed",
-        language: productId === "kt80" || productId === "g58" || productId === "i228" || productId === "c32pro" ? "es" : "ja",
+        language:
+          productId === "r21"
+            ? "en"
+            : productId === "v17max"
+            ? "de"
+            : productId === "kt80" || productId === "g58" || productId === "i228" || productId === "c32pro" || productId === "v18pro" || productId === "t40"
+            ? "es"
+            : "ja",
         customTags: undefined,
       };
       handleGenerate(next);
@@ -346,6 +357,10 @@ export default function App() {
         hookText = "【衝撃】スマホなしで登山ルート全記録！FOSMET T20の独立GNSSとスマート排水が最強すぎる";
       } else if (currentProductId === "qs40") {
         hookText = "【質問】手首にChatGPTついてたら何聞く？FOSMET QS40の音声AIが秒速回答で超便利";
+      } else if (currentProductId === "c32pro") {
+        hookText = "【FOSMET C32PRO】GPS multi-satelital, drenaje sónico y brújula táctica: ¡el reloj outdoor definitivo!";
+      } else if (currentProductId === "r21") {
+        hookText = "Stop paying monthly fees for your own sleep data! Meet the weightless FOSMET R21 Smart Ring with a 100% FREE lifetime App.";
       }
 
       const fullTitle = currentActiveTags ? `${hookText} ${currentActiveTags}` : hookText;
