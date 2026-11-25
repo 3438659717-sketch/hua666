@@ -2,6 +2,7 @@ import { AngleCategory, GeneratedTitle, TargetLanguage } from "../types";
 
 export const V18PRO_FIXED_TAGS_ES = "#DyMona #V18PRO #aspiradora #limpiezahogar #tiktokshop #hogarlimpio";
 export const V18PRO_FIXED_TAGS_DE = "#DyMona #V18PRO #staubsauger #haushaltshelfer #putztipps #tiktokshop";
+export const V18PRO_FIXED_TAGS_FR = "#DyMona #V18PRO #aspirateur #menage #astucemenage #tiktokshop";
 export const V18PRO_FIXED_TAGS = V18PRO_FIXED_TAGS_ES;
 
 interface HookTemplate {
@@ -428,6 +429,331 @@ const V18PRO_SUFFIX_PAIRS_DE: [string, string][] = [
   [" – der grüne Licht-Effekt ist unglaublich!", "，绿光显尘效果绝对让你大吃一惊！"],
 ];
 
+// 42 French TikTok Viral Hook Templates for DyMona V18 PRO (Aspirateur sans fil pliable + Lumière verte 2.0)
+export const V18PRO_HOOK_TEMPLATES_FR: HookTemplate[] = [
+  // 1. Pain Point (Douleur au dos, poids, poussière cachée)
+  {
+    pattern: (b, m) => `Marre de vous casser le dos sous le lit et le canapé ? Le tube pliable 65 cm du ${b} ${m} change tout`,
+    patternZh: (b, m) => `受够了弯腰累垮老腰清扫床底和沙发底？${b} ${m} 的 65cm 折叠臂彻底解放腰椎`,
+    category: "pain_point",
+    angleLabel: "Bras pliable sans se baisser",
+    targetAudience: "Familles・Mal de dos・CleanTok FR",
+  },
+  {
+    pattern: (b, m) => `Votre vieil aspirateur pèse une tonne ? Passez au ${b} ${m} : seulement 1,4 kg pour 50 kPa de puissance`,
+    patternZh: (b, m) => `旧吸尘器重得像举铁还吸不干净？换上仅重 1.4kg 却拥有 50 kPa 澎湃吸力的 ${b} ${m}`,
+    category: "pain_point",
+    angleLabel: "Ultra-léger 1,4 kg",
+    targetAudience: "Femmes・Appartements・Usage quotidien",
+  },
+  {
+    pattern: (b, m) => `La poussière collée aux plinthes vous rend fou ? La brosse bord-à-bord 0 mm du ${b} ${m} ne laisse rien`,
+    patternZh: (b, m) => `踢脚线和墙角积灰让你抓狂？${b} ${m} 的 0mm 极致贴边地刷让微尘无处可藏`,
+    category: "pain_point",
+    angleLabel: "Nettoyage bord 0 mm",
+    targetAudience: "Maniaques du propre・Appartements",
+  },
+  {
+    pattern: (b, m) => `Votre chat fuit dès que vous sortez l'aspirateur ? Le ${b} ${m} tourne à seulement 60 dB ultra silencieux`,
+    patternZh: (b, m) => `一开吸尘器家里的猫主子就吓得满屋跑？${b} ${m} 仅 60 dB 低音柔和运行不惊扰萌宠`,
+    category: "pain_point",
+    angleLabel: "Silencieux 60 dB animaux",
+    targetAudience: "Propriétaires de chats & chiens・Bébés",
+  },
+  {
+    pattern: (b, m) => `Allergies et éternuements à la maison ? La filtration 7 étapes à 99,99 % du ${b} ${m} purifie votre air`,
+    patternZh: (b, m) => `家里微尘引发频繁过敏打喷嚏？${b} ${m} 7 重高效过滤拦截 99.99% 微尘呵护呼吸健康`,
+    category: "pain_point",
+    angleLabel: "Filtration 7 étapes 99,99%",
+    targetAudience: "Allergiques・Jeunes parents",
+  },
+  {
+    pattern: (b, m) => `Nettoyer sous les meubles bas sans jamais les déplacer : la magie du bras articulé ${b} ${m}`,
+    patternZh: (b, m) => `不用费力搬动沉重家具也能把底部清扫干净：这就是 ${b} ${m} 折叠臂的清洁魔法`,
+    category: "pain_point",
+    angleLabel: "Zéro effort sous les meubles",
+    targetAudience: "Grand ménage・Familles",
+  },
+
+  // 2. Efficiency (Lumière verte 2.0, 50 kPa, gain de temps)
+  {
+    pattern: (b, m) => `Vous pensiez votre sol propre ? La lumière verte 2.0 (135° / 300 cm) du ${b} ${m} révèle l'invisible !`,
+    patternZh: (b, m) => `以为地板已经很干净了？${b} ${m} 的 135°/300cm 绿光显尘 2.0 一照瞬间让你惊呆！`,
+    category: "efficiency",
+    angleLabel: "Révélation Lumière Verte 2.0",
+    targetAudience: "Fans de CleanTok・ASMR ménage",
+  },
+  {
+    pattern: (b, m) => `Moteur 650W et 50 kPa d'aspiration : poils d'animaux et miettes disparaissent en un seul passage avec ${b} ${m}`,
+    patternZh: (b, m) => `650W 无刷电机搭配 50 kPa 飓风吸力：宠物毛发和饼干碎屑，${b} ${m} 一推即净`,
+    category: "efficiency",
+    angleLabel: "Puissance 50 kPa en 1 passage",
+    targetAudience: "Familles avec enfants & animaux",
+  },
+  {
+    pattern: (b, m) => `Jusqu'à 50 minutes d'autonomie non-stop : faites tout l'appartement d'une traite grâce au ${b} ${m}`,
+    patternZh: (b, m) => `长达 50 分钟持久续航：一次满电轻松吸完全屋地板与地毯，${b} ${m} 告别中途没电`,
+    category: "efficiency",
+    angleLabel: "50 min d'autonomie",
+    targetAudience: "Maisons & Grands appartements",
+  },
+  {
+    pattern: (b, m) => `Le ménage express en deux fois moins de temps : lumière verte + 50 kPa réunis dans le ${b} ${m}`,
+    patternZh: (b, m) => `打扫效率直接翻倍时间减半：绿光显尘 2.0 叠加 50 kPa 强吸力，尽在 ${b} ${m}`,
+    category: "efficiency",
+    angleLabel: "Ménage 2x plus rapide",
+    targetAudience: "Actifs pressés・Parents",
+  },
+  {
+    pattern: (b, m) => `3 modes intelligents (Éco 50 min, Standard 30 min, Turbo 20 min) sur écran LED : le ${b} ${m} s'adapte à tout`,
+    patternZh: (b, m) => `LED 数显三档智能吸力（节能 50 分 / 标准 30 分 / 强力 20 分）：${b} ${m} 灵活应对全屋污渍`,
+    category: "efficiency",
+    angleLabel: "3 modes & écran LED",
+    targetAudience: "Acheteurs rationnels",
+  },
+  {
+    pattern: (b, m) => `Fini les allers-retours inutiles : la portée de 300 cm de la lumière verte du ${b} ${m} cible chaque grain`,
+    patternZh: (b, m) => `告别反复盲目返工：${b} ${m} 300cm 超远绿光精准锁定每一粒肉眼难辨的灰尘`,
+    category: "efficiency",
+    angleLabel: "Précision laser 300 cm",
+    targetAudience: "Amateurs d'efficacité",
+  },
+
+  // 3. Gadget & Design (Bras pliable, 90° debout, station murale)
+  {
+    pattern: (b, m) => `Un clic et le tube se plie à 90° : le design génial du ${b} ${m} que tout le monde s'arrache sur TikTok`,
+    patternZh: (b, m) => `一按即折直达家具深处：TikTok 全网疯抢的 ${b} ${m} 折叠金属臂神级设计`,
+    category: "gadget",
+    angleLabel: "Tube articulé 1 clic",
+    targetAudience: "Passionnés de gadgets maison",
+  },
+  {
+    pattern: (b, m) => `Il tient debout tout seul à 90° n'importe où ! Plus besoin de l'appuyer contre un mur avec ${b} ${m}`,
+    patternZh: (b, m) => `随时随地 90° 优雅自立停放！再也不用靠墙摆放怕摔倒，${b} ${m} 细节太懂生活`,
+    category: "gadget",
+    angleLabel: "Position parking 90° autonome",
+    targetAudience: "Appartements・Studios",
+  },
+  {
+    pattern: (b, m) => `Écran LED digital ultra clair + support mural de charge : le ${b} ${m} allie style et praticité`,
+    patternZh: (b, m) => `高清智能 LED 数显大屏搭配壁挂充电收纳架：${b} ${m} 颜值与实用性双双拉满`,
+    category: "gadget",
+    angleLabel: "Design & rangement mural",
+    targetAudience: "Fans de déco & organisation",
+  },
+  {
+    pattern: (b, m) => `Un aspirateur balai qui passe du salon à la voiture en 2 secondes : découvrez le 7-en-1 ${b} ${m}`,
+    patternZh: (b, m) => `2 秒从客厅吸尘器变身车用吸尘神器：体验 ${b} ${m} 7 合 1 全能形态切换`,
+    category: "gadget",
+    angleLabel: "Modularité 7-en-1",
+    targetAudience: "Automobilistes・Familles",
+  },
+  {
+    pattern: (b, m) => `1,4 kg seulement en mode main : aspirez rideaux, plafonds et escaliers d'une seule main avec ${b} ${m}`,
+    patternZh: (b, m) => `手持主机轻至 1.4kg：单手轻松举高吸窗帘、天花板和楼梯缝隙，${b} ${m} 久用不酸手`,
+    category: "gadget",
+    angleLabel: "Maniabilité d'une main",
+    targetAudience: "Maisons à étages・Femmes",
+  },
+  {
+    pattern: (b, m) => `Unboxing du ${b} ${m} : lumière verte 2.0, bras pliable 65 cm et 7 accessoires pour une maison impeccable`,
+    patternZh: (b, m) => `沉浸式开箱 ${b} ${m}：绿光显尘 2.0、65cm 折叠臂与 7 合 1 全套配件一次看够`,
+    category: "gadget",
+    angleLabel: "Unboxing CleanTok",
+    targetAudience: "Audience TikTok Shop FR",
+  },
+
+  // 4. AI Power & Filtration (Filtration 7 niveaux, contrôle intelligent)
+  {
+    pattern: (b, m) => `7 niveaux de filtration hermétique qui bloquent 99,99 % des microparticules jusqu'à 0,3 µm : ${b} ${m}`,
+    patternZh: (b, m) => `7 重密闭精滤系统牢牢锁住 99.99% 小至 0.3 微米的微尘颗粒：${b} ${m} 拒绝二次污染`,
+    category: "ai_power",
+    angleLabel: "Filtration 0,3 µm",
+    targetAudience: "Familles avec bébés・Asthmatiques",
+  },
+  {
+    pattern: (b, m) => `Suivez votre batterie et votre mode d'aspiration en temps réel sur l'écran intelligent du ${b} ${m}`,
+    patternZh: (b, m) => `实时精准掌握剩余电量与吸力档位：${b} ${m} 高清智能数显屏一目了然`,
+    category: "ai_power",
+    angleLabel: "Affichage intelligent LED",
+    targetAudience: "Fans de domotique & tech",
+  },
+  {
+    pattern: (b, m) => `Capteur optique vert grand angle 135° : la technologie pro pour traquer les acariens avec ${b} ${m}`,
+    patternZh: (b, m) => `135° 大广角光学绿光显尘黑科技：用 ${b} ${m} 精准追踪隐藏螨虫与细微浮灰`,
+    category: "ai_power",
+    angleLabel: "Optique verte 135°",
+    targetAudience: "Hygiène & santé maison",
+  },
+  {
+    pattern: (b, m) => `Un air plus sain après chaque passage : la technologie cyclonique 7 étapes du ${b} ${m}`,
+    patternZh: (b, m) => `每次清扫完空气都更清新纯净：体验 ${b} ${m} 7 重旋风分离过滤科技`,
+    category: "ai_power",
+    angleLabel: "Air pur cyclonique",
+    targetAudience: "Foyers soucieux de santé",
+  },
+  {
+    pattern: (b, m) => `Moteur brushless haute efficacité 650W : plus de puissance, moins de bruit (60 dB) sur le ${b} ${m}`,
+    patternZh: (b, m) => `650W 高效无刷电机黑科技：${b} ${m} 做到更猛吸力与 60 dB 更低噪音兼得`,
+    category: "ai_power",
+    angleLabel: "Moteur brushless 650W",
+    targetAudience: "Comparateurs techniques",
+  },
+
+  // 5. Spec Power (Fiche technique)
+  {
+    pattern: (b, m) => `650W, 50 kPa, 1,4 kg, 60 dB et 50 min d'autonomie : la fiche technique folle du ${b} ${m}`,
+    patternZh: (b, m) => `650W、50 kPa、1.4kg、60 dB、50 分钟续航：${b} ${m} 这套硬核参数表太能打了`,
+    category: "spec_power",
+    angleLabel: "Specs imbattables",
+    targetAudience: "Acheteurs exigeants",
+  },
+  {
+    pattern: (b, m) => `50 000 Pa de dépression réelle dans un format plume de 1,4 kg : test complet du ${b} ${m}`,
+    patternZh: (b, m) => `仅 1.4kg 轻盈机身却爆发 50,000 Pa 真实大吸力：${b} ${m} 硬核性能实测`,
+    category: "spec_power",
+    angleLabel: "Rapport poids/puissance",
+    targetAudience: "Amateurs de tests produits",
+  },
+  {
+    pattern: (b, m) => `Tube métallique pliable de 65 cm + brosse 0 mm bordure : aucun recoin ne résiste au ${b} ${m}`,
+    patternZh: (b, m) => `65cm 加长折叠金属管搭配 0mm 贴边地刷：家里再刁钻的角落都难不倒 ${b} ${m}`,
+    category: "spec_power",
+    angleLabel: "Architecture 65 cm & 0 mm",
+    targetAudience: "Nettoyage minutieux",
+  },
+  {
+    pattern: (b, m) => `7 accessoires inclus pour sols durs, tapis, canapé, clavier et voiture : le kit complet ${b} ${m}`,
+    patternZh: (b, m) => `7 合 1 多刷头全包揽硬地板、地毯、沙发、键盘与车厢：${b} ${m} 一机搞定全场景`,
+    category: "spec_power",
+    angleLabel: "Pack 7-en-1 complet",
+    targetAudience: "Familles & bricoleurs",
+  },
+  {
+    pattern: (b, m) => `Seulement 60 dB en fonctionnement : passez l'aspirateur même le soir sans réveiller personne avec ${b} ${m}`,
+    patternZh: (b, m) => `低至 60 dB 轻音运行：晚上回家打扫也不用担心吵醒宝宝或邻居，全靠 ${b} ${m}`,
+    category: "spec_power",
+    angleLabel: "Acoustique 60 dB",
+    targetAudience: "Vie en appartement・Parents",
+  },
+  {
+    pattern: (b, m) => `Recharge murale gain de place + autonomie 50 min : le ${b} ${m} est toujours prêt à l'emploi`,
+    patternZh: (b, m) => `壁挂省空间充电底座 + 50 分钟长续航：${b} ${m} 随取随吸永远满电待命`,
+    category: "spec_power",
+    angleLabel: "Station charge & endurance",
+    targetAudience: "Petits espaces・Studios",
+  },
+
+  // 6. Secret Hack & Price Comparison (Alternative maline, CleanTok hacks)
+  {
+    pattern: (b, m) => `Pourquoi payer 600 € pour une grande marque quand le ${b} ${m} offre lumière verte + bras pliable ?`,
+    patternZh: (b, m) => `何必花 600 欧元买溢价大牌？${b} ${m} 同样拥有绿光显尘还自带免弯腰折叠臂！`,
+    category: "secret_hack",
+    angleLabel: "Alternative maline aux grandes marques",
+    targetAudience: "Chasseurs de bons plans FR",
+  },
+  {
+    pattern: (b, m) => `L'astuce CleanTok qui fait gagner 20 minutes par jour : le tube pliable + LED verte du ${b} ${m}`,
+    patternZh: (b, m) => `法国 CleanTok 博主每天省下 20 分钟的私藏秘诀：${b} ${m} 折叠臂配绿光显尘`,
+    category: "secret_hack",
+    angleLabel: "Astuce CleanTok virale",
+    targetAudience: "Communauté #CleanTok",
+  },
+  {
+    pattern: (b, m) => `Le secret pour garder un canapé sans poils de chien ni miettes en 60 secondes : le mode main ${b} ${m}`,
+    patternZh: (b, m) => `60 秒让布艺沙发告别狗毛与零食碎屑的秘密：切换 ${b} ${m} 轻便手持模式`,
+    category: "secret_hack",
+    angleLabel: "Hack canapé & poils d'animaux",
+    targetAudience: "Propriétaires d'animaux",
+  },
+  {
+    pattern: (b, m) => `Ne nettoyez plus jamais dans le noir : le test choc de la lumière verte 2.0 du ${b} ${m}`,
+    patternZh: (b, m) => `别再凭感觉盲吸地板了：${b} ${m} 绿光显尘 2.0 关灯实测画面太震撼`,
+    category: "secret_hack",
+    angleLabel: "Test choc lumière éteinte",
+    targetAudience: "Curieux・Acheteurs TikTok",
+  },
+  {
+    pattern: (b, m) => `La pépite TikTok Shop que toutes les mamans recommandent pour préserver leur dos : ${b} ${m}`,
+    patternZh: (b, m) => `法区宝妈圈疯传的护腰清洁宝藏单品：${b} ${m} 免弯腰折叠无线吸尘器`,
+    category: "secret_hack",
+    angleLabel: "Pépite recommandée",
+    targetAudience: "Mamans・Foyers actifs",
+  },
+  {
+    pattern: (b, m) => `Intérieur de voiture nickel sans payer la station de lavage : mon hack 7-en-1 avec le ${b} ${m}`,
+    patternZh: (b, m) => `不用花钱去洗车店也能把车厢缝隙吸得一尘不染：我的 ${b} ${m} 7 合 1 车居两用技巧`,
+    category: "secret_hack",
+    angleLabel: "Hack nettoyage voiture",
+    targetAudience: "Conducteurs・Familles",
+  },
+
+  // 7. Interactive Questions (Engagement & Débat)
+  {
+    pattern: (b, m) => `Vous vous baissez encore pour aspirer sous le canapé en 2026 ? Regardez le ${b} ${m} en action !`,
+    patternZh: (b, m) => `2026 年了清扫沙发底你还在弯腰趴地上吗？快看看 ${b} ${m} 的折叠臂实战演示！`,
+    category: "question",
+    angleLabel: "Question douleur au dos",
+    targetAudience: "Engagement large",
+  },
+  {
+    pattern: (b, m) => `Sauriez-vous deviner toute la poussière invisible sur votre parquet ? Testons la lumière verte du ${b} ${m}`,
+    patternZh: (b, m) => `你敢猜猜看着干净的木地板上藏了多少微尘吗？用 ${b} ${m} 绿光实测给你看`,
+    category: "question",
+    angleLabel: "Défi poussière invisible",
+    targetAudience: "Curieux・CleanTok",
+  },
+  {
+    pattern: (b, m) => `Plutôt aspirateur filaire lourd ou ${b} ${m} sans fil de 1,4 kg qui se plie tout seul ?`,
+    patternZh: (b, m) => `笨重老式有线吸尘器，还是仅 1.4kg 且能一键折叠的 ${b} ${m}？你会选哪款？`,
+    category: "question",
+    angleLabel: "Débat filaire vs sans fil",
+    targetAudience: "Communauté maison",
+  },
+  {
+    pattern: (b, m) => `Un aspirateur 50 kPa avec lumière verte vaut-il vraiment les modèles à 600 € ? Mon avis sur ${b} ${m}`,
+    patternZh: (b, m) => `50 kPa 吸力加绿光显尘真的能平替 600 欧元大牌吗？${b} ${m} 真实测评见分晓`,
+    category: "question",
+    angleLabel: "Comparatif prix/perf",
+    targetAudience: "Acheteurs comparatifs",
+  },
+  {
+    pattern: (b, m) => `Qui d'autre adore voir la poussière disparaître sous la lumière verte ? Satisfaction 100 % avec ${b} ${m}`,
+    patternZh: (b, m) => `还有谁跟我一样超爱看绿光照出的微尘瞬间被吸光？${b} ${m} 强迫症极度舒适`,
+    category: "question",
+    angleLabel: "Satisfaction ASMR",
+    targetAudience: "Fans de vidéos satisfaisantes",
+  },
+  {
+    pattern: (b, m) => `Quelle pièce est la plus galère à aspirer chez vous ? Le ${b} ${m} 7-en-1 relève le défi !`,
+    patternZh: (b, m) => `你家里哪个房间最难打扫？评论区告诉我，让 7 合 1 的 ${b} ${m} 来挑战！`,
+    category: "question",
+    angleLabel: "Interaction commentaires",
+    targetAudience: "Audience TikTok FR",
+  },
+];
+
+const V18PRO_PREFIX_PAIRS_FR: [string, string][] = [
+  ["Incroyable !", "【太不可思议了】"],
+  ["Alerte pépite !", "【宝藏爆款预警】"],
+  ["Zéro mal de dos !", "【彻底护腰免弯腰】"],
+  ["Regardez ça !", "【快看这效果】"],
+  ["【Astuce CleanTok】", "【法国CleanTok神技】"],
+  ["【Test Réel】", "【真实上手实测】"],
+  ["【Ultra-léger 1,4 kg】", "【1.4kg羽量轻巧】"],
+  ["【Lumière Verte 2.0】", "【绿光显尘2.0】"],
+  ["Coup de cœur !", "【年度心动好物】"],
+  ["Fini la corvée !", "【告别家务苦差事】"],
+];
+
+const V18PRO_SUFFIX_PAIRS_FR: [string, string][] = [
+  [" – votre sol n'a jamais été aussi propre !", "，家里地板从来没这么一尘不染过！"],
+  [" – le ménage devient enfin un plaisir !", "，做家务打扫从此变成解压享受！"],
+  [" – vous ne toucherez plus à votre vieil aspirateur !", "，用过它直接彻底淘汰老式吸尘器！"],
+  [" – le meilleur bon plan maison 2026 !", "，堪称 2026 年最超值家居升级！"],
+  [" – l'effet lumière verte est bluffant !", "，绿光显尘效果绝对让你大开眼界！"],
+];
+
 export function generateV18proAlgorithmicTitles(
   category: AngleCategory = "all_mixed",
   customKeyword?: string,
@@ -438,15 +764,32 @@ export function generateV18proAlgorithmicTitles(
   const brand = "DyMona";
   const model = "V18 PRO";
   const isGerman = language === "de";
+  const isFrench = language === "fr";
 
-  const defaultTags = isGerman ? V18PRO_FIXED_TAGS_DE : V18PRO_FIXED_TAGS_ES;
+  const defaultTags = isFrench
+    ? V18PRO_FIXED_TAGS_FR
+    : isGerman
+    ? V18PRO_FIXED_TAGS_DE
+    : V18PRO_FIXED_TAGS_ES;
   const activeTags = (customTags && customTags.trim()) ? customTags.trim() : defaultTags;
   const results: GeneratedTitle[] = [];
   const seenHooks = new Set<string>();
 
-  const baseTemplates = isGerman ? V18PRO_HOOK_TEMPLATES_DE : V18PRO_HOOK_TEMPLATES_ES;
-  const prefixPairs = isGerman ? V18PRO_PREFIX_PAIRS_DE : V18PRO_PREFIX_PAIRS_ES;
-  const suffixPairs = isGerman ? V18PRO_SUFFIX_PAIRS_DE : V18PRO_SUFFIX_PAIRS_ES;
+  const baseTemplates = isFrench
+    ? V18PRO_HOOK_TEMPLATES_FR
+    : isGerman
+    ? V18PRO_HOOK_TEMPLATES_DE
+    : V18PRO_HOOK_TEMPLATES_ES;
+  const prefixPairs = isFrench
+    ? V18PRO_PREFIX_PAIRS_FR
+    : isGerman
+    ? V18PRO_PREFIX_PAIRS_DE
+    : V18PRO_PREFIX_PAIRS_ES;
+  const suffixPairs = isFrench
+    ? V18PRO_SUFFIX_PAIRS_FR
+    : isGerman
+    ? V18PRO_SUFFIX_PAIRS_DE
+    : V18PRO_SUFFIX_PAIRS_ES;
 
   // Filter templates by category
   let pool = baseTemplates.filter(

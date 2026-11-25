@@ -92,6 +92,9 @@ export function getDefaultTagsForProduct(productId: string = "rec10", language: 
       : "#FOSMET #T40 #españa #Niños #relojinteligente";
   }
   if (productId === "v18pro") {
+    if (language === "fr") {
+      return "#DyMona #V18PRO #aspirateur #menage #astucemenage #tiktokshop";
+    }
     return language === "de"
       ? "#DyMona #V18PRO #staubsauger #haushaltshelfer #putztipps #tiktokshop"
       : "#DyMona #V18PRO #aspiradora #limpiezahogar #tiktokshop #hogarlimpio";
@@ -112,7 +115,9 @@ export function getDefaultTagsForProduct(productId: string = "rec10", language: 
       : "#FOSMET #G58 #RelojInteligente #ModaFemenina #SaludMujer";
   }
   if (productId === "i228") {
-    return "#FOSMET #I228 #Salud de la mujer #Atuendo #reloj inteligente";
+    return language === "de"
+      ? "#FOSMET #I228 #Frauengesundheit #Outfit #Smartwatch"
+      : "#FOSMET #I228 #Salud de la mujer #Atuendo #reloj inteligente";
   }
   if (productId === "fos10") {
     return "#FOSMET #FOS10 #スマートウォッチ #スマートバンド #レディース時計";

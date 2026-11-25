@@ -128,6 +128,17 @@ const I228_CATEGORIES_ES: { id: AngleCategory; label: string; desc: string; icon
   { id: "question", label: "互动共鸣・女性话题引流", desc: "「能精准测经期、换双表带的神仙手表你心动了吗？」激发热烈讨论", icon: "💬" },
 ];
 
+const I228_CATEGORIES_DE: { id: AngleCategory; label: string; desc: string; icon: string }[] = [
+  { id: "all_mixed", label: "Goldener Schnitt (Empfohlen)", desc: "1,27\" 390×390 HD / Frauengesundheit & Zyklus / Milanese & Silikon / BT 5.3 Calls", icon: "✨" },
+  { id: "pain_point", label: "Schmerzpunkt & Eleganz", desc: "Schluss mit klobigen Sportuhren – Schmuck-Ästhetik abgestimmt auf feminine Outfits", icon: "🎯" },
+  { id: "gadget", label: "1,27\" HD & 98% Screen-Ratio", desc: "390×390 Auflösung / Anti-Fingerprint-Glas / Federleichtes Damen-Design", icon: "💎" },
+  { id: "ai_power", label: "Frauengesundheit & Zyklus", desc: "Periode, Eisprung, sichere Tage & Schwangerschaft mit diskreten Erinnerungen", icon: "🌸" },
+  { id: "efficiency", label: "Milanese- & Silikonband", desc: "Edler Milanese-Look fürs Büro + weiches Silikon fürs Gym & 120+ Sportmodi", icon: "👗" },
+  { id: "spec_power", label: "Bluetooth 5.3 Calls & IP68", desc: "HD-Anrufe, 100 Kontakte & Ziffernblock am Handgelenk / 24/7 Puls, SpO₂ & Schlaf", icon: "📞" },
+  { id: "secret_hack", label: "Fashion-Geheimtipp für Frauen", desc: "Edler Luxus-Look zum fairen Preis – Styling-Hack & Kamera-Fernauslöser für OOTD", icon: "🤫" },
+  { id: "question", label: "Community & Style-Diskussion", desc: "Team Milanese oder Team Silikon? Welcher Look passt besser zu deinem Outfit?", icon: "💬" },
+];
+
 const G58_CATEGORIES_DE: { id: AngleCategory; label: string; desc: string; icon: string }[] = [
   { id: "all_mixed", label: "Goldener Schnitt (Empfohlen)", desc: "1,27\" HD Touchscreen / Zyklus- & Schwangerschaftstracker / Milanese & Silikon / BT-Calls", icon: "✨" },
   { id: "pain_point", label: "Schmerzpunkt & Eleganz", desc: "Schluss mit klobigen Smartwatches – Perfekt abgestimmt auf feminine Outfits", icon: "🎯" },
@@ -227,6 +238,17 @@ const V18PRO_CATEGORIES_DE: { id: AngleCategory; label: string; desc: string; ic
   { id: "question", label: "Community & Video-Diskussion", desc: "„Bückst du dich noch beim Putzen? Grünes Licht im Test“ – Starker Diskussions-Hook für TikTok", icon: "💬" },
 ];
 
+const V18PRO_CATEGORIES_FR: { id: AngleCategory; label: string; desc: string; icon: string }[] = [
+  { id: "all_mixed", label: "Mix Viral Optimal (Recommandé)", desc: "Moteur 650W / 50 kPa / Bras pliable 65cm / Lumière verte 2.0 / Filtration 7 étapes / 1,4kg", icon: "✨" },
+  { id: "pain_point", label: "Douleur au dos & Bras pliable", desc: "Fini de se baisser sous le lit ou le canapé – Tube pliable 65cm & brosse bord 0mm", icon: "🎯" },
+  { id: "gadget", label: "Bras 65cm ✕ Parking 90°", desc: "Tube métallique articulé en 1 clic, tient debout à 90° sans percer + station murale", icon: "💎" },
+  { id: "efficiency", label: "Lumière Verte 2.0 ✕ 50 min", desc: "LED verte 135° / portée 300cm révélant la poussière invisible, ménage 2x plus rapide", icon: "⚡" },
+  { id: "ai_power", label: "Filtration 7 étapes ✕ 99,99%", desc: "Système hermétique capturant 99,99% des particules 0,3 µm pour un air pur sain", icon: "🛡️" },
+  { id: "spec_power", label: "650W ✕ 50 kPa ✕ 60 dB Silencieux", desc: "Puissance cyclonique 50 kPa ultra silencieuse à 60 dB pour animaux & bébés, 3 modes LED", icon: "📊" },
+  { id: "secret_hack", label: "1,4 kg Plume ✕ Kit 7-en-1", desc: "Ultra-léger d'une main pour plafonds, rideaux et voiture – l'astuce CleanTok imbattable", icon: "🤫" },
+  { id: "question", label: "Débat & Engagement CleanTok", desc: "« Vous vous baissez encore pour aspirer sous le canapé ? » – Fort taux de commentaires FR", icon: "💬" },
+];
+
 const V17MAX_CATEGORIES_DE: { id: AngleCategory; label: string; desc: string; icon: string }[] = [
   { id: "all_mixed", label: "Goldener Schnitt (Empfohlen)", desc: "58 kPa Monster-Saugleistung / 150min Dual-Akku / 500m² Abdeckung / 25,5cm V-Bürste / 2L XXL 均衡输出", icon: "✨" },
   { id: "pain_point", label: "Schmerzpunkt: Großraum & Akku", desc: "Schluss mit ständigem Nachladen & Mülleimer-Entleeren bei 500m² Maisonette-Wohnungen", icon: "🎯" },
@@ -303,7 +325,9 @@ const TAG_SUGGESTIONS: Record<string, string[]> = {
 
 const KT80_GERMAN_SUGGESTIONS = ["smartwatch", "outdooruhr", "überleben", "taschenlampe", "technik2025", "männergeschenke", "FOSMET"];
 const G58_GERMAN_SUGGESTIONS = ["smartwatchdamen", "damenuhr", "frauengesundheit", "frauenmode", "geschenkidee", "eleganterlook", "FOSMET"];
+const I228_GERMAN_SUGGESTIONS = ["Frauengesundheit", "Outfit", "Smartwatch", "Damenuhr", "Zyklustracker", "Geschenkidee", "FOSMET", "I228"];
 const V18PRO_GERMAN_SUGGESTIONS = ["staubsauger", "haushaltshelfer", "putztipps", "putzroutine", "klapparm", "DyMona"];
+const V18PRO_FRENCH_SUGGESTIONS = ["aspirateur", "menage", "astucemenage", "cleantok", "maisonpropre", "tiktokshop", "DyMona"];
 const V17MAX_SPANISH_SUGGESTIONS = ["aspiradora", "hogargrande", "limpiezahogar", "mascotas", "tiktokshop", "DyMona"];
 const T40_GERMAN_SUGGESTIONS = ["Kinder", "Kindersicherheit", "SmartwatchKinder", "ElternTipp", "Schulkind", "FOSMET", "T40"];
 
@@ -326,9 +350,10 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   const isV17max = currentProductId === "v17max";
   const isT40 = currentProductId === "t40";
   const isC32pro = currentProductId === "c32pro";
-  const isMultilingual = isKt80 || isG58 || isV18pro || isV17max || isT40 || isC32pro;
+  const isMultilingual = isKt80 || isG58 || isI228 || isV18pro || isV17max || isT40 || isC32pro;
   const isGerman = currentLang === "de";
   const isSpanish = currentLang === "es";
+  const isFrench = currentLang === "fr";
 
   const isE12 = currentProductId === "e12";
   const isE05 = currentProductId === "e05";
@@ -347,11 +372,11 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   } else if (isC32pro) {
     categories = isGerman ? KT80_CATEGORIES_DE : KT80_CATEGORIES_ES;
   } else if (isV18pro) {
-    categories = isGerman ? V18PRO_CATEGORIES_DE : V18PRO_CATEGORIES_ES;
+    categories = isFrench ? V18PRO_CATEGORIES_FR : isGerman ? V18PRO_CATEGORIES_DE : V18PRO_CATEGORIES_ES;
   } else if (isV17max) {
     categories = isSpanish ? V17MAX_CATEGORIES_ES : V17MAX_CATEGORIES_DE;
   } else if (isI228) {
-    categories = I228_CATEGORIES_ES;
+    categories = isGerman ? I228_CATEGORIES_DE : I228_CATEGORIES_ES;
   } else if (isFos10) categories = FOS10_CATEGORIES;
   else if (isG2) categories = G2_CATEGORIES;
   else if (isE09) categories = E09_CATEGORIES;
@@ -505,7 +530,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
     if (isV17max) return "text-amber-400";
     if (isFos10) return "text-teal-400";
     if (isG2) return "text-purple-400";
-    if (isG58) return "text-pink-400";
+    if (isG58 || isI228) return "text-pink-400";
     if (isE09) return "text-sky-400";
     if (isE09B) return "text-cyan-400";
     if (isE05) return "text-rose-400";
@@ -520,9 +545,11 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   const currentSuggestions = isT40
     ? (isGerman ? T40_GERMAN_SUGGESTIONS : TAG_SUGGESTIONS.t40)
     : isV18pro
-    ? (isGerman ? V18PRO_GERMAN_SUGGESTIONS : TAG_SUGGESTIONS.v18pro)
+    ? (isFrench ? V18PRO_FRENCH_SUGGESTIONS : isGerman ? V18PRO_GERMAN_SUGGESTIONS : TAG_SUGGESTIONS.v18pro)
     : isV17max
     ? (isSpanish ? V17MAX_SPANISH_SUGGESTIONS : TAG_SUGGESTIONS.v17max)
+    : isI228
+    ? (isGerman ? I228_GERMAN_SUGGESTIONS : TAG_SUGGESTIONS.i228)
     : isG58
     ? (isGerman ? G58_GERMAN_SUGGESTIONS : TAG_SUGGESTIONS.g58)
     : isKt80
@@ -642,7 +669,11 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
       case "t40":
         return ["防走丢GPS双频", "亲子高清视讯", "上课防沉迷禁用", "一键SOS报警", "班级朋友圈交友"];
       case "v18pro":
-        return ["折叠免弯腰打扫", "28000Pa飓风吸力", "深层除螨99%", "单手极轻握持", "毛发零缠绕"];
+        return isFrench
+          ? ["Bras pliable 65cm", "Lumière Verte 2.0", "50 kPa / 650W", "Ultra-léger 1,4 kg", "Silencieux 60 dB"]
+          : isGerman
+          ? ["65cm Klapparm", "Grünes Licht 2.0", "50 kPa / 650W", "1,4 kg Federleicht", "60 dB Flüsterleise"]
+          : ["折叠免弯腰65cm", "绿光显尘2.0", "50kPa飓风吸力", "1.4kg羽量单手", "60dB静音7合1"];
       case "v17max":
         return ["200平大户型续航", "智能灰尘感应", "绿光显尘黑科技", "干湿全地形清洁"];
       case "rec10":
@@ -667,6 +698,10 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
         return ["半框轻奢智能镜", "AI看图识物", "多语实时翻译", "极轻45g佩戴", "SONY 800万POV录像"];
       case "g58":
         return ["1.27\"通透高清屏", "女生专属生理期追踪", "米兰尼斯轻奢双表带", "高颜值穿搭神器"];
+      case "i228":
+        return isGerman
+          ? ["Frauengesundheit & Zyklus", "Milanese & Silikonband", "1,27\" 390×390 HD", "Bluetooth 5.3 Calls", "120+ Sportmodi"]
+          : ["Salud de la mujer", "Doble correa Milanesa", "Pantalla 1.27\" HD 98%", "Llamadas Bluetooth 5.3", "120+ deportes IP68"];
       case "g2":
         return ["女性生理期守护", "睡眠深度精准监测", "100+时尚表盘", "轻盈百搭高颜值"];
       case "fos10":
@@ -809,6 +844,20 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
               >
                 🇩🇪 德语 (DE)
               </button>
+              {isV18pro && (
+                <button
+                  type="button"
+                  id="btn-lang-fr"
+                  onClick={() => handleLanguageChange("fr")}
+                  className={`px-3.5 py-1.5 rounded-[14px] text-xs font-bold transition-all cursor-pointer ${
+                    currentLang === "fr"
+                      ? "bg-white text-black shadow-md"
+                      : "text-white/60 hover:text-white"
+                  }`}
+                >
+                  🇫🇷 法语 (FR)
+                </button>
+              )}
             </div>
           )}
 

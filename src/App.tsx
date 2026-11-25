@@ -183,12 +183,12 @@ export default function App() {
           const langLabel =
             targetProd === "r21" || activeParams.language === "en"
               ? "美式英语"
-              : targetProd === "kt80" || targetProd === "g58" || targetProd === "t40" || targetProd === "v18pro" || targetProd === "v17max" || targetProd === "c32pro"
+              : activeParams.language === "fr"
+              ? "法语"
+              : targetProd === "kt80" || targetProd === "g58" || targetProd === "i228" || targetProd === "t40" || targetProd === "v18pro" || targetProd === "v17max" || targetProd === "c32pro"
               ? activeParams.language === "de"
                 ? "德语"
                 : "西语"
-              : targetProd === "i228"
-              ? "西语"
               : "日语";
           const activeEngineLabel =
             result.source === "gemini_ai"
@@ -343,6 +343,11 @@ export default function App() {
         hookText = "【女性の健康】生理周期も睡眠も自動記録！FOSMET G2の120種運動と高見え文字盤が神すぎる";
       } else if (currentProductId === "g58") {
         hookText = "【FOSMET G58】¡El reloj inteligente femenino con pantalla 1.27\" HD, salud de la mujer y doble correa que revoluciona tu estilo!";
+      } else if (currentProductId === "i228") {
+        hookText =
+          params.language === "de"
+            ? "【FOSMET I228】Die elegante Damen-Smartwatch mit 1,27\" HD-Display, Frauengesundheit & Milanese-/Silikon-Doppelband!"
+            : "【FOSMET I228】¡El smartwatch femenino con pantalla 1.27\" 390×390 HD, salud de la mujer y doble correa que enamora!";
       } else if (currentProductId === "e09") {
         hookText = "【SONY 800万画素】目線そのままPOV動画撮影！FOSMET E09の40g極軽量ブルーライトカットメガネが神";
       } else if (currentProductId === "e09b") {
@@ -359,6 +364,13 @@ export default function App() {
         hookText = "【質問】手首にChatGPTついてたら何聞く？FOSMET QS40の音声AIが秒速回答で超便利";
       } else if (currentProductId === "c32pro") {
         hookText = "【FOSMET C32PRO】GPS multi-satelital, drenaje sónico y brújula táctica: ¡el reloj outdoor definitivo!";
+      } else if (currentProductId === "v18pro") {
+        hookText =
+          params.language === "fr"
+            ? "【DyMona V18 PRO】Marre de vous casser le dos sous le canapé ? Bras pliable 65 cm, lumière verte 2.0 et 50 kPa dans seulement 1,4 kg !"
+            : params.language === "de"
+            ? "【DyMona V18 PRO】Nie wieder bücken unter Sofa & Bett! 65cm Klapparm, grünes Licht 2.0 & 50 kPa in nur 1,4 kg!"
+            : "【DyMona V18 PRO】¿Cansado de agacharte bajo el sofá? Brazo plegable 65cm, luz verde 2.0 y 50 kPa en solo 1.4 kg.";
       } else if (currentProductId === "r21") {
         hookText = "Stop paying monthly fees for your own sleep data! Meet the weightless FOSMET R21 Smart Ring with a 100% FREE lifetime App.";
       }

@@ -200,10 +200,8 @@ export const Header: React.FC<HeaderProps> = ({
     if (currentProductId === "r21" || currentLanguage === "en") {
       return "TikTok 美区英文营销";
     }
-    if (currentProductId === "i228") {
-      return "TikTok 西语区营销";
-    }
-    if (currentProductId === "t40" || currentProductId === "v18pro" || currentProductId === "v17max" || currentProductId === "kt80" || currentProductId === "g58" || currentProductId === "c32pro") {
+    if (currentProductId === "t40" || currentProductId === "v18pro" || currentProductId === "v17max" || currentProductId === "kt80" || currentProductId === "g58" || currentProductId === "i228" || currentProductId === "c32pro") {
+      if (currentLanguage === "fr") return "TikTok 法语区营销";
       return currentLanguage === "de" ? "TikTok 德语区营销" : "TikTok 西语区营销";
     }
     return "TikTok 日本区矩阵";

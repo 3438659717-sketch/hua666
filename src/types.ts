@@ -1,6 +1,6 @@
 export type ProductId = "rec10" | "qs40" | "t20" | "kt80" | "e12" | "e05" | "e09" | "e09b" | "g58" | "g2" | "fos10" | "i228" | "v18pro" | "v17max" | "t40" | "c32pro" | "r21";
 
-export type TargetLanguage = "ja" | "es" | "de" | "en";
+export type TargetLanguage = "ja" | "es" | "de" | "en" | "fr";
 
 export type AngleCategory =
   | "all_mixed"

@@ -550,6 +550,54 @@ export const PRODUCT_RADAR_DATA: Record<ProductId, Partial<Record<TargetLanguage
         },
       ],
     },
+    fr: {
+      productId: "v18pro",
+      language: "fr",
+      productName: "DyMona V18 PRO Aspirateur sans Fil Pliable",
+      updatedAt: "2026-11-25T08:30:00Z",
+      hotwords: [
+        {
+          word: "Lumière Verte 2.0 (135°/300cm)",
+          category: "gadget",
+          growthRate: "+560%",
+          heatScore: 100,
+          sampleHook: "Vous pensiez votre sol propre ? La lumière verte du DyMona V18 PRO révèle toute la poussière invisible !",
+          suggestedPrompt: "Effet choc CleanTok : sol sombre illuminé en vert pour un avant/après satisfaisant",
+        },
+        {
+          word: "Tube Pliable 65cm Zéro Mal de Dos",
+          category: "pain_point",
+          growthRate: "+420%",
+          heatScore: 97,
+          sampleHook: "Fini de se casser le dos sous le canapé ! Un clic et le bras du DyMona V18 PRO se plie à 90°.",
+          suggestedPrompt: "Soulager le dos sous les lits et meubles bas sans jamais déplacer le canapé",
+        },
+        {
+          word: "Ultra-léger 1,4 kg & 50 kPa",
+          category: "spec",
+          growthRate: "+345%",
+          heatScore: 94,
+          sampleHook: "Seulement 1,4 kg, 60 dB silencieux et 50 kPa de puissance : l'alternative maline aux modèles à 600 €.",
+          suggestedPrompt: "Mettre en avant la légèreté d'une main, le silence pour animaux et le rapport qualité-prix",
+        },
+      ],
+      hashtags: [
+        { tag: "#DyMona", postsCount: "2.4M", growth: "+52.0%", relevance: 100, isCore: true },
+        { tag: "#V18PRO", postsCount: "890K", growth: "+84.5%", relevance: 100, isCore: true },
+        { tag: "#aspirateur", postsCount: "46.2M", growth: "+24.1%", relevance: 100, isCore: true },
+        { tag: "#menage", postsCount: "89.4M", growth: "+31.0%", relevance: 100, isCore: true },
+        { tag: "#astucemenage", postsCount: "51.8M", growth: "+39.6%", relevance: 100, isCore: true },
+        { tag: "#tiktokshop", postsCount: "140M", growth: "+45.0%", relevance: 100, isCore: true },
+      ],
+      topCompetitorAngles: [
+        {
+          competitor: "Dyson V12 / V15 (600€+)",
+          hookPattern: "Comparaison choc de la lumière laser verte et du prix",
+          viewBenchmark: "1.6M+",
+          ourCounterHook: "Pourquoi payer 600 € pour une lumière verte ? DyMona V18 PRO a 50 kPa + le bras pliable anti-mal de dos !",
+        },
+      ],
+    },
     ja: {
       productId: "v18pro",
       language: "ja",
@@ -697,7 +745,102 @@ export const PRODUCT_RADAR_DATA: Record<ProductId, Partial<Record<TargetLanguage
   g58: generateGenericRadar("g58", "FOSMET G58 女性向けスマートウォッチ"),
   g2: generateGenericRadar("g2", "FOSMET G2 女性健康スマートウォッチ"),
   fos10: generateGenericRadar("fos10", "FOSMET FOS10 14.9g超軽量スマートウォッチ"),
-  i228: generateGenericRadar("i228", "FOSMET I228 ファッションスマートウォッチ"),
+  i228: {
+    es: {
+      productId: "i228",
+      language: "es",
+      productName: "FOSMET I228 Reloj Inteligente Femenino",
+      updatedAt: "2026-11-19T08:30:00Z",
+      hotwords: [
+        {
+          word: "Salud de la mujer & Ciclo",
+          category: "ai_power",
+          growthRate: "+380%",
+          heatScore: 97,
+          sampleHook: "¿Siempre olvidas tu ciclo? FOSMET I228 controla periodo, ovulación y sueño 24/7 con elegancia.",
+          suggestedPrompt: "Destacar seguimiento menstrual, ovulación y embarazo pensado para mujeres",
+        },
+        {
+          word: "Doble correa Milanesa + Silicona",
+          category: "scene",
+          growthRate: "+320%",
+          heatScore: 94,
+          sampleHook: "Del gimnasio a una cena elegante en 5 segundos gracias a la doble correa de FOSMET I228.",
+          suggestedPrompt: "Mostrar cambio rápido entre oficina/outfit elegante y deporte",
+        },
+        {
+          word: "Pantalla 1.27\" HD 98% sin bordes",
+          category: "spec",
+          growthRate: "+265%",
+          heatScore: 90,
+          sampleHook: "Adiós relojes toscos: 390×390 HD y llamadas Bluetooth 5.3 en un diseño tipo joya.",
+          suggestedPrompt: "Resaltar finura estética, llamadas desde la muñeca e IP68",
+        },
+      ],
+      hashtags: [
+        { tag: "#FOSMET", postsCount: "3.2M", growth: "+26.1%", relevance: 100, isCore: true },
+        { tag: "#I228", postsCount: "740K", growth: "+54.0%", relevance: 100, isCore: true },
+        { tag: "#Salud de la mujer", postsCount: "21.4M", growth: "+32.0%", relevance: 98, isCore: true },
+        { tag: "#Atuendo", postsCount: "18.5M", growth: "+22.0%", relevance: 95, isCore: true },
+        { tag: "#reloj inteligente", postsCount: "42.0M", growth: "+19.0%", relevance: 95, isCore: true },
+      ],
+      topCompetitorAngles: [
+        {
+          competitor: "Smartwatches deportivas voluminosas",
+          hookPattern: "Relojes grandes que arruinan cualquier outfit femenino",
+          viewBenchmark: "710K+",
+          ourCounterHook: "Elegancia de joya + 120+ deportes + doble correa: FOSMET I228 lo combina todo.",
+        },
+      ],
+    },
+    de: {
+      productId: "i228",
+      language: "de",
+      productName: "FOSMET I228 Damen-Smartwatch",
+      updatedAt: "2026-11-19T08:30:00Z",
+      hotwords: [
+        {
+          word: "Frauengesundheit & Zyklus-Tracker",
+          category: "ai_power",
+          growthRate: "+395%",
+          heatScore: 97,
+          sampleHook: "Zyklus, Eisprung & Tiefschlaf immer diskret im Blick – die elegante FOSMET I228 Damen-Smartwatch.",
+          suggestedPrompt: "Fokus auf Frauengesundheit, Zykluserinnerung und 24/7 SpO2/Puls-Tracking",
+        },
+        {
+          word: "Milanese & Silikon Doppel-Armband",
+          category: "scene",
+          growthRate: "+330%",
+          heatScore: 94,
+          sampleHook: "Vom Büro ins Gym in 5 Sekunden: Mit Milanese- & Silikonband passt FOSMET I228 zu jedem Outfit.",
+          suggestedPrompt: "OOTD-Styling-Übergang zwischen edlem Schmuck-Look und 120+ Sportmodi",
+        },
+        {
+          word: "1,27\" 390×390 HD & Bluetooth 5.3 Calls",
+          category: "spec",
+          growthRate: "+270%",
+          heatScore: 91,
+          sampleHook: "98 % Displayfläche, gehärtetes Anti-Fingerprint-Glas & HD-Telefonate direkt am Handgelenk.",
+          suggestedPrompt: "Deutsche Wertschätzung für Display-Schärfe, Verarbeitung & IP68 Schutz",
+        },
+      ],
+      hashtags: [
+        { tag: "#FOSMET", postsCount: "2.1M", growth: "+21.4%", relevance: 100, isCore: true },
+        { tag: "#I228", postsCount: "540K", growth: "+49.0%", relevance: 100, isCore: true },
+        { tag: "#Frauengesundheit", postsCount: "14.8M", growth: "+37.5%", relevance: 99, isCore: true },
+        { tag: "#Outfit", postsCount: "68.2M", growth: "+25.0%", relevance: 96, isCore: true },
+        { tag: "#Smartwatch", postsCount: "26.5M", growth: "+16.0%", relevance: 96, isCore: true },
+      ],
+      topCompetitorAngles: [
+        {
+          competitor: "Klobige Unisex-Sportuhren (250 €+)",
+          hookPattern: "Zu groß für schmale Damenhandgelenke und unpassend zu Kleidern",
+          viewBenchmark: "640K+",
+          ourCounterHook: "Schmuck-Ästhetik mit 1,27\" 98% HD-Screen, Zyklus-Tracker & 2 Armbändern: FOSMET I228.",
+        },
+      ],
+    },
+  },
   t40: generateGenericRadar("t40", "FOSMET T40 キッズスマートウォッチ"),
   c32pro: generateGenericRadar("c32pro", "FOSMET C32PRO アウトドアスマートウォッチ"),
   r21: {
@@ -954,5 +1097,5 @@ function generateGenericRadar(productId: ProductId, productName: string): Partia
 
 export function getCompetitorRadar(productId: ProductId, language: TargetLanguage = "ja"): CompetitorRadarData {
   const productRadars = PRODUCT_RADAR_DATA[productId] || PRODUCT_RADAR_DATA.rec10;
-  return productRadars[language] || productRadars.en || productRadars.ja || productRadars.es || productRadars.de!;
+  return productRadars[language] || productRadars.fr || productRadars.en || productRadars.ja || productRadars.es || productRadars.de!;
 }

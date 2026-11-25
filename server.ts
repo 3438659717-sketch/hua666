@@ -17,7 +17,8 @@ const KT80_SPANISH_HASHTAGS = "#FOSMET #KT80 #reloj inteligente #Relojes para ex
 const KT80_GERMAN_HASHTAGS = "#FOSMET #KT80 #Smartwatch #Outdoor Smartwatch #Werkzeug";
 const G58_SPANISH_HASHTAGS = "#FOSMET #G58 #reloj inteligente #Atuendo #Salud de la mujer";
 const G58_GERMAN_HASHTAGS = "#FOSMET #G58 #Smartwatch #Outfit #Frauengesundheit";
-const I228_HASHTAGS = "#FOSMET #I228 #Salud de la mujer #Atuendo #reloj inteligente";
+const I228_SPANISH_HASHTAGS = "#FOSMET #I228 #Salud de la mujer #Atuendo #reloj inteligente";
+const I228_GERMAN_HASHTAGS = "#FOSMET #I228 #Frauengesundheit #Outfit #Smartwatch";
 const E12_HASHTAGS = "#FOSMET #E12 #Bluetoothヘッドホン #デイリーレコード #AIイヤホン";
 const E05_HASHTAGS = "#FOSMET #E05 #スマートグラス #服装 #イヤホン";
 const E09_HASHTAGS = "#FOSMET #E09 #スマートグラス #服装 #デイリーレコード";
@@ -25,6 +26,7 @@ const G2_HASHTAGS = "#FOSMET #G2 #女性の健康 #スマートウォッチ #服
 const FOS10_HASHTAGS = "#FOSMET #FOS10 #女性の健康 #スマートウォッチ #ポータブル";
 const V18PRO_SPANISH_HASHTAGS = "#DyMona #V18PRO #aspiradora #limpiezahogar #tiktokshop #hogarlimpio";
 const V18PRO_GERMAN_HASHTAGS = "#DyMona #V18PRO #staubsauger #haushaltshelfer #putztipps #tiktokshop";
+const V18PRO_FRENCH_HASHTAGS = "#DyMona #V18PRO #aspirateur #menage #astucemenage #tiktokshop";
 const V17MAX_GERMAN_HASHTAGS = "#DyMona #V17MAX #staubsauger #putztipps #haushaltshelfer #tiktokshop";
 const V17MAX_SPANISH_HASHTAGS = "#DyMona #V17MAX #aspiradora #hogargrande #limpiezahogar #tiktokshop #mascotas";
 const T40_SPANISH_HASHTAGS = "#FOSMET #T40 #españa #Niños #relojinteligente";
@@ -193,7 +195,8 @@ async function startServer() {
       const isE05 = productId === "e05";
       const isE09 = productId === "e09";
       const isE09B = productId === "e09b";
-      const isGerman = (isKt80 || isG58 || isV18pro || isV17max || isT40 || isC32pro) && (language === "de" || (isV17max && language !== "es"));
+      const isGerman = (isKt80 || isG58 || isI228 || isV18pro || isV17max || isT40 || isC32pro) && (language === "de" || (isV17max && language !== "es"));
+      const isFrench = isV18pro && language === "fr";
 
       const targetBrand = isV18pro || isV17max ? "DyMona" : "FOSMET";
       const targetModel = isR21 ? "R21" : isT40 ? "T40" : isC32pro ? "C32PRO" : isV18pro ? "V18 PRO" : isV17max ? "V17 MAX" : isFos10 ? "FOS10" : isG2 ? "G2" : isG58 ? "G58" : isI228 ? "I228" : isE09B ? "E09B" : isE09 ? "E09" : isE05 ? "E05" : isE12 ? "E12" : isKt80 ? "KT80" : isT20 ? "T20" : isQs40 ? "QS40" : "REC10";
@@ -206,7 +209,7 @@ async function startServer() {
       } else if (isT40) {
         defaultHashtags = isGerman ? T40_GERMAN_HASHTAGS : T40_SPANISH_HASHTAGS;
       } else if (isV18pro) {
-        defaultHashtags = isGerman ? V18PRO_GERMAN_HASHTAGS : V18PRO_SPANISH_HASHTAGS;
+        defaultHashtags = isFrench ? V18PRO_FRENCH_HASHTAGS : isGerman ? V18PRO_GERMAN_HASHTAGS : V18PRO_SPANISH_HASHTAGS;
       } else if (isV17max) {
         defaultHashtags = isGerman ? V17MAX_GERMAN_HASHTAGS : V17MAX_SPANISH_HASHTAGS;
       } else if (isFos10) {
@@ -214,7 +217,7 @@ async function startServer() {
       } else if (isG2) {
         defaultHashtags = G2_HASHTAGS;
       } else if (isI228) {
-        defaultHashtags = I228_HASHTAGS;
+        defaultHashtags = isGerman ? I228_GERMAN_HASHTAGS : I228_SPANISH_HASHTAGS;
       } else if (isG58) {
         defaultHashtags = isGerman ? G58_GERMAN_HASHTAGS : G58_SPANISH_HASHTAGS;
       } else if (isE09 || isE09B) {
@@ -351,7 +354,45 @@ Tono: ${tone}
 Petición: Genera ${count} títulos virales en español para FOSMET T40 en TikTok que terminen en: ${targetHashtags}`;
         }
       } else if (isV18pro) {
-        if (isGerman) {
+        if (isFrench) {
+          categoryPromptMap = {
+            all_mixed: "Tube métallique pliable de 65 cm pour aspirer sans se baisser, lumière verte optique 2.0 (135° / 300 cm) révélant la poussière invisible, puissance d'aspiration 50 kPa avec moteur 650W, format ultra-léger 1,4 kg, filtration 7 étapes (99,99 %) et 50 min d'autonomie",
+            pain_point: "【Mal de dos & Poussière cachée】Marre de vous casser le dos sous le lit et le canapé ? Le tube pliable 65 cm passe sous tous les meubles bas sans effort et la brosse bord-à-bord 0 mm ne laisse aucune poussière",
+            efficiency: "【Puissance 50 kPa & 650W】Moteur brushless 650W aspirant poils d'animaux, miettes et poussières fines en un seul passage, jusqu'à 50 minutes d'autonomie en mode Éco",
+            gadget: "【Lumière Verte 2.0 & Parking 90°】LED verte grand angle 135° portée 300 cm pour un effet CleanTok saisissant, position debout autonome 90° et écran LED digital",
+            ai_power: "【Filtration 7 Étapes 99,99 %】Système cyclonique hermétique bloquant 99,99 % des microparticules jusqu'à 0,3 µm : air pur garanti pour les allergiques, bébés et animaux",
+            secret_hack: "【1,4 kg Plume & Kit 7-en-1】Aspirateur ultra-léger maniable d'une main pour plafonds, rideaux, canapé et voiture, l'alternative maline aux modèles à 600 €",
+            question: "【Débat & CleanTok】Vous vous baissez encore pour aspirer sous le canapé ? Sauriez-vous deviner la poussière invisible sur votre parquet sous la lumière verte ?",
+            spec_power: "【Fiche Technique Pro】Moteur 650W, 50 kPa, 1,4 kg, silencieux 60 dB, 50 min d'autonomie, kit 7-en-1, support mural avec recharge",
+          };
+
+          const selectedCategoryDesc = categoryPromptMap[category] || categoryPromptMap.all_mixed;
+
+          systemInstruction = `Tu es un directeur marketing TikTok Shop & e-commerce expert du marché français (France, Belgique, Suisse romande), spécialisé en #CleanTok et électroménager innovant.
+Crée des titres viraux et accroches (hooks) ultra-convertissants en français pour l'aspirateur balai sans fil pliable "DyMona V18 PRO".
+
+【Fiche Produit DyMona V18 PRO】:
+- Marque : DyMona | Modèle : V18 PRO
+- Bras pliable 65 cm : Tube métallique articulé en 1 clic, glisse sous les lits et canapés à 0 cm sans jamais se baisser ni se faire mal au dos
+- Puissance : Moteur brushless 650W avec aspiration cyclonique puissante de 50 kPa (50 000 Pa)
+- Lumière Verte 2.0 : Éclairage optique vert 135° grand angle avec portée de 300 cm révélant la poussière microscopique invisible à l'œil nu
+- Légèreté & Silence : Corps ultra-léger de seulement 1,4 kg maniable d'une main, fonctionnement silencieux à 60 dB (idéal animaux & appartements)
+- Filtration : 7 étapes de filtration hermétique capturant 99,99 % des particules fines jusqu'à 0,3 µm
+- Autonomie : Mode Éco 50 min, Mode Standard 30 min, Mode Turbo 20 min
+- Polyvalence : Kit 7-en-1 multi-brosses, écran digital LED intelligent, tient debout tout seul à 90° + support mural de recharge
+
+【Règles Strictes】:
+1. Chaque titre DOIT inclure naturellement "DyMona" et "V18 PRO".
+2. Rédige des hooks viraux en français authentique (45 à 85 caractères) dans l'esprit CleanTok (mal de dos évité, effet satisfaisant lumière verte, rapport qualité-prix face aux marques à 600 €).
+3. Chaque titre DOIT impérativement se terminer par exactement ces hashtags :
+   ${targetHashtags}
+4. Génère exactement ${count} titres uniques au format tableau JSON sans doublons.
+${customKeyword ? `※ Mot-clé obligatoire à intégrer dans certains titres : "${customKeyword}"` : ""}`;
+
+          userPrompt = `Catégorie : ${selectedCategoryDesc}
+Ton : ${tone}
+Mission : Crée ${count} titres TikTok viraux en français pour DyMona V18 PRO qui se terminent par les hashtags exacts : ${targetHashtags}`;
+        } else if (isGerman) {
           categoryPromptMap = {
             all_mixed: "65cm Klapparm gegen Bücken, grünes Staubsuchlicht 2.0 (135°/300cm), 50 kPa Monster-Saugleistung mit 650W Motor, 1,4kg ultraleicht, 7-fache Filtration (99,99%) und 50min Akkulaufzeit",
             pain_point: "【Schmerzpunkt: Bücken & unsichtbarer Staub】Schluss mit Rückenschmerzen beim Saugen unter Sofa & Bett! Der 65cm Knickarm gleitet mühelos bis ganz nach hinten, ohne dass du dich bücken musst",
@@ -587,20 +628,60 @@ Tono: ${tone}
 Petición: Genera 50 títulos virales en español para FOSMET G58 en TikTok que terminen en: ${targetHashtags}`;
         }
       } else if (isI228) {
-        categoryPromptMap = {
-          all_mixed: "Diseño elegante y femenino, pantalla táctil HD de 1.27\" 390×390 con 98% de ratio de pantalla, doble correa milanesa y silicona para cualquier atuendo, gestión completa del ciclo menstrual y salud de la mujer, llamadas Bluetooth 5.3, 120+ deportes e impermeabilidad IP68",
-          pain_point: "【Dolor y Estilo】Cansada de relojes inteligentes toscos que arruinan tu atuendo, olvidos del ciclo menstrual y ovulación, no escuchar llamadas en el bolso, gastar fortunas en marcas sin funciones",
-          efficiency: "【Salud de la Mujer y Llamadas HD】Gestión de periodo y ovulación, responder llamadas y mensajes en tu muñeca con Bluetooth 5.3, 120+ deportes, salud biométrica 24/7 (SpO2, ritmo cardíaco y fases del sueño)",
-          gadget: "【Doble Correa Milanesa/Silicona y Pantalla HD 1.27\"】Malla milanesa elegante + silicona suave, pantalla táctil 390×390 con 98% de pantalla y cristal antihuellas, diseño ultraligero y esferas personalizables",
-          ai_power: "【Asistente de Voz y Monitoreo Inteligente】Asistente de voz en la muñeca, 100 contactos y teclado numérico, análisis de sueño profundo/ligero, control de música y disparo de fotos remoto",
-          secret_hack: "【Secreto de Moda y Estilo】El secreto de las chicas con más estilo para combinar accesorios y atuendos, cambio de correa en segundos, disparo de selfies a distancia agitando la muñeca",
-          question: "【Pregunta y Debate】¿Es este el smartwatch para mujer más bonito y completo de 2026? ¿Prefieres correa milanesa o de silicona para tu outfit?",
-          spec_power: "【Especificaciones Prémium】Pantalla 1.27\" 390×390 HD, Bluetooth 5.3 llamadas, 100 contactos, 120+ modos deportivos, IP68 impermeable, cristal resistente antihuellas",
-        };
+        if (isGerman) {
+          categoryPromptMap = {
+            all_mixed: "Elegantes feminines Design, 1,27 Zoll 390×390 HD-Touchscreen mit 98 % Bildschirmfläche, Milanese-Metall- & weiches Silikonband inklusive, ganzheitliches Frauengesundheits- & Zyklus-Tracking, Bluetooth 5.3 HD-Anrufe, 120+ Sportmodi und IP68 Schutz",
+            pain_point: "【Schmerzpunkt & Stil】Satt von klobigen Sportuhren, die Outfits ruinieren, vergessene Zyklus- & Eisprungtage, verpasste Anrufe in der Handtasche, überteuerte Designeruhren ohne echte Features",
+            efficiency: "【Frauengesundheit & Bluetooth 5.3 Calls】Periode, Eisprung, sichere Tage & Schwangerschaft, HD-Telefonate mit 100 Kontakten & Ziffernblock am Handgelenk, 120+ Sportmodi, 24/7 Puls, SpO2 & Schlafanalyse",
+            gadget: "【Milanese & Silikonband + 1,27\" HD】Zwei Wechselarmbänder inklusive (edles Milanese + atmungsaktives Silikon), 390×390 HD-Display mit 98 % Screen-Ratio & Anti-Fingerprint-Glas, federleichter Schmuck-Look",
+            ai_power: "【Sprachassistent & Smarte Helfer】Sprachassistent direkt am Handgelenk, Kamera-Fernauslöser für OOTD-Fotos, Musiksteuerung, Wetter, Find-My-Phone & intelligente Zykluserinnerungen",
+            secret_hack: "【Fashion-Geheimtipp】Schmuck-Stacking-Hack mit Armreifen, 5-Sekunden-Armbandwechsel ohne Werkzeug, Solo-OOTD-Fotos per Handgelenk auslösen",
+            question: "【Community & Diskussion】Ist FOSMET I228 die eleganteste Damen-Smartwatch 2026? Team Milanese-Metall oder Team weiches Silikon?",
+            spec_power: "【Premium-Specs】1,27\" 390×390 HD Display (98 %), Bluetooth 5.3 Calls & 100 Kontakte, 120+ Sportmodi, IP68 wasserdicht, gehärtetes Anti-Fingerprint-Glas",
+          };
 
-        const selectedCategoryDesc = categoryPromptMap[category] || categoryPromptMap.all_mixed;
+          const selectedCategoryDesc = categoryPromptMap[category] || categoryPromptMap.all_mixed;
 
-        systemInstruction = `Eres un estratega experto en marketing de contenidos y creador de títulos virales para TikTok especializado en moda femenina, estilo de vida y tecnología en español.
+          systemInstruction = `Du bist ein erfahrener Content-Marketing-Stratege und TikTok-Copywriter für Damenmode, Lifestyle und Wearables im deutschsprachigen Raum (DACH: Deutschland, Österreich, Schweiz).
+Erstelle hochkonvertierende deutsche TikTok-Videotitel und Hooks für die elegante Damen-Smartwatch "FOSMET I228".
+
+【Produktdaten FOSMET I228】:
+- Marke: FOSMET | Modell: I228
+- Positionierung: Elegante Damen-Smartwatch, die femininen Schmuck-Look, ganzheitliche Frauengesundheit und smarte Alltagsfunktionen vereint.
+- Display & Design: 1,27 Zoll HD-Touchscreen, 390×390 Auflösung, ca. 98 % Screen-to-Body-Verhältnis, gehärtetes Glas mit Anti-Fingerprint-Beschichtung, federleichtes Gehäuse.
+- Doppel-Armband inklusive: Edles Milanese-Edelstahlarmband für Büro & Abendgarderobe + weiches Silikonarmband für Sport & Alltag, blitzschnell austauschbar.
+- Ganzheitliche Frauengesundheit: Menstruationszyklus, Eisprung, sichere Tage, sanfte Zykluserinnerungen und Schwangerschafts-Tracking.
+- 24/7 Vitaldaten-Monitoring: Kontinuierliche Herzfrequenzmessung, Blutsauerstoff (SpO₂) und wissenschaftliche Schlafanalyse (Tiefschlaf, Leichtschlaf, Wachphasen).
+- Sport & Fitness: Über 120 Sportmodi (Yoga, Pilates, Laufen, Fitness usw.) mit präziser Erfassung von Schritten, Distanz und Kalorien.
+- Bluetooth 5.3 Telefonie: Klare HD-Anrufe direkt am Handgelenk, integrierter Lautsprecher, Speicher für 100 Lieblingskontakte, Ziffernblock und Sprachassistent.
+- Alltagsfunktionen: Wettervorhersage, Musiksteuerung, Wecker, Stoppuhr, Kamera-Fernauslöser, Handy-Suchfunktion, IP68 Wasserdichtigkeit.
+
+【Strenge Generierungsregeln】:
+1. Jeder Titel MUSS zwingend die Marke "FOSMET" und das Modell "I228" natürlich und ansprechend enthalten.
+2. Schreibe authentische, klickstarke deutsche TikTok-Hooks (ca. 45 bis 90 Zeichen), die Frauen direkt über Outfit-Ästhetik, Zyklusgesundheit, Alltagskomfort und Preis-Leistung ansprechen.
+3. Jeder Titel MUSS ZWINGEND mit exakt diesen 5 Hashtags (durch Leerzeichen getrennt) enden:
+   ${targetHashtags}
+4. Generiere exakt ${count} einzigartige Titel im JSON-Array-Format ohne Duplikate.
+${customKeyword ? `※ Besonderes Pflicht-Keyword für einige Titel: "${customKeyword}"` : ""}`;
+
+          userPrompt = `Kategorie: ${selectedCategoryDesc}
+Tonalität: ${tone}
+Aufgabe: Erstelle ${count} virale deutsche TikTok-Titel für FOSMET I228, die "FOSMET" und "I228" enthalten und mit den Hashtags enden: ${targetHashtags}`;
+        } else {
+          categoryPromptMap = {
+            all_mixed: "Diseño elegante y femenino, pantalla táctil HD de 1.27\" 390×390 con 98% de ratio de pantalla, doble correa milanesa y silicona para cualquier atuendo, gestión completa del ciclo menstrual y salud de la mujer, llamadas Bluetooth 5.3, 120+ deportes e impermeabilidad IP68",
+            pain_point: "【Dolor y Estilo】Cansada de relojes inteligentes toscos que arruinan tu atuendo, olvidos del ciclo menstrual y ovulación, no escuchar llamadas en el bolso, gastar fortunas en marcas sin funciones",
+            efficiency: "【Salud de la Mujer y Llamadas HD】Gestión de periodo y ovulación, responder llamadas y mensajes en tu muñeca con Bluetooth 5.3, 120+ deportes, salud biométrica 24/7 (SpO2, ritmo cardíaco y fases del sueño)",
+            gadget: "【Doble Correa Milanesa/Silicona y Pantalla HD 1.27\"】Malla milanesa elegante + silicona suave, pantalla táctil 390×390 con 98% de pantalla y cristal antihuellas, diseño ultraligero y esferas personalizables",
+            ai_power: "【Asistente de Voz y Monitoreo Inteligente】Asistente de voz en la muñeca, 100 contactos y teclado numérico, análisis de sueño profundo/ligero, control de música y disparo de fotos remoto",
+            secret_hack: "【Secreto de Moda y Estilo】El secreto de las chicas con más estilo para combinar accesorios y atuendos, cambio de correa en segundos, disparo de selfies a distancia agitando la muñeca",
+            question: "【Pregunta y Debate】¿Es este el smartwatch para mujer más bonito y completo de 2026? ¿Prefieres correa milanesa o de silicona para tu outfit?",
+            spec_power: "【Especificaciones Prémium】Pantalla 1.27\" 390×390 HD, Bluetooth 5.3 llamadas, 100 contactos, 120+ modos deportivos, IP68 impermeable, cristal resistente antihuellas",
+          };
+
+          const selectedCategoryDesc = categoryPromptMap[category] || categoryPromptMap.all_mixed;
+
+          systemInstruction = `Eres un estratega experto en marketing de contenidos y creador de títulos virales para TikTok especializado en moda femenina, estilo de vida y tecnología en español.
 Crea títulos de alto impacto y ganchos (hooks) en español para el nuevo reloj inteligente para mujer "FOSMET I228".
 
 【Datos del Producto FOSMET I228】:
@@ -622,9 +703,10 @@ Crea títulos de alto impacto y ganchos (hooks) en español para el nuevo reloj 
 4. Genera exactamente ${count} títulos únicos en formato de arreglo JSON. ¡Sin duplicados!
 ${customKeyword ? `※ Palabra clave especial para incluir en algunos títulos: "${customKeyword}"` : ""}`;
 
-        userPrompt = `Categoría: ${selectedCategoryDesc}
+          userPrompt = `Categoría: ${selectedCategoryDesc}
 Tono: ${tone}
 Solicitud: Crea ${count} títulos virales en español para TikTok para FOSMET I228 que incluyan "FOSMET", "I228" y terminen con los hashtags: ${targetHashtags}`;
+        }
       } else if (isKt80) {
         if (isGerman) {
           categoryPromptMap = {
@@ -1132,7 +1214,7 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
 各タイトルは必ず「FOSMET」と「REC10」を含み、末尾は必ず「${targetHashtags}」で終わること。`;
       }
 
-      const currentLang: any = isR21 ? "en" : (isKt80 || isG58 || isT40 || isV18pro || isV17max || isC32pro) ? (isGerman ? "de" : "es") : isI228 ? "es" : "ja";
+      const currentLang: any = isR21 ? "en" : isFrench ? "fr" : (isKt80 || isG58 || isI228 || isT40 || isV18pro || isV17max || isC32pro) ? (isGerman ? "de" : "es") : "ja";
       const holidayInfo = getHolidayById(holiday, currentLang);
 
       if (holidayInfo) {
@@ -1281,7 +1363,7 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
         // Calculate dynamic viral CTR estimate score (88% - 99%)
         const hasNumber = /\d+/.test(hook);
         const hasQuestion = /[?？!！¿¡]/.test(hook);
-        const hasStrongHook = /神|激変|ヤバい|暴露|裏技|絶対|チート|secret|hack|truco|brutal|unglaublich|nie wieder|free|zero|\$0|ditch/i.test(hook);
+        const hasStrongHook = /神|激変|ヤバい|暴露|裏技|絶対|チート|secret|hack|truco|brutal|unglaublich|nie wieder|free|zero|\$0|ditch|incroyable|astuce|pépite|fini|zéro/i.test(hook);
         let baseCtr = 91 + (idx % 6);
         if (hasNumber) baseCtr += 2;
         if (hasQuestion) baseCtr += 1;
@@ -1293,8 +1375,8 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
           productId,
           title: fullTitle,
           hook: hook || fullTitle.replace(targetHashtags, "").trim(),
-          angle: item.angle || (isR21 ? "Viral Hook" : isGerman ? "Highlight" : (isKt80 || isG58 || isI228 || isT40 || isV18pro || isV17max || isC32pro) ? "Destacado" : "AIおすすめ"),
-          targetAudience: item.targetAudience || (isR21 ? "Fitness & Wellness Audience" : isGerman ? (isT40 ? "Eltern & Familie" : "Zielgruppe") : (isKt80 || isG58 || isI228 || isT40 || isV18pro || isV17max || isC32pro) ? (isT40 ? "Padres & Niños" : "Comunidad") : "ターゲット層"),
+          angle: item.angle || (isR21 ? "Viral Hook" : isFrench ? "Hook Viral FR" : isGerman ? "Highlight" : (isKt80 || isG58 || isI228 || isT40 || isV18pro || isV17max || isC32pro) ? "Destacado" : "AIおすすめ"),
+          targetAudience: item.targetAudience || (isR21 ? "Fitness & Wellness Audience" : isFrench ? "Communauté CleanTok FR" : isGerman ? (isT40 ? "Eltern & Familie" : "Zielgruppe") : (isKt80 || isG58 || isI228 || isT40 || isV18pro || isV17max || isC32pro) ? (isT40 ? "Padres & Niños" : "Comunidad") : "ターゲット層"),
           translationZh: item.translationZh || "",
           charCount: fullTitle.length,
           language: currentLang,
@@ -1372,6 +1454,8 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
           visualPrompt: "特写镜头：手部迅速展示产品并产生反差视觉冲击，画面配合微震动与光效",
           scriptSpoken: language === "ja"
             ? `「${hook || title}」まだこれ知らないの？今すぐ見て！`
+            : language === "fr"
+            ? `Attends ! Tu ne connais pas encore ça ? Regarde vite : « ${hook || title} »`
             : language === "en"
             ? `Stop scrolling—have you seen this yet? "${hook || title}"`
             : language === "es"
@@ -1388,13 +1472,15 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
           visualPrompt: "中景切换：演示日常最令人头疼的现实尴尬场景，对比传统方案的笨重与费时",
           scriptSpoken: language === "ja"
             ? "「いつも会議の議事録や手作業で何時間も無駄にしてない？」「これまでのやり方はもう限界！」"
+            : language === "fr"
+            ? "Marre de te casser le dos sous le canapé avec un aspirateur lourd qui laisse la poussière cachée ?"
             : language === "en"
             ? "Tired of bulky smartwatches hurting your wrist at night—or paying monthly subscription fees just to read your own sleep data?"
             : language === "es"
             ? "¿Cansado de perder tiempo y gastar una fortuna en marcas que no cumplen?"
             : "Genervt von klobiger Technik und leerem Akku genau im falschen Moment?",
           audioBgm: "紧张悬念音效逐渐升温，引出解决欲望",
-          textOverlay: language === "en" ? "❌ Bulky Watches & Monthly Fees" : "❌ 传统方式太折磨了",
+          textOverlay: language === "fr" ? "❌ Zéro mal de dos & poussière cachée" : language === "en" ? "❌ Bulky Watches & Monthly Fees" : "❌ 传统方式太折磨了",
         },
         {
           sceneNumber: 3,
@@ -1404,13 +1490,15 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
           visualPrompt: "高清微距与功能演示：实机实操，一键触发核心黑科技，呈现不可思议的直观效果",
           scriptSpoken: language === "ja"
             ? "「ワンタップでAIが即要約！」「薄型軽量でどこでも持てる」「この圧倒的な手軽さは異次元」"
+            : language === "fr"
+            ? "Un clic et le bras 65 cm se plie : lumière verte 2.0, 50 kPa de puissance, 1,4 kg ultra-léger et seulement 60 dB !"
             : language === "en"
             ? "Ultra-thin jewelry-grade fit, fully waterproof for gym and swim, 5+ days battery, plus a 100% FREE lifetime App decoding heart rate, SpO₂, sleep, stress, body temp & cycle."
             : language === "es"
             ? "Mira cómo funciona con un solo toque: potencia extrema, calidad prémium y diseño brutal."
             : "Ein Knopfdruck genügt: Mega Power, deutsche Zuverlässigkeit und unzerstörbare Bauweise.",
           audioBgm: "节奏上扬欢快电音，增强科技爽感与获得感",
-          textOverlay: language === "en" ? "⚡ $0/mo Free App · 24/7 Biometrics" : "⚡ 一键黑科技 真实实测",
+          textOverlay: language === "fr" ? "⚡ Bras pliable 65 cm · Lumière Verte 2.0 · 50 kPa" : language === "en" ? "⚡ $0/mo Free App · 24/7 Biometrics" : "⚡ 一键黑科技 真实实测",
         },
         {
           sceneNumber: 4,
@@ -1420,13 +1508,15 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
           visualPrompt: "手指指向左下角 TikTok 小黄车 / 评论区，展示限时惊喜福利弹窗",
           scriptSpoken: language === "ja"
             ? "「気になったら今すぐ左下の黄色いカゴをタップ！数量限定だから急いで！」"
+            : language === "fr"
+            ? "Clique vite sur le panier orange en bas à gauche avant la rupture de stock TikTok Shop !"
             : language === "en"
             ? "Tap the orange cart in the bottom left before your ring size sells out!"
             : language === "es"
             ? "¡Toca la cesta amarilla abajo a la izquierda antes de que se agote el stock promocional!"
             : "Klick jetzt unten links auf den Warenkorb und sichere dir den TikTok-Rabatt!",
           audioBgm: "清脆叮铃提示音（Cash Register / Bell），催促点击",
-          textOverlay: language === "en" ? "🛒 Tap the cart before sizes sell out" : "🛒 点击左下角小黄车 抢专属好礼",
+          textOverlay: language === "fr" ? "🛒 Clique sur le panier orange en bas à gauche" : language === "en" ? "🛒 Tap the cart before sizes sell out" : "🛒 点击左下角小黄车 抢专属好礼",
         },
       ];
 
@@ -1736,7 +1826,7 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
 【FOSMET & DyMona 全矩阵 14 款产品官方参数与定位数据库】:
 1. DyMona V17 MAX（德国/欧洲 旗舰大户型复式吸尘器）:
    - 650W无刷电机 / 58 kPa怪兽极限吸力 / 双电池150分钟续航 / 2L大容量尘桶(3个月免倾倒) / HEPA H14医疗级过滤 / 25.5cm防缠绕V型地刷。主打大户型、养宠深度清洁。
-2. DyMona V18 PRO（西班牙/拉美 灵活折叠显尘吸尘器）:
+2. DyMona V18 PRO（西班牙/德国/法国 灵活折叠显尘吸尘器）:
    - 65cm一键折叠金属臂(免弯腰直入床底) / 绿光显尘2.0(135°广角微尘照射) / 50 kPa强劲飓风吸力 / 1.4kg羽量超轻机身 / 50分钟长续航。主打腰酸痛点、暗处微尘显形、全屋清洁。
 3. FOSMET REC10（日本 极简超薄名片级双AI录音卡）:
    - 极薄名片尺寸 / 航空铝合金机身 / MagSafe磁吸手机背面与桌面平放 / 400mAh电池(35小时连续录音、66天待机) / 64GB内置大存储 / ChatGPT×Gemini双AI大模型驱动(DOWAY App) / 实时高精转写、1秒精炼会议纪要、思维导图一键导出。
@@ -1762,8 +1852,8 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
    - 优雅轻奢曲面 / 女性生理周期追踪 / 120+运动模式 / 蓝牙5.3通话 / FitCloudPro App / IP68防尘防水。
 14. FOSMET FOS10（日本 10.66mm极薄14.9g轻量手环表）:
    - 10.66mm超薄 / 14.9g极轻 / 100+表盘DIY / 女性健康与全天生命体征监测 / 100+运动。
-15. FOSMET I228（日本 商务经典腕表）:
-   - 经典圆形高透表镜 / 蓝牙通话与健康运动。
+15. FOSMET I228（西语/德语 女性时尚优雅智能手表）:
+   - 1.27" 390×390高清屏(98%高屏占比) / 米兰尼斯金属+亲肤硅胶双表带 / 女性生理周期与排卵孕期管理 / 蓝牙5.3通话与100联系人 / 120+运动模式 / IP68防水。
 `;
 
       const relevanceDirectives = entityMatched

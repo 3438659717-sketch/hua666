@@ -736,7 +736,130 @@ export const US_ENGLISH_HOLIDAYS: HolidayItem[] = [
   },
 ];
 
+// =========================================================================
+// 🇫🇷 法国及法语区主要节日与电商大促节点 (France / Francophonie)
+// =========================================================================
+export const FRENCH_HOLIDAYS: HolidayItem[] = [
+  {
+    id: "none",
+    nameZh: "常规爆款模式 (不限定节日)",
+    nameLocal: "Mode Standard (Toute l'année)",
+    dateDesc: "全年通用",
+    icon: "✨",
+    marketingAngle: "聚焦核心产品痛点、性价比与法国 CleanTok 爆款流量逻辑",
+    badgeText: "",
+    prefixes: [],
+    zhPrefixes: [],
+    festiveKeywords: [],
+  },
+  {
+    id: "soldes_hiver",
+    nameZh: "Soldes d'Hiver・法国冬季大促 (1月-2月)",
+    nameLocal: "Soldes d'Hiver",
+    dateDesc: "1月 - 2月",
+    icon: "❄️",
+    marketingAngle: "法国全年力度最大的官方打折季之一，升级家居清洁装备的最佳时机",
+    badgeText: "Soldes d'Hiver",
+    prefixes: ["【❄️Soldes d'Hiver】", "【❄️Bon Plan Soldes】", "【❄️Offre Hiver 2026】"],
+    zhPrefixes: ["【❄️法国冬促神价】", "【❄️打折季必抢好物】", "【❄️2026冬促限定】"],
+    festiveKeywords: ["Soldes d'hiver", "Bon plan", "Promo"],
+    extraTags: "#Soldes #BonPlan #Promo",
+  },
+  {
+    id: "saint_valentin",
+    nameZh: "Saint-Valentin・情人节浪漫礼遇 (2月14日)",
+    nameLocal: "Saint-Valentin",
+    dateDesc: "2月14日",
+    icon: "💝",
+    marketingAngle: "送给伴侣或同居情侣提升家居幸福感的贴心实用礼物，省去家务争吵",
+    badgeText: "Saint-Valentin",
+    prefixes: ["【💝Idée Cadeau Saint-Valentin】", "【💝Cadeau Couple Utile】", "【💝Spécial Saint-Valentin】"],
+    zhPrefixes: ["【💝情人节贴心礼物】", "【💝情侣同居幸福神器】", "【💝情人节特别推荐】"],
+    festiveKeywords: ["Saint-Valentin", "Idée cadeau", "Couple"],
+    extraTags: "#SaintValentin #IdeeCadeau",
+  },
+  {
+    id: "french_days",
+    nameZh: "French Days・法国电商狂欢节 (春季/秋季)",
+    nameLocal: "French Days",
+    dateDesc: "4月底 / 9月底",
+    icon: "🇫🇷",
+    marketingAngle: "法国本土专属「法版黑五」，高性价比平替大牌家电的年度抢购高峰",
+    badgeText: "French Days",
+    prefixes: ["【🇫🇷Spécial French Days】", "【🇫🇷Pépite French Days】", "【🇫🇷Bon Plan Maison】"],
+    zhPrefixes: ["【🇫🇷法国狂欢节爆款】", "【🇫🇷French Days必入好物】", "【🇫🇷法区家居抄底】"],
+    festiveKeywords: ["French Days", "Bon plan", "Maison"],
+    extraTags: "#FrenchDays #BonPlanMaison",
+  },
+  {
+    id: "fete_des_meres",
+    nameZh: "Fête des Mères・法国母亲节 (5月底)",
+    nameLocal: "Fête des Mères",
+    dateDesc: "5月最后一个周日",
+    icon: "💐",
+    marketingAngle: "呵护妈妈腰椎免弯腰，1.4kg超轻机身让妈妈彻底告别繁重家务",
+    badgeText: "Fête des Mères",
+    prefixes: ["【💐Cadeau Fête des Mères】", "【💐Pour soulager Maman】", "【💐Le meilleur cadeau Maman】"],
+    zhPrefixes: ["【💐法国母亲节护腰好礼】", "【💐帮妈妈告别弯腰劳累】", "【💐送妈妈最贴心的礼物】"],
+    festiveKeywords: ["Fête des Mères", "Cadeau Maman", "Zéro mal de dos"],
+    extraTags: "#FeteDesMeres #CadeauMaman",
+  },
+  {
+    id: "soldes_ete",
+    nameZh: "Soldes d'Été・法国夏季大促 (6月底-7月)",
+    nameLocal: "Soldes d'Été",
+    dateDesc: "6月底 - 7月",
+    icon: "☀️",
+    marketingAngle: "夏季开窗灰尘与宠物掉毛高峰，趁夏促入手绿光显尘轻量吸尘器",
+    badgeText: "Soldes d'Été",
+    prefixes: ["【☀️Soldes d'Été】", "【☀️Grand Ménage d'Été】", "【☀️Pépite Soldes】"],
+    zhPrefixes: ["【☀️法国夏促特惠】", "【☀️夏日清爽大扫除】", "【☀️夏促宝藏神机】"],
+    festiveKeywords: ["Soldes d'été", "Ménage d'été", "Bon plan"],
+    extraTags: "#SoldesEte #CleanTokFrance",
+  },
+  {
+    id: "rentree",
+    nameZh: "La Rentrée・法国9月开学返工焕新季 (9月)",
+    nameLocal: "La Rentrée",
+    dateDesc: "9月",
+    icon: "🎒",
+    marketingAngle: "学生搬进公寓与家庭返工重启，轻便省空间的折叠无线吸尘器刚需爆发",
+    badgeText: "La Rentrée",
+    prefixes: ["【🎒Spécial Rentrée】", "【🎒Indispensable Appart】", "【🎒Routine Rentrée】"],
+    zhPrefixes: ["【🎒开学返工焕新季】", "【🎒法区公寓必备神器】", "【🎒高效返工清洁日常】"],
+    festiveKeywords: ["Rentrée", "Appartement", "Étudiant"],
+    extraTags: "#Rentree #Appartement #Organisation",
+  },
+  {
+    id: "black_friday_fr",
+    nameZh: "Black Friday・法国黑五年度大促 (11月)",
+    nameLocal: "Black Friday France",
+    dateDesc: "11月下旬",
+    icon: "🔥",
+    marketingAngle: "法国全年最大数码家电抄底潮，正面对比 600€ 大牌凸显超高性价比",
+    badgeText: "Black Friday",
+    prefixes: ["【🔥Black Friday】", "【🔥Alerte Bon Plan BF】", "【🔥Meilleur Plan Black Friday】"],
+    zhPrefixes: ["【🔥黑五年度底价】", "【🔥黑五爆款抢购预警】", "【🔥黑五最值家电清单】"],
+    festiveKeywords: ["Black Friday", "Bon Plan", "Promo TikTok Shop"],
+    extraTags: "#BlackFriday #BonPlan #TikTokShopFrance",
+  },
+  {
+    id: "noel",
+    nameZh: "Noël・圣诞节送礼与聚会大扫除 (12月)",
+    nameLocal: "Noël & Fêtes",
+    dateDesc: "12月",
+    icon: "🎄",
+    marketingAngle: "圣诞家庭聚会前后极速扫净松针、碎屑与宠物毛发，也是极佳圣诞实用礼",
+    badgeText: "Noël",
+    prefixes: ["【🎄Idée Cadeau Noël】", "【🎄Prêt pour Noël】", "【🎄Magie de Noël】"],
+    zhPrefixes: ["【🎄圣诞送礼爆款清单】", "【🎄圣诞聚会极速大扫除】", "【🎄圣诞高颜实用好礼】"],
+    festiveKeywords: ["Noël", "Cadeau Noël", "Fêtes"],
+    extraTags: "#Noel #IdeeCadeauNoel #CadeauUtile",
+  },
+];
+
 export function getHolidaysForLanguage(lang: TargetLanguage = "ja"): HolidayItem[] {
+  if (lang === "fr") return FRENCH_HOLIDAYS;
   if (lang === "en") return US_ENGLISH_HOLIDAYS;
   if (lang === "de") return GERMAN_HOLIDAYS;
   if (lang === "es") return SPANISH_HOLIDAYS;
@@ -755,6 +878,14 @@ export function getCountryInfoForLanguage(lang: TargetLanguage = "ja"): {
   countryLocal: string;
   count: number;
 } {
+  if (lang === "fr") {
+    return {
+      flag: "🇫🇷",
+      countryZh: "法国及法语区 (FR)",
+      countryLocal: "France / Belgique / Suisse romande",
+      count: FRENCH_HOLIDAYS.length - 1,
+    };
+  }
   if (lang === "en") {
     return {
       flag: "🇺🇸",
