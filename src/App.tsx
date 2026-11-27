@@ -119,6 +119,7 @@ export default function App() {
       case "t20":
         return "emerald";
       case "qs40":
+      case "e82":
         return "purple";
       default:
         return "blue";
@@ -156,6 +157,8 @@ export default function App() {
         return "text-emerald-300";
       case "qs40":
         return "text-purple-300";
+      case "e82":
+        return "text-violet-300";
       default:
         return "text-blue-300";
     }
@@ -181,7 +184,7 @@ export default function App() {
         } else {
           setLastAction({ type: "generate", timestamp: Date.now(), data: { count: result.titles.length } });
           const langLabel =
-            targetProd === "r21" || activeParams.language === "en"
+            targetProd === "r21" || targetProd === "e82" || activeParams.language === "en"
               ? "美式英语"
               : activeParams.language === "fr"
               ? "法语"
@@ -270,7 +273,7 @@ export default function App() {
         productId,
         category: "all_mixed",
         language:
-          productId === "r21"
+          productId === "r21" || productId === "e82"
             ? "en"
             : productId === "v17max"
             ? "de"
@@ -373,6 +376,8 @@ export default function App() {
             : "【DyMona V18 PRO】¿Cansado de agacharte bajo el sofá? Brazo plegable 65cm, luz verde 2.0 y 50 kPa en solo 1.4 kg.";
       } else if (currentProductId === "r21") {
         hookText = "Stop paying monthly fees for your own sleep data! Meet the weightless FOSMET R21 Smart Ring with a 100% FREE lifetime App.";
+      } else if (currentProductId === "e82") {
+        hookText = "Wait—these minimalist cloud-soft headphones hide a stabilized 8MP POV camera, 40mm cinema bass, AND 160+ language AI translation? Meet FOSMET E82.";
       }
 
       const fullTitle = currentActiveTags ? `${hookText} ${currentActiveTags}` : hookText;

@@ -45,6 +45,7 @@ export type TargetCategory =
   | "smart_glasses"
   | "camera_earphone"
   | "smart_ring_r21"
+  | "smart_headphones_e82"
   | "general_help";
 
 export type UserIntent =
@@ -114,6 +115,7 @@ export function detectQueryCategory(
   const hasT20 = q.includes("t20") || q.includes("c32 pro") || q.includes("物理排水") || q.includes("gnss");
   const hasKt80 = q.includes("kt80") || q.includes("800mah") || q.includes("手电筒手表") || q.includes("战术手表");
   const hasE12 = q.includes("e12") || q.includes("pov耳机") || q.includes("拍照耳机") || q.includes("hi luma");
+  const hasE82 = q.includes("e82") || q.includes("头戴式智能摄像耳机") || q.includes("头戴摄像耳机") || q.includes("云朵耳套") || q.includes("40mm") || q.includes("160种语言");
   const hasR21 = q.includes("r21") || q.includes("智能戒指") || q.includes("smart ring") || q.includes("零月费");
   const hasGlasses = q.includes("e05") || q.includes("e09") || q.includes("e09b") || q.includes("半框") || q.includes("半框眼镜") || q.includes("电致变色") || q.includes("变色眼镜") || q.includes("拍摄眼镜");
   const hasFashion = q.includes("g58") || q.includes("g2") || q.includes("fos10") || q.includes("i228") || q.includes("女表") || q.includes("女性手表");
@@ -166,6 +168,7 @@ export function detectQueryCategory(
   if (hasQs40) return "smartwatch_qs40";
   if (hasT20) return "smartwatch_t20";
   if (hasKt80) return "smartwatch_kt80";
+  if (hasE82) return "smart_headphones_e82";
   if (hasE12) return "camera_earphone";
   if (hasR21) return "smart_ring_r21";
   if (hasGlasses) return "smart_glasses";
@@ -176,6 +179,7 @@ export function detectQueryCategory(
   // strictly anchor to the active product to prevent off-topic vacuum cleaner replies!
   if (ctx && ctx.id && ctx.id !== "all" && !ctx.isUniversalMode) {
     const cid = (ctx.id || "").toLowerCase();
+    if (cid.includes("e82")) return "smart_headphones_e82";
     if (cid.includes("r21")) return "smart_ring_r21";
     if (cid.includes("e09b") || cid.includes("e09") || cid.includes("e05")) return "smart_glasses";
     if (cid.includes("rec10")) return "recorder";
@@ -245,6 +249,7 @@ export function detectQueryCategory(
       if (histText.includes("kt80") || histText.includes("800mah") || histText.includes("手电筒")) return "smartwatch_kt80";
       if (histText.includes("e12") || histText.includes("pov耳机") || histText.includes("拍照耳机")) return "camera_earphone";
       if (histText.includes("e05") || histText.includes("e09") || histText.includes("e09b") || histText.includes("半框") || histText.includes("变色眼镜") || histText.includes("拍摄眼镜")) return "smart_glasses";
+      if (histText.includes("e82") || histText.includes("头戴式智能摄像耳机") || histText.includes("云朵耳套")) return "smart_headphones_e82";
       if (histText.includes("r21") || histText.includes("智能戒指") || histText.includes("smart ring")) return "smart_ring_r21";
       if (histText.includes("g58") || histText.includes("g2") || histText.includes("女表")) return "smartwatch_fashion";
     }
@@ -252,6 +257,7 @@ export function detectQueryCategory(
 
   // 10. If the user explicitly asks about hardware specs / battery / suction without naming a product, bind to current screen context ONLY if query explicitly asks for specs
   if (q.includes("吸力") || q.includes("续航") || q.includes("电池") || q.includes("防水") || q.includes("参数") || q.includes("尺寸") || q.includes("重量")) {
+    if (c.includes("e82")) return "smart_headphones_e82";
     if (c.includes("r21")) return "smart_ring_r21";
     if (c.includes("t40")) return "smartwatch_t40";
     if (c.includes("v18")) return "vacuum_v18";
@@ -455,6 +461,16 @@ export function generateOfflineKnowledgeReply(options: OfflineReplyOptions): {
       return { text, groundingSources };
     }
 
+    if (activePid.includes("e82")) {
+      const text = `### 🎧 FOSMET E82 三合一头戴式智能摄像耳机 · 美区 TikTok 爆款策略
+
+针对你的咨询：**「${userQuery}」**：
+- **前 3 秒钩子**：“Wait—these minimalist cloud-soft headphones hide a stabilized 8MP POV camera, 40mm cinema bass, AND 160+ language AI translation?”
+- **三大卖点均衡切入**：① 机身巧妙隐藏 800 万像素视频防抖摄像头，骑行/散步/健身解放双手拍平稳 POV Vlog；② 内置 AI 语音助手，支持拍照即时识物与 160+ 种语言实时翻译，跨境旅行沟通无障碍；③ 极简高颜值＋云朵般轻柔亲肤耳套全天佩戴零压迫，40mm 大动圈深沉低音与双麦降噪免提通话。
+- **固定标签**：\`#FOSMET #E82 #Headphones #camera #earphone\``;
+      return { text, groundingSources };
+    }
+
     if (activePid.includes("r21")) {
       const text = `### 💍 FOSMET R21 超轻薄零月费智能戒指 · 美区 TikTok 爆款策略
 
@@ -603,7 +619,8 @@ TikTok 算法的核心生命线在于**前 3 秒留存率与完播率**。针对
 10. **FOSMET E12（AI 摄像头运动蓝牙耳机）**：开放式零压佩戴 / 16mm 大动圈 / SONY 800万摄像头 1080P 录像 / OpenAI 助手「Hi Luma」拍照识物。
 11. **FOSMET E05（4 档指尖电致变色智能音频眼镜）**：4 档指尖滑动电致变色镜片（室内透明/室外墨镜 1 秒切换） / ENC 双麦降噪 / 8 小时听歌续航。
 12. **FOSMET E09（40g 极轻防蓝光 POV 拍摄眼镜）**：仅重 40g / SONY 800万摄像头 1080P 录像 / 一键拍摄日常 Vlog。
-13. **FOSMET E09B（45g 半框极轻 AI 识物与多语翻译拍摄眼镜）**：经典半框轻奢设计 / 仅重 45g / SONY 800万摄像头 1080P 录像 / AI 拍照识物 / 实时多语同传翻译 / 开放式双扬声器。`;
+13. **FOSMET E09B（45g 半框极轻 AI 识物与多语翻译拍摄眼镜）**：经典半框轻奢设计 / 仅重 45g / SONY 800万摄像头 1080P 录像 / AI 拍照识物 / 实时多语同传翻译 / 开放式双扬声器。
+14. **FOSMET E82（美区三合一头戴式智能摄像耳机）**：极简高颜值与云朵亲肤耳套全天无压迫 / 40mm 大动圈影院级深沉低音＋双麦降噪免提通话 / 隐藏式防抖 800 万像素 POV 摄像头 / 内置 AI 语音助手＋拍照即时识物＋160+ 种语言实时翻译，全面覆盖通勤、骑行、散步、健身、户外记录与跨境旅行。`;
     return { text, groundingSources };
   }
 
@@ -687,6 +704,21 @@ TikTok 算法的核心生命线在于**前 3 秒留存率与完播率**。针对
   - **续航保障**：长达 **5 天以上** 强劲续航。
 - 🎯 **出海定位（美式英语）**：厌倦笨重智能手表、反感高昂订阅费用的健身爱好者、极简主义者及注重深度健康管理的女性群体。
 - 🏷️ **固定标签**：\`#FOSMET #R21 #Smart Ring #Health Management #Smart Wearables\``;
+    return { text, groundingSources };
+  }
+
+  // 9b. SPECIFIC PRODUCT: FOSMET E82
+  if (targetCategory === "smart_headphones_e82") {
+    const text = `### 🎧 FOSMET E82 三合一头戴式智能摄像耳机权威方案
+
+针对你的问题：**「${userQuery}」**：
+
+- ⚡ **核心硬核卖点（三大支柱均衡）**：
+  - **隐藏式 8MP 防抖 POV 摄像**：机身内巧妙隐藏支持视频防抖的 800 万像素高清摄像头，无需手持手机随时拍照或录制平稳流畅的第一人称视角（POV）Vlog。
+  - **随身 AI 助手 & 160+ 语种实时翻译**：内置 AI 语音助手，支持拍照即时识物以及超过 160 种语言的实时翻译，跨境旅行、街头探索随时解答。
+  - **40mm 影院音质 & 云朵亲肤高颜值**：极简高颜值外观与云朵般轻柔亲肤耳套，兼具时尚穿搭属性与全天无压迫佩戴；无线蓝牙搭载 40 毫米大动圈深沉低音，配合双麦克风降噪保障清晰免提通话。
+- 🎯 **出海定位（美区 · 美式英语）**：全面满足日常通勤、骑行、散步、健身、户外记录及跨境旅行等多场景需求。
+- 🏷️ **固定标签**：\`#FOSMET #E82 #Headphones #camera #earphone\``;
     return { text, groundingSources };
   }
 

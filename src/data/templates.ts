@@ -15,6 +15,7 @@ import { generateV17maxAlgorithmicTitles, V17MAX_FIXED_TAGS } from "./v17maxTemp
 import { generateT40AlgorithmicTitles, T40_SPANISH_TAGS, T40_GERMAN_TAGS } from "./t40Templates";
 import { generateC32proAlgorithmicTitles, C32PRO_SPANISH_TAGS, C32PRO_GERMAN_TAGS } from "./c32proTemplates";
 import { generateR21AlgorithmicTitles, R21_ENGLISH_TAGS } from "./r21Templates";
+import { generateE82AlgorithmicTitles, E82_ENGLISH_TAGS } from "./e82Templates";
 import { getChineseTranslation } from "../utils/translator";
 import { getHolidayById } from "./holidays";
 
@@ -535,6 +536,34 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
       "全方位精准生命体征解码：实时追踪心率、血氧、睡眠阶段、压力、体温与女性生理排卵周期 + 5天以上强劲续航",
     ],
   },
+  e82: {
+    id: "e82",
+    brand: "FOSMET",
+    model: "E82",
+    name: "FOSMET E82",
+    japaneseType: "3-in-1 Smart Camera Headphones / 头戴式智能摄像耳机",
+    shortDesc: "高端头戴耳机×便携防抖相机×随身AI三合一・极简高颜值与云朵亲肤耳套全天零压迫・40mm大动圈影院低音＋双麦降噪・隐藏800万像素防抖POV摄像头・内置AI语音助手＋拍照即时识物＋160+语言实时翻译",
+    fixedTags: E82_ENGLISH_TAGS,
+    defaultLanguage: "en",
+    supportedLanguages: ["en"],
+    badge: "AI摄像蓝牙耳机",
+    accentColor: "#8B5CF6",
+    tiktokFormula: "三合一均衡混排（隐藏8MP防抖POV免手持拍Vlog ✕ 160+语言AI同传/拍照识物 ✕ 40mm影院低音与云朵耳套时尚穿搭）",
+    specs: [
+      { label: "三合一产品形态", value: "集高端无线头戴式耳机、隐藏式便携高清相机与随身 AI 助手于一体" },
+      { label: "外观设计与佩戴", value: "极简高颜值外观设计 + 云朵般轻柔亲肤耳套，兼顾 OOTD 时尚穿搭与全天无压迫舒适佩戴" },
+      { label: "音质与通话降噪", value: "无线蓝牙连接 / 40毫米大动圈单元（深沉低音与影院级沉浸声场） / 双麦克风降噪清晰免提通话" },
+      { label: "隐藏式高清摄像", value: "机身巧妙隐藏支持视频防抖的 800 万像素（8MP）高清摄像头，无需手持手机随时拍照或录制平稳流畅第一人称视角（POV）Vlog" },
+      { label: "随身 AI 智能体", value: "内置 AI 语音助手，支持拍照即时识物以及超过 160 种语言的实时翻译" },
+      { label: "全场景无缝覆盖", value: "日常通勤、骑行、散步、健身、户外记录及跨境旅行等多场景全天候适配" },
+      { label: "固定标签 (美式英语)", value: "#FOSMET #E82 #Headphones #camera #earphone" },
+    ],
+    highlights: [
+      "隐藏式 800 万像素防抖 POV 摄像头：无需手持手机，骑行、散步、健身与户外随时拍出平稳流畅第一视角 Vlog",
+      "内置随身 AI 语音助手：支持拍照即时识物与超过 160 种语言实时翻译，跨境旅行沟通与探索零障碍",
+      "40mm 大动圈影院级深沉低音 + 双麦降噪免提通话 + 极简高颜值云朵亲肤耳套，兼顾时尚穿搭与全天舒适",
+    ],
+  },
 };
 
 // Highly varied Japanese TikTok formula patterns for FOSMET REC10
@@ -1031,6 +1060,8 @@ export function generateAlgorithmicTitles(
     rawResults = generateC32proAlgorithmicTitles(category, customKeyword, customTags, language);
   } else if (productId === "r21") {
     rawResults = generateR21AlgorithmicTitles(category, customKeyword, customTags, batchSeed, language);
+  } else if (productId === "e82") {
+    rawResults = generateE82AlgorithmicTitles(category, customKeyword, customTags, batchSeed, language);
   } else {
     const brand = "FOSMET";
     const model = "REC10";
@@ -1142,7 +1173,7 @@ export function generateAlgorithmicTitles(
   }
 
   const isJapaneseProduct = ["rec10", "qs40", "t20", "e12", "e05", "e09", "e09b", "g2", "fos10"].includes(productId);
-  const effectiveLang: TargetLanguage = productId === "r21" ? "en" : isJapaneseProduct ? "ja" : (language || "es");
+  const effectiveLang: TargetLanguage = (productId === "r21" || productId === "e82") ? "en" : isJapaneseProduct ? "ja" : (language || "es");
   const holidayItem = getHolidayById(holiday, effectiveLang);
 
   // Ensure 100% of generated titles have accurate, fluent Chinese translation and festive decorators when selected

@@ -158,6 +158,18 @@ export const INSPIRATION_CARDS_POOL: InspirationCard[] = [
     sampleCopy: "Why pay monthly fees for your own sleep data? FOSMET R21 tracks heart rate, SpO₂, stress, body temp & ovulation cycle 24/7 with 5+ days battery and a 100% FREE lifetime App. #FOSMET #R21 #Smart Ring #Health Management #Smart Wearables",
     keywords: "Zero Subscription Free App Sleep Ovulation Cycle Waterproof",
   },
+  {
+    id: "gacha_e82_1",
+    productId: "e82",
+    productName: "FOSMET E82 三合一头戴式智能摄像耳机",
+    category: "all_mixed",
+    theme: "隐藏8MP防抖POV摄像 × 160+语种AI实时翻译 × 40mm影院级音质云朵耳套",
+    hookIdea: "【Wait—these minimalist cloud-soft headphones hide an 8MP POV camera & 160+ language AI?】",
+    targetPainPoint: "出门通勤骑行拍Vlog手持手机太抖太累、跨境旅行语言不通，普通头戴耳机又夹头且功能单一",
+    sceneDescription: "戴上极简高颜值云朵耳套 FOSMET E82 出街/骑行/机场落地，丝滑切入 8MP 防抖第一视角画面，同时演示 40mm 深沉低音与 160+ 语言 AI 实时翻译识物",
+    sampleCopy: "Why carry headphones, an action cam, AND a translator? FOSMET E82 fuses 40mm cinema bass, cloud-soft all-day comfort, a hidden 8MP stabilized POV camera, and 160+ language AI in one sleek headset. #FOSMET #E82 #Headphones #camera #earphone",
+    keywords: "Hidden 8MP POV 160+ Languages AI 40mm Bass Cloud-Soft Headphones",
+  },
 ];
 
 export function getRandomInspiration(productId?: ProductId): InspirationCard {

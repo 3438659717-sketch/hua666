@@ -916,6 +916,79 @@ export const PRODUCT_RADAR_DATA: Record<ProductId, Partial<Record<TargetLanguage
       ],
     },
   },
+  e82: {
+    en: {
+      productId: "e82",
+      language: "en",
+      productName: "FOSMET E82 3-in-1 Smart Camera Headphones",
+      updatedAt: "2026-11-27T08:30:00Z",
+      hotwords: [
+        {
+          word: "Hidden 8MP Stabilized POV",
+          category: "viral_buzz",
+          growthRate: "+520%",
+          heatScore: 99,
+          sampleHook: "Wait—these minimalist over-ear headphones hide a stabilized 8MP POV camera inside? Meet FOSMET E82.",
+          suggestedPrompt: "Open with a visual reveal of the hidden 8MP stabilized camera filming hands-free biking/walking POV",
+        },
+        {
+          word: "160+ Language Real-Time AI",
+          category: "ai_power",
+          growthRate: "+465%",
+          heatScore: 97,
+          sampleHook: "Landing abroad with zero language stress: FOSMET E82 translates 160+ languages live straight into your ears.",
+          suggestedPrompt: "Showcase cross-border travel ordering/directions with instant 160+ language AI translation & visual ID",
+        },
+        {
+          word: "40mm Cinema Bass & Cloud-Soft",
+          category: "spec",
+          growthRate: "+385%",
+          heatScore: 95,
+          sampleHook: "40mm deep cinema bass, dual-mic noise reduction, and cloud-soft cushions you can wear all day with any outfit.",
+          suggestedPrompt: "Highlight all-day zero-clamp cloud comfort, minimalist OOTD style, and 40mm immersive sound",
+        },
+        {
+          word: "Snap-to-Identify Visual AI",
+          category: "gadget",
+          growthRate: "+340%",
+          heatScore: 92,
+          sampleHook: "Snap any landmark, menu, or gadget with FOSMET E82 and let the built-in AI voice assistant explain it instantly.",
+          suggestedPrompt: "Demo hands-free photo object recognition + AI voice answers during city walks and travel",
+        },
+        {
+          word: "3-in-1 Carry-On Essential",
+          category: "efficiency",
+          growthRate: "+295%",
+          heatScore: 90,
+          sampleHook: "Commuting, cycling, gym, and flights abroad—replace your headphones, action cam, and translator with FOSMET E82.",
+          suggestedPrompt: "Compare carrying 3 separate gadgets vs one sleek minimalist FOSMET E82 headset",
+        },
+      ],
+      hashtags: [
+        { tag: "#FOSMET", postsCount: "4.8M", growth: "+34.0%", relevance: 100, isCore: true },
+        { tag: "#E82", postsCount: "860K", growth: "+92.4%", relevance: 100, isCore: true },
+        { tag: "#Headphones", postsCount: "98.5M", growth: "+29.2%", relevance: 100, isCore: true },
+        { tag: "#camera", postsCount: "142.0M", growth: "+31.8%", relevance: 98, isCore: true },
+        { tag: "#earphone", postsCount: "36.4M", growth: "+24.5%", relevance: 96, isCore: true },
+        { tag: "#POVVlog", postsCount: "54.2M", growth: "+68.0%", relevance: 94, isCore: false },
+        { tag: "#AITranslator", postsCount: "22.1M", growth: "+81.5%", relevance: 93, isCore: false },
+      ],
+      topCompetitorAngles: [
+        {
+          competitor: "Regular $350+ Over-Ear Headphones (Sony XM5 / AirPods Max)",
+          hookPattern: "Only play audio—zero camera and zero built-in AI translation",
+          viewBenchmark: "1.6M+",
+          ourCounterHook: "Why pay $400+ for audio-only headphones when FOSMET E82 adds a hidden 8MP stabilized POV camera + 160+ language AI?",
+        },
+        {
+          competitor: "Chest-Mount Action Cams & Handheld Vlog Rigs",
+          hookPattern: "Bulky straps and awkward handheld arms ruin outfits and comfort",
+          viewBenchmark: "1.1M+",
+          ourCounterHook: "Film buttery-smooth hands-free POV clips while wearing minimalist cloud-soft 40mm bass headphones: FOSMET E82.",
+        },
+      ],
+    },
+  },
 };
 
 function generateGenericRadar(productId: ProductId, productName: string): Partial<Record<TargetLanguage, CompetitorRadarData>> {

@@ -51,8 +51,9 @@ export const TikTokPreviewModal: React.FC<TikTokPreviewModalProps> = ({
   if (!isOpen || !item) return null;
 
   const pid = item.productId;
-  const isR21 = pid === "r21" || item.title.includes("R21");
-  const isV18pro = !isR21 && (pid === "v18pro" || item.title.includes("V18 PRO") || item.title.includes("V18PRO"));
+  const isE82 = pid === "e82" || item.title.includes("E82");
+  const isR21 = !isE82 && (pid === "r21" || item.title.includes("R21"));
+  const isV18pro = !isE82 && !isR21 && (pid === "v18pro" || item.title.includes("V18 PRO") || item.title.includes("V18PRO"));
   const isFos10 = !isR21 && !isV18pro && (pid === "fos10" || item.title.includes("FOS10"));
   const isG2 = !isR21 && !isFos10 && (pid === "g2" || item.title.includes("G2"));
   const isG58 = !isR21 && !isFos10 && !isG2 && (pid === "g58" || item.title.includes("G58"));
@@ -138,6 +139,7 @@ export const TikTokPreviewModal: React.FC<TikTokPreviewModalProps> = ({
   };
 
   const getProductModelTitle = () => {
+    if (isE82) return "FOSMET E82 三合一头戴式智能摄像耳机";
     if (isR21) return "FOSMET R21 零月费超轻薄智能戒指";
     if (isV18pro) return "DyMona V18 PRO 65cm折叠绿光无线吸尘器";
     if (isFos10) return "FOSMET FOS10 14.9g超轻便携女性智能手表";
@@ -359,7 +361,7 @@ export const TikTokPreviewModal: React.FC<TikTokPreviewModalProps> = ({
           <div className="relative z-10 text-white space-y-2 max-w-[80%] pb-1 mt-auto">
             <div className="flex items-center gap-2">
               <span className="text-xs font-bold text-white">
-                {isR21 || item.language === "en"
+                {isE82 || isR21 || item.language === "en"
                   ? "@fosmet.us"
                   : isKt80
                   ? item.language === "de"

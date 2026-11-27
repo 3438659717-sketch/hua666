@@ -34,6 +34,7 @@ const T40_GERMAN_HASHTAGS = "#FOSMET #T40 #Kinder #Smartwatch #Kindersicherheit"
 const C32PRO_SPANISH_HASHTAGS = "#FOSMET #C32PRO #smartwatch #outdoor #táctico";
 const C32PRO_GERMAN_HASHTAGS = "#FOSMET #C32PRO #Smartwatch #Outdoor Smartwatch #Werkzeug";
 const R21_HASHTAGS = "#FOSMET #R21 #Smart Ring #Health Management #Smart Wearables";
+const E82_HASHTAGS = "#FOSMET #E82 #Headphones #camera #earphone";
 
 // Google Search Grounding tool quota circuit breaker to prevent repeated 429 errors
 let isGoogleSearchToolQuotaExceeded = true;
@@ -182,6 +183,7 @@ async function startServer() {
       const isT40 = productId === "t40";
       const isC32pro = productId === "c32pro";
       const isR21 = productId === "r21";
+      const isE82 = productId === "e82";
       const isV18pro = productId === "v18pro";
       const isV17max = productId === "v17max";
       const isG2 = productId === "g2";
@@ -199,10 +201,12 @@ async function startServer() {
       const isFrench = isV18pro && language === "fr";
 
       const targetBrand = isV18pro || isV17max ? "DyMona" : "FOSMET";
-      const targetModel = isR21 ? "R21" : isT40 ? "T40" : isC32pro ? "C32PRO" : isV18pro ? "V18 PRO" : isV17max ? "V17 MAX" : isFos10 ? "FOS10" : isG2 ? "G2" : isG58 ? "G58" : isI228 ? "I228" : isE09B ? "E09B" : isE09 ? "E09" : isE05 ? "E05" : isE12 ? "E12" : isKt80 ? "KT80" : isT20 ? "T20" : isQs40 ? "QS40" : "REC10";
+      const targetModel = isE82 ? "E82" : isR21 ? "R21" : isT40 ? "T40" : isC32pro ? "C32PRO" : isV18pro ? "V18 PRO" : isV17max ? "V17 MAX" : isFos10 ? "FOS10" : isG2 ? "G2" : isG58 ? "G58" : isI228 ? "I228" : isE09B ? "E09B" : isE09 ? "E09" : isE05 ? "E05" : isE12 ? "E12" : isKt80 ? "KT80" : isT20 ? "T20" : isQs40 ? "QS40" : "REC10";
 
       let defaultHashtags = REC10_HASHTAGS;
-      if (isR21) {
+      if (isE82) {
+        defaultHashtags = E82_HASHTAGS;
+      } else if (isR21) {
         defaultHashtags = R21_HASHTAGS;
       } else if (isC32pro) {
         defaultHashtags = isGerman ? C32PRO_GERMAN_HASHTAGS : C32PRO_SPANISH_HASHTAGS;
@@ -240,7 +244,45 @@ async function startServer() {
       let systemInstruction: string;
       let userPrompt: string;
 
-      if (isR21) {
+      if (isE82) {
+        categoryPromptMap = {
+          all_mixed: "Balanced 1:1:1 mix across all three pillars: (1) hidden 8MP HD stabilized POV camera for hands-free photos & smooth vlogging, (2) built-in AI voice assistant with instant photo object recognition and 160+ language real-time translation, and (3) wireless Bluetooth 40mm dynamic cinema deep bass, dual-mic noise reduction calls, and minimalist aesthetic design with cloud-soft skin-friendly ear cushions for all-day zero-pressure comfort across commuting, cycling, walking, gym, outdoor recording, and cross-border travel",
+          pain_point: "Calling out shaky handheld phone vlogging while biking/walking, noisy commute calls, tight clamping headphones, carrying 3 bulky devices, and travel language barriers",
+          efficiency: "All-scenario 3-in-1 daily workflow across commuting, cycling, walking, gym workouts, outdoor recording, and international travel without touching your phone",
+          gadget: "Minimalist high-aesthetic OOTD headphones with cloud-soft ear cushions that secretly conceal an 8MP stabilized POV camera and AI brain",
+          ai_power: "Built-in AI voice assistant, snap-to-identify instant photo object recognition, and real-time translation across 160+ languages for effortless global travel",
+          secret_hack: "Smartest creator & traveler gear swap: replacing regular headphones, chest-mount action cameras, and pocket translators with one sleek FOSMET E82",
+          question: "High-engagement US TikTok questions inviting viewers to spot the hidden 8MP lens or vote between hands-free POV, 160+ language AI, and 40mm cinema bass",
+          spec_power: "Hardcore 3-in-1 spec showcase: 40mm large dynamic drivers, dual-mic noise reduction, hidden 8MP video-stabilized HD camera, AI voice/vision/160+ language translation, cloud-soft ear cushions",
+        };
+
+        const selectedCategoryDesc = categoryPromptMap[category] || categoryPromptMap.all_mixed;
+
+        systemInstruction = `You are a top US TikTok Shop viral copywriter and direct-response consumer tech strategist.
+Create high-converting American English TikTok video titles/hooks for the 3-in-1 over-ear smart camera headphones "FOSMET E82".
+
+【FOSMET E82 Product Brief】:
+- Brand: FOSMET | Model: E82
+- Product Positioning: 3-in-1 over-ear smart camera headphones integrating premium wireless headphones, a hidden portable stabilized camera, and a personal wearable AI assistant.
+- Design & Comfort: Minimalist high-aesthetic design with cloud-soft, skin-friendly ear cushions—both an effortless OOTD fashion statement and all-day zero-pressure comfort.
+- Audio & Calls: Wireless Bluetooth connection, 40mm large dynamic driver delivering deep bass and cinema-grade immersive sound, plus dual-mic noise reduction for crystal-clear hands-free calls.
+- Hidden Camera & POV: Ingeniously hidden 8MP HD camera with video stabilization inside the headset—snap photos or film buttery-smooth hands-free first-person (POV) vlogs without holding a phone.
+- Built-in Wearable AI: AI voice assistant supporting instant photo object recognition ("snap to identify") and real-time translation across 160+ languages.
+- All-Scenario Use: Commuting, cycling, walking, gym/fitness, outdoor recording, and cross-border international travel.
+
+【Strict Rules】:
+1. Every hook MUST naturally include both "FOSMET" and "E82" in punchy, native American English (approx. 55-120 characters before hashtags). Avoid robotic AI clichés.
+2. When category is "all_mixed", balance hooks evenly (~1/3 each) across Hidden 8MP Stabilized POV Camera, 160+ Language AI/Visual ID, and 40mm Cinema Bass + Cloud-Soft Fashion Comfort.
+3. Every full title MUST end with these exact hashtags in exact order:
+   ${targetHashtags}
+4. Return exactly ${count} unique titles in JSON format with zero duplicates.
+5. Provide fluent, accurate Simplified Chinese translations in translationZh.
+${customKeyword ? `※ Required keyword to weave naturally into hooks: "${customKeyword}"` : ""}`;
+
+        userPrompt = `Category: ${selectedCategoryDesc}
+Tone: ${tone}
+Task: Generate ${count} high-converting American English TikTok titles for FOSMET E82 ending with: ${targetHashtags}`;
+      } else if (isR21) {
         categoryPromptMap = {
           all_mixed: "Golden mix of zero monthly subscription fees ($0/mo 100% lifetime free App), ditching bulky smartwatches, 24/7 weightless wear (gym, swimming, sleep, everyday outfits), biometric decoding (heart rate, SpO2, sleep stages, stress, body temperature, women's physiological & ovulation cycle), fully waterproof jewelry-grade chassis, and 5+ days battery life",
           pain_point: "Calling out expensive smart ring monthly subscription fees and bulky wristwatches that hurt while sleeping or clash with daily outfits",
@@ -1214,7 +1256,7 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
 各タイトルは必ず「FOSMET」と「REC10」を含み、末尾は必ず「${targetHashtags}」で終わること。`;
       }
 
-      const currentLang: any = isR21 ? "en" : isFrench ? "fr" : (isKt80 || isG58 || isI228 || isT40 || isV18pro || isV17max || isC32pro) ? (isGerman ? "de" : "es") : "ja";
+      const currentLang: any = (isR21 || isE82) ? "en" : isFrench ? "fr" : (isKt80 || isG58 || isI228 || isT40 || isV18pro || isV17max || isC32pro) ? (isGerman ? "de" : "es") : "ja";
       const holidayInfo = getHolidayById(holiday, currentLang);
 
       if (holidayInfo) {
@@ -1346,7 +1388,7 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
         // Ensure brand and model in hook
         if (!hook.includes(targetBrand) || !hook.includes(targetModel)) {
           if (!hook.includes(targetBrand) && !hook.includes(targetModel)) {
-            hook = (isKt80 || isR21) ? `【${targetBrand} ${targetModel}】 ${hook}` : `【${targetBrand} ${targetModel}】${hook}`;
+            hook = (isKt80 || isR21 || isE82) ? `【${targetBrand} ${targetModel}】 ${hook}` : `【${targetBrand} ${targetModel}】${hook}`;
           } else if (!hook.includes(targetBrand)) {
             hook = hook.replace(targetModel, `${targetBrand} ${targetModel}`);
           } else if (!hook.includes(targetModel)) {
@@ -1363,7 +1405,7 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
         // Calculate dynamic viral CTR estimate score (88% - 99%)
         const hasNumber = /\d+/.test(hook);
         const hasQuestion = /[?？!！¿¡]/.test(hook);
-        const hasStrongHook = /神|激変|ヤバい|暴露|裏技|絶対|チート|secret|hack|truco|brutal|unglaublich|nie wieder|free|zero|\$0|ditch|incroyable|astuce|pépite|fini|zéro/i.test(hook);
+        const hasStrongHook = /神|激変|ヤバい|暴露|裏技|絶対|チート|secret|hack|truco|brutal|unglaublich|nie wieder|free|zero|\$0|ditch|pov|hands-free|40mm|8mp|160\+|cloud-soft|translate|incroyable|astuce|pépite|fini|zéro/i.test(hook);
         let baseCtr = 91 + (idx % 6);
         if (hasNumber) baseCtr += 2;
         if (hasQuestion) baseCtr += 1;
@@ -1375,8 +1417,8 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
           productId,
           title: fullTitle,
           hook: hook || fullTitle.replace(targetHashtags, "").trim(),
-          angle: item.angle || (isR21 ? "Viral Hook" : isFrench ? "Hook Viral FR" : isGerman ? "Highlight" : (isKt80 || isG58 || isI228 || isT40 || isV18pro || isV17max || isC32pro) ? "Destacado" : "AIおすすめ"),
-          targetAudience: item.targetAudience || (isR21 ? "Fitness & Wellness Audience" : isFrench ? "Communauté CleanTok FR" : isGerman ? (isT40 ? "Eltern & Familie" : "Zielgruppe") : (isKt80 || isG58 || isI228 || isT40 || isV18pro || isV17max || isC32pro) ? (isT40 ? "Padres & Niños" : "Comunidad") : "ターゲット層"),
+          angle: item.angle || (isE82 || isR21 ? "Viral Hook" : isFrench ? "Hook Viral FR" : isGerman ? "Highlight" : (isKt80 || isG58 || isI228 || isT40 || isV18pro || isV17max || isC32pro) ? "Destacado" : "AIおすすめ"),
+          targetAudience: item.targetAudience || (isE82 ? "US Creators, Commuters & Travelers" : isR21 ? "Fitness & Wellness Audience" : isFrench ? "Communauté CleanTok FR" : isGerman ? (isT40 ? "Eltern & Familie" : "Zielgruppe") : (isKt80 || isG58 || isI228 || isT40 || isV18pro || isV17max || isC32pro) ? (isT40 ? "Padres & Niños" : "Comunidad") : "ターゲット層"),
           translationZh: item.translationZh || "",
           charCount: fullTitle.length,
           language: currentLang,
@@ -1475,12 +1517,18 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
             : language === "fr"
             ? "Marre de te casser le dos sous le canapé avec un aspirateur lourd qui laisse la poussière cachée ?"
             : language === "en"
-            ? "Tired of bulky smartwatches hurting your wrist at night—or paying monthly subscription fees just to read your own sleep data?"
+            ? (productId === "e82"
+                ? "Tired of juggling your phone to film bike rides, fighting language barriers abroad, or wearing tight over-ear headphones that only play music?"
+                : "Tired of bulky smartwatches hurting your wrist at night—or paying monthly subscription fees just to read your own sleep data?")
             : language === "es"
             ? "¿Cansado de perder tiempo y gastar una fortuna en marcas que no cumplen?"
             : "Genervt von klobiger Technik und leerem Akku genau im falschen Moment?",
           audioBgm: "紧张悬念音效逐渐升温，引出解决欲望",
-          textOverlay: language === "fr" ? "❌ Zéro mal de dos & poussière cachée" : language === "en" ? "❌ Bulky Watches & Monthly Fees" : "❌ 传统方式太折磨了",
+          textOverlay: language === "fr"
+            ? "❌ Zéro mal de dos & poussière cachée"
+            : language === "en"
+            ? (productId === "e82" ? "❌ Shaky Phones & Single-Use Headphones" : "❌ Bulky Watches & Monthly Fees")
+            : "❌ 传统方式太折磨了",
         },
         {
           sceneNumber: 3,
@@ -1493,12 +1541,18 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
             : language === "fr"
             ? "Un clic et le bras 65 cm se plie : lumière verte 2.0, 50 kPa de puissance, 1,4 kg ultra-léger et seulement 60 dB !"
             : language === "en"
-            ? "Ultra-thin jewelry-grade fit, fully waterproof for gym and swim, 5+ days battery, plus a 100% FREE lifetime App decoding heart rate, SpO₂, sleep, stress, body temp & cycle."
+            ? (productId === "e82"
+                ? "FOSMET E82 hides a stabilized 8MP POV camera, 40mm cinema bass with dual-mic noise reduction, cloud-soft cushions, plus a built-in AI assistant for instant visual ID and 160+ language live translation."
+                : "Ultra-thin jewelry-grade fit, fully waterproof for gym and swim, 5+ days battery, plus a 100% FREE lifetime App decoding heart rate, SpO₂, sleep, stress, body temp & cycle.")
             : language === "es"
             ? "Mira cómo funciona con un solo toque: potencia extrema, calidad prémium y diseño brutal."
             : "Ein Knopfdruck genügt: Mega Power, deutsche Zuverlässigkeit und unzerstörbare Bauweise.",
           audioBgm: "节奏上扬欢快电音，增强科技爽感与获得感",
-          textOverlay: language === "fr" ? "⚡ Bras pliable 65 cm · Lumière Verte 2.0 · 50 kPa" : language === "en" ? "⚡ $0/mo Free App · 24/7 Biometrics" : "⚡ 一键黑科技 真实实测",
+          textOverlay: language === "fr"
+            ? "⚡ Bras pliable 65 cm · Lumière Verte 2.0 · 50 kPa"
+            : language === "en"
+            ? (productId === "e82" ? "⚡ Hidden 8MP POV · 160+ Lang AI · 40mm Bass" : "⚡ $0/mo Free App · 24/7 Biometrics")
+            : "⚡ 一键黑科技 真实实测",
         },
         {
           sceneNumber: 4,
@@ -1511,12 +1565,18 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
             : language === "fr"
             ? "Clique vite sur le panier orange en bas à gauche avant la rupture de stock TikTok Shop !"
             : language === "en"
-            ? "Tap the orange cart in the bottom left before your ring size sells out!"
+            ? (productId === "e82"
+                ? "Tap the orange cart in the bottom left to grab your FOSMET E82 before TikTok Shop sells out!"
+                : "Tap the orange cart in the bottom left before your ring size sells out!")
             : language === "es"
             ? "¡Toca la cesta amarilla abajo a la izquierda antes de que se agote el stock promocional!"
             : "Klick jetzt unten links auf den Warenkorb und sichere dir den TikTok-Rabatt!",
           audioBgm: "清脆叮铃提示音（Cash Register / Bell），催促点击",
-          textOverlay: language === "fr" ? "🛒 Clique sur le panier orange en bas à gauche" : language === "en" ? "🛒 Tap the cart before sizes sell out" : "🛒 点击左下角小黄车 抢专属好礼",
+          textOverlay: language === "fr"
+            ? "🛒 Clique sur le panier orange en bas à gauche"
+            : language === "en"
+            ? (productId === "e82" ? "🛒 Tap the cart for FOSMET E82" : "🛒 Tap the cart before sizes sell out")
+            : "🛒 点击左下角小黄车 抢专属好礼",
         },
       ];
 
@@ -1658,6 +1718,8 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
         { brand: "FOSMET", model: "G2", name: "FOSMET G2 手表", regex: /\bg2\b/i },
         { brand: "FOSMET", model: "FOS10", name: "FOSMET FOS10 手环", regex: /fos10/i },
         { brand: "FOSMET", model: "I228", name: "FOSMET I228 腕表", regex: /i228/i },
+        { brand: "FOSMET", model: "R21", name: "FOSMET R21 零月费智能戒指", regex: /r21|智能戒指|smart ring/i },
+        { brand: "FOSMET", model: "E82", name: "FOSMET E82 头戴式智能摄像耳机", regex: /e82|头戴式智能摄像耳机|头戴摄像耳机|云朵耳套/i },
       ];
 
       let activeBrand = "";
@@ -1854,6 +1916,10 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
    - 10.66mm超薄 / 14.9g极轻 / 100+表盘DIY / 女性健康与全天生命体征监测 / 100+运动。
 15. FOSMET I228（西语/德语 女性时尚优雅智能手表）:
    - 1.27" 390×390高清屏(98%高屏占比) / 米兰尼斯金属+亲肤硅胶双表带 / 女性生理周期与排卵孕期管理 / 蓝牙5.3通话与100联系人 / 120+运动模式 / IP68防水。
+16. FOSMET R21（美区 零月费超轻薄智能戒指）:
+   - 终身100%免费App零月费 / 超轻薄完全防水首饰级机身 + 5天+续航 / 24/7健身游泳睡眠无感佩戴 / 心率、血氧、睡眠阶段、压力、体温及女性生理排卵周期精准解码。
+17. FOSMET E82（美区 三合一头戴式智能摄像耳机）:
+   - 集高端无线蓝牙头戴耳机、隐藏式便携防抖相机与随身AI于一体 / 极简高颜值外观与云朵般轻柔亲肤耳套全天零压迫 / 40毫米大动圈深沉低音与影院级沉浸音质＋双麦克风降噪清晰免提通话 / 机身巧妙隐藏支持视频防抖的800万像素(8MP)高清摄像头，免手持随时拍照或录平稳POV Vlog / 内置AI语音助手、拍照即时识物与超过160种语言实时翻译 / 覆盖通勤、骑行、散步、健身、户外记录与跨境旅行全场景 / 固定标签：#FOSMET #E82 #Headphones #camera #earphone。
 `;
 
       const relevanceDirectives = entityMatched

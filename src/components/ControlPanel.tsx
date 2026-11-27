@@ -304,6 +304,17 @@ const R21_CATEGORIES_EN: { id: AngleCategory; label: string; desc: string; icon:
   { id: "question", label: "US TikTok Viral Question", desc: "Spark comments: bulky watch vs zero-fee smart ring & watch tan debates", icon: "💬" },
 ];
 
+const E82_CATEGORIES_EN: { id: AngleCategory; label: string; desc: string; icon: string }[] = [
+  { id: "all_mixed", label: "3-in-1 Balanced Mix (Recommended)", desc: "Hidden 8MP Stabilized POV / 160+ Lang AI & Visual ID / 40mm Cinema Bass & Cloud-Soft", icon: "✨" },
+  { id: "pain_point", label: "Hands-Free POV & Zero Barrier", desc: "Ditch shaky handheld phones, noisy commute calls, clamp pain & language barriers abroad", icon: "🎯" },
+  { id: "efficiency", label: "6-Scenario Daily Companion", desc: "Seamless commuting, cycling, walking, gym, outdoor vlogging & cross-border travel", icon: "⚡" },
+  { id: "gadget", label: "Minimalist OOTD & Hidden Lens", desc: "Cloud-soft skin-friendly cushions + designer look concealing an 8MP stabilized camera", icon: "🎧" },
+  { id: "ai_power", label: "160+ Lang AI & Snap-to-ID", desc: "Built-in AI voice assistant, instant photo object recognition & live 160+ language translation", icon: "🤖" },
+  { id: "secret_hack", label: "Creator POV & Travel Upgrade", desc: "Smartest 3-in-1 swap replacing ordinary headphones, chest cams & pocket translators", icon: "🤫" },
+  { id: "spec_power", label: "40mm Bass · Dual-Mic · 8MP", desc: "40mm dynamic cinema drivers, dual-mic noise reduction, stabilized 8MP HD POV camera", icon: "📊" },
+  { id: "question", label: "US TikTok Viral Debate", desc: "Spark comments: spot the hidden 8MP lens & vote your favorite 3-in-1 E82 superpower", icon: "💬" },
+];
+
 const TAG_SUGGESTIONS: Record<string, string[]> = {
   rec10: ["AIボイスレコーダー", "ChatGPT活用", "議事録自動化", "社会人ハック", "便利グッズ", "仕事効率化", "FOSMET"],
   qs40: ["スマートウォッチ", "ChatGPT連携", "ガジェット紹介", "高见え", "便利アイテム", "QOL向上", "FOSMET"],
@@ -321,6 +332,7 @@ const TAG_SUGGESTIONS: Record<string, string[]> = {
   g2: ["スマートウォッチ", "女性用スマートウォッチ", "生理周期管理", "健康管理", "大人女子コーデ", "プレゼントにおすすめ", "FOSMET"],
   fos10: ["スマートウォッチ", "スマートバンド", "超軽量", "健康管理", "睡眠トラッキング", "ミニマリスト", "FOSMET"],
   r21: ["Smart Ring", "Health Management", "Smart Wearables", "ZeroSubscription", "SleepTracker", "WomensHealth", "FOSMET", "R21"],
+  e82: ["Headphones", "camera", "earphone", "POVVlog", "AITranslator", "TravelTech", "FOSMET", "E82"],
 };
 
 const KT80_GERMAN_SUGGESTIONS = ["smartwatch", "outdooruhr", "überleben", "taschenlampe", "technik2025", "männergeschenke", "FOSMET"];
@@ -340,8 +352,9 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
 }) => {
   const currentProductId = params.productId || "rec10";
   const currentProduct = PRODUCTS_CONFIG[currentProductId] || PRODUCTS_CONFIG.rec10;
-  const currentLang = params.language || (currentProductId === "r21" ? "en" : currentProductId === "v17max" ? "de" : currentProductId === "i228" || currentProductId === "v18pro" || currentProductId === "t40" || currentProductId === "c32pro" ? "es" : "ja");
+  const currentLang = params.language || (currentProductId === "r21" || currentProductId === "e82" ? "en" : currentProductId === "v17max" ? "de" : currentProductId === "i228" || currentProductId === "v18pro" || currentProductId === "t40" || currentProductId === "c32pro" ? "es" : "ja");
 
+  const isE82 = currentProductId === "e82";
   const isR21 = currentProductId === "r21";
   const isKt80 = currentProductId === "kt80";
   const isG58 = currentProductId === "g58";
@@ -365,7 +378,9 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   const isQs40 = currentProductId === "qs40";
 
   let categories = REC10_CATEGORIES;
-  if (isR21) {
+  if (isE82) {
+    categories = E82_CATEGORIES_EN;
+  } else if (isR21) {
     categories = R21_CATEGORIES_EN;
   } else if (isT40) {
     categories = isGerman ? T40_CATEGORIES_DE : T40_CATEGORIES_ES;
@@ -524,6 +539,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   };
 
   const getProductColor = () => {
+    if (isE82) return "text-violet-400";
     if (isR21) return "text-rose-400";
     if (isT40) return "text-cyan-400";
     if (isV18pro) return "text-emerald-400";
@@ -655,6 +671,12 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           { label: "WATERPROOF & BATTERY", val: "5+", unit: "Days", desc: "完全防水首饰级机身 · 健身/游泳/睡眠无感", color: "liquid-metal-cyan", icon: <Battery className="w-4 h-4 text-cyan-400" /> },
           { label: "24/7 BIOMETRICS", val: "6", unit: "维", desc: "心率 / SpO₂血氧 / 睡眠 / 压力 / 体温 / 排卵周期", color: "liquid-metal-rose", icon: <Heart className="w-4 h-4 text-rose-400" /> },
         ];
+      case "e82":
+        return [
+          { label: "HIDDEN POV CAMERA", val: "8MP", unit: "防抖", desc: "机身隐藏高清镜头 · 解放双手拍平稳POV Vlog", color: "liquid-metal-purple", icon: <Camera className="w-4 h-4 text-violet-400" /> },
+          { label: "AI TRANSLATE & ID", val: "160+", unit: "语种", desc: "AI语音助手 · 拍照即时识物 · 实时多语翻译", color: "liquid-metal-cyan", icon: <Bot className="w-4 h-4 text-cyan-400" /> },
+          { label: "CINEMA AUDIO & FIT", val: "40", unit: "mm", desc: "大动圈深沉低音 · 双麦降噪 · 云朵亲肤耳套", color: "liquid-metal-gold", icon: <Headphones className="w-4 h-4 text-amber-400" /> },
+        ];
       default: // qs40
         return [
           { label: "SLIM METALLIC BODY", val: "9.8", unit: "mm", desc: "洗练银翼金属质感 · 轻盈无感佩戴", color: "liquid-metal-silver", icon: <Watch className="w-4 h-4 text-white" /> },
@@ -708,6 +730,8 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
         return ["14.9g极限羽量", "10.66mm纤薄流线", "无感睡眠监测", "超长续航"];
       case "r21":
         return ["Zero Monthly App Fee", "Ditch Bulky Smartwatch", "Sleep & Ovulation Cycle", "Swim-Proof 5+ Days", "24/7 Weightless Jewelry"];
+      case "e82":
+        return ["Hidden 8MP POV Camera", "160+ Language AI Translator", "40mm Cinema Deep Bass", "Cloud-Soft Ear Cushions", "Snap-to-Identify Visual AI"];
       default:
         return ["出海爆款", "痛点反转", "高转化", "神机实测"];
     }
@@ -729,7 +753,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
               <span>硬件矩阵 (Product Matrix)</span>
             </span>
             <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-white/[0.08] text-white border border-white/[0.12] shadow-xs">
-              17款旗舰设备
+              18款旗舰设备
             </span>
           </div>
           <span className="text-[11.5px] text-white/50">
@@ -756,6 +780,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             { id: "g2" as ProductId, label: "G2", desc: "女性健康表", icon: <Heart className="w-3.5 h-3.5" />, tag: "#女性健康", lang: "ja" as TargetLanguage },
             { id: "fos10" as ProductId, label: "FOS10", desc: "14.9g极轻", icon: <Sparkles className="w-3.5 h-3.5" />, tag: "#ポータブル", lang: "ja" as TargetLanguage },
             { id: "r21" as ProductId, label: "R21", desc: "零月费智能戒指", icon: <Gem className="w-3.5 h-3.5" />, tag: "#Smart Ring", lang: "en" as TargetLanguage },
+            { id: "e82" as ProductId, label: "E82", desc: "AI摄像耳机", icon: <Headphones className="w-3.5 h-3.5" />, tag: "#Headphones", lang: "en" as TargetLanguage },
           ].map((prod) => {
             const isSelected = currentProductId === prod.id;
             return (

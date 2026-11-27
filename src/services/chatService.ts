@@ -257,6 +257,40 @@ export function getProductSuggestedPrompts(
     ];
   }
 
+  // 0b. E82 Over-Ear AI Camera Headphones
+  if (pId.includes("e82") || model.includes("E82")) {
+    if (persona === "tiktok_strategist") {
+      return [
+        `为 ${name} 设计 3 套美区 TikTok 15 秒爆款分镜：均衡切入隐藏 8MP 防抖 POV、160+ 语种 AI 与 40mm 云朵穿搭`,
+        `如何用「外观像极简时尚头戴耳机，却暗藏 8MP 防抖 POV 相机」做前 3 秒视觉反差钩子？`,
+        `针对通勤、骑行、健身与跨境旅行人群，写 5 条美区高转化置顶神评与小黄车挂车话术`,
+        `对比传统大牌纯音频头戴耳机与手持运动相机，如何用一镜到底打爆 ${name} 的三合一卖点？`,
+      ];
+    }
+    if (persona === "market_scout") {
+      return [
+        `调研北美 TikTok Shop 头戴式耳机与穿戴 POV 相机（对比 Sony XM5 / AirPods Max / Ray-Ban Meta）的蓝海机会`,
+        `北美 Z 世代穿搭人群与跨境旅行者在选购智能摄像耳机时最在意的 3 大核心痛点`,
+        `分析「160+ Language Real-Time AI Translation + Visual ID」在美区旅行与数码赛道的完播潜力`,
+        `云朵亲肤耳套全天零压迫 + 40mm 影院低音如何帮 E82 突破纯极客圈层进入大众消费盘？`,
+      ];
+    }
+    if (persona === "localization_master") {
+      return [
+        `把 ${name} 的「隐藏 8MP 防抖 POV 摄像 + 160+ 语种 AI + 40mm 云朵耳套」改写成 5 句地道美式英语 TikTok 钩子`,
+        `美式英语中关于「hands-free POV vlog / cloud-soft cushions / 160+ language live translation」的自然 UGC 表达`,
+        `如何用接地气的美国博主口吻介绍双麦克风降噪免提通话与拍照即时识物功能？`,
+        `优化 E82 的美区短视频屏幕花字（Text Overlay）与评论区投票互动文案`,
+      ];
+    }
+    return [
+      `用 FABE 模型深度拆解 ${name} 的 40mm 大动圈、双麦降噪、8MP 防抖隐藏镜头与随身 AI 三合一架构`,
+      `对比传统头戴耳机 + 运动相机 + 翻译机组合，讲清 ${name} 在骑行、通勤与跨境旅行中的场景优势`,
+      `详细梳理 ${name} 云朵亲肤耳套的人体工学舒适度与极简高颜值穿搭卖点`,
+      `面向北美数码测评博主，提供一份涵盖防抖 POV、识物问答与 160+ 语种同传的实测清单`,
+    ];
+  }
+
   // 0. T40 Children's Smart Watch
   if (pId.includes("t40") || model.includes("T40")) {
     if (persona === "tiktok_strategist") {

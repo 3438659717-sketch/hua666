@@ -192,12 +192,20 @@ export const Header: React.FC<HeaderProps> = ({
       activeClass: "bg-rose-500 text-white shadow-[0_4px_20px_rgba(244,63,94,0.5)] border-rose-300/50",
       themeColor: "text-rose-400",
     },
+    {
+      id: "e82",
+      label: "E82",
+      subLabel: "AI摄像耳机",
+      icon: <Headphones className="w-3.5 h-3.5" />,
+      activeClass: "bg-violet-500 text-white shadow-[0_4px_20px_rgba(139,92,246,0.5)] border-violet-300/50",
+      themeColor: "text-violet-400",
+    },
   ];
 
   const currentNav = productNavList.find((p) => p.id === currentProductId) || productNavList[0];
 
   const getMarketLabel = () => {
-    if (currentProductId === "r21" || currentLanguage === "en") {
+    if (currentProductId === "r21" || currentProductId === "e82" || currentLanguage === "en") {
       return "TikTok 美区英文营销";
     }
     if (currentProductId === "t40" || currentProductId === "v18pro" || currentProductId === "v17max" || currentProductId === "kt80" || currentProductId === "g58" || currentProductId === "i228" || currentProductId === "c32pro") {

@@ -15,7 +15,7 @@ export async function generateTitles(params: GenerationParams): Promise<{
 }> {
   const prodId: ProductId = params.productId || "rec10";
   const productConfig = PRODUCTS_CONFIG[prodId];
-  const lang = params.language || (prodId === "r21" ? "en" : prodId === "v17max" ? "de" : prodId === "kt80" || prodId === "g58" || prodId === "i228" || prodId === "v18pro" || prodId === "t40" || prodId === "c32pro" ? "es" : "ja");
+  const lang = params.language || (prodId === "r21" || prodId === "e82" ? "en" : prodId === "v17max" ? "de" : prodId === "kt80" || prodId === "g58" || prodId === "i228" || prodId === "v18pro" || prodId === "t40" || prodId === "c32pro" ? "es" : "ja");
   const activeTags = (params.customTags && params.customTags.trim())
     ? params.customTags.trim()
     : getDefaultTagsForProduct(prodId, lang);

@@ -20,7 +20,7 @@ interface TitleCardProps {
   isFavorite: boolean;
 }
 
-const HIGHLIGHT_REGEX = /(FOSMET|DyMona|V18 PRO|V17 MAX|REC10|QS40|T20|C32PRO|KT80|R21|E12|E05|E09B|E09|G58|I228|G2|FOS10|50 kPa|58 kPa|650W|65cm|65 cm|60 dB|800mAh|5ATM|1080P|SONY|45g|40g|14\.9g|10\.66mm|390×390|120\+|FitCloudPro|Smart Ring|Zero Subscription|\$0\/mo|\$0|5\+ Days|SpO₂|AI搭載|AI識物|AI翻訳|神コスパ|神機能|ヤバい|爆売れ|限定|話題|圧倒的|衝撃|必須|プロ級|禁断|驚愕|linterna LED|supervivencia|4K|16mm|TR90|64GB|30h|GNSS|GPS|1\.85インチ|1\.27インチ)/g;
+const HIGHLIGHT_REGEX = /(FOSMET|DyMona|V18 PRO|V17 MAX|REC10|QS40|T20|C32PRO|KT80|R21|E82|E12|E05|E09B|E09|G58|I228|G2|FOS10|50 kPa|58 kPa|650W|65cm|65 cm|60 dB|800mAh|5ATM|1080P|SONY|45g|40g|14\.9g|10\.66mm|390×390|120\+|160\+|40mm|8MP|POV|Cloud-Soft|cloud-soft|Dual-Mic|dual-mic|FitCloudPro|Smart Ring|Zero Subscription|\$0\/mo|\$0|5\+ Days|SpO₂|AI搭載|AI識物|AI翻訳|神コスパ|神機能|ヤバい|爆売れ|限定|話題|圧倒的|衝撃|必須|プロ級|禁断|驚愕|linterna LED|supervivencia|4K|16mm|TR90|64GB|30h|GNSS|GPS|1\.85インチ|1\.27インチ)/g;
 
 const TitleCardComponent: React.FC<TitleCardProps> = ({
   item,
@@ -121,6 +121,8 @@ const TitleCardComponent: React.FC<TitleCardProps> = ({
         return "teal";
       case "r21":
         return "rose";
+      case "e82":
+        return "purple";
       default:
         return "blue";
     }
@@ -179,22 +181,30 @@ const TitleCardComponent: React.FC<TitleCardProps> = ({
           </span>
         );
       }
-      if (["E12", "E09", "E09B", "E05", "KT80", "REC10", "QS40", "G58", "I228", "G2", "T20", "C32PRO", "FOS10", "R21", "V18 PRO", "V17 MAX"].includes(part)) {
+      if (["E82", "E12", "E09", "E09B", "E05", "KT80", "REC10", "QS40", "G58", "I228", "G2", "T20", "C32PRO", "FOS10", "R21", "V18 PRO", "V17 MAX"].includes(part)) {
         return (
           <span
             key={i}
-            className="font-bold text-white bg-blue-500/25 px-2 py-0.5 rounded-[6px] border border-blue-400/50 mx-0.5 font-mono text-[13.5px] inline-block"
+            className={`font-bold text-white px-2 py-0.5 rounded-[6px] mx-0.5 font-mono text-[13.5px] inline-block ${
+              part === "E82"
+                ? "bg-violet-500/30 border border-violet-400/60"
+                : "bg-blue-500/25 border border-blue-400/50"
+            }`}
           >
             {part}
           </span>
         );
       }
-      // Core hard specs: 800mAh, 5ATM, 1080P, SONY, 14.9g, 45g, etc.
-      if (["50 kPa", "58 kPa", "650W", "65cm", "65 cm", "60 dB", "800mAh", "5ATM", "45g", "40g", "14.9g", "10.66mm", "390×390", "120+", "1080P", "4K", "16mm", "64GB", "30h", "GNSS", "GPS", "1.85インチ", "1.27インチ", "Smart Ring", "Zero Subscription", "$0/mo", "$0", "5+ Days", "SpO₂"].includes(part)) {
+      // Core hard specs: 800mAh, 5ATM, 1080P, SONY, 14.9g, 45g, 40mm, 8MP, POV, 160+, etc.
+      if (["50 kPa", "58 kPa", "650W", "65cm", "65 cm", "60 dB", "800mAh", "5ATM", "45g", "40g", "14.9g", "10.66mm", "390×390", "120+", "160+", "40mm", "8MP", "POV", "Cloud-Soft", "cloud-soft", "Dual-Mic", "dual-mic", "1080P", "4K", "16mm", "64GB", "30h", "GNSS", "GPS", "1.85インチ", "1.27インチ", "Smart Ring", "Zero Subscription", "$0/mo", "$0", "5+ Days", "SpO₂"].includes(part)) {
         return (
           <span
             key={i}
-            className="font-bold px-2 py-0.5 rounded-[6px] bg-sky-500/20 border border-sky-400/50 text-sky-300 mx-0.5 font-mono text-[13.5px] inline-block"
+            className={`font-bold px-2 py-0.5 rounded-[6px] mx-0.5 font-mono text-[13.5px] inline-block ${
+              ["40mm", "8MP", "POV", "160+", "Cloud-Soft", "cloud-soft", "Dual-Mic", "dual-mic"].includes(part)
+                ? "bg-violet-500/20 border border-violet-400/50 text-violet-200"
+                : "bg-sky-500/20 border border-sky-400/50 text-sky-300"
+            }`}
           >
             {part}
           </span>

@@ -520,7 +520,7 @@ export function getChineseTranslation(item: GeneratedTitle): string {
 
   // Final check: if text still has heavy untranslated Spanish / German / Japanese words, format by product archetype
   const hasUntranslatedForeign = /[a-zA-Z]{4,}/.test(
-    transformed.replace(/(FOSMET|DyMona|V18|V17|PRO|MAX|KT80|G58|I228|REC10|QS40|T20|C32PRO|R21|E12|E05|E09B|E09|G2|FOS10|ChatGPT|Gemini|Bluetooth|800mAh|5ATM|IP68|AMOLED|LED|SpO2|GNSS|GPS|HD|Sony|IMX219|TR90|kPa|650W|60dB)/gi, "")
+    transformed.replace(/(FOSMET|DyMona|V18|V17|PRO|MAX|KT80|G58|I228|REC10|QS40|T20|C32PRO|R21|E82|E12|E05|E09B|E09|G2|FOS10|ChatGPT|Gemini|Bluetooth|800mAh|5ATM|IP68|AMOLED|LED|SpO2|GNSS|GPS|HD|Sony|IMX219|TR90|kPa|650W|60dB|40mm|8MP|POV)/gi, "")
   ) || /[\u3040-\u30ff\u3400-\u4dbf]/.test(transformed.replace(/(スマート|ウォッチ|レコーダー|グラス|イヤホン)/g, ""));
 
   if (hasUntranslatedForeign || transformed.length < 5) {
@@ -558,6 +558,9 @@ export function getChineseTranslation(item: GeneratedTitle): string {
     }
     if (prod === "r21") {
       return `【FOSMET R21 零月费超轻薄智能戒指】终身100%免费App无订阅费，24/7健身游泳睡眠无感佩戴，精准解码心率/血氧/睡眠/压力/体温与女性生理排卵周期，完全防水+5天+强劲续航`;
+    }
+    if (prod === "e82") {
+      return `【FOSMET E82 三合一头戴式智能摄像耳机】极简高颜值＋云朵亲肤耳套全天无压迫，40mm大动圈影院级低音＋双麦降噪，隐藏800万像素防抖POV摄像头免手持录Vlog，内置AI语音助手＋拍照识物＋160+语种实时翻译`;
     }
     if (prod === "v18pro") {
       return `【DyMona V18 PRO 65cm折叠绿光吸尘器】650W无刷电机50 kPa飓风吸力、65cm折叠金属臂免弯腰0cm贴边、绿光显尘2.0与1.4kg羽量60dB低音7重过滤`;

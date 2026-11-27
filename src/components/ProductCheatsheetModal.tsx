@@ -93,6 +93,7 @@ export const ProductCheatsheetModal: React.FC<ProductCheatsheetModalProps> = ({
       case "e05":
         return <Glasses className="w-4 h-4" />;
       case "e12":
+      case "e82":
         return <Headphones className="w-4 h-4" />;
       case "kt80":
         return <Flashlight className="w-4 h-4" />;
@@ -126,6 +127,7 @@ export const ProductCheatsheetModal: React.FC<ProductCheatsheetModalProps> = ({
     "v18pro",
     "v17max",
     "r21",
+    "e82",
   ];
 
   // Dynamic Storyboards per product
@@ -223,7 +225,7 @@ export const ProductCheatsheetModal: React.FC<ProductCheatsheetModalProps> = ({
                 </span>
               </div>
               <p className="text-xs text-white/50 mt-0.5">
-                {selectedProductId === "r21"
+                {selectedProductId === "r21" || selectedProductId === "e82"
                   ? "TikTok 美区英语出海营销爆款全维武器库 (分镜/对比/规格/神评)"
                   : isG58 || isKt80 || selectedProductId === "c32pro" || selectedProductId === "t40" || selectedProductId === "i228" || selectedProductId === "v18pro" || selectedProductId === "v17max"
                   ? "TikTok 欧美/拉美出海营销爆款全维武器库 (分镜/对比/规格/神评)"
