@@ -115,6 +115,7 @@ export default function App() {
       case "kt80":
         return "amber";
       case "c32pro":
+      case "cs2pro":
         return "amber";
       case "t20":
         return "emerald";
@@ -159,6 +160,8 @@ export default function App() {
         return "text-purple-300";
       case "e82":
         return "text-violet-300";
+      case "cs2pro":
+        return "text-amber-300";
       default:
         return "text-blue-300";
     }
@@ -186,9 +189,11 @@ export default function App() {
           const langLabel =
             targetProd === "r21" || targetProd === "e82" || activeParams.language === "en"
               ? "美式英语"
+              : activeParams.language === "it"
+              ? "意大利语"
               : activeParams.language === "fr"
               ? "法语"
-              : targetProd === "kt80" || targetProd === "g58" || targetProd === "i228" || targetProd === "t40" || targetProd === "v18pro" || targetProd === "v17max" || targetProd === "c32pro"
+              : targetProd === "cs2pro" || targetProd === "kt80" || targetProd === "g58" || targetProd === "i228" || targetProd === "t40" || targetProd === "v18pro" || targetProd === "v17max" || targetProd === "c32pro"
               ? activeParams.language === "de"
                 ? "德语"
                 : "西语"
@@ -277,7 +282,7 @@ export default function App() {
             ? "en"
             : productId === "v17max"
             ? "de"
-            : productId === "kt80" || productId === "g58" || productId === "i228" || productId === "c32pro" || productId === "v18pro" || productId === "t40"
+            : productId === "cs2pro" || productId === "kt80" || productId === "g58" || productId === "i228" || productId === "c32pro" || productId === "v18pro" || productId === "t40"
             ? "es"
             : "ja",
         customTags: undefined,
@@ -378,6 +383,15 @@ export default function App() {
         hookText = "Stop paying monthly fees for your own sleep data! Meet the weightless FOSMET R21 Smart Ring with a 100% FREE lifetime App.";
       } else if (currentProductId === "e82") {
         hookText = "Wait—these minimalist cloud-soft headphones hide a stabilized 8MP POV camera, 40mm cinema bass, AND 160+ language AI translation? Meet FOSMET E82.";
+      } else if (currentProductId === "cs2pro") {
+        hookText =
+          params.language === "it"
+            ? "【FOSMET CS2PRO】AMOLED 1,85\" anti-impronte, 423+ quadranti DIY, doppio cinturino metallo+silicone, chiamate BT 5.3 e 5 ATM!"
+            : params.language === "fr"
+            ? "【FOSMET CS2PRO】Écran AMOLED 1,85\" anti-traces, 423+ cadrans DIY, double bracelet métal+silicone, appels BT 5.3 et étanche 5 ATM !"
+            : params.language === "de"
+            ? "【FOSMET CS2PRO】1,85\" AMOLED Anti-Fingerprint, 423+ DIY-Zifferblätter, Metall- & Silikonarmband, BT-5.3-Calls & 5 ATM!"
+            : "【FOSMET CS2PRO】Pantalla AMOLED 1.85\" anti-huellas, 423+ esferas DIY, doble correa metal+silicona, llamadas BT 5.3 y 5 ATM.";
       }
 
       const fullTitle = currentActiveTags ? `${hookText} ${currentActiveTags}` : hookText;

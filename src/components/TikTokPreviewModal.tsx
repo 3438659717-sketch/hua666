@@ -53,7 +53,8 @@ export const TikTokPreviewModal: React.FC<TikTokPreviewModalProps> = ({
   const pid = item.productId;
   const isE82 = pid === "e82" || item.title.includes("E82");
   const isR21 = !isE82 && (pid === "r21" || item.title.includes("R21"));
-  const isV18pro = !isE82 && !isR21 && (pid === "v18pro" || item.title.includes("V18 PRO") || item.title.includes("V18PRO"));
+  const isCs2pro = !isE82 && !isR21 && (pid === "cs2pro" || item.title.includes("CS2PRO"));
+  const isV18pro = !isE82 && !isR21 && !isCs2pro && (pid === "v18pro" || item.title.includes("V18 PRO") || item.title.includes("V18PRO"));
   const isFos10 = !isR21 && !isV18pro && (pid === "fos10" || item.title.includes("FOS10"));
   const isG2 = !isR21 && !isFos10 && (pid === "g2" || item.title.includes("G2"));
   const isG58 = !isR21 && !isFos10 && !isG2 && (pid === "g58" || item.title.includes("G58"));
@@ -120,7 +121,9 @@ export const TikTokPreviewModal: React.FC<TikTokPreviewModalProps> = ({
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(item.hook);
     const langCode =
-      item.language === "fr"
+      item.language === "it"
+        ? "it-IT"
+        : item.language === "fr"
         ? "fr-FR"
         : item.language === "en"
         ? "en-US"
@@ -141,6 +144,7 @@ export const TikTokPreviewModal: React.FC<TikTokPreviewModalProps> = ({
   const getProductModelTitle = () => {
     if (isE82) return "FOSMET E82 三合一头戴式智能摄像耳机";
     if (isR21) return "FOSMET R21 零月费超轻薄智能戒指";
+    if (isCs2pro) return "FOSMET CS2PRO 欧区四语时尚智能手表";
     if (isV18pro) return "DyMona V18 PRO 65cm折叠绿光无线吸尘器";
     if (isFos10) return "FOSMET FOS10 14.9g超轻便携女性智能手表";
     if (isG2) return "FOSMET G2 多功能女性健康智能手表";
@@ -363,6 +367,14 @@ export const TikTokPreviewModal: React.FC<TikTokPreviewModalProps> = ({
               <span className="text-xs font-bold text-white">
                 {isE82 || isR21 || item.language === "en"
                   ? "@fosmet.us"
+                  : isCs2pro
+                  ? item.language === "it"
+                    ? "@fosmet.italia"
+                    : item.language === "fr"
+                    ? "@fosmet.france"
+                    : item.language === "de"
+                    ? "@fosmet.germany"
+                    : "@fosmet.spain"
                   : isKt80
                   ? item.language === "de"
                     ? "@fosmet.germany"

@@ -35,6 +35,10 @@ const C32PRO_SPANISH_HASHTAGS = "#FOSMET #C32PRO #smartwatch #outdoor #táctico"
 const C32PRO_GERMAN_HASHTAGS = "#FOSMET #C32PRO #Smartwatch #Outdoor Smartwatch #Werkzeug";
 const R21_HASHTAGS = "#FOSMET #R21 #Smart Ring #Health Management #Smart Wearables";
 const E82_HASHTAGS = "#FOSMET #E82 #Headphones #camera #earphone";
+const CS2PRO_SPANISH_HASHTAGS = "#FOSMET #CS2PRO #reloj inteligente #ropa inteligente #Atuendo";
+const CS2PRO_GERMAN_HASHTAGS = "#FOSMET #CS2PRO #Smartwatch #Outfit #Frauengesundheit";
+const CS2PRO_FRENCH_HASHTAGS = "#FOSMET #CS2PRO #montreconnectee #tenue #sante";
+const CS2PRO_ITALIAN_HASHTAGS = "#FOSMET #CS2PRO #smartwatch #outfit #salutedonna";
 
 // Google Search Grounding tool quota circuit breaker to prevent repeated 429 errors
 let isGoogleSearchToolQuotaExceeded = true;
@@ -184,6 +188,7 @@ async function startServer() {
       const isC32pro = productId === "c32pro";
       const isR21 = productId === "r21";
       const isE82 = productId === "e82";
+      const isCs2pro = productId === "cs2pro";
       const isV18pro = productId === "v18pro";
       const isV17max = productId === "v17max";
       const isG2 = productId === "g2";
@@ -197,14 +202,23 @@ async function startServer() {
       const isE05 = productId === "e05";
       const isE09 = productId === "e09";
       const isE09B = productId === "e09b";
-      const isGerman = (isKt80 || isG58 || isI228 || isV18pro || isV17max || isT40 || isC32pro) && (language === "de" || (isV17max && language !== "es"));
-      const isFrench = isV18pro && language === "fr";
+      const isGerman = (isCs2pro || isKt80 || isG58 || isI228 || isV18pro || isV17max || isT40 || isC32pro) && (language === "de" || (isV17max && language !== "es"));
+      const isFrench = (isV18pro || isCs2pro) && language === "fr";
+      const isItalian = isCs2pro && language === "it";
 
       const targetBrand = isV18pro || isV17max ? "DyMona" : "FOSMET";
-      const targetModel = isE82 ? "E82" : isR21 ? "R21" : isT40 ? "T40" : isC32pro ? "C32PRO" : isV18pro ? "V18 PRO" : isV17max ? "V17 MAX" : isFos10 ? "FOS10" : isG2 ? "G2" : isG58 ? "G58" : isI228 ? "I228" : isE09B ? "E09B" : isE09 ? "E09" : isE05 ? "E05" : isE12 ? "E12" : isKt80 ? "KT80" : isT20 ? "T20" : isQs40 ? "QS40" : "REC10";
+      const targetModel = isCs2pro ? "CS2PRO" : isE82 ? "E82" : isR21 ? "R21" : isT40 ? "T40" : isC32pro ? "C32PRO" : isV18pro ? "V18 PRO" : isV17max ? "V17 MAX" : isFos10 ? "FOS10" : isG2 ? "G2" : isG58 ? "G58" : isI228 ? "I228" : isE09B ? "E09B" : isE09 ? "E09" : isE05 ? "E05" : isE12 ? "E12" : isKt80 ? "KT80" : isT20 ? "T20" : isQs40 ? "QS40" : "REC10";
 
       let defaultHashtags = REC10_HASHTAGS;
-      if (isE82) {
+      if (isCs2pro) {
+        defaultHashtags = isItalian
+          ? CS2PRO_ITALIAN_HASHTAGS
+          : isFrench
+          ? CS2PRO_FRENCH_HASHTAGS
+          : isGerman
+          ? CS2PRO_GERMAN_HASHTAGS
+          : CS2PRO_SPANISH_HASHTAGS;
+      } else if (isE82) {
         defaultHashtags = E82_HASHTAGS;
       } else if (isR21) {
         defaultHashtags = R21_HASHTAGS;
@@ -244,7 +258,52 @@ async function startServer() {
       let systemInstruction: string;
       let userPrompt: string;
 
-      if (isE82) {
+      if (isCs2pro) {
+        const targetLangName = isItalian
+          ? "Italian (Italiano naturale per TikTok Italia)"
+          : isFrench
+          ? "French (Français naturel pour TikTok France)"
+          : isGerman
+          ? "German (Authentisches Deutsch für TikTok DACH)"
+          : "Spanish (Español natural para TikTok España & Europa)";
+
+        categoryPromptMap = {
+          all_mixed: "Golden balanced mix of 1.85\" anti-fingerprint AMOLED HD display, 423+ DIY watch faces, dual straps included (metal + silicone), Bluetooth 5.3 calls & social notifications, women's cycle prediction, 24h heart rate/SpO2/stress/mood monitoring, 4-stage sleep analysis (GloryFit App), 113+ sports modes, 5 ATM waterproof, 300mAh battery, Android 4.4+ & iOS 9.0+ compatibility",
+          pain_point: "Calling out smudged fingerprint screens, clunky single-strap smartwatches that ruin outfits, paying extra for metal bands, and missing wellness insights",
+          efficiency: "Bluetooth 5.3 wrist calls, instant social notifications, and 113+ sports modes switching seamlessly from office to gym",
+          gadget: "1.85\" AMOLED anti-fingerprint screen, 423+ customizable DIY watch faces, and standard box inclusion of BOTH metal and silicone straps for OOTD styling",
+          ai_power: "Women's menstrual cycle prediction, 24h heart rate, SpO2, stress & mood tracking, plus 4-stage scientific sleep analysis in GloryFit App",
+          secret_hack: "Luxury champagne-gold metal aesthetics + dual straps + AMOLED + 5 ATM at a fraction of overpriced 300€ brands",
+          question: "High-engagement EU TikTok questions (metal vs silicone strap, favorite of 423+ DIY faces, would you swim with 5 ATM?)",
+          spec_power: "Full hardware punch: 1.85\" AMOLED anti-fingerprint, 423+ DIY faces, metal+silicone dual straps, BT 5.3 calls, 113+ sports, 5 ATM, 300mAh, GloryFit App, Android 4.4+ / iOS 9.0+",
+        };
+
+        const selectedCategoryDesc = categoryPromptMap[category] || categoryPromptMap.all_mixed;
+
+        systemInstruction = `You are a top European TikTok Shop viral copywriter specializing in fashion-tech smartwatches.
+Create high-converting ${targetLangName} TikTok video titles/hooks for the European flagship smartwatch "FOSMET CS2PRO".
+
+【FOSMET CS2PRO Product Brief】:
+- Brand: FOSMET | Model: CS2PRO
+- Display & Customization: 1.85-inch AMOLED HD screen with anti-fingerprint coating, 423+ watch faces with photo DIY customization.
+- Dual Straps Included: Comes standard with BOTH a sleek metal strap and a skin-friendly silicone strap for effortless OOTD office-to-gym styling.
+- Connectivity: Bluetooth 5.3 clear calling + instant social message notifications. Compatible with Android 4.4+ and iOS 9.0+.
+- Women's & 24/7 Wellness: Women's physiological cycle prediction, 24-hour heart rate, SpO2 blood oxygen, stress, and mood/emotion monitoring, plus 4-stage sleep analysis via GloryFit App.
+- Sports, Waterproof & Battery: 113+ sports modes, 5 ATM waterproof rating (swimming-ready), 300mAh long-lasting battery.
+
+【Strict Rules】:
+1. Write 100% native, idiomatic ${targetLangName}. Every hook MUST naturally include both "FOSMET" and "CS2PRO" (approx. 55-120 characters before hashtags).
+2. Every full title MUST end with these exact hashtags in exact order:
+   ${targetHashtags}
+3. Return exactly ${count} unique titles in JSON format with zero duplicates.
+4. Provide fluent, accurate Simplified Chinese translations in translationZh.
+${customKeyword ? `※ Required keyword to weave naturally into hooks: "${customKeyword}"` : ""}`;
+
+        userPrompt = `Language: ${targetLangName}
+Category: ${selectedCategoryDesc}
+Tone: ${tone}
+Task: Generate ${count} high-converting ${targetLangName} TikTok titles for FOSMET CS2PRO ending with: ${targetHashtags}`;
+      } else if (isE82) {
         categoryPromptMap = {
           all_mixed: "Balanced 1:1:1 mix across all three pillars: (1) hidden 8MP HD stabilized POV camera for hands-free photos & smooth vlogging, (2) built-in AI voice assistant with instant photo object recognition and 160+ language real-time translation, and (3) wireless Bluetooth 40mm dynamic cinema deep bass, dual-mic noise reduction calls, and minimalist aesthetic design with cloud-soft skin-friendly ear cushions for all-day zero-pressure comfort across commuting, cycling, walking, gym, outdoor recording, and cross-border travel",
           pain_point: "Calling out shaky handheld phone vlogging while biking/walking, noisy commute calls, tight clamping headphones, carrying 3 bulky devices, and travel language barriers",
@@ -1256,7 +1315,7 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
 各タイトルは必ず「FOSMET」と「REC10」を含み、末尾は必ず「${targetHashtags}」で終わること。`;
       }
 
-      const currentLang: any = (isR21 || isE82) ? "en" : isFrench ? "fr" : (isKt80 || isG58 || isI228 || isT40 || isV18pro || isV17max || isC32pro) ? (isGerman ? "de" : "es") : "ja";
+      const currentLang: any = (isR21 || isE82) ? "en" : isItalian ? "it" : isFrench ? "fr" : (isCs2pro || isKt80 || isG58 || isI228 || isT40 || isV18pro || isV17max || isC32pro) ? (isGerman ? "de" : "es") : "ja";
       const holidayInfo = getHolidayById(holiday, currentLang);
 
       if (holidayInfo) {
@@ -1388,7 +1447,7 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
         // Ensure brand and model in hook
         if (!hook.includes(targetBrand) || !hook.includes(targetModel)) {
           if (!hook.includes(targetBrand) && !hook.includes(targetModel)) {
-            hook = (isKt80 || isR21 || isE82) ? `【${targetBrand} ${targetModel}】 ${hook}` : `【${targetBrand} ${targetModel}】${hook}`;
+            hook = (isKt80 || isR21 || isE82 || isCs2pro) ? `【${targetBrand} ${targetModel}】 ${hook}` : `【${targetBrand} ${targetModel}】${hook}`;
           } else if (!hook.includes(targetBrand)) {
             hook = hook.replace(targetModel, `${targetBrand} ${targetModel}`);
           } else if (!hook.includes(targetModel)) {
@@ -1405,7 +1464,7 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
         // Calculate dynamic viral CTR estimate score (88% - 99%)
         const hasNumber = /\d+/.test(hook);
         const hasQuestion = /[?？!！¿¡]/.test(hook);
-        const hasStrongHook = /神|激変|ヤバい|暴露|裏技|絶対|チート|secret|hack|truco|brutal|unglaublich|nie wieder|free|zero|\$0|ditch|pov|hands-free|40mm|8mp|160\+|cloud-soft|translate|incroyable|astuce|pépite|fini|zéro/i.test(hook);
+        const hasStrongHook = /神|激変|ヤバい|暴露|裏技|絶対|チート|secret|hack|truco|brutal|unglaublich|nie wieder|free|zero|\$0|ditch|pov|hands-free|40mm|8mp|160\+|cloud-soft|translate|incroyable|astuce|pépite|fini|zéro|amoled|423\+|113\+|5 atm|300mah|gloryfit|pazzesco|imperdibile|cinturino/i.test(hook);
         let baseCtr = 91 + (idx % 6);
         if (hasNumber) baseCtr += 2;
         if (hasQuestion) baseCtr += 1;
@@ -1417,8 +1476,8 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
           productId,
           title: fullTitle,
           hook: hook || fullTitle.replace(targetHashtags, "").trim(),
-          angle: item.angle || (isE82 || isR21 ? "Viral Hook" : isFrench ? "Hook Viral FR" : isGerman ? "Highlight" : (isKt80 || isG58 || isI228 || isT40 || isV18pro || isV17max || isC32pro) ? "Destacado" : "AIおすすめ"),
-          targetAudience: item.targetAudience || (isE82 ? "US Creators, Commuters & Travelers" : isR21 ? "Fitness & Wellness Audience" : isFrench ? "Communauté CleanTok FR" : isGerman ? (isT40 ? "Eltern & Familie" : "Zielgruppe") : (isKt80 || isG58 || isI228 || isT40 || isV18pro || isV17max || isC32pro) ? (isT40 ? "Padres & Niños" : "Comunidad") : "ターゲット層"),
+          angle: item.angle || (isE82 || isR21 ? "Viral Hook" : isItalian ? "Hook Virale IT" : isFrench ? "Hook Viral FR" : isGerman ? "Highlight" : (isCs2pro || isKt80 || isG58 || isI228 || isT40 || isV18pro || isV17max || isC32pro) ? "Destacado" : "AIおすすめ"),
+          targetAudience: item.targetAudience || (isE82 ? "US Creators, Commuters & Travelers" : isR21 ? "Fitness & Wellness Audience" : isItalian ? "Community TikTok IT" : isFrench ? (isCs2pro ? "Communauté Mode & Santé FR" : "Communauté CleanTok FR") : isGerman ? (isT40 ? "Eltern & Familie" : "Zielgruppe") : (isCs2pro || isKt80 || isG58 || isI228 || isT40 || isV18pro || isV17max || isC32pro) ? (isT40 ? "Padres & Niños" : "Comunidad") : "ターゲット層"),
           translationZh: item.translationZh || "",
           charCount: fullTitle.length,
           language: currentLang,
@@ -1496,6 +1555,8 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
           visualPrompt: "特写镜头：手部迅速展示产品并产生反差视觉冲击，画面配合微震动与光效",
           scriptSpoken: language === "ja"
             ? `「${hook || title}」まだこれ知らないの？今すぐ見て！`
+            : language === "it"
+            ? `Aspetta! Non conosci ancora questo? Guarda subito: « ${hook || title} »`
             : language === "fr"
             ? `Attends ! Tu ne connais pas encore ça ? Regarde vite : « ${hook || title} »`
             : language === "en"
@@ -1514,18 +1575,28 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
           visualPrompt: "中景切换：演示日常最令人头疼的现实尴尬场景，对比传统方案的笨重与费时",
           scriptSpoken: language === "ja"
             ? "「いつも会議の議事録や手作業で何時間も無駄にしてない？」「これまでのやり方はもう限界！」"
+            : language === "it"
+            ? "Stufa di schermi pieni di impronte e di uno smartwatch che stona col tuo outfit elegante?"
             : language === "fr"
-            ? "Marre de te casser le dos sous le canapé avec un aspirateur lourd qui laisse la poussière cachée ?"
+            ? (productId === "cs2pro"
+                ? "Marre des écrans pleins de traces de doigts et des montres qui jurent avec votre tenue ?"
+                : "Marre de te casser le dos sous le canapé avec un aspirateur lourd qui laisse la poussière cachée ?")
             : language === "en"
             ? (productId === "e82"
                 ? "Tired of juggling your phone to film bike rides, fighting language barriers abroad, or wearing tight over-ear headphones that only play music?"
                 : "Tired of bulky smartwatches hurting your wrist at night—or paying monthly subscription fees just to read your own sleep data?")
             : language === "es"
-            ? "¿Cansado de perder tiempo y gastar una fortuna en marcas que no cumplen?"
-            : "Genervt von klobiger Technik und leerem Akku genau im falschen Moment?",
+            ? (productId === "cs2pro"
+                ? "¿Cansada de limpiar huellas del reloj o cambiar de smartwatch según tu atuendo?"
+                : "¿Cansado de perder tiempo y gastar una fortuna en marcas que no cumplen?")
+            : (productId === "cs2pro"
+                ? "Genervt von Fingerabdrücken auf dem Display und klobigen Sportuhren zum schicken Outfit?"
+                : "Genervt von klobiger Technik und leerem Akku genau im falschen Moment?"),
           audioBgm: "紧张悬念音效逐渐升温，引出解决欲望",
-          textOverlay: language === "fr"
-            ? "❌ Zéro mal de dos & poussière cachée"
+          textOverlay: language === "it"
+            ? "❌ Basta ditate & cinturini scomodi"
+            : language === "fr"
+            ? (productId === "cs2pro" ? "❌ Fini les traces & montres trop sportives" : "❌ Zéro mal de dos & poussière cachée")
             : language === "en"
             ? (productId === "e82" ? "❌ Shaky Phones & Single-Use Headphones" : "❌ Bulky Watches & Monthly Fees")
             : "❌ 传统方式太折磨了",
@@ -1538,20 +1609,32 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
           visualPrompt: "高清微距与功能演示：实机实操，一键触发核心黑科技，呈现不可思议的直观效果",
           scriptSpoken: language === "ja"
             ? "「ワンタップでAIが即要約！」「薄型軽量でどこでも持てる」「この圧倒的な手軽さは異次元」"
+            : language === "it"
+            ? "FOSMET CS2PRO unisce AMOLED 1,85\" anti-impronte, 423+ quadranti DIY, doppio cinturino metallo+silicone, chiamate BT 5.3, ciclo/umore/sonno 4 fasi su GloryFit, 113+ sport e 5 ATM!"
             : language === "fr"
-            ? "Un clic et le bras 65 cm se plie : lumière verte 2.0, 50 kPa de puissance, 1,4 kg ultra-léger et seulement 60 dB !"
+            ? (productId === "cs2pro"
+                ? "FOSMET CS2PRO réunit écran AMOLED 1,85\" anti-traces, 423+ cadrans DIY, double bracelet métal+silicone, appels BT 5.3, cycle, humeur, sommeil 4 phases (GloryFit), 113+ sports et 5 ATM !"
+                : "Un clic et le bras 65 cm se plie : lumière verte 2.0, 50 kPa de puissance, 1,4 kg ultra-léger et seulement 60 dB !")
             : language === "en"
             ? (productId === "e82"
                 ? "FOSMET E82 hides a stabilized 8MP POV camera, 40mm cinema bass with dual-mic noise reduction, cloud-soft cushions, plus a built-in AI assistant for instant visual ID and 160+ language live translation."
                 : "Ultra-thin jewelry-grade fit, fully waterproof for gym and swim, 5+ days battery, plus a 100% FREE lifetime App decoding heart rate, SpO₂, sleep, stress, body temp & cycle.")
             : language === "es"
-            ? "Mira cómo funciona con un solo toque: potencia extrema, calidad prémium y diseño brutal."
-            : "Ein Knopfdruck genügt: Mega Power, deutsche Zuverlässigkeit und unzerstörbare Bauweise.",
+            ? (productId === "cs2pro"
+                ? "FOSMET CS2PRO trae pantalla AMOLED 1.85\" anti-huellas, 423+ esferas DIY, doble correa metal+silicona, llamadas BT 5.3, ciclo/ánimo/sueño 4 fases (GloryFit), 113+ deportes y 5 ATM."
+                : "Mira cómo funciona con un solo toque: potencia extrema, calidad prémium y diseño brutal.")
+            : (productId === "cs2pro"
+                ? "FOSMET CS2PRO bietet 1,85\" AMOLED Anti-Fingerprint, 423+ DIY-Zifferblätter, Metall- & Silikonarmband, BT-5.3-Calls, Zyklus/Stimmung/4-Phasen-Schlaf (GloryFit), 113+ Modi & 5 ATM!"
+                : "Ein Knopfdruck genügt: Mega Power, deutsche Zuverlässigkeit und unzerstörbare Bauweise."),
           audioBgm: "节奏上扬欢快电音，增强科技爽感与获得感",
-          textOverlay: language === "fr"
-            ? "⚡ Bras pliable 65 cm · Lumière Verte 2.0 · 50 kPa"
+          textOverlay: language === "it"
+            ? "⚡ AMOLED 1,85\" · 2 Cinturini · 423+ DIY · 5 ATM"
+            : language === "fr"
+            ? (productId === "cs2pro" ? "⚡ AMOLED 1,85\" · 2 Bracelets · 423+ DIY · 5 ATM" : "⚡ Bras pliable 65 cm · Lumière Verte 2.0 · 50 kPa")
             : language === "en"
             ? (productId === "e82" ? "⚡ Hidden 8MP POV · 160+ Lang AI · 40mm Bass" : "⚡ $0/mo Free App · 24/7 Biometrics")
+            : productId === "cs2pro"
+            ? "⚡ AMOLED 1.85\" · Doble Correa · 423+ DIY · 5 ATM"
             : "⚡ 一键黑科技 真实实测",
         },
         {
@@ -1562,6 +1645,8 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
           visualPrompt: "手指指向左下角 TikTok 小黄车 / 评论区，展示限时惊喜福利弹窗",
           scriptSpoken: language === "ja"
             ? "「気になったら今すぐ左下の黄色いカゴをタップ！数量限定だから急いで！」"
+            : language === "it"
+            ? "Tocca subito il carrello arancione in basso a sinistra prima che finisca l'offerta TikTok Shop!"
             : language === "fr"
             ? "Clique vite sur le panier orange en bas à gauche avant la rupture de stock TikTok Shop !"
             : language === "en"
@@ -1572,7 +1657,9 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
             ? "¡Toca la cesta amarilla abajo a la izquierda antes de que se agote el stock promocional!"
             : "Klick jetzt unten links auf den Warenkorb und sichere dir den TikTok-Rabatt!",
           audioBgm: "清脆叮铃提示音（Cash Register / Bell），催促点击",
-          textOverlay: language === "fr"
+          textOverlay: language === "it"
+            ? "🛒 Tocca il carrello in basso a sinistra"
+            : language === "fr"
             ? "🛒 Clique sur le panier orange en bas à gauche"
             : language === "en"
             ? (productId === "e82" ? "🛒 Tap the cart for FOSMET E82" : "🛒 Tap the cart before sizes sell out")
@@ -1720,6 +1807,7 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
         { brand: "FOSMET", model: "I228", name: "FOSMET I228 腕表", regex: /i228/i },
         { brand: "FOSMET", model: "R21", name: "FOSMET R21 零月费智能戒指", regex: /r21|智能戒指|smart ring/i },
         { brand: "FOSMET", model: "E82", name: "FOSMET E82 头戴式智能摄像耳机", regex: /e82|头戴式智能摄像耳机|头戴摄像耳机|云朵耳套/i },
+        { brand: "FOSMET", model: "CS2PRO", name: "FOSMET CS2PRO 欧区四语时尚智能手表", regex: /cs2pro|cs2\s*pro|gloryfit/i },
       ];
 
       let activeBrand = "";
@@ -1920,6 +2008,8 @@ ${customKeyword ? `※特別強調キーワード: 「${customKeyword}」を一�
    - 终身100%免费App零月费 / 超轻薄完全防水首饰级机身 + 5天+续航 / 24/7健身游泳睡眠无感佩戴 / 心率、血氧、睡眠阶段、压力、体温及女性生理排卵周期精准解码。
 17. FOSMET E82（美区 三合一头戴式智能摄像耳机）:
    - 集高端无线蓝牙头戴耳机、隐藏式便携防抖相机与随身AI于一体 / 极简高颜值外观与云朵般轻柔亲肤耳套全天零压迫 / 40毫米大动圈深沉低音与影院级沉浸音质＋双麦克风降噪清晰免提通话 / 机身巧妙隐藏支持视频防抖的800万像素(8MP)高清摄像头，免手持随时拍照或录平稳POV Vlog / 内置AI语音助手、拍照即时识物与超过160种语言实时翻译 / 覆盖通勤、骑行、散步、健身、户外记录与跨境旅行全场景 / 固定标签：#FOSMET #E82 #Headphones #camera #earphone。
+18. FOSMET CS2PRO（欧区 西/德/法/意四语时尚智能手表）:
+   - 1.85英寸AMOLED高清屏（防指纹涂层），423+款表盘可DIY，标配金属+硅胶双表带 / 蓝牙5.3通话与社交消息提醒 / 女性生理周期预测，24小时心率/血氧/压力/情绪监测，四阶段睡眠分析（GloryFit App） / 113+运动模式，5 ATM级防水，300mAh电池，兼容Android 4.4+及iOS 9.0+ / 四语自动本土化标签（ES: #FOSMET #CS2PRO #reloj inteligente #ropa inteligente #Atuendo）。
 `;
 
       const relevanceDirectives = entityMatched

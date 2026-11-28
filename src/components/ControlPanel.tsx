@@ -315,6 +315,50 @@ const E82_CATEGORIES_EN: { id: AngleCategory; label: string; desc: string; icon:
   { id: "question", label: "US TikTok Viral Debate", desc: "Spark comments: spot the hidden 8MP lens & vote your favorite 3-in-1 E82 superpower", icon: "💬" },
 ];
 
+const CS2PRO_CATEGORIES_ES: { id: AngleCategory; label: string; desc: string; icon: string }[] = [
+  { id: "all_mixed", label: "全维黄金配比 (Recomendado)", desc: "1.85\" AMOLED防指纹 / 423+DIY表盘 / 金属+硅胶双表带 / 生理周期+情绪+5 ATM 均衡输出", icon: "✨" },
+  { id: "pain_point", label: "痛点反转・告别难搭指纹屏", desc: "解决智能表易留指纹、难搭精致穿搭与昂贵大牌痛点，双表带+防指纹AMOLED一表全解", icon: "🎯" },
+  { id: "gadget", label: "1.85\" AMOLED ✕ 双表带穿搭", desc: "防指纹高清大屏、423+表盘可DIY，标配金属+硅胶双表带随心切换欧区OOTD", icon: "⌚" },
+  { id: "ai_power", label: "女性周期 ✕ 情绪＆四阶段睡眠", desc: "女性生理周期预测，24小时心率/血氧/压力/情绪监测，GloryFit App 四阶段睡眠分析", icon: "🌸" },
+  { id: "efficiency", label: "蓝牙5.3通话 ✕ 113+运动", desc: "抬腕蓝牙5.3通话与社交消息实时提醒，113+专业运动模式精准记录每日燃脂", icon: "📞" },
+  { id: "spec_power", label: "5 ATM防水 ✕ 300mAh ✕ 双系统", desc: "5 ATM级真实游泳防水、300mAh长效电池、全面兼容 Android 4.4+ 与 iOS 9.0+", icon: "🌊" },
+  { id: "secret_hack", label: "轻奢穿搭神表・性价比黑马", desc: "「高颜值香槟金属质感+双表带」欧区时尚博主私藏百搭智能手表秘籍", icon: "🤫" },
+  { id: "question", label: "西语社群互动・穿搭投票", desc: "「金属表带还是硅胶表带？423+款表盘怎么搭？」高互动西语评论区钩子", icon: "💬" },
+];
+
+const CS2PRO_CATEGORIES_DE: { id: AngleCategory; label: string; desc: string; icon: string }[] = [
+  { id: "all_mixed", label: "Goldener Schnitt (Empfohlen)", desc: "1,85\" AMOLED Anti-Fingerprint / 423+ DIY-Designs / Metall+Silikon / Zyklus & 5 ATM", icon: "✨" },
+  { id: "pain_point", label: "Schmerzpunkt: Stil & Fingerabdrücke", desc: "Schluss mit verschmierten Displays & klobigen Uhren – AMOLED Anti-Fingerprint + 2 Armbänder", icon: "🎯" },
+  { id: "gadget", label: "1,85\" AMOLED ✕ 2 Armbänder", desc: "Kristallklares AMOLED-Display, 423+ DIY-Zifferblätter, Metall- & Silikonarmband inklusive", icon: "⌚" },
+  { id: "ai_power", label: "Zyklus, Stimmung & 4-Phasen-Schlaf", desc: "Zyklusprognose, 24h Puls/SpO₂/Stress/Stimmung & 4-Stufen-Schlafanalyse (GloryFit App)", icon: "🌸" },
+  { id: "efficiency", label: "Bluetooth 5.3 Calls ✕ 113+ Modi", desc: "Klare BT-5.3-Anrufe & Social-Nachrichten am Handgelenk plus 113+ Sportmodi", icon: "📞" },
+  { id: "spec_power", label: "5 ATM ✕ 300 mAh ✕ Android & iOS", desc: "Echte 5 ATM Wasserdichtigkeit, 300 mAh Akku, kompatibel ab Android 4.4+ & iOS 9.0+", icon: "🌊" },
+  { id: "secret_hack", label: "Fashion-Geheimtipp für jedes Outfit", desc: "Luxus-Look mit Doppel-Armband ohne Marken-Aufpreis – smarter Allrounder für Alltag & Gym", icon: "🤫" },
+  { id: "question", label: "DE-Community & Styling-Umfrage", desc: "Metall- oder Silikonarmband? Welches der 423+ Zifferblätter passt zu deinem Outfit?", icon: "💬" },
+];
+
+const CS2PRO_CATEGORIES_FR: { id: AngleCategory; label: string; desc: string; icon: string }[] = [
+  { id: "all_mixed", label: "Mix Viral Optimal (Recommandé)", desc: "AMOLED 1,85\" anti-traces / 423+ cadrans DIY / Métal+Silicone / Cycle, humeur & 5 ATM", icon: "✨" },
+  { id: "pain_point", label: "Douleur : Style & Traces de doigts", desc: "Fini les écrans tachés et montres trop sportives – AMOLED net et double bracelet inclus", icon: "🎯" },
+  { id: "gadget", label: "AMOLED 1,85\" ✕ Double Bracelet", desc: "Écran anti-traces, 423+ cadrans DIY, bracelet métal chic + silicone sport dans la boîte", icon: "⌚" },
+  { id: "ai_power", label: "Cycle, Humeur & Sommeil 4 Phases", desc: "Suivi du cycle féminin, cœur/SpO₂/stress/humeur 24h/24 & sommeil 4 phases (GloryFit App)", icon: "🌸" },
+  { id: "efficiency", label: "Appels BT 5.3 ✕ 113+ Sports", desc: "Appels Bluetooth 5.3 et notifications sociales au poignet + 113+ modes sportifs", icon: "📞" },
+  { id: "spec_power", label: "Étanche 5 ATM ✕ 300 mAh ✕ iOS/Android", desc: "Étanchéité 5 ATM natation, batterie 300 mAh, compatible Android 4.4+ et iOS 9.0+", icon: "🌊" },
+  { id: "secret_hack", label: "Pépite Mode & Santé TikTok FR", desc: "Allure bijou avec 2 bracelets inclus et suivi santé complet sans payer le prix fort", icon: "🤫" },
+  { id: "question", label: "Débat Style & OOTD TikTok FR", desc: "Team bracelet métal ou silicone ? Quel cadran DIY choisir parmi 423+ modèles ?", icon: "💬" },
+];
+
+const CS2PRO_CATEGORIES_IT: { id: AngleCategory; label: string; desc: string; icon: string }[] = [
+  { id: "all_mixed", label: "Mix Virale Ottimale (Consigliato)", desc: "AMOLED 1,85\" anti-impronte / 423+ quadranti DIY / Metallo+Silicone / Ciclo & 5 ATM", icon: "✨" },
+  { id: "pain_point", label: "Dolore: Stile & Impronte Schermo", desc: "Basta schermi sporchi e smartwatch goffi: AMOLED nitido e doppio cinturino di serie", icon: "🎯" },
+  { id: "gadget", label: "AMOLED 1,85\" ✕ Doppio Cinturino", desc: "Display anti-impronte, 423+ quadranti DIY, cinturino in metallo + silicone inclusi", icon: "⌚" },
+  { id: "ai_power", label: "Ciclo, Umore & Sonno 4 Fasi", desc: "Previsione ciclo femminile, cuore/SpO₂/stress/umore 24h & sonno 4 fasi (GloryFit App)", icon: "🌸" },
+  { id: "efficiency", label: "Chiamate BT 5.3 ✕ 113+ Sport", desc: "Chiamate Bluetooth 5.3 e notifiche social al polso più 113+ modalità sportive", icon: "📞" },
+  { id: "spec_power", label: "5 ATM ✕ 300 mAh ✕ Android & iOS", desc: "Impermeabilità 5 ATM, batteria 300 mAh, compatibile con Android 4.4+ e iOS 9.0+", icon: "🌊" },
+  { id: "secret_hack", label: "Segreto Outfit & Benessere IT", desc: "Look elegante da gioiello con 2 cinturini e funzioni top a prezzo intelligente", icon: "🤫" },
+  { id: "question", label: "Sondaggio Outfit TikTok IT", desc: "Team cinturino metallo o silicone? Quale dei 423+ quadranti DIY scegli per il tuo look?", icon: "💬" },
+];
+
 const TAG_SUGGESTIONS: Record<string, string[]> = {
   rec10: ["AIボイスレコーダー", "ChatGPT活用", "議事録自動化", "社会人ハック", "便利グッズ", "仕事効率化", "FOSMET"],
   qs40: ["スマートウォッチ", "ChatGPT連携", "ガジェット紹介", "高见え", "便利アイテム", "QOL向上", "FOSMET"],
@@ -333,6 +377,7 @@ const TAG_SUGGESTIONS: Record<string, string[]> = {
   fos10: ["スマートウォッチ", "スマートバンド", "超軽量", "健康管理", "睡眠トラッキング", "ミニマリスト", "FOSMET"],
   r21: ["Smart Ring", "Health Management", "Smart Wearables", "ZeroSubscription", "SleepTracker", "WomensHealth", "FOSMET", "R21"],
   e82: ["Headphones", "camera", "earphone", "POVVlog", "AITranslator", "TravelTech", "FOSMET", "E82"],
+  cs2pro: ["reloj inteligente", "ropa inteligente", "Atuendo", "AMOLED", "GloryFit", "FOSMET", "CS2PRO"],
 };
 
 const KT80_GERMAN_SUGGESTIONS = ["smartwatch", "outdooruhr", "überleben", "taschenlampe", "technik2025", "männergeschenke", "FOSMET"];
@@ -342,6 +387,9 @@ const V18PRO_GERMAN_SUGGESTIONS = ["staubsauger", "haushaltshelfer", "putztipps"
 const V18PRO_FRENCH_SUGGESTIONS = ["aspirateur", "menage", "astucemenage", "cleantok", "maisonpropre", "tiktokshop", "DyMona"];
 const V17MAX_SPANISH_SUGGESTIONS = ["aspiradora", "hogargrande", "limpiezahogar", "mascotas", "tiktokshop", "DyMona"];
 const T40_GERMAN_SUGGESTIONS = ["Kinder", "Kindersicherheit", "SmartwatchKinder", "ElternTipp", "Schulkind", "FOSMET", "T40"];
+const CS2PRO_GERMAN_SUGGESTIONS = ["Smartwatch", "Outfit", "Frauengesundheit", "AMOLED", "Damenuhr", "GloryFit", "FOSMET", "CS2PRO"];
+const CS2PRO_FRENCH_SUGGESTIONS = ["montreconnectee", "tenue", "sante", "AMOLED", "OOTD", "GloryFit", "FOSMET", "CS2PRO"];
+const CS2PRO_ITALIAN_SUGGESTIONS = ["smartwatch", "outfit", "salutedonna", "AMOLED", "benessere", "GloryFit", "FOSMET", "CS2PRO"];
 
 export const ControlPanel: React.FC<ControlPanelProps> = ({
   params,
@@ -352,8 +400,9 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
 }) => {
   const currentProductId = params.productId || "rec10";
   const currentProduct = PRODUCTS_CONFIG[currentProductId] || PRODUCTS_CONFIG.rec10;
-  const currentLang = params.language || (currentProductId === "r21" || currentProductId === "e82" ? "en" : currentProductId === "v17max" ? "de" : currentProductId === "i228" || currentProductId === "v18pro" || currentProductId === "t40" || currentProductId === "c32pro" ? "es" : "ja");
+  const currentLang = params.language || (currentProductId === "r21" || currentProductId === "e82" ? "en" : currentProductId === "v17max" ? "de" : currentProductId === "i228" || currentProductId === "v18pro" || currentProductId === "t40" || currentProductId === "c32pro" || currentProductId === "cs2pro" ? "es" : "ja");
 
+  const isCs2pro = currentProductId === "cs2pro";
   const isE82 = currentProductId === "e82";
   const isR21 = currentProductId === "r21";
   const isKt80 = currentProductId === "kt80";
@@ -363,10 +412,11 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   const isV17max = currentProductId === "v17max";
   const isT40 = currentProductId === "t40";
   const isC32pro = currentProductId === "c32pro";
-  const isMultilingual = isKt80 || isG58 || isI228 || isV18pro || isV17max || isT40 || isC32pro;
+  const isMultilingual = isCs2pro || isKt80 || isG58 || isI228 || isV18pro || isV17max || isT40 || isC32pro;
   const isGerman = currentLang === "de";
   const isSpanish = currentLang === "es";
   const isFrench = currentLang === "fr";
+  const isItalian = currentLang === "it";
 
   const isE12 = currentProductId === "e12";
   const isE05 = currentProductId === "e05";
@@ -378,7 +428,9 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   const isQs40 = currentProductId === "qs40";
 
   let categories = REC10_CATEGORIES;
-  if (isE82) {
+  if (isCs2pro) {
+    categories = isItalian ? CS2PRO_CATEGORIES_IT : isFrench ? CS2PRO_CATEGORIES_FR : isGerman ? CS2PRO_CATEGORIES_DE : CS2PRO_CATEGORIES_ES;
+  } else if (isE82) {
     categories = E82_CATEGORIES_EN;
   } else if (isR21) {
     categories = R21_CATEGORIES_EN;
@@ -539,6 +591,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   };
 
   const getProductColor = () => {
+    if (isCs2pro) return "text-amber-400";
     if (isE82) return "text-violet-400";
     if (isR21) return "text-rose-400";
     if (isT40) return "text-cyan-400";
@@ -558,7 +611,9 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
     return "text-blue-400";
   };
 
-  const currentSuggestions = isT40
+  const currentSuggestions = isCs2pro
+    ? (isItalian ? CS2PRO_ITALIAN_SUGGESTIONS : isFrench ? CS2PRO_FRENCH_SUGGESTIONS : isGerman ? CS2PRO_GERMAN_SUGGESTIONS : TAG_SUGGESTIONS.cs2pro)
+    : isT40
     ? (isGerman ? T40_GERMAN_SUGGESTIONS : TAG_SUGGESTIONS.t40)
     : isV18pro
     ? (isFrench ? V18PRO_FRENCH_SUGGESTIONS : isGerman ? V18PRO_GERMAN_SUGGESTIONS : TAG_SUGGESTIONS.v18pro)
@@ -677,6 +732,12 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           { label: "AI TRANSLATE & ID", val: "160+", unit: "语种", desc: "AI语音助手 · 拍照即时识物 · 实时多语翻译", color: "liquid-metal-cyan", icon: <Bot className="w-4 h-4 text-cyan-400" /> },
           { label: "CINEMA AUDIO & FIT", val: "40", unit: "mm", desc: "大动圈深沉低音 · 双麦降噪 · 云朵亲肤耳套", color: "liquid-metal-gold", icon: <Headphones className="w-4 h-4 text-amber-400" /> },
         ];
+      case "cs2pro":
+        return [
+          { label: "ANTI-FINGERPRINT AMOLED", val: "1.85", unit: "\"", desc: "防指纹AMOLED高清屏 · 423+款DIY表盘", color: "liquid-metal-gold", icon: <Sparkles className="w-4 h-4 text-amber-400" /> },
+          { label: "DUAL STRAP & HEALTH", val: "双表带", unit: "标配", desc: "金属+硅胶双表带 · 周期/情绪/四阶段睡眠(GloryFit)", color: "liquid-metal-rose", icon: <Heart className="w-4 h-4 text-rose-400" /> },
+          { label: "WATERPROOF & BATTERY", val: "5", unit: "ATM", desc: "113+运动 · 蓝牙5.3通话 · 300mAh兼容iOS/Android", color: "liquid-metal-cyan", icon: <ShieldCheck className="w-4 h-4 text-cyan-400" /> },
+        ];
       default: // qs40
         return [
           { label: "SLIM METALLIC BODY", val: "9.8", unit: "mm", desc: "洗练银翼金属质感 · 轻盈无感佩戴", color: "liquid-metal-silver", icon: <Watch className="w-4 h-4 text-white" /> },
@@ -732,6 +793,14 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
         return ["Zero Monthly App Fee", "Ditch Bulky Smartwatch", "Sleep & Ovulation Cycle", "Swim-Proof 5+ Days", "24/7 Weightless Jewelry"];
       case "e82":
         return ["Hidden 8MP POV Camera", "160+ Language AI Translator", "40mm Cinema Deep Bass", "Cloud-Soft Ear Cushions", "Snap-to-Identify Visual AI"];
+      case "cs2pro":
+        return isItalian
+          ? ["AMOLED 1,85\" Anti-Impronte", "Doppio Cinturino Metallo+Silicone", "423+ Quadranti DIY", "Ciclo, Umore & Sonno 4 Fasi", "5 ATM · 113+ Sport · BT 5.3"]
+          : isFrench
+          ? ["AMOLED 1,85\" Anti-Traces", "Double Bracelet Métal+Silicone", "423+ Cadrans DIY", "Cycle, Humeur & GloryFit", "5 ATM · 113+ Sports · BT 5.3"]
+          : isGerman
+          ? ["1,85\" AMOLED Anti-Fingerprint", "Metall- & Silikonarmband", "423+ DIY-Zifferblätter", "Zyklus, Stimmung & GloryFit", "5 ATM · 113+ Modi · BT 5.3"]
+          : ["1.85\" AMOLED Anti-Huellas", "Doble Correa Metal+Silicona", "423+ Esferas DIY", "Ciclo, Ánimo y GloryFit", "5 ATM · 113+ Deportes · BT 5.3"];
       default:
         return ["出海爆款", "痛点反转", "高转化", "神机实测"];
     }
@@ -753,7 +822,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
               <span>硬件矩阵 (Product Matrix)</span>
             </span>
             <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-white/[0.08] text-white border border-white/[0.12] shadow-xs">
-              18款旗舰设备
+              19款旗舰设备
             </span>
           </div>
           <span className="text-[11.5px] text-white/50">
@@ -781,6 +850,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             { id: "fos10" as ProductId, label: "FOS10", desc: "14.9g极轻", icon: <Sparkles className="w-3.5 h-3.5" />, tag: "#ポータブル", lang: "ja" as TargetLanguage },
             { id: "r21" as ProductId, label: "R21", desc: "零月费智能戒指", icon: <Gem className="w-3.5 h-3.5" />, tag: "#Smart Ring", lang: "en" as TargetLanguage },
             { id: "e82" as ProductId, label: "E82", desc: "AI摄像耳机", icon: <Headphones className="w-3.5 h-3.5" />, tag: "#Headphones", lang: "en" as TargetLanguage },
+            { id: "cs2pro" as ProductId, label: "CS2PRO", desc: "四语AMOLED表", icon: <Watch className="w-3.5 h-3.5" />, tag: "#CS2PRO", lang: "es" as TargetLanguage },
           ].map((prod) => {
             const isSelected = currentProductId === prod.id;
             return (
@@ -869,7 +939,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
               >
                 🇩🇪 德语 (DE)
               </button>
-              {isV18pro && (
+              {(isV18pro || isCs2pro) && (
                 <button
                   type="button"
                   id="btn-lang-fr"
@@ -881,6 +951,20 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                   }`}
                 >
                   🇫🇷 法语 (FR)
+                </button>
+              )}
+              {isCs2pro && (
+                <button
+                  type="button"
+                  id="btn-lang-it"
+                  onClick={() => handleLanguageChange("it")}
+                  className={`px-3.5 py-1.5 rounded-[14px] text-xs font-bold transition-all cursor-pointer ${
+                    currentLang === "it"
+                      ? "bg-white text-black shadow-md"
+                      : "text-white/60 hover:text-white"
+                  }`}
+                >
+                  🇮🇹 意大利语 (IT)
                 </button>
               )}
             </div>

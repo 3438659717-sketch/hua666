@@ -15,7 +15,7 @@ export async function generateTitles(params: GenerationParams): Promise<{
 }> {
   const prodId: ProductId = params.productId || "rec10";
   const productConfig = PRODUCTS_CONFIG[prodId];
-  const lang = params.language || (prodId === "r21" || prodId === "e82" ? "en" : prodId === "v17max" ? "de" : prodId === "kt80" || prodId === "g58" || prodId === "i228" || prodId === "v18pro" || prodId === "t40" || prodId === "c32pro" ? "es" : "ja");
+  const lang = params.language || (prodId === "r21" || prodId === "e82" ? "en" : prodId === "v17max" ? "de" : prodId === "kt80" || prodId === "g58" || prodId === "i228" || prodId === "cs2pro" || prodId === "v18pro" || prodId === "t40" || prodId === "c32pro" ? "es" : "ja");
   const activeTags = (params.customTags && params.customTags.trim())
     ? params.customTags.trim()
     : getDefaultTagsForProduct(prodId, lang);
@@ -55,9 +55,9 @@ export async function generateTitles(params: GenerationParams): Promise<{
               title: fullTitle,
               hook,
               tags: activeTags,
-              angle: t.angle || (lang === "fr" ? "Hook Viral FR" : lang === "en" ? "Viral Hook" : lang === "de" ? "Viraler Hook" : lang === "es" ? "Hook Viral" : "AI爆款フック"),
+              angle: t.angle || (lang === "it" ? "Hook Virale IT" : lang === "fr" ? "Hook Viral FR" : lang === "en" ? "Viral Hook" : lang === "de" ? "Viraler Hook" : lang === "es" ? "Hook Viral" : "AI爆款フック"),
               angleCategory: params.category,
-              targetAudience: t.targetAudience || (lang === "fr" ? "Communauté TikTok FR" : lang === "en" ? "TikTok US Audience" : lang === "de" ? "TikTok Community" : lang === "es" ? "Audiencia TikTok" : "TikTok視聴者"),
+              targetAudience: t.targetAudience || (lang === "it" ? "Community TikTok IT" : lang === "fr" ? "Communauté TikTok FR" : lang === "en" ? "TikTok US Audience" : lang === "de" ? "TikTok Community" : lang === "es" ? "Audiencia TikTok" : "TikTok視聴者"),
               charCount: fullTitle.length,
               hookCharCount: hook.length,
               translationZh: t.translationZh,

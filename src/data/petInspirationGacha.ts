@@ -170,6 +170,18 @@ export const INSPIRATION_CARDS_POOL: InspirationCard[] = [
     sampleCopy: "Why carry headphones, an action cam, AND a translator? FOSMET E82 fuses 40mm cinema bass, cloud-soft all-day comfort, a hidden 8MP stabilized POV camera, and 160+ language AI in one sleek headset. #FOSMET #E82 #Headphones #camera #earphone",
     keywords: "Hidden 8MP POV 160+ Languages AI 40mm Bass Cloud-Soft Headphones",
   },
+  {
+    id: "gacha_cs2pro_1",
+    productId: "cs2pro",
+    productName: "FOSMET CS2PRO 欧区四语时尚智能手表",
+    category: "all_mixed",
+    theme: "1.85\"防指纹AMOLED × 423+ DIY表盘 × 金属+硅胶双表带 × 女性周期情绪睡眠与5 ATM",
+    hookIdea: "【¿Un smartwatch con pantalla AMOLED 1.85\" anti-huellas y DOBLE correa metal + silicona?】",
+    targetPainPoint: "欧区时尚与运动用户嫌传统智能表易留指纹印、风格单一难配衣服，买金属表带还要额外花钱",
+    sceneDescription: "一秒切换金属表带通勤OOTD与硅胶表带健身游泳(5 ATM)，特写1.85\" AMOLED防指纹清晰屏幕切换423+款DIY表盘，展示蓝牙5.3通话及GloryFit四阶段睡眠/女性周期/情绪监测",
+    sampleCopy: "Un reloj para tu atuendo de oficina y tus 113+ deportes: FOSMET CS2PRO incluye doble correa metal+silicona, pantalla AMOLED 1.85\" anti-huellas, 423+ esferas DIY, llamadas Bluetooth 5.3 y 5 ATM. #FOSMET #CS2PRO #reloj inteligente #ropa inteligente #Atuendo",
+    keywords: "1.85 AMOLED Anti-Fingerprint 423+ DIY Dual Strap GloryFit 5 ATM BT 5.3",
+  },
 ];
 
 export function getRandomInspiration(productId?: ProductId): InspirationCard {

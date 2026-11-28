@@ -200,6 +200,14 @@ export const Header: React.FC<HeaderProps> = ({
       activeClass: "bg-violet-500 text-white shadow-[0_4px_20px_rgba(139,92,246,0.5)] border-violet-300/50",
       themeColor: "text-violet-400",
     },
+    {
+      id: "cs2pro",
+      label: "CS2PRO",
+      subLabel: "四语AMOLED表",
+      icon: <Watch className="w-3.5 h-3.5" />,
+      activeClass: "bg-amber-500 text-black font-extrabold shadow-[0_4px_20px_rgba(245,158,11,0.5)] border-amber-300/60",
+      themeColor: "text-amber-400",
+    },
   ];
 
   const currentNav = productNavList.find((p) => p.id === currentProductId) || productNavList[0];
@@ -208,7 +216,8 @@ export const Header: React.FC<HeaderProps> = ({
     if (currentProductId === "r21" || currentProductId === "e82" || currentLanguage === "en") {
       return "TikTok 美区英文营销";
     }
-    if (currentProductId === "t40" || currentProductId === "v18pro" || currentProductId === "v17max" || currentProductId === "kt80" || currentProductId === "g58" || currentProductId === "i228" || currentProductId === "c32pro") {
+    if (currentProductId === "cs2pro" || currentProductId === "t40" || currentProductId === "v18pro" || currentProductId === "v17max" || currentProductId === "kt80" || currentProductId === "g58" || currentProductId === "i228" || currentProductId === "c32pro") {
+      if (currentLanguage === "it") return "TikTok 意大利语区营销";
       if (currentLanguage === "fr") return "TikTok 法语区营销";
       return currentLanguage === "de" ? "TikTok 德语区营销" : "TikTok 西语区营销";
     }

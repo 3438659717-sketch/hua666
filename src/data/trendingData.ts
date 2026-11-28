@@ -989,6 +989,221 @@ export const PRODUCT_RADAR_DATA: Record<ProductId, Partial<Record<TargetLanguage
       ],
     },
   },
+  cs2pro: {
+    es: {
+      productId: "cs2pro",
+      language: "es",
+      productName: "FOSMET CS2PRO",
+      updatedAt: "2026-11-28T09:00:00Z",
+      hotwords: [
+        {
+          word: "AMOLED 1.85\" anti-huellas",
+          category: "spec",
+          growthRate: "+410%",
+          heatScore: 98,
+          sampleHook: "¿Cansada de limpiar huellas en tu smartwatch? FOSMET CS2PRO trae pantalla AMOLED 1.85\" anti-huellas y 423+ esferas DIY.",
+          suggestedPrompt: "Muestra primer plano de la pantalla AMOLED 1.85\" anti-huellas bajo el sol cambiando entre 423+ esferas",
+        },
+        {
+          word: "doble correa metal + silicona",
+          category: "scene",
+          growthRate: "+385%",
+          heatScore: 97,
+          sampleHook: "Correa metálica para tu atuendo de oficina y silicona para 113+ deportes: FOSMET CS2PRO incluye las dos.",
+          suggestedPrompt: "Transición rápida OOTD cambiando la correa metálica a silicona en un segundo",
+        },
+        {
+          word: "ciclo, ánimo y sueño 4 fases",
+          category: "viral_buzz",
+          growthRate: "+340%",
+          heatScore: 95,
+          sampleHook: "Predicción de ciclo femenino, estrés, ánimo 24h y sueño en 4 fases en GloryFit App: FOSMET CS2PRO te entiende.",
+          suggestedPrompt: "Mostrar la app GloryFit y el seguimiento de ciclo femenino + emociones 24 horas",
+        },
+        {
+          word: "5 ATM + llamadas Bluetooth 5.3",
+          category: "efficiency",
+          growthRate: "+295%",
+          heatScore: 92,
+          sampleHook: "Contesta llamadas Bluetooth 5.3, nada con 5 ATM y olvídate del cargador con 300mAh en Android e iOS.",
+          suggestedPrompt: "Prueba real bajo el agua 5 ATM + llamada directa desde la muñeca",
+        },
+      ],
+      hashtags: [
+        { tag: "#FOSMET", postsCount: "4.8M", growth: "+34.2%", relevance: 100, isCore: true },
+        { tag: "#CS2PRO", postsCount: "640K", growth: "+96.5%", relevance: 100, isCore: true },
+        { tag: "#reloj inteligente", postsCount: "48.2M", growth: "+26.4%", relevance: 100, isCore: true },
+        { tag: "#ropa inteligente", postsCount: "19.8M", growth: "+42.1%", relevance: 98, isCore: true },
+        { tag: "#Atuendo", postsCount: "64.5M", growth: "+31.8%", relevance: 97, isCore: true },
+        { tag: "#AMOLED", postsCount: "21.3M", growth: "+38.0%", relevance: 92, isCore: false },
+      ],
+      topCompetitorAngles: [
+        {
+          competitor: "Smartwatches de 250€+ sin correa extra",
+          hookPattern: "Venden la correa metálica aparte por 50€ y manchan fácil la pantalla",
+          viewBenchmark: "1.4M+",
+          ourCounterHook: "FOSMET CS2PRO ya incluye doble correa metal+silicona, AMOLED 1.85\" anti-huellas, 5 ATM y llamadas BT 5.3.",
+        },
+      ],
+    },
+    de: {
+      productId: "cs2pro",
+      language: "de",
+      productName: "FOSMET CS2PRO",
+      updatedAt: "2026-11-28T09:00:00Z",
+      hotwords: [
+        {
+          word: "1,85\" AMOLED Anti-Fingerprint",
+          category: "spec",
+          growthRate: "+390%",
+          heatScore: 97,
+          sampleHook: "Endlich kein verschmiertes Display mehr! FOSMET CS2PRO punktet mit 1,85\" AMOLED Anti-Fingerprint & 423+ DIY-Zifferblättern.",
+          suggestedPrompt: "Nahaufnahme des 1,85\" AMOLED Displays ohne Fingerabdrücke + schnelles Wechseln der 423+ Zifferblätter",
+        },
+        {
+          word: "Metall- & Silikonarmband inklusive",
+          category: "scene",
+          growthRate: "+360%",
+          heatScore: 96,
+          sampleHook: "Edles Metallband fürs Büro, weiches Silikon fürs Gym: FOSMET CS2PRO liefert beide Armbänder direkt in der Box.",
+          suggestedPrompt: "Outfit-Wechsel von Business zu Sport mit dem Doppel-Armband-System",
+        },
+        {
+          word: "Zyklus, Stimmung & GloryFit",
+          category: "viral_buzz",
+          growthRate: "+330%",
+          heatScore: 94,
+          sampleHook: "Zyklusprognose, 24h Puls/SpO₂/Stress/Stimmung & 4-Phasen-Schlaf in der GloryFit App – smarter geht's nicht.",
+          suggestedPrompt: "Übersicht über Frauengesundheit, Stimmungs-Tracking und 4-Phasen-Schlafanalyse",
+        },
+        {
+          word: "5 ATM & 113+ Sportmodi",
+          category: "efficiency",
+          growthRate: "+290%",
+          heatScore: 91,
+          sampleHook: "Echte 5 ATM Wasserdichtigkeit, 113+ Sportmodi, BT-5.3-Anrufe & 300 mAh Akku für Android 4.4+ und iOS 9.0+.",
+          suggestedPrompt: "Schwimm- und Alltagstest mit Bluetooth 5.3 Telefonie",
+        },
+      ],
+      hashtags: [
+        { tag: "#FOSMET", postsCount: "2.4M", growth: "+28.5%", relevance: 100, isCore: true },
+        { tag: "#CS2PRO", postsCount: "480K", growth: "+91.2%", relevance: 100, isCore: true },
+        { tag: "#Smartwatch", postsCount: "31.5M", growth: "+22.0%", relevance: 100, isCore: true },
+        { tag: "#Outfit", postsCount: "88.4M", growth: "+29.4%", relevance: 98, isCore: true },
+        { tag: "#Frauengesundheit", postsCount: "14.2M", growth: "+47.6%", relevance: 97, isCore: true },
+      ],
+      topCompetitorAngles: [
+        {
+          competitor: "Überteuerte 300€ Designer-Smartwatches",
+          hookPattern: "Hoher Preis, kurzes Akku-Fenster und teures Zusatzarmband",
+          viewBenchmark: "1.1M+",
+          ourCounterHook: "Warum 300€ zahlen? FOSMET CS2PRO kombiniert 1,85\" AMOLED, 2 Armbänder, 5 ATM & 4-Phasen-Schlafanalyse.",
+        },
+      ],
+    },
+    fr: {
+      productId: "cs2pro",
+      language: "fr",
+      productName: "FOSMET CS2PRO",
+      updatedAt: "2026-11-28T09:00:00Z",
+      hotwords: [
+        {
+          word: "AMOLED 1,85\" anti-traces",
+          category: "spec",
+          growthRate: "+405%",
+          heatScore: 98,
+          sampleHook: "Fini l'écran plein de traces de doigts : FOSMET CS2PRO brille avec son AMOLED 1,85\" et 423+ cadrans DIY.",
+          suggestedPrompt: "Gros plan sur l'écran AMOLED 1,85\" ultra-net et changement de cadran DIY assorti à la tenue",
+        },
+        {
+          word: "double bracelet métal + silicone",
+          category: "scene",
+          growthRate: "+375%",
+          heatScore: 96,
+          sampleHook: "Bracelet métal chic pour la tenue du jour, silicone pour 113+ sports : les 2 sont inclus avec la FOSMET CS2PRO.",
+          suggestedPrompt: "Transition OOTD bureau vers séance sport avec changement rapide de bracelet",
+        },
+        {
+          word: "cycle, humeur & sommeil 4 phases",
+          category: "viral_buzz",
+          growthRate: "+345%",
+          heatScore: 95,
+          sampleHook: "Cycle féminin, cœur, SpO₂, stress, humeur 24h/24 et sommeil 4 phases dans GloryFit App : votre alliée bien-être.",
+          suggestedPrompt: "Démonstration des graphiques bien-être et suivi cycle sur GloryFit App",
+        },
+      ],
+      hashtags: [
+        { tag: "#FOSMET", postsCount: "2.6M", growth: "+32.0%", relevance: 100, isCore: true },
+        { tag: "#CS2PRO", postsCount: "510K", growth: "+94.0%", relevance: 100, isCore: true },
+        { tag: "#montreconnectee", postsCount: "28.9M", growth: "+27.8%", relevance: 100, isCore: true },
+        { tag: "#tenue", postsCount: "72.1M", growth: "+35.4%", relevance: 98, isCore: true },
+        { tag: "#sante", postsCount: "46.0M", growth: "+31.2%", relevance: 97, isCore: true },
+      ],
+      topCompetitorAngles: [
+        {
+          competitor: "Montres connectées premium à 300€+",
+          hookPattern: "Un seul bracelet basique fourni et batterie faible",
+          viewBenchmark: "1.2M+",
+          ourCounterHook: "FOSMET CS2PRO offre 2 bracelets inclus, écran AMOLED 1,85\" anti-traces, appels BT 5.3 et étanchéité 5 ATM.",
+        },
+      ],
+    },
+    it: {
+      productId: "cs2pro",
+      language: "it",
+      productName: "FOSMET CS2PRO",
+      updatedAt: "2026-11-28T09:00:00Z",
+      hotwords: [
+        {
+          word: "AMOLED 1,85\" anti-impronte",
+          category: "spec",
+          growthRate: "+420%",
+          heatScore: 98,
+          sampleHook: "Basta schermi pieni di ditate! FOSMET CS2PRO ha display AMOLED 1,85\" anti-impronte e 423+ quadranti DIY.",
+          suggestedPrompt: "Primo piano sul display AMOLED nitidissimo al sole abbinato all'outfit del giorno",
+        },
+        {
+          word: "doppio cinturino metallo + silicone",
+          category: "scene",
+          growthRate: "+390%",
+          heatScore: 97,
+          sampleHook: "Cinturino in metallo per l'ufficio e silicone per 113+ sport: nella scatola del FOSMET CS2PRO ci sono entrambi!",
+          suggestedPrompt: "Cambio outfit veloce da elegante a sportivo mostrando i 2 cinturini inclusi",
+        },
+        {
+          word: "ciclo, umore e sonno 4 fasi",
+          category: "viral_buzz",
+          growthRate: "+350%",
+          heatScore: 95,
+          sampleHook: "Previsione ciclo femminile, cuore, SpO₂, stress, umore 24h e sonno 4 fasi su GloryFit App: tutto al polso.",
+          suggestedPrompt: "Mostra l'app GloryFit con analisi del sonno in 4 fasi e monitoraggio umore/ciclo",
+        },
+        {
+          word: "5 ATM + chiamate BT 5.3",
+          category: "efficiency",
+          growthRate: "+305%",
+          heatScore: 93,
+          sampleHook: "Chiamate Bluetooth 5.3, notifiche social, 5 ATM per nuotare e batteria 300 mAh su Android 4.4+ e iOS 9.0+.",
+          suggestedPrompt: "Test impermeabilità 5 ATM e risposta rapida a una chiamata dal polso",
+        },
+      ],
+      hashtags: [
+        { tag: "#FOSMET", postsCount: "2.3M", growth: "+30.5%", relevance: 100, isCore: true },
+        { tag: "#CS2PRO", postsCount: "490K", growth: "+98.1%", relevance: 100, isCore: true },
+        { tag: "#smartwatch", postsCount: "64.0M", growth: "+25.2%", relevance: 100, isCore: true },
+        { tag: "#outfit", postsCount: "112.0M", growth: "+33.6%", relevance: 98, isCore: true },
+        { tag: "#salutedonna", postsCount: "11.8M", growth: "+52.4%", relevance: 97, isCore: true },
+      ],
+      topCompetitorAngles: [
+        {
+          competitor: "Smartwatch blasonati da 300€+",
+          hookPattern: "Cinturino elegante venduto a parte e pochissimi quadranti personalizzabili",
+          viewBenchmark: "1.3M+",
+          ourCounterHook: "FOSMET CS2PRO ti dà doppio cinturino metallo+silicone, AMOLED 1,85\" anti-impronte, 423+ quadranti DIY e 5 ATM.",
+        },
+      ],
+    },
+  },
 };
 
 function generateGenericRadar(productId: ProductId, productName: string): Partial<Record<TargetLanguage, CompetitorRadarData>> {
@@ -1170,5 +1385,5 @@ function generateGenericRadar(productId: ProductId, productName: string): Partia
 
 export function getCompetitorRadar(productId: ProductId, language: TargetLanguage = "ja"): CompetitorRadarData {
   const productRadars = PRODUCT_RADAR_DATA[productId] || PRODUCT_RADAR_DATA.rec10;
-  return productRadars[language] || productRadars.fr || productRadars.en || productRadars.ja || productRadars.es || productRadars.de!;
+  return productRadars[language] || productRadars.it || productRadars.fr || productRadars.en || productRadars.ja || productRadars.es || productRadars.de!;
 }

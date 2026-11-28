@@ -431,6 +431,34 @@ export function getProductSuggestedPrompts(
     ];
   }
 
+  // 3.8 CS2PRO (European 4-Language 1.85" AMOLED Dual-Strap Smartwatch)
+  if (pId.includes("cs2pro")) {
+    if (persona === "tiktok_strategist") {
+      return [
+        `为 FOSMET CS2PRO 设计 3 套突出「金属+硅胶双表带秒换 OOTD + 1.85"防指纹 AMOLED」的 15 秒欧区 TikTok 分镜`,
+        `如何用「423+款 DIY 表盘 + 5 ATM 游泳防水 + 蓝牙 5.3 通话」做第一秒视觉反转钩子？`,
+        `帮我写 5 条适合置顶在西/德/法/意欧区评论区的高转化神评（打消兼容与防水疑虑）`,
+        `针对欧区时尚女性与轻运动人群，推荐哪 3 种生理周期预测、情绪与四阶段睡眠痛点切入？`,
+      ];
+    }
+    if (persona === "market_scout") {
+      return [
+        `调研西班牙、德国、法国、意大利 TikTok 近期最火的 AMOLED 时尚智能手表与双表带穿搭热词`,
+        `欧洲四语区消费者选购智能手表时，对防指纹屏幕、5 ATM 防水与 GloryFit 睡眠监测的核心关注点`,
+      ];
+    }
+    if (persona === "localization_master") {
+      return [
+        `把「1.85"防指纹 AMOLED、423+ DIY 表盘、金属+硅胶双表带」分别改写为西/德/法/意四语高转化标题`,
+        `西语、德语、法语、意大利语在夸「显高级、百搭衣服、情绪与睡眠管理」时有哪些地道口语？`,
+      ];
+    }
+    return [
+      `用 FABE 模型拆解 FOSMET CS2PRO 的 1.85"防指纹 AMOLED、双表带、5 ATM 与 300mAh 电池`,
+      `如何在短视频中直观演示 GloryFit App 的四阶段睡眠分析、女性周期预测与 24h 情绪监测？`,
+    ];
+  }
+
   // 4. Fashion Smartwatch (g58, g2, i228, fos10)
   if (pId.includes("g58") || pId.includes("g2") || pId.includes("i228") || pId.includes("fos10")) {
     if (persona === "tiktok_strategist") {

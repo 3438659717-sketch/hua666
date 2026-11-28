@@ -46,6 +46,7 @@ export type TargetCategory =
   | "camera_earphone"
   | "smart_ring_r21"
   | "smart_headphones_e82"
+  | "smartwatch_cs2pro"
   | "general_help";
 
 export type UserIntent =
@@ -117,6 +118,7 @@ export function detectQueryCategory(
   const hasE12 = q.includes("e12") || q.includes("pov耳机") || q.includes("拍照耳机") || q.includes("hi luma");
   const hasE82 = q.includes("e82") || q.includes("头戴式智能摄像耳机") || q.includes("头戴摄像耳机") || q.includes("云朵耳套") || q.includes("40mm") || q.includes("160种语言");
   const hasR21 = q.includes("r21") || q.includes("智能戒指") || q.includes("smart ring") || q.includes("零月费");
+  const hasCs2pro = q.includes("cs2pro") || q.includes("cs2 pro") || q.includes("gloryfit") || q.includes("423+") || q.includes("113+运动");
   const hasGlasses = q.includes("e05") || q.includes("e09") || q.includes("e09b") || q.includes("半框") || q.includes("半框眼镜") || q.includes("电致变色") || q.includes("变色眼镜") || q.includes("拍摄眼镜");
   const hasFashion = q.includes("g58") || q.includes("g2") || q.includes("fos10") || q.includes("i228") || q.includes("女表") || q.includes("女性手表");
 
@@ -169,6 +171,7 @@ export function detectQueryCategory(
   if (hasT20) return "smartwatch_t20";
   if (hasKt80) return "smartwatch_kt80";
   if (hasE82) return "smart_headphones_e82";
+  if (hasCs2pro) return "smartwatch_cs2pro";
   if (hasE12) return "camera_earphone";
   if (hasR21) return "smart_ring_r21";
   if (hasGlasses) return "smart_glasses";
@@ -179,6 +182,7 @@ export function detectQueryCategory(
   // strictly anchor to the active product to prevent off-topic vacuum cleaner replies!
   if (ctx && ctx.id && ctx.id !== "all" && !ctx.isUniversalMode) {
     const cid = (ctx.id || "").toLowerCase();
+    if (cid.includes("cs2pro")) return "smartwatch_cs2pro";
     if (cid.includes("e82")) return "smart_headphones_e82";
     if (cid.includes("r21")) return "smart_ring_r21";
     if (cid.includes("e09b") || cid.includes("e09") || cid.includes("e05")) return "smart_glasses";
@@ -250,6 +254,7 @@ export function detectQueryCategory(
       if (histText.includes("e12") || histText.includes("pov耳机") || histText.includes("拍照耳机")) return "camera_earphone";
       if (histText.includes("e05") || histText.includes("e09") || histText.includes("e09b") || histText.includes("半框") || histText.includes("变色眼镜") || histText.includes("拍摄眼镜")) return "smart_glasses";
       if (histText.includes("e82") || histText.includes("头戴式智能摄像耳机") || histText.includes("云朵耳套")) return "smart_headphones_e82";
+      if (histText.includes("cs2pro") || histText.includes("gloryfit")) return "smartwatch_cs2pro";
       if (histText.includes("r21") || histText.includes("智能戒指") || histText.includes("smart ring")) return "smart_ring_r21";
       if (histText.includes("g58") || histText.includes("g2") || histText.includes("女表")) return "smartwatch_fashion";
     }
@@ -257,6 +262,7 @@ export function detectQueryCategory(
 
   // 10. If the user explicitly asks about hardware specs / battery / suction without naming a product, bind to current screen context ONLY if query explicitly asks for specs
   if (q.includes("吸力") || q.includes("续航") || q.includes("电池") || q.includes("防水") || q.includes("参数") || q.includes("尺寸") || q.includes("重量")) {
+    if (c.includes("cs2pro")) return "smartwatch_cs2pro";
     if (c.includes("e82")) return "smart_headphones_e82";
     if (c.includes("r21")) return "smart_ring_r21";
     if (c.includes("t40")) return "smartwatch_t40";
@@ -881,12 +887,32 @@ TikTok 算法的核心生命线在于**前 3 秒留存率与完播率**。针对
     return { text, groundingSources };
   }
 
-  // 15. SPECIFIC PRODUCT: FOSMET G58 / G2 / FOS10
+  // 15. SPECIFIC PRODUCT: FOSMET CS2PRO (European 4-Language AMOLED Smartwatch)
+  if (targetCategory === "smartwatch_cs2pro") {
+    const text = `### ⌚ FOSMET CS2PRO 欧区四语时尚智能手表全维出海方案
+
+针对你的问题：**「${userQuery}」**：
+
+- ⚡ **核心硬核参数**：
+  - **视觉与个性穿搭**：1.85 英寸 AMOLED 高清屏（防指纹涂层），423+ 款精选表盘可 DIY，盒内标配 **金属 + 硅胶双表带**，轻松切换轻奢通勤与健身穿搭。
+  - **通话与通知**：蓝牙 5.3 高清通话与社交消息实时提醒，兼容 Android 4.4+ 及 iOS 9.0+。
+  - **全维女性与情绪健康**：女性生理周期预测，24 小时心率 / 血氧 / 压力 / 情绪监测，四阶段睡眠分析（GloryFit App）。
+  - **运动防水与续航**：113+ 运动模式，5 ATM 级真实游泳防水，300mAh 持久电池。
+- 🏷️ **欧区四语自动本土化标签**：
+  - 🇪🇸 西语：\`#FOSMET #CS2PRO #reloj inteligente #ropa inteligente #Atuendo\`
+  - 🇩🇪 德语：\`#FOSMET #CS2PRO #Smartwatch #Outfit #Frauengesundheit\`
+  - 🇫🇷 法语：\`#FOSMET #CS2PRO #montreconnectee #tenue #sante\`
+  - 🇮🇹 意语：\`#FOSMET #CS2PRO #smartwatch #outfit #salutedonna\``;
+    return { text, groundingSources };
+  }
+
+  // 15B. SPECIFIC PRODUCT: FOSMET G58 / G2 / FOS10
   if (targetCategory === "smartwatch_fashion") {
     const text = `### ⌚ FOSMET 时尚女性与轻薄智能穿戴系列方案
 
 针对你的问题：**「${userQuery}」**：
 
+- **FOSMET CS2PRO**：欧区四语旗舰（西/德/法/意），1.85" AMOLED 防指纹高清屏 + 423+ DIY 表盘 + 金属/硅胶双表带 + 女性周期/情绪/四阶段睡眠(GloryFit) + 113+运动 + 5 ATM + 300mAh。
 - **FOSMET G58 / G2**：高屏占比曲面高清屏，米兰尼斯金属+亲肤硅胶双表带，深度集成女性生理周期与排卵期精准预测管理，24/7 心率血氧监测。
 - **FOSMET FOS10**：10.66mm 极薄机身仅重 14.9g，百款个性表盘与运动健康管理，轻盈无感佩戴。`;
     return { text, groundingSources };

@@ -78,6 +78,12 @@ export function normalizeTagString(input: string): string {
 
 // Get official default tags based on product and language
 export function getDefaultTagsForProduct(productId: string = "rec10", language: string = "ja"): string {
+  if (productId === "cs2pro") {
+    if (language === "de") return "#FOSMET #CS2PRO #Smartwatch #Outfit #Frauengesundheit";
+    if (language === "fr") return "#FOSMET #CS2PRO #montreconnectee #tenue #sante";
+    if (language === "it") return "#FOSMET #CS2PRO #smartwatch #outfit #salutedonna";
+    return "#FOSMET #CS2PRO #reloj inteligente #ropa inteligente #Atuendo";
+  }
   if (productId === "e82") {
     return "#FOSMET #E82 #Headphones #camera #earphone";
   }

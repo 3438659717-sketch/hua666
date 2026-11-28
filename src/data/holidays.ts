@@ -858,7 +858,116 @@ export const FRENCH_HOLIDAYS: HolidayItem[] = [
   },
 ];
 
+// =========================================================================
+// 🇮🇹 意大利及意语区主要节日与电商大促节点 (Italy)
+// =========================================================================
+export const ITALIAN_HOLIDAYS: HolidayItem[] = [
+  {
+    id: "none",
+    nameZh: "无 (日常平时模式)",
+    nameLocal: "Modalità Standard (Tutto l'anno)",
+    dateDesc: "全年通用",
+    icon: "⚡",
+    marketingAngle: "日常意大利 TikTok 高转化时尚穿搭、健康管理与硬核参数痛点钩子",
+    badgeText: "Standard",
+    prefixes: [],
+    zhPrefixes: [],
+  },
+  {
+    id: "saldi_invernali",
+    nameZh: "Saldi Invernali・意大利冬季大促 (1-2月)",
+    nameLocal: "Saldi Invernali & Capodanno",
+    dateDesc: "1月-2月",
+    icon: "❄️",
+    marketingAngle: "意大利冬季折扣季与新年焕新，高颜值时尚穿戴与健身打卡首选",
+    badgeText: "Saldi",
+    prefixes: ["【❄️Saldi Invernali】", "【❄️Nuovo Anno, Nuovo Stile】", "【❄️Offerta Saldi 2026】"],
+    zhPrefixes: ["【❄️意大利冬季大促】", "【❄️新年焕新时尚穿搭】", "【❄️2026折扣季必入】"],
+    festiveKeywords: ["Saldi", "Capodanno", "Offerta"],
+    extraTags: "#Saldi #SaldiInvernali #TikTokShopItalia",
+  },
+  {
+    id: "san_valentino",
+    nameZh: "San Valentino・意大利情人节浪漫礼 (2月14日)",
+    nameLocal: "San Valentino・Regalo Perfetto",
+    dateDesc: "2月14日",
+    icon: "💝",
+    marketingAngle: "珠宝质感双表带智能手表作为高格调浪漫礼物，实用又贴心",
+    badgeText: "San Valentino",
+    prefixes: ["【💝Speciale San Valentino】", "【💝Il regalo che conquista al primo sguardo】", "【💝Amore e Stile】"],
+    zhPrefixes: ["【💝意大利情人节特辑】", "【💝一眼心动的高颜值好礼】", "【💝爱意与意式格调兼得】"],
+    festiveKeywords: ["San Valentino", "Regalo Lei", "Amore"],
+    extraTags: "#SanValentino #IdeaRegalo #Amore",
+  },
+  {
+    id: "festa_donna",
+    nameZh: "Festa della Donna・三八妇女节宠己礼 (3月8日)",
+    nameLocal: "Festa della Donna・8 Marzo",
+    dateDesc: "3月8日",
+    icon: "🌼",
+    marketingAngle: "意大利极重视的女性节日（含羞草节），主打女性生理周期关怀与优雅穿搭",
+    badgeText: "8 Marzo",
+    prefixes: ["【🌼Festa della Donna】", "【🌼Speciale 8 Marzo・Cura di Te】", "【🌼Regalo Donna 2026】"],
+    zhPrefixes: ["【🌼意大利妇女节特别版】", "【🌼3月8日女性健康宠己礼】", "【🌼2026女生节高颜推荐】"],
+    festiveKeywords: ["Festa della Donna", "8 Marzo", "Salute Donna"],
+    extraTags: "#FestaDellaDonna #8Marzo #SaluteDonna",
+  },
+  {
+    id: "festa_mamma",
+    nameZh: "Festa della Mamma・母亲节贴心健康礼 (5月)",
+    nameLocal: "Festa della Mamma",
+    dateDesc: "5月第2个周日",
+    icon: "💐",
+    marketingAngle: "送给妈妈的24小时心率/血氧/四阶段睡眠守护与高颜值日常佩戴",
+    badgeText: "Festa Mamma",
+    prefixes: ["【💐Festa della Mamma】", "【💐Il regalo più dolce per la Mamma】", "【💐Salute ed Eleganza per Mamma】"],
+    zhPrefixes: ["【💐意大利母亲节特辑】", "【💐献给妈妈最贴心的礼物】", "【💐健康与优雅兼得的宠妈礼】"],
+    festiveKeywords: ["Festa della Mamma", "Regalo Mamma"],
+    extraTags: "#FestaDellaMamma #RegaloMamma",
+  },
+  {
+    id: "ferragosto_estate",
+    nameZh: "Estate & Ferragosto・夏日海滨度假季 (7-8月)",
+    nameLocal: "Estate, Mare & Ferragosto",
+    dateDesc: "7月-8月",
+    icon: "☀️",
+    marketingAngle: "5 ATM 游泳级防水应对海滩与泳池度假，113+运动模式与硅胶表带夏日出街",
+    badgeText: "Estate",
+    prefixes: ["【☀️Estate & Ferragosto】", "【☀️Pronta per mare e piscina 5 ATM】", "【☀️Must-Have dell'Estate】"],
+    zhPrefixes: ["【☀️意大利盛夏海滨季】", "【☀️5 ATM防水畅游海滩泳池】", "【☀️今夏必入潮流单品】"],
+    festiveKeywords: ["Estate", "Ferragosto", "Mare", "Piscina"],
+    extraTags: "#Estate #Ferragosto #Mare",
+  },
+  {
+    id: "black_friday",
+    nameZh: "Black Friday & Cyber Monday・黑五狂欢大促 (11月)",
+    nameLocal: "Black Friday Italia",
+    dateDesc: "11月底",
+    icon: "🔥",
+    marketingAngle: "意大利全年最低价购物节，主打大牌平替与超高性价比冲击",
+    badgeText: "Black Friday",
+    prefixes: ["【🔥BLACK FRIDAY ITALIA】", "【🔥Offerta Pazzesca Black Friday】", "【🔥Prezzo Minimo dell'Anno】"],
+    zhPrefixes: ["【🔥意大利黑五史低狂欢】", "【🔥黑五超值抢购预警】", "【🔥全年抄底高性价比】"],
+    festiveKeywords: ["Black Friday", "Offerte", "Sconti"],
+    extraTags: "#BlackFriday #Offerte #TikTokShopItalia",
+  },
+  {
+    id: "natale",
+    nameZh: "Natale & Capodanno・圣诞节礼赞 (12月)",
+    nameLocal: "Natale & Regali di Natale",
+    dateDesc: "12月",
+    icon: "🎄",
+    marketingAngle: "圣诞树下最耀眼的轻奢双表带科技礼物，送闺蜜、送伴侣或犒赏自己",
+    badgeText: "Natale",
+    prefixes: ["【🎄Speciale Regali di Natale】", "【🎄Il regalo perfetto sotto l'albero】", "【🎄Magia di Natale】"],
+    zhPrefixes: ["【🎄圣诞节送礼特别版】", "【🎄圣诞树下最闪耀的礼物】", "【🎄圣诞高颜实用好礼】"],
+    festiveKeywords: ["Natale", "Regali di Natale", "Idee Regalo"],
+    extraTags: "#Natale #RegaliDiNatale #IdeeRegalo",
+  },
+];
+
 export function getHolidaysForLanguage(lang: TargetLanguage = "ja"): HolidayItem[] {
+  if (lang === "it") return ITALIAN_HOLIDAYS;
   if (lang === "fr") return FRENCH_HOLIDAYS;
   if (lang === "en") return US_ENGLISH_HOLIDAYS;
   if (lang === "de") return GERMAN_HOLIDAYS;
@@ -878,6 +987,14 @@ export function getCountryInfoForLanguage(lang: TargetLanguage = "ja"): {
   countryLocal: string;
   count: number;
 } {
+  if (lang === "it") {
+    return {
+      flag: "🇮🇹",
+      countryZh: "意大利及意语区 (IT)",
+      countryLocal: "Italia / Svizzera italiana",
+      count: ITALIAN_HOLIDAYS.length - 1,
+    };
+  }
   if (lang === "fr") {
     return {
       flag: "🇫🇷",

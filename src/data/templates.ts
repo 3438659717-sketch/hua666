@@ -16,6 +16,7 @@ import { generateT40AlgorithmicTitles, T40_SPANISH_TAGS, T40_GERMAN_TAGS } from 
 import { generateC32proAlgorithmicTitles, C32PRO_SPANISH_TAGS, C32PRO_GERMAN_TAGS } from "./c32proTemplates";
 import { generateR21AlgorithmicTitles, R21_ENGLISH_TAGS } from "./r21Templates";
 import { generateE82AlgorithmicTitles, E82_ENGLISH_TAGS } from "./e82Templates";
+import { generateCs2proAlgorithmicTitles, CS2PRO_SPANISH_TAGS } from "./cs2proTemplates";
 import { getChineseTranslation } from "../utils/translator";
 import { getHolidayById } from "./holidays";
 
@@ -564,6 +565,35 @@ export const PRODUCTS_CONFIG: Record<ProductId, ProductConfig> = {
       "40mm 大动圈影院级深沉低音 + 双麦降噪免提通话 + 极简高颜值云朵亲肤耳套，兼顾时尚穿搭与全天舒适",
     ],
   },
+  cs2pro: {
+    id: "cs2pro",
+    brand: "FOSMET",
+    model: "CS2PRO",
+    name: "FOSMET CS2PRO",
+    japaneseType: "Reloj Inteligente AMOLED / 欧区四语时尚智能手表",
+    shortDesc: "1.85英寸AMOLED防指纹高清屏・423+款DIY表盘・标配金属+硅胶双表带・蓝牙5.3通话与社交提醒・女性生理周期与24h心率/血氧/压力/情绪/四阶段睡眠(GloryFit App)・113+运动模式・5 ATM防水・300mAh电池",
+    fixedTags: CS2PRO_SPANISH_TAGS,
+    defaultLanguage: "es",
+    supportedLanguages: ["es", "de", "fr", "it"],
+    badge: "四语AMOLED双表带",
+    accentColor: "#F59E0B",
+    tiktokFormula: "高颜值OOTD双表带穿搭吸睛 + 1.85\" AMOLED防指纹高清屏与423+表盘实拍 + 女性周期/情绪/四阶段睡眠/5 ATM硬核直给",
+    specs: [
+      { label: "高清屏幕与涂层", value: "1.85 英寸 AMOLED 高清屏（防指纹涂层），阳光下细腻通透、不留指纹印" },
+      { label: "海量表盘 DIY", value: "423+ 款精选表盘随心切换，支持照片自定义 DIY 个性表盘" },
+      { label: "双表带时尚标配", value: "盒内标配金属表带 + 亲肤硅胶表带双表带，优雅通勤与运动健身一秒切换" },
+      { label: "蓝牙通话与消息", value: "蓝牙 5.3 稳定高清通话与社交消息实时提醒，抬腕不错过重要来电与信息" },
+      { label: "女性与全天健康", value: "女性生理周期预测，24 小时心率 / 血氧 / 压力 / 情绪监测" },
+      { label: "科学睡眠分析", value: "四阶段睡眠分析（搭配 GloryFit App 深度解读睡眠结构）" },
+      { label: "运动防水与续航", value: "113+ 运动模式 / 5 ATM 级专业防水 / 300mAh 电池 / 兼容 Android 4.4+ 及 iOS 9.0+" },
+      { label: "固定标签 (西/德/法/意)", value: "ES: #FOSMET #CS2PRO #reloj inteligente #ropa inteligente #Atuendo | DE/FR/IT 四语自动本土化切换" },
+    ],
+    highlights: [
+      "1.85 英寸 AMOLED 防指纹高清屏 + 423+ 款可 DIY 表盘 + 标配金属＆硅胶双表带，轻奢百搭欧区 OOTD",
+      "女性生理周期预测 + 24 小时心率/血氧/压力/情绪监测 + 四阶段睡眠分析（GloryFit App），全天候懂你的健康与心情",
+      "蓝牙 5.3 通话与社交消息提醒 + 113+ 运动模式 + 5 ATM 级专业防水 + 300mAh 电池，兼容 Android 4.4+ 与 iOS 9.0+",
+    ],
+  },
 };
 
 // Highly varied Japanese TikTok formula patterns for FOSMET REC10
@@ -1062,6 +1092,8 @@ export function generateAlgorithmicTitles(
     rawResults = generateR21AlgorithmicTitles(category, customKeyword, customTags, batchSeed, language);
   } else if (productId === "e82") {
     rawResults = generateE82AlgorithmicTitles(category, customKeyword, customTags, batchSeed, language);
+  } else if (productId === "cs2pro") {
+    rawResults = generateCs2proAlgorithmicTitles(category, customKeyword, customTags, batchSeed, language || "es");
   } else {
     const brand = "FOSMET";
     const model = "REC10";
